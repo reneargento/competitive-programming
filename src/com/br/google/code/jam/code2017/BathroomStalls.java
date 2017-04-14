@@ -9,8 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Problem
@@ -120,7 +119,7 @@ public class BathroomStalls {
 
         int caseIndex = 1;
         for(String stallsAndUsers : stallsAndUsersList) {
-            long[] spaces = getStallSpaces(stallsAndUsers);
+            long[] spaces = getStallSpacesBig(stallsAndUsers);
             output.add("Case #" + caseIndex + ": " + spaces[0] + " " + spaces[1]);
 
             caseIndex++;
@@ -135,24 +134,24 @@ public class BathroomStalls {
         String stallsAndUsers3 = "6 2";
         String stallsAndUsers4 = "1000 1000";
         String stallsAndUsers5 = "1000 1";
-        String stallsAndUsers6 = "1000000000000000000 100000000"; //N = 10^18 and K = 10^8
+        String stallsAndUsers6 = "1000000000000000000 1000000000000000000";//N = 10^18 and K = 10^18
 
-        long[] stallSpaces1 = getStallSpaces(stallsAndUsers1);
-        long[] stallSpaces2 = getStallSpaces(stallsAndUsers2);
-        long[] stallSpaces3 = getStallSpaces(stallsAndUsers3);
-        long[] stallSpaces4 = getStallSpaces(stallsAndUsers4);
-        long[] stallSpaces5 = getStallSpaces(stallsAndUsers5);
-        long[] stallSpaces6 = getStallSpaces(stallsAndUsers6);
+        long[] stallSpaces1 = getStallSpacesBig(stallsAndUsers1);
+        long[] stallSpaces2 = getStallSpacesBig(stallsAndUsers2);
+        long[] stallSpaces3 = getStallSpacesBig(stallsAndUsers3);
+        long[] stallSpaces4 = getStallSpacesBig(stallsAndUsers4);
+        long[] stallSpaces5 = getStallSpacesBig(stallsAndUsers5);
+        long[] stallSpaces6 = getStallSpacesBig(stallsAndUsers6);
 
         System.out.println(stallSpaces1[0] + " " + stallSpaces1[1] + " Expected: 1 0");
         System.out.println(stallSpaces2[0] + " " + stallSpaces2[1] + " Expected: 1 0");
         System.out.println(stallSpaces3[0] + " " + stallSpaces3[1] + " Expected: 1 1");
         System.out.println(stallSpaces4[0] + " " + stallSpaces4[1] + " Expected: 0 0");
         System.out.println(stallSpaces5[0] + " " + stallSpaces5[1] + " Expected: 500 499");
-        System.out.println(stallSpaces6[0] + " " + stallSpaces6[1] + " Expected: ?");
+        System.out.println(stallSpaces6[0] + " " + stallSpaces6[1] + " Expected: 0 0");
     }
 
-    private static long[] getStallSpaces(String row) {
+    private static long[] getStallSpacesSmall(String row) {
         String[] input = row.split(" ");
         long numberOfStalls = Long.parseLong(input[0]);
         long users = Long.parseLong(input[1]);
@@ -194,22 +193,62 @@ public class BathroomStalls {
         long leftSpaces = 0;
         long rightSpaces = 0;
 
-        long maxSpace = numberOfStalls;
-       // long minSpace = 0;
+        long maxValue = numberOfStalls;
 
-        for(int i=0; i < users; i++) {
-            maxSpace--;
-            leftSpaces = maxSpace / 2;
-            rightSpaces = maxSpace - leftSpaces;
+        Set<Long> set = new HashSet<>();
+        set.add(maxValue);
 
-            if(rightSpaces > leftSpaces) {
-                maxSpace = rightSpaces;
-            } else {
-                maxSpace = leftSpaces;
+        PriorityQueueResize priorityQueue = new BathroomStalls().new PriorityQueueResize(Orientation.MAX);
+        priorityQueue.insert(numberOfStalls);
+
+        Map<Long, Long> countMap = new HashMap<>();
+        countMap.put(maxValue, 1L);
+
+        long totalValues = 0;
+
+        while (totalValues < users) {
+            maxValue = priorityQueue.deleteTop();
+
+            leftSpaces = (maxValue - 1) / 2;
+            rightSpaces = maxValue - 1 - leftSpaces;
+
+            long maxValueCount = 0;
+            if(countMap.containsKey(maxValue)) {
+                maxValueCount = countMap.get(maxValue);
             }
+
+            totalValues += maxValueCount;
+
+            if(totalValues >= users){
+                break;
+            }
+
+            set.remove(maxValue);
+            if(!set.contains(leftSpaces)) {
+                set.add(leftSpaces);
+                priorityQueue.insert(leftSpaces);
+            }
+            if(!set.contains(rightSpaces)) {
+                set.add(rightSpaces);
+                priorityQueue.insert(rightSpaces);
+            }
+
+            long leftSpacesCount = 0;
+            if(countMap.containsKey(leftSpaces)) {
+                leftSpacesCount = countMap.get(leftSpaces);
+            }
+            leftSpacesCount += maxValueCount;
+            countMap.put(leftSpaces, leftSpacesCount);
+
+            long rightSpacesCount = 0;
+            if(countMap.containsKey(rightSpaces)) {
+                rightSpacesCount = countMap.get(rightSpaces);
+            }
+            rightSpacesCount += maxValueCount;
+            countMap.put(rightSpaces, rightSpacesCount);
         }
 
-        return new long[]{leftSpaces, rightSpaces};
+        return new long[]{rightSpaces, leftSpaces};
     }
 
     private static List<String> readFileInput(String filePath) {
