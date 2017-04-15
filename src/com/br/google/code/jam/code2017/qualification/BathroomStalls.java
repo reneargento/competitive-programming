@@ -1,4 +1,4 @@
-package com.br.google.code.jam.code2017;
+package com.br.google.code.jam.code2017.qualification;
 
 /**
  * Created by rene on 07/04/17.

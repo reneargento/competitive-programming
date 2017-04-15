@@ -1,4 +1,4 @@
-package com.br.google.code.jam.code2017;
+package com.br.google.code.jam.code2017.qualification;
 
 import java.io.IOException;
 import java.nio.file.Files;
