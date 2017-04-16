@@ -74,9 +74,21 @@ public class OddSum {
         int[] numbers3 = {};
         long oddSum3 = oddSum(numbers3);
 
+        int[] numbers4 = {4, 4, 4};
+        long oddSum4 = oddSum(numbers4);
+
+        int[] numbers5 = {3, 5, 5, -1, 3};
+        long oddSum5 = oddSum(numbers5);
+
+        int[] numbers6 = {3, 5, 5, -3, 1};
+        long oddSum6 = oddSum(numbers6);
+
         System.out.println(oddSum1 + " Expected: 3");
         System.out.println(oddSum2 + " Expected: -1");
         System.out.println(oddSum3 + " Expected: -1");
+        System.out.println(oddSum4 + " Expected: -1");
+        System.out.println(oddSum5 + " Expected: 15");
+        System.out.println(oddSum6 + " Expected: 13");
     }
 
     private static long oddSum(int[] numbers) {
@@ -84,44 +96,36 @@ public class OddSum {
             return -1;
         }
 
-        long oddSum = -1;
-        long[] maxOddSum = new long[numbers.length];
+        long positivesSum = 0;
+        long maxNegative = Integer.MIN_VALUE;
+        long minOddPositive = Integer.MAX_VALUE;
 
         for(int i=0; i < numbers.length; i++) {
-            maxOddSum[i] = numbers[i];
-        }
+            if(numbers[i] >= 0) {
+                positivesSum += numbers[i];
 
-        for(int i=1; i < numbers.length; i++) {
-            for(int j=0; j < i; j++) {
-                if(numbers[i] > numbers[j]
-                        && maxOddSum[i] < maxOddSum[j] + numbers[i]){
-                    maxOddSum[i] = maxOddSum[j] + numbers[i];
+                if(numbers[i] % 2 == 1 && numbers[i] < minOddPositive) {
+                    minOddPositive = numbers[i];
                 }
+            } else if(numbers[i] % 2 == -1 && numbers[i] > maxNegative) {
+                maxNegative = numbers[i];
             }
         }
 
-        for(int i=0; i < maxOddSum.length; i++) {
-            if(maxOddSum[i] % 2 == 1 && maxOddSum[i] > oddSum) {
-                oddSum = maxOddSum[i];
+        if(positivesSum % 2 == 1) {
+            return positivesSum;
+        } else {
+            if(maxNegative != Integer.MIN_VALUE && minOddPositive != Integer.MAX_VALUE) {
+                long addition = Math.max(maxNegative, -minOddPositive);
+                return positivesSum + addition;
+            } else if(maxNegative != Integer.MIN_VALUE) {
+                return positivesSum + maxNegative;
+            } else if (minOddPositive != Integer.MAX_VALUE){
+                return positivesSum - minOddPositive;
             }
         }
 
-//        long[] sums = new long[numbers.length];
-//        sums[0] = numbers[0] > 0 ? numbers[0] : 0;
-//
-//        for(int i=1; i < numbers.length; i++) {
-//            if(numbers[i] >= 0) {
-//                sums[i] = sums[i - 1] + numbers[i];
-//            } else {
-//                sums[i] = sums[i - 1];
-//            }
-//
-//            if(sums[i] % 2 == 1 && sums[i] > oddSum) {
-//                oddSum = sums[i];
-//            }
-//        }
-
-        return oddSum;
+        return -1;
     }
 
 }
