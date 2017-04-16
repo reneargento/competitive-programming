@@ -15,19 +15,19 @@ public class InputOutput {
 
     private static List<String> readFileInput(String filePath) {
         Path path = Paths.get(filePath);
-        List<String> numbersList = new ArrayList<>();
+        List<String> valuesList = new ArrayList<>();
 
         try {
             List<String> lines = Files.readAllLines(path);
 
             for (int i=1; i < lines.size(); i++) {
-                numbersList.add(lines.get(i));
+                valuesList.add(lines.get(i));
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return numbersList;
+        return valuesList;
     }
 
     private static void writeDataOnFile(String file, List<String> data){
