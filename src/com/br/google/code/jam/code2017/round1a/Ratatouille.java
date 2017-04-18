@@ -312,7 +312,10 @@ public class Ratatouille {
                     ingredient10Percent = (int) (previousValue * 0.10);
                     lowerBound = previousValue - ingredient10Percent;
                     upperBound = previousValue + ingredient10Percent;
-                    if(grams1[j] >= lowerBound && grams1[j] <= upperBound) {
+                    if(grams1[j] >= lowerBound && grams1[j] <= upperBound)
+
+
+                    {
                            // && !servingsList.contains(servings - 1)) {
                         servingsList.add(servings - 1);
                     }
