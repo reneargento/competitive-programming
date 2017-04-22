@@ -6,10 +6,7 @@ package com.br.russian.code.cup.qualification.b;
 
 import javafx.util.Pair;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Little Dima has a nice pattern at the floor of his room, it consists of n dots arranged in a row.
@@ -77,17 +74,72 @@ import java.util.Scanner;
  */
 public class BadOrder {
 
+    private static class Path implements Comparable<Path>{
+
+        int beginning;
+        int end;
+
+        int numberOfEdges;
+
+        Path(int beginning, int end) {
+            this.beginning = beginning;
+            this.end = end;
+            numberOfEdges = 1;
+        }
+
+        @Override
+        public int compareTo(Path that) {
+            return this.numberOfEdges - that.numberOfEdges;
+        }
+
+        @Override
+        public boolean equals(Object that) {
+            if(this == that) {
+                return true;
+            }
+
+            if(!(that instanceof Path)) {
+                return false;
+            }
+
+            Path otherPath = (Path) that;
+            if(this.beginning == otherPath.beginning
+                    && this.end == otherPath.end) {
+                return true;
+            }
+
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return 31 * 17 * beginning + end;
+        }
+    }
+
     public static void main(String[] args) {
         test();
         //compete();
     }
 
     private static void test() {
+        int[] array0 = {0, 4, 3, 0};
         int[] array1 = {0, 0};
         int[] array2 = {4, 0, 0, 3};
         int[] array3 = {0, 4, 0, 2, 5};
 
-        System.out.println(updateCubesAndCountNumberOfSwaps(array1) + " Expected: 1");
+        updateCubesAndCountNumberOfSwaps(array0);
+
+        System.out.println(updateCubesAndCountNumberOfSwaps(array0) + " Expected: 2");
+        for(int i=0; i < array0.length; i++) {
+            System.out.print(array0[i]);
+
+            if(i != array0.length - 1) {
+                System.out.print(" ");
+            }
+        }
+
+        System.out.println("\n" + updateCubesAndCountNumberOfSwaps(array1) + " Expected: 1");
         for(int i=0; i < array1.length; i++) {
             System.out.print(array1[i]);
 
@@ -142,33 +194,147 @@ public class BadOrder {
     }
 
     private static int updateCubesAndCountNumberOfSwaps(int[] array) {
-        int[] existentValues = new int[array.length];
-        List<Integer> nonExistentValues = new ArrayList<>();
+
+        Map<Integer, Path> paths = new HashMap<>();
+        PriorityQueue<Path> priorityQueue = new PriorityQueue<>();
 
         for(int i=0; i < array.length; i++) {
             if(array[i] != 0) {
-                existentValues[array[i] - 1] = 1;
+                if(paths.containsKey(array[i])) {
+
+                    Path path1 = paths.get(array[i]);
+
+                    if(paths.containsKey(i + 1)) {
+                        Path path2 = paths.get(i + 1);
+
+                        //Get longer cycle
+                        if(path1.numberOfEdges >= path2.numberOfEdges) {
+                            path1.end = path2.end;
+                            path1.numberOfEdges += path2.numberOfEdges + 1;
+
+                            path2.beginning = path1.beginning;
+                            path2.end = path1.end;
+                        } else {
+                            path2.end = path1.end;
+                            path2.numberOfEdges += path1.numberOfEdges + 1;
+
+                            path1.beginning = path2.beginning;
+                            path1.end = path2.end;
+                        }
+                    } else {
+                        path1.end = i + 1;
+                        path1.numberOfEdges++;
+                        paths.put(i + 1, path1);
+                    }
+                } else {
+                    if(paths.containsKey(i + 1)) {
+                        Path path = paths.get(i + 1);
+
+                        path.end = array[i];
+                        path.numberOfEdges++;
+                        paths.put(array[i], path);
+                    } else {
+                        Path path = new Path(i + 1, array[i]);
+
+                        paths.put(i + 1, path);
+                        paths.put(array[i], path);
+                    }
+                }
             }
         }
 
-        for(int i=0; i < existentValues.length; i++) {
-            if(existentValues[i] == 0) {
-                nonExistentValues.add(i + 1);
+        //Get only unique paths, removing cycles
+        Set<Path> uniquePaths = new HashSet<>();
+        for(Integer pathVertex : paths.keySet()) {
+            Path path = paths.get(pathVertex);
+
+            //We don't want cycles
+            if(path.beginning == path.end
+                    || (array[path.beginning - 1] == path.end && array[path.end - 1] == path.beginning)) {
+                continue;
             }
+
+            uniquePaths.add(path);
         }
+
+        //Add unique paths to priority queue, automatically ordering them by path length
+        for(Path path : uniquePaths) {
+            priorityQueue.add(path);
+        }
+
+        while (priorityQueue.size() > 1) {
+            Path longestPath = priorityQueue.poll();
+            Path nextLongestPath = priorityQueue.poll();
+
+            array[longestPath.end - 1] = array[nextLongestPath.beginning - 1];
+            longestPath.end = nextLongestPath.end;
+            longestPath.numberOfEdges += nextLongestPath.numberOfEdges + 1;
+
+            priorityQueue.offer(longestPath);
+        }
+
+        Set<Integer> existentValues = new HashSet<>();
+        Queue<Integer> nonExistentValues = new LinkedList<>();
 
         for(int i=0; i < array.length; i++) {
-            if(array[i] == 0) {
-                int lastValue = nonExistentValues.get(nonExistentValues.size() - 1);
+            if(array[i] != 0) {
+                existentValues.add(array[i]);
+            }
+        }
+        for(int i=1; i <= array.length; i++) {
+            if(!existentValues.contains(i)) {
+                nonExistentValues.add(i);
+            }
+        }
 
-                if(i != lastValue - 1) {
-                    nonExistentValues.remove(nonExistentValues.size() - 1);
-                } else if(nonExistentValues.size() > 1) {
-                    lastValue = nonExistentValues.get(nonExistentValues.size() - 2);
-                    nonExistentValues.remove(nonExistentValues.size() - 2);
+        if(priorityQueue.size() == 0) {
+            //All values are 0 or there are only cycles in the original configuration
+            //Make an array such as [2, 3, 4, 5, 6, 1] or as close as possible
+            for(int i=array.length - 1; i >= 0; i--) {
+                if(array[i] == 0) {
+                    int nextValue = nonExistentValues.poll();
+
+                    if(nextValue - 1 == i && nonExistentValues.size() > 0) {
+                        nonExistentValues.offer(nextValue);
+                        nextValue = nonExistentValues.poll();
+                    }
+
+                    array[i] = nextValue;
+                    break;
+                }
+            }
+
+            for(int i=0; i < array.length; i++) {
+                if(array[i] == 0 && !nonExistentValues.isEmpty()) {
+                    int nextValue = nonExistentValues.poll();
+
+                    if(nextValue - 1 == i && nonExistentValues.size() > 0) {
+                        nonExistentValues.offer(nextValue);
+                        nextValue = nonExistentValues.poll();
+                    }
+
+                    array[i] = nextValue;
+                }
+            }
+        } else {
+            //Add values to the end of the longest path
+            Path longestPath = priorityQueue.poll();
+
+            while (nonExistentValues.size() > 0){
+                int nextValue = nonExistentValues.poll();
+
+                int numberOfNonExistentValuesChecked = 1;
+                while(array[nextValue - 1] != 0
+                        && numberOfNonExistentValuesChecked <= nonExistentValues.size()) {
+                    //Adding this value would close the cycle
+                    nonExistentValues.offer(nextValue);
+                    nextValue = nonExistentValues.poll();
+
+                    numberOfNonExistentValuesChecked++;
                 }
 
-                array[i] = lastValue;
+                array[longestPath.end - 1] = nextValue;
+                longestPath.end = nextValue;
             }
         }
 

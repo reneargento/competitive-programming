@@ -150,14 +150,35 @@ import java.util.*;
  */
 public class Ratatouille {
 
+    private static class Range implements Comparable<Range>{
+        int lowerBound;
+        int higherBound;
+
+        Range(int lowerBound, int higherBound) {
+            this.lowerBound = lowerBound;
+            this.higherBound = higherBound;
+        }
+
+        @Override
+        public int compareTo(Range that) {
+            if (this.lowerBound < that.lowerBound) {
+                return -1;
+            } else if (this.lowerBound > that.lowerBound) {
+                return 1;
+            } else {
+                return this.higherBound - that.higherBound;
+            }
+        }
+    }
+
     private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/2017/Round 1A/Input - Output/";
 
-    private static final String FILE_INPUT_PATH = PATH + "alphabet_cake_sample_input.txt";
-    private static final String FILE_OUTPUT_PATH = PATH + "alphabet_cake_sample_output.txt";
-//    private static final String FILE_INPUT_PATH = PATH + "alphabet_cake_small_input.txt";
-//    private static final String FILE_OUTPUT_PATH = PATH + "alphabet_cake_small_output.txt";
-//    private static final String FILE_INPUT_PATH = PATH + "alphabet_cake_large_input.txt";
-//    private static final String FILE_OUTPUT_PATH = PATH + "alphabet_cake_large_output.txt";
+//    private static final String FILE_INPUT_PATH = PATH + "ratatouille_sample_input.txt";
+//    private static final String FILE_OUTPUT_PATH = PATH + "ratatouille_sample_output.txt";
+//    private static final String FILE_INPUT_PATH = PATH + "ratatouille_small_input.txt";
+//    private static final String FILE_OUTPUT_PATH = PATH + "ratatouille_small_output.txt";
+    private static final String FILE_INPUT_PATH = PATH + "ratatouille_large_input.txt";
+    private static final String FILE_OUTPUT_PATH = PATH + "ratatouille_large_output.txt";
 
     public static void main(String[] args) {
 
@@ -166,41 +187,40 @@ public class Ratatouille {
     }
 
     private static void compete() {
-        List<String> cakeInformation = readFileInput(FILE_INPUT_PATH);
+        List<String> recipeInformation = readFileInput(FILE_INPUT_PATH);
 
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < cakeInformation.size(); i++) {
+        for(int i=0; i < recipeInformation.size(); i++) {
 
-            String[] values = cakeInformation.get(i).split(" ");
-            int rows = Integer.parseInt(values[0]);
-            int columns = Integer.parseInt(values[1]);
+            String[] values = recipeInformation.get(i).split(" ");
+            int numberOfIngredients = Integer.parseInt(values[0]);
+            int numberOfPackages = Integer.parseInt(values[1]);
 
-            String[][] cake = new String[rows][columns];
+            i++;
+            String[] ingredientsValues = recipeInformation.get(i).split(" ");
+            int[] ingredients = new int[numberOfIngredients];
+            for(int j=0; j < ingredients.length; j++) {
+                ingredients[j] = Integer.parseInt(ingredientsValues[j]);
+            }
 
-            for(int k=0; k < rows; k++) {
+            List<Integer[]> packages = new ArrayList<>();
+            for(int j=0; j < numberOfIngredients; j++) {
                 i++;
-                for(int j=0; j < columns; j++) {
-                    String nextRow = cakeInformation.get(i);
-                    cake[k][j] = String.valueOf(nextRow.charAt(j));
+                String[] packageValues = recipeInformation.get(i).split(" ");
+                Integer[] currentPackage = new Integer[numberOfPackages];
+
+                for(int k=0; k < numberOfPackages; k++) {
+                    currentPackage[k] = Integer.parseInt(packageValues[k]);
                 }
+
+                packages.add(currentPackage);
             }
 
-            //buildCake(cake);
-            output.add("Case #" + caseIndex + ":");// + spaces[0] + " " + spaces[1]);
-            String rowValue = "";
+            int numberOfKits = getNumberOfKits(ingredients, packages);
 
-            for(int row=0; row < cake.length; row++) {
-                for(int column = 0; column < cake[0].length; column++) {
-                    rowValue += cake[row][column];
-                }
-                if(row != cake.length - 1) {
-                    rowValue += "\n";
-                }
-            }
-
-            output.add(rowValue);
+            output.add("Case #" + caseIndex + ": " + numberOfKits);
             caseIndex++;
         }
 
@@ -208,8 +228,6 @@ public class Ratatouille {
     }
 
     private static void test() {
-//        int numberOfIngredients1 = 2;
-//        int numberOfPackages1 = 1;
         int[] ingredients1 = {500, 300};
         Integer[] gramsNeeded10 = {900};
         Integer[] gramsNeeded11 = {600};
@@ -217,7 +235,7 @@ public class Ratatouille {
         List<Integer[]> grams1 = new ArrayList<>();
         grams1.add(gramsNeeded10);
         grams1.add(gramsNeeded11);
-        int numberOfKits1 = -1;//getNumberOfKits(ingredients1, grams1);
+        int numberOfKits1 = getNumberOfKits(ingredients1, grams1);
 
         int[] ingredients2 = {500, 300};
         Integer[] gramsNeeded20 = {1500};
@@ -226,7 +244,7 @@ public class Ratatouille {
         List<Integer[]> grams2 = new ArrayList<>();
         grams2.add(gramsNeeded20);
         grams2.add(gramsNeeded21);
-        int numberOfKits2 = -1;//getNumberOfKits(ingredients2, grams2);
+        int numberOfKits2 = getNumberOfKits(ingredients2, grams2);
 
         int[] ingredients3 = {50, 100};
         Integer[] gramsNeeded30 = {450, 449};
@@ -235,7 +253,7 @@ public class Ratatouille {
         List<Integer[]> grams3 = new ArrayList<>();
         grams3.add(gramsNeeded30);
         grams3.add(gramsNeeded31);
-        int numberOfKits3 = -1;//getNumberOfKits(ingredients3, grams3);
+        int numberOfKits3 = getNumberOfKits(ingredients3, grams3);
 
         int[] ingredients4 = {500, 300};
         Integer[] gramsNeeded40 = {300};
@@ -278,96 +296,116 @@ public class Ratatouille {
             return 0;
         }
 
-        Map<Integer, List<Integer>> servingsCount = new HashMap<>();
+        Map<Integer, List<Range>> servingsCount = new HashMap<>();
 
         for(int i=0; i < grams.size(); i++) {
 
             Integer[] grams1 = grams.get(i);
             for(int j=0; j < grams1.length; j++) {
 
-                int currentValue = ingredients[i];
-                int servings = 1;
+                // Lower bound: 0.9 * R * M < Q
+                // Upper bound: 1.1 * R * M > Q
+                //Simplifying
+                // Lower bound:  0.9 * (Q/R) < M
+                // Upper bound: 1.1 * (Q/R) > M
+                double lowerBound = (10.0/11.0) * grams1[j] / ingredients[i];
+                double upperBound = (10.0/9.0) * grams1[j] / ingredients[i];
 
-                while (currentValue < grams1[j]) {
-                    currentValue += ingredients[i];
-                    servings++;
+                int lowerBoundInt = (int) Math.ceil(lowerBound);
+                int upperBoundInt = (int) Math.floor(upperBound);
+
+                Range newRange = new Range(lowerBoundInt, upperBoundInt);
+                List<Range> servingsList;
+
+                if(servingsCount.containsKey(i)) {
+                    servingsList = servingsCount.get(i);
+                } else {
+                    servingsList = new ArrayList<>();
                 }
+                servingsList.add(newRange);
 
-                int ingredient10Percent = (int) (currentValue * 0.10);
-                int lowerBound = currentValue - ingredient10Percent;
-                int upperBound = currentValue + ingredient10Percent;
-
-                if(grams1[j] >= lowerBound && grams1[j] <= upperBound) {
-                    List<Integer> servingsList = new ArrayList<>();
-
-                    if(servingsCount.containsKey(i)) {
-                        servingsList = servingsCount.get(i);
-                    }
-                   // if(!servingsList.contains(servings + 1)) {
-                        servingsList.add(servings);
-                  //  }
-
-                    //Check previous serving
-                    int previousValue = currentValue - ingredients[i];
-                    ingredient10Percent = (int) (previousValue * 0.10);
-                    lowerBound = previousValue - ingredient10Percent;
-                    upperBound = previousValue + ingredient10Percent;
-                    if(grams1[j] >= lowerBound && grams1[j] <= upperBound)
-
-
-                    {
-                           // && !servingsList.contains(servings - 1)) {
-                        servingsList.add(servings - 1);
-                    }
-
-                    //Check next serving
-                    int nextValue = currentValue + ingredients[i];
-                    ingredient10Percent = (int) (nextValue * 0.10);
-                    lowerBound = nextValue - ingredient10Percent;
-                    upperBound = nextValue + ingredient10Percent;
-                    if(grams1[j] >= lowerBound && grams1[j] <= upperBound
-                            && !servingsList.contains(servings + 1)) {
-                        servingsList.add(servings + 1);
-                    }
-
-                    servingsCount.put(i, servingsList);
-                }
+                servingsCount.put(i, servingsList);
             }
         }
 
         int kits = 0;
 
-        for(int pack = 0; pack < grams.get(0).length; pack++) {
-            for(int key : servingsCount.keySet()) {
-                List<Integer> servingsCountList = servingsCount.get(key);
-                if(servingsCountList.size() <= pack) {
-                    break;
+        //Sort all ranges
+        for(int key : servingsCount.keySet()) {
+            List<Range> servingsCountList = servingsCount.get(key);
+            Collections.sort(servingsCountList);
+        }
+
+        if(servingsCount.size() == 1) {
+            List<Range> servingsCountList = servingsCount.get(0);
+            for(Range range : servingsCountList) {
+                if(range.lowerBound <= range.higherBound) {
+                    kits++;
                 }
-                int servingsCount1 = servingsCountList.get(pack);
+            }
+        } else {
+            for(int pack = 0; pack < grams.get(0).length; pack++) {
+                for(int key : servingsCount.keySet()) {
+                    List<Range> servingsCountList = servingsCount.get(key);
 
-                boolean canMakeKit = false;
+                    if(servingsCountList.isEmpty()) {
+                        break;
+                    }
+                    Range servingsCount1 = servingsCountList.get(0);
 
-                for(int key2 : servingsCount.keySet()) {
-                    if(key != key2) {
-                        List<Integer> servingsCountList2 = servingsCount.get(key2);
+                    boolean canMakeKit = false;
 
-                        for(Integer servingsCount2 : servingsCountList2) {
-                            if(servingsCount2 == servingsCount1) {
-                                canMakeKit = true;
+                    for(int key2 : servingsCount.keySet()) {
+                        if(key != key2) {
+                            canMakeKit = false;
+
+                            List<Range> servingsCountList2 = servingsCount.get(key2);
+
+                            for(Range servingsCount2 : servingsCountList2) {
+                                if(isInRange(servingsCount1, servingsCount2)) {
+                                    canMakeKit = true;
+                                    break;
+                                }
+                            }
+
+                            if(!canMakeKit) {
                                 break;
                             }
                         }
                     }
-                }
 
-                if(canMakeKit) {
-                    kits++;
-                }
+                    if(canMakeKit) {
+                        kits++;
 
+                        for(int key2 : servingsCount.keySet()) {
+                            List<Range> servingsCountList2 = servingsCount.get(key2);
+                            if(servingsCountList2 != null && servingsCountList2.size() > 0) {
+                                servingsCountList2.remove(0);
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        return kits / 2;
+        return kits;
+    }
+
+    private static boolean isInRange(Range range1, Range range2) {
+        if(range1.higherBound < range2.lowerBound) {
+            return false;
+        }
+        if(range1.lowerBound > range2.higherBound) {
+            return false;
+        }
+        if(range2.higherBound < range1.lowerBound) {
+            return false;
+        }
+        if(range2.lowerBound > range1.higherBound) {
+            return false;
+        }
+
+        return true;
     }
 
     private static List<String> readFileInput(String filePath) {
