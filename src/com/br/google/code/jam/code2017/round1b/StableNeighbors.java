@@ -99,6 +99,13 @@ public class StableNeighbors {
     private static final String FILE_INPUT_PATH = PATH + "stable_neighbors_large_input.txt";
     private static final String FILE_OUTPUT_PATH = PATH + "stable_neighbors_large_output.txt";
 
+    private static int numberOfRedHairs;
+    private static int numberOfOrangeHairs;
+    private static int numberOfYellowHairs;
+    private static int numberOfGreenHairs;
+    private static int numberOfBlueHairs;
+    private static int numberOfVioletHairs;
+
     public static void main(String[] args) {
 
         test();
@@ -116,7 +123,7 @@ public class StableNeighbors {
 
         int numberOfStalls3 = 6;
         int[] unicorns3 = {2, 0, 1, 1, 2, 0};
-        System.out.println(getRingArrangement(numberOfStalls3, unicorns3) + " Expected: YBRGRB");
+        System.out.println(getRingArrangement(numberOfStalls3, unicorns3) + " Expected: RGRBYB");
 
         int numberOfStalls4 = 4;
         int[] unicorns4 = {0, 0, 2, 0, 0, 2};
@@ -124,7 +131,36 @@ public class StableNeighbors {
 
         int numberOfStalls5 = 4;
         int[] unicorns5 = {2, 0, 1, 0, 1, 0};
-        System.out.println(getRingArrangement(numberOfStalls5, unicorns5) + " Expected: RYRB");
+        System.out.println(getRingArrangement(numberOfStalls5, unicorns5) + " Expected: RBRY");
+
+        int numberOfStalls6 = 12;
+        int[] unicorns6 = {3, 1, 3, 1, 3, 1};
+        System.out.println(getRingArrangement(numberOfStalls6, unicorns6) + " Expected: BOBYVYRGRBRY");
+
+        int numberOfStalls7 = 731;
+        int[] unicorns7 = {11, 10, 346, 8, 13, 343};
+        System.out.println(getRingArrangement(numberOfStalls7, unicorns7) + " Expected: ?");
+
+        int numberOfStalls8 = 7;
+        int[] unicorns8 = {3, 0, 2, 1, 0, 1};
+        System.out.println(getRingArrangement(numberOfStalls8, unicorns8) + " Expected: IMPOSSIBLE");
+
+        int numberOfStalls9 = 999;
+        int[] unicorns9 = {499, 0, 250, 0, 250, 0};
+        System.out.println(getRingArrangement(numberOfStalls9, unicorns9) + " Expected: ?");
+
+        int numberOfStalls10 = 999;
+        int[] unicorns10 = {332, 1, 332, 1, 332, 1};
+        System.out.println(getRingArrangement(numberOfStalls10, unicorns10) + " Expected: ?");
+
+        int numberOfStalls11 = 5;
+        int[] unicorns11 = {2, 0, 2, 1, 0, 0};
+        System.out.println(getRingArrangement(numberOfStalls11, unicorns11) + " Expected: IMPOSSIBLE");
+
+        //172 4 63 19 2 66 18
+        int numberOfStalls12 = 172;
+        int[] unicorns12 = {4, 63, 19, 2, 66, 18};
+        System.out.println(getRingArrangement(numberOfStalls12, unicorns12));
     }
 
     private static void compete() {
@@ -143,7 +179,7 @@ public class StableNeighbors {
                 unicorns[j] = Integer.parseInt(values[j + 1]);
             }
 
-            String ringArrangement = getRingArrangementSmall(numberOfStalls, unicorns);
+            String ringArrangement = getRingArrangement(numberOfStalls, unicorns);
 
             output.add("Case #" + caseIndex + ": " + ringArrangement);
             caseIndex++;
@@ -152,21 +188,99 @@ public class StableNeighbors {
         writeDataOnFile(FILE_OUTPUT_PATH, output);
     }
 
-
-
-
     private static String getRingArrangement(int numberOfStalls, int[] unicorns) {
-
         StringBuilder ring = new StringBuilder();
 
-        int numberOfRedHairs = unicorns[0];
-        int numberOfOrangeHairs = unicorns[1];
-        int numberOfYellowHairs = unicorns[2];
-        int numberOfGreenHairs = unicorns[3];
-        int numberOfBlueHairs = unicorns[4];
-        int numberOfVioletHairs = unicorns[5];
+        numberOfRedHairs = unicorns[0];
+        numberOfOrangeHairs = unicorns[1];
+        numberOfYellowHairs = unicorns[2];
+        numberOfGreenHairs = unicorns[3];
+        numberOfBlueHairs = unicorns[4];
+        numberOfVioletHairs = unicorns[5];
 
-        if(numberOfRedHairs > 0) {
+        boolean impossible = false;
+
+        if(numberOfRedHairs == 0
+                && numberOfYellowHairs == 0
+                && numberOfGreenHairs == 0
+                && numberOfVioletHairs == 0) {
+            if(numberOfOrangeHairs > 0
+                    && numberOfBlueHairs > 0
+                    && numberOfOrangeHairs != numberOfBlueHairs) {
+                impossible = true;
+            }
+        }
+
+        if(numberOfRedHairs == 0
+                && numberOfOrangeHairs == 0
+                && numberOfGreenHairs == 0
+                && numberOfBlueHairs == 0) {
+            if(numberOfVioletHairs > 0
+                    && numberOfYellowHairs > 0
+                    && numberOfVioletHairs != numberOfYellowHairs) {
+                impossible = true;
+            }
+        }
+
+        if(numberOfOrangeHairs == 0
+                && numberOfYellowHairs == 0
+                && numberOfBlueHairs == 0
+                && numberOfVioletHairs == 0) {
+            if(numberOfGreenHairs > 0
+                    && numberOfRedHairs > 0
+                    && numberOfGreenHairs != numberOfRedHairs) {
+                impossible = true;
+            }
+        }
+
+        if((numberOfRedHairs > 0
+                || numberOfYellowHairs > 0
+                || numberOfGreenHairs > 0
+                || numberOfVioletHairs > 0)
+                && (numberOfOrangeHairs > 0 && numberOfOrangeHairs >= numberOfBlueHairs)) {
+            impossible = true;
+        }
+
+        if((numberOfRedHairs > 0
+                || numberOfBlueHairs > 0
+                || numberOfGreenHairs > 0
+                || numberOfOrangeHairs > 0)
+                && (numberOfVioletHairs > 0 && numberOfVioletHairs >= numberOfYellowHairs)) {
+            impossible = true;
+        }
+
+        if((numberOfYellowHairs > 0
+                || numberOfBlueHairs > 0
+                || numberOfVioletHairs > 0
+                || numberOfOrangeHairs > 0)
+                && (numberOfGreenHairs > 0 && numberOfGreenHairs >= numberOfRedHairs)) {
+            impossible = true;
+        }
+
+        int maxFrequency = Math.max(numberOfRedHairs, numberOfOrangeHairs);
+        maxFrequency = Math.max(maxFrequency, numberOfOrangeHairs);
+        maxFrequency = Math.max(maxFrequency, numberOfYellowHairs);
+        maxFrequency = Math.max(maxFrequency, numberOfGreenHairs);
+        maxFrequency = Math.max(maxFrequency, numberOfBlueHairs);
+        maxFrequency = Math.max(maxFrequency, numberOfVioletHairs);
+        if(maxFrequency > numberOfStalls / 2) {
+            impossible = true;
+        }
+
+        if(impossible) {
+            return "IMPOSSIBLE";
+        }
+
+        if(numberOfOrangeHairs > 0) {
+            ring.append("B");
+            numberOfBlueHairs--;
+        } else if(numberOfVioletHairs > 0) {
+            ring.append("Y");
+            numberOfYellowHairs--;
+        } else if(numberOfGreenHairs > 0) {
+            ring.append("R");
+            numberOfRedHairs--;
+        } else if(numberOfRedHairs > 0) {
             ring.append("R");
             numberOfRedHairs--;
         } else if(numberOfYellowHairs > 0) {
@@ -175,131 +289,201 @@ public class StableNeighbors {
         } else if(numberOfBlueHairs > 0) {
             ring.append("B");
             numberOfBlueHairs--;
-        } else if(numberOfVioletHairs > 0) {
-            ring.append("V");
-            numberOfVioletHairs--;
-        } else if(numberOfOrangeHairs > 0) {
+        }
+
+        int unicornsPlaced = 1;
+
+        while(numberOfOrangeHairs > 0) {
             ring.append("O");
             numberOfOrangeHairs--;
-        } else if(numberOfGreenHairs > 0) {
+            unicornsPlaced++;
+
+            if(numberOfBlueHairs > 0) {
+                ring.append("B");
+                numberOfBlueHairs--;
+                unicornsPlaced++;
+            }
+        }
+
+        while(numberOfVioletHairs > 0) {
+            if(ring.charAt(unicornsPlaced - 1) != 'Y' && numberOfYellowHairs > 0) {
+                ring.append("Y");
+                numberOfYellowHairs--;
+                unicornsPlaced++;
+            }
+
+            ring.append("V");
+            numberOfVioletHairs--;
+            unicornsPlaced++;
+
+            if(numberOfYellowHairs > 0) {
+                ring.append("Y");
+                numberOfYellowHairs--;
+                unicornsPlaced++;
+            }
+        }
+
+        while(numberOfGreenHairs > 0) {
+            if(ring.charAt(unicornsPlaced - 1) != 'R' && numberOfRedHairs > 0) {
+                ring.append("R");
+                numberOfRedHairs--;
+                unicornsPlaced++;
+            }
+
             ring.append("G");
             numberOfGreenHairs--;
+            unicornsPlaced++;
+
+            if(numberOfRedHairs > 0) {
+                ring.append("R");
+                numberOfRedHairs--;
+                unicornsPlaced++;
+            }
         }
 
-        for(int i=1; i < numberOfStalls; i++) {
-            boolean unicornAdded = false;
+        char[] unicornsRemaining = new char[numberOfStalls - unicornsPlaced];
 
-            if(ring.charAt(i - 1) == 'R') {
-                if(numberOfGreenHairs > 0) {
-                    ring.append("G");
-                    numberOfGreenHairs--;
-                    unicornAdded = true;
-                } else if(numberOfYellowHairs > 0 && numberOfYellowHairs >= numberOfBlueHairs) {
-                    ring.append("Y");
-                    numberOfYellowHairs--;
-                    unicornAdded = true;
-                } else if(numberOfBlueHairs > 0) {
-                    ring.append("B");
-                    numberOfBlueHairs--;
-                    unicornAdded = true;
-                }
-            } else if(ring.charAt(i - 1) == 'Y') {
-                if(numberOfVioletHairs > 0) {
-                    ring.append("V");
-                    numberOfVioletHairs--;
-                    unicornAdded = true;
-                } else if(numberOfBlueHairs > 0 && numberOfBlueHairs > numberOfRedHairs) {
-                    ring.append("B");
-                    numberOfBlueHairs--;
-                    unicornAdded = true;
-                } else if(numberOfRedHairs > 0) {
-                    ring.append("R");
-                    numberOfRedHairs--;
-                    unicornAdded = true;
-                }
-            } else if(ring.charAt(i - 1) == 'B') {
-                if(numberOfOrangeHairs > 0) {
-                    ring.append("O");
-                    numberOfOrangeHairs--;
-                    unicornAdded = true;
-                } else if(numberOfRedHairs > 0 && numberOfRedHairs > numberOfYellowHairs
-                        && numberOfRedHairs > numberOfOrangeHairs) {
-                    ring.append("R");
-                    numberOfRedHairs--;
-                    unicornAdded = true;
-                } else if(numberOfYellowHairs > 0 && numberOfYellowHairs > numberOfOrangeHairs) {
-                    ring.append("Y");
-                    numberOfYellowHairs--;
-                    unicornAdded = true;
-                }
-            } else if(ring.charAt(i - 1) == 'O') {
-                if(numberOfBlueHairs > 0) {
-                    ring.append("B");
-                    numberOfBlueHairs--;
-                    unicornAdded = true;
-                }
-            } else if(ring.charAt(i - 1) == 'G') {
+        int unicornsRemainingIndex;
+        int loopIndex;
+
+        if(ring.charAt(unicornsPlaced - 1) == 'R') {
+
+            if(ring.charAt(0) == 'R') {
                 if(numberOfRedHairs > 0) {
-                    ring.append("R");
-                    numberOfRedHairs--;
-                    unicornAdded = true;
+                    unicornsRemainingIndex = 1;
+                    loopIndex = 0;
+
+                    unicornsRemainingIndex = addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else {
+                    unicornsRemainingIndex = 0;
+                    loopIndex = 1;
                 }
-            } else if(ring.charAt(i - 1) == 'V') {
-                if(numberOfYellowHairs > 0) {
-                    ring.append("Y");
-                    numberOfYellowHairs--;
-                    unicornAdded = true;
+
+                if(numberOfYellowHairs > numberOfBlueHairs) {
+                    unicornsRemainingIndex = addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else {
+                    unicornsRemainingIndex = addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                }
+            } else {
+                unicornsRemainingIndex = 0;
+                loopIndex = 1;
+
+                if(ring.charAt(0) == 'Y') {
+                    unicornsRemainingIndex = addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    unicornsRemainingIndex = addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else if(ring.charAt(0) == 'B') {
+                    unicornsRemainingIndex = addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    unicornsRemainingIndex = addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
                 }
             }
+        } else if(ring.charAt(unicornsPlaced - 1) == 'Y') {
 
-            if(!unicornAdded) {
-                return "IMPOSSIBLE";
+            if(ring.charAt(0) == 'Y') {
+                if(numberOfYellowHairs > 0) {
+                    unicornsRemainingIndex = 1;
+                    loopIndex = 0;
+
+                    unicornsRemainingIndex = addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else {
+                    unicornsRemainingIndex = 0;
+                    loopIndex = 1;
+                }
+
+                if(numberOfRedHairs > numberOfBlueHairs) {
+                    unicornsRemainingIndex = addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else {
+                    unicornsRemainingIndex = addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                }
+            } else {
+                unicornsRemainingIndex = 0;
+                loopIndex = 1;
+
+                if(ring.charAt(0) == 'R') {
+                    unicornsRemainingIndex = addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    unicornsRemainingIndex = addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else if(ring.charAt(0) == 'B') {
+                    unicornsRemainingIndex = addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    unicornsRemainingIndex = addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                }
+            }
+        } else if(ring.charAt(unicornsPlaced - 1) == 'B') {
+
+            if(ring.charAt(0) == 'B') {
+                if(numberOfBlueHairs > 0) {
+                    unicornsRemainingIndex = 1;
+                    loopIndex = 0;
+
+                    unicornsRemainingIndex = addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else {
+                    unicornsRemainingIndex = 0;
+                    loopIndex = 1;
+                }
+
+                if(numberOfRedHairs > numberOfYellowHairs) {
+                    unicornsRemainingIndex = addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else {
+                    unicornsRemainingIndex = addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                }
+            } else {
+                unicornsRemainingIndex = 0;
+                loopIndex = 1;
+
+                if(ring.charAt(0) == 'R') {
+                    unicornsRemainingIndex = addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    unicornsRemainingIndex = addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                } else if(ring.charAt(0) == 'Y') {
+                    unicornsRemainingIndex = addRemainingYellowUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    unicornsRemainingIndex = addRemainingRedUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                    addRemainingBlueUnicorns(unicornsRemaining, unicornsRemainingIndex, ring, loopIndex);
+                }
             }
         }
 
-        boolean impossible = false;
+        for(int i = 0; i < unicornsRemaining.length; i++) {
+            ring.append(unicornsRemaining[i]);
+        }
 
-        if(ring.charAt(0) == 'R') {
-            if(ring.charAt(ring.length() - 1) == 'R'
-                    || ring.charAt(ring.length() - 1) == 'O'
-                    || ring.charAt(ring.length() - 1) == 'V') {
-                impossible = true;
+        if(ring.charAt(0) == ring.charAt(ring.length() - 1)) {
+            char repeatedUnicorn = ring.charAt(0);
+            ring.delete(ring.length() - 1, ring.length());
+
+            if(repeatedUnicorn == 'R') {
+                impossible = moveUnicorn(ring, 'R', 'B', 'Y');
+            } else if(repeatedUnicorn == 'Y') {
+                impossible = moveUnicorn(ring, 'Y', 'B', 'R');
+            } else if(repeatedUnicorn == 'B') {
+                impossible = moveUnicorn(ring, 'B', 'R', 'Y');
             }
-        } else if(ring.charAt(0) == 'B') {
-            if(ring.charAt(ring.length() - 1) == 'B'
-                    || ring.charAt(ring.length() - 1) == 'G'
-                    || ring.charAt(ring.length() - 1) == 'V') {
-                impossible = true;
-            }
-        } else if(ring.charAt(0) == 'Y') {
-            if(ring.charAt(ring.length() - 1) == 'Y'
-                    || ring.charAt(ring.length() - 1) == 'O'
-                    || ring.charAt(ring.length() - 1) == 'G') {
-                impossible = true;
-            }
-        } else if(ring.charAt(0) == 'O') {
-            if(ring.charAt(ring.length() - 1) == 'O'
-                    || ring.charAt(ring.length() - 1) == 'R'
-                    || ring.charAt(ring.length() - 1) == 'Y'
-                    || ring.charAt(ring.length() - 1) == 'V'
-                    || ring.charAt(ring.length() - 1) == 'G') {
-                impossible = true;
-            }
-        } else if(ring.charAt(0) == 'G') {
-            if(ring.charAt(ring.length() - 1) == 'G'
-                    || ring.charAt(ring.length() - 1) == 'B'
-                    || ring.charAt(ring.length() - 1) == 'Y'
-                    || ring.charAt(ring.length() - 1) == 'O'
-                    || ring.charAt(ring.length() - 1) == 'V') {
-                impossible = true;
-            }
-        } else if(ring.charAt(0) == 'V') {
-            if(ring.charAt(ring.length() - 1) == 'V'
-                    || ring.charAt(ring.length() - 1) == 'R'
-                    || ring.charAt(ring.length() - 1) == 'B'
-                    || ring.charAt(ring.length() - 1) == 'O'
-                    || ring.charAt(ring.length() - 1) == 'G') {
-                impossible = true;
+
+        }
+
+        if(impossible) {
+            return "IMPOSSIBLE";
+        }
+
+        for(int i=0; i < ring.length() - 1; i++) {
+            if(ring.charAt(i) == ring.charAt(i + 1)) {
+                char repeatedUnicorn = ring.charAt(i);
+                ring.delete(i, i + 1);
+
+                if(repeatedUnicorn == 'R') {
+                    impossible = moveUnicorn(ring, 'R', 'B', 'Y');
+                } else if(repeatedUnicorn == 'Y') {
+                    impossible = moveUnicorn(ring, 'Y', 'B', 'R');
+                } else if(repeatedUnicorn == 'B') {
+                    impossible = moveUnicorn(ring, 'B', 'R', 'Y');
+                }
             }
         }
 
@@ -308,6 +492,74 @@ public class StableNeighbors {
         }
 
         return ring.toString();
+    }
+
+    private  static boolean moveUnicorn(StringBuilder ring, char unicornToMove, char unicorn1, char unicorn2) {
+        for(int i=0; i < ring.length() - 1; i++) {
+            if((ring.charAt(i) == unicorn1
+                    && ring.charAt(i + 1) == unicorn2)
+                    || (ring.charAt(i) == unicorn2
+                    && ring.charAt(i + 1) == unicorn1)) {
+                ring.insert(i + 1, unicornToMove);
+
+                return false;
+            }
+        }
+
+        if(ring.charAt(0) != unicornToMove && ring.charAt(ring.length() - 1) != unicornToMove) {
+            ring.insert(0, unicornToMove);
+            return false;
+        }
+
+        return true;
+    }
+
+    private static int addRemainingYellowUnicorns(char[] unicornsRemaining, int unicornsRemainingIndex, StringBuilder ring,
+                                                  int loopIndex) {
+        while (numberOfYellowHairs > 0) {
+            if (unicornsRemainingIndex > unicornsRemaining.length - 1) {
+                unicornsRemainingIndex = loopIndex;
+            }
+
+            unicornsRemaining[unicornsRemainingIndex] = 'Y';
+            numberOfYellowHairs--;
+
+            unicornsRemainingIndex += 2;
+        }
+
+        return unicornsRemainingIndex;
+    }
+
+    private static int addRemainingRedUnicorns(char[] unicornsRemaining, int unicornsRemainingIndex, StringBuilder ring,
+                                               int loopIndex) {
+        while (numberOfRedHairs > 0) {
+            if (unicornsRemainingIndex > unicornsRemaining.length - 1) {
+                unicornsRemainingIndex = loopIndex;
+            }
+
+            unicornsRemaining[unicornsRemainingIndex] = 'R';
+            numberOfRedHairs--;
+
+            unicornsRemainingIndex += 2;
+        }
+
+        return unicornsRemainingIndex;
+    }
+
+    private static int addRemainingBlueUnicorns(char[] unicornsRemaining, int unicornsRemainingIndex, StringBuilder ring,
+                                                int loopIndex) {
+        while (numberOfBlueHairs > 0) {
+            if (unicornsRemainingIndex > unicornsRemaining.length - 1) {
+                unicornsRemainingIndex = loopIndex;
+            }
+
+            unicornsRemaining[unicornsRemainingIndex] = 'B';
+            numberOfBlueHairs--;
+
+            unicornsRemainingIndex += 2;
+        }
+
+        return unicornsRemainingIndex;
     }
 
     private static String getRingArrangementSmall(int numberOfStalls, int[] unicorns) {

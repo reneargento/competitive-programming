@@ -252,7 +252,7 @@ public class PonyExpress {
         double time = 0;
         double totalDistance = 0;
 
-        int travelledHorseDistance = 0; 
+        int travelledHorseDistance = 0;
         double horseEndurance = horses[0][1];
 
         for(int i = source - 1; i < destination - 1; i++) {
