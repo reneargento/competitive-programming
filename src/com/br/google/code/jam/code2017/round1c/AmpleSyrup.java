@@ -17,15 +17,14 @@ public class AmpleSyrup {
 
     private static class Pancake implements Comparable<Pancake>{
 
+        private double radius;
         private double topArea;
         private double sideArea;
-        private double totalArea;
 
         private Pancake(double radius, double height) {
+            this.radius = radius;
             topArea = Math.PI * Math.pow(radius, 2);
             sideArea = 2 * Math.PI * radius * height;
-
-            totalArea = topArea + sideArea;
         }
 
         @Override
@@ -44,15 +43,15 @@ public class AmpleSyrup {
 
 //    private static final String FILE_INPUT_PATH = PATH + "ample_syrup_sample_input.txt";
 //    private static final String FILE_OUTPUT_PATH = PATH + "ample_syrup_output.txt";
-    private static final String FILE_INPUT_PATH = PATH + "ample_syrup_small_input.txt";
-    private static final String FILE_OUTPUT_PATH = PATH + "ample_syrup_small_output.txt";
-//    private static final String FILE_INPUT_PATH = PATH + "ample_syrup_large_input.txt";
-//    private static final String FILE_OUTPUT_PATH = PATH + "ample_syrup_large_output.txt";
+//    private static final String FILE_INPUT_PATH = PATH + "ample_syrup_small_input.txt";
+//    private static final String FILE_OUTPUT_PATH = PATH + "ample_syrup_small_output.txt";
+    private static final String FILE_INPUT_PATH = PATH + "ample_syrup_large_input.txt";
+    private static final String FILE_OUTPUT_PATH = PATH + "ample_syrup_large_output.txt";
 
     public static void main(String[] args) {
 
-        test();
-        //compete();
+        //test();
+        compete();
     }
 
     private static void test() {
@@ -82,6 +81,12 @@ public class AmpleSyrup {
         Pancake[] pancakes4 = {pancake40, pancake41, pancake42, pancake43};
         int stackSize4 = 2;
         System.out.println(String.format("%.9f", computeArea(pancakes4, stackSize4)) + " Expected: 625.176938064");
+
+        Pancake pancake50 = new Pancake(44574, 101556);
+        Pancake pancake51 = new Pancake(27094, 167076);
+        Pancake[] pancakes5 = {pancake50, pancake51};
+        int stackSize5 = 2;
+        System.out.println(String.format("%.9f", computeArea(pancakes5, stackSize5)) + " Expected: > 0");
     }
 
     private static void compete() {
@@ -117,40 +122,64 @@ public class AmpleSyrup {
 
     private static double computeArea (Pancake[] pancakes, int stackSize) {
 
-        Pancake[] selectedPancakes = new Pancake[stackSize];
+        Pancake[] pancakesSortedBySideArea = new Pancake[pancakes.length];
+        System.arraycopy(pancakes, 0, pancakesSortedBySideArea, 0, pancakes.length);
 
-        Arrays.sort(pancakes, new Comparator<Pancake>() {
+        Arrays.sort(pancakesSortedBySideArea, new Comparator<Pancake>() {
             @Override
             public int compare(Pancake pancake1, Pancake pancake2) {
-                if(pancake1.totalArea > pancake2.totalArea) {
+                if(pancake1.sideArea > pancake2.sideArea) {
                     return -1;
-                } else if (pancake1.totalArea < pancake2.totalArea) {
+                } else if (pancake1.sideArea < pancake2.sideArea) {
                     return 1;
                 } else {
-                    if(pancake1.sideArea > pancake2.sideArea) {
-                        return -1;
-                    } else if (pancake1.sideArea < pancake2.sideArea) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
+                    return 0;
                 }
             }
         });
 
-        for(int i = 0; i < selectedPancakes.length; i++) {
-            selectedPancakes[i] = pancakes[i];
+        Arrays.sort(pancakes);
+
+        Pancake[] selectedPancakes = new Pancake[stackSize];
+        double highestExposedAreaFound = 0;
+
+        for(int i = 0; i < pancakes.length; i++) {
+            int selectedPancakesIndex = selectedPancakes.length - 1;
+
+            selectedPancakes[selectedPancakesIndex--] = pancakes[i];
+            int j = 0;
+
+            while (selectedPancakesIndex >= 0 && j < pancakesSortedBySideArea.length) {
+                if(pancakesSortedBySideArea[j] == pancakes[i]
+                        || pancakesSortedBySideArea[j].radius > selectedPancakes[selectedPancakes.length - 1].radius) {
+                    j++;
+                    continue;
+                }
+
+                selectedPancakes[selectedPancakesIndex--] = pancakesSortedBySideArea[j++];
+            }
+
+            if(selectedPancakesIndex >= 0) {
+                continue;
+            }
+
+            double currentExposedArea = computeTotalExposedArea(selectedPancakes, stackSize);
+            if(currentExposedArea > highestExposedAreaFound) {
+                highestExposedAreaFound = currentExposedArea;
+            }
         }
 
-        Arrays.sort(selectedPancakes);
+        return highestExposedAreaFound;
+    }
 
+    private static double computeTotalExposedArea(Pancake[] selectedPancakes, int stackSize) {
         double exposedArea = 0;
 
         for(int i = stackSize - 1; i >= 0; i--) {
             if(i == stackSize - 1) {
                 exposedArea += selectedPancakes[i].topArea + selectedPancakes[i].sideArea;
             } else {
-                exposedArea += selectedPancakes[i].topArea - selectedPancakes[i + 1].topArea + selectedPancakes[i].sideArea;
+                exposedArea += selectedPancakes[i].sideArea;
             }
         }
 

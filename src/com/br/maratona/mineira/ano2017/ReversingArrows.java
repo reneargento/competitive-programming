@@ -1,18 +1,38 @@
-package com.br.algs.reference.algorithms.search;
+package com.br.maratona.mineira.ano2017;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
- * Created by rene on 21/04/17.
+ * Created by rene on 27/05/17.
  */
-//This implementation is currently for directed graphs, but with 2 simple modifications can be used for undirected graphs
-public class DijkstraShortestPath {
 
-    private class Graph {
+/**
+ * Bibi and Bibika are playing a simple game where the judge, with each round,
+ * makes a drawing with several circles and arrows linking some of them.
+
+ Bibi must count the least X number of arrows that need to be inverted to exist at least one path from A to B and Bibika must
+ count the smallest amount Y of inverted arrows to exist at least one path in the opposite direction from B to A.
+ The game who find the lowest value.
+ If there is no path between A > B or B > A, the game ends in a draw, regardless of the number of arrows reversed.
+
+ As the judge in some rounds makes a very large drawing, it is quite complicated to check the veracity of the answers given by the girls.
+ Your task is to automate this process for him.
+
+ Input
+ The first line of each test case contains four integers C ( 1 ≤ C ≤ 104 ) , S ( 0 ≤ S ≤ 5 x 105), A e B, ( 1 ≤ A, B ≤ C ),
+ where C is the number of circles, S is the number of arrows, A and B are the ends of the game.
+ Each of the next S lines contain two integers C1 and C2, representing an arrow connecting the circle C1 to the circle C2.
+
+ Output
+ For each test case, display the winner's name and the amount Q inverted arrows in format Bibi: Q or Bibika: Q.
+ If the game ends in a draw, display Bibibibika.
+ */
+
+//https://www.urionlinejudge.com.br/judge/en/challenges/view/266/9
+//https://s3.amazonaws.com/codechef_shared/download/Solutions/2014/August/Tester/REVERSE.cpp
+public class ReversingArrows {
+
+    private static class Graph {
 
         private class Vertex {
             int id;
@@ -24,6 +44,12 @@ public class DijkstraShortestPath {
             Vertex vertex1;
             Vertex vertex2;
             int length;
+
+            public Edge(Vertex vertex1, Vertex vertex2, int length) {
+                this.vertex1 = vertex1;
+                this.vertex2 = vertex2;
+                this.length = length;
+            }
         }
 
         HashMap<Integer, Vertex> vertices;
@@ -60,10 +86,7 @@ public class DijkstraShortestPath {
             Vertex vertex1 = vertices.get(vertexId1);
             Vertex vertex2 = vertices.get(vertexId2);
 
-            Edge edge = new Edge();
-            edge.vertex1 = vertex1;
-            edge.vertex2 = vertex2;
-            edge.length = length;
+            Edge edge = new Edge(vertex1, vertex2, length);
 
             edges.add(edge);
 
@@ -89,6 +112,56 @@ public class DijkstraShortestPath {
         }
     }
 
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int vertices = scanner.nextInt();
+        int edges = scanner.nextInt();
+
+        int vertexA = scanner.nextInt();
+        int vertexB = scanner.nextInt();
+
+        scanner.nextLine(); //Move to next line
+
+        Graph graph = new Graph();
+        for(int i=1; i <= vertices; i++) {
+            graph.addVertex(i);
+        }
+
+        for(int i=0; i < edges; i++) {
+            String nextLine = scanner.nextLine();
+            String[] values = nextLine.split(" ");
+
+            int vertex1 = Integer.parseInt(values[0]);
+            int vertex2 = Integer.parseInt(values[1]);
+
+            //Add original edge with cost = 0
+            graph.addEdge(vertex1, vertex2, 0);
+            //Add reverse edge with cost = 1
+            graph.addEdge(vertex2, vertex1, 1);
+        }
+
+        computeShortestPath(graph, vertexA);
+        int distanceFromAtoB = computedShortestPathDistances[vertexB];
+
+        graph.clearProcessedVertices();
+        computeShortestPath(graph, vertexB);
+        int distanceFromBtoA = computedShortestPathDistances[vertexA];
+
+        if(distanceFromAtoB == distanceFromBtoA
+                || distanceFromAtoB == UNCOMPUTED_DISTANCE
+                || distanceFromBtoA == UNCOMPUTED_DISTANCE) {
+            System.out.println("Bibibibika");
+        } else {
+            if(distanceFromAtoB < distanceFromBtoA) {
+                System.out.println("Bibi: " + distanceFromAtoB);
+            } else {
+                System.out.println("Bibika: " + distanceFromBtoA);
+            }
+        }
+    }
+
+    //Djikstra's Shortest Path
     //By definition
     private static final int UNCOMPUTED_DISTANCE = 1000000;
 
