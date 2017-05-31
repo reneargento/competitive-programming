@@ -1,91 +1,58 @@
 package com.br.algs.reference.algorithms.search;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Created by rene on 21/04/17.
+ * Created by rene.argento on 30/05/17.
  */
-//This implementation is currently for directed graphs, but with 2 simple modifications can be used for undirected graphs
+@SuppressWarnings("unchecked")
 public class DijkstraShortestPath {
 
-    private class Graph {
+    private static class FastReader {
 
-        private class Vertex {
-            int id;
-            boolean processed;
-            LinkedList<Edge> edgesAssociated;
+        private static BufferedReader reader;
+        private static StringTokenizer tokenizer;
+
+        /** Call this method to initialize reader for InputStream */
+        static void init(InputStream input) {
+            reader = new BufferedReader(new InputStreamReader(input));
+            tokenizer = new StringTokenizer("");
         }
 
-        private class Edge {
-            Vertex vertex1;
-            Vertex vertex2;
-            int length;
-        }
-
-        HashMap<Integer, Vertex> vertices;
-        LinkedList<Edge> edges;
-
-        public Graph() {
-            vertices = new HashMap<>();
-            edges = new LinkedList<>();
-        }
-
-        //O(1)
-        public void addVertex(int vertexId) {
-            Vertex vertex = new Vertex();
-            vertex.id = vertexId;
-            vertex.processed = false;
-            vertex.edgesAssociated = new LinkedList<>();
-
-            vertices.put(vertexId, vertex);
-        }
-
-        //O(1)
-        public void addEdge(int vertexId1, int vertexId2, int length) {
-            if(length < 0) {
-                throw new UnsupportedOperationException("Edge length cannot be negative");
+        /** Get next word */
+        private static String next() throws IOException {
+            while (!tokenizer.hasMoreTokens() ) {
+                tokenizer = new StringTokenizer(reader.readLine());
             }
-
-            if(vertices.get(vertexId1) == null) {
-                addVertex(vertexId1);
-            }
-            if(vertices.get(vertexId2) == null) {
-                addVertex(vertexId2);
-            }
-
-            Vertex vertex1 = vertices.get(vertexId1);
-            Vertex vertex2 = vertices.get(vertexId2);
-
-            Edge edge = new Edge();
-            edge.vertex1 = vertex1;
-            edge.vertex2 = vertex2;
-            edge.length = length;
-
-            edges.add(edge);
-
-            vertices.get(vertexId1).edgesAssociated.add(edge);
-            vertices.get(vertexId2).edgesAssociated.add(edge);
+            return tokenizer.nextToken();
         }
 
-        //O(1)
-        public int getVerticesCount() {
-            return vertices.size();
+        private static int nextInt() throws IOException {
+            return Integer.parseInt(next());
         }
 
-        //O(1)
-        public void setVertexProcessed(int vertexId) {
-            vertices.get(vertexId).processed = true;
+        private static double nextDouble() throws IOException {
+            return Double.parseDouble(next());
         }
 
-        //O(V)
-        public void clearProcessedVertices() {
-            for(int vertexId : vertices.keySet()) {
-                vertices.get(vertexId).processed = false;
-            }
+        private static long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
+
+    private static class Edge {
+        int vertex1;
+        int vertex2;
+        int length;
+
+        Edge(int vertex1, int vertex2, int length) {
+            this.vertex1 = vertex1;
+            this.vertex2 = vertex2;
+            this.length = length;
         }
     }
 
@@ -94,58 +61,80 @@ public class DijkstraShortestPath {
 
     private static int[] computedShortestPathDistances;
 
+    public static void main(String[] args) throws IOException {
+        FastReader.init(System.in);
+
+        int vertices = FastReader.nextInt();
+        int totalEdges = FastReader.nextInt();
+
+        List<Edge>[] adjacent = (List<Edge>[]) new ArrayList[vertices + 1];
+
+        for(int i=0; i < totalEdges; i++) {
+            int vertex1 = FastReader.nextInt();
+            int vertex2 = FastReader.nextInt();
+            int length = FastReader.nextInt();
+
+            Edge edge = new Edge(vertex1, vertex2, length);
+            if(adjacent[vertex1] == null) {
+                adjacent[vertex1] = new ArrayList<>();
+            }
+            if(adjacent[vertex2] == null) {
+                adjacent[vertex2] = new ArrayList<>();
+            }
+
+            adjacent[vertex1].add(edge);
+            adjacent[vertex2].add(edge);//undirected graph
+        }
+
+        int sourceVertex = FastReader.nextInt();
+
+        computeShortestPath(adjacent, sourceVertex);
+    }
+
     //O(n * log(m))
-    private static void computeShortestPath(Graph graph, int sourceVertex) {
+    private static void computeShortestPath(List<Edge>[] adjacent, int sourceVertex) {
 
-        int verticesCount = graph.getVerticesCount();
-
-        computedShortestPathDistances = new int[verticesCount + 1];
+        boolean[] visited = new boolean[adjacent.length];
+        computedShortestPathDistances = new int[adjacent.length];
 
         setDefaultDistances();
 
         //Distance from S to itself is 0
         computedShortestPathDistances[sourceVertex] = 0;
-        graph.vertices.get(sourceVertex).processed = true;
+        visited[sourceVertex] = true;
 
         //Using Java's priority queue
-        PriorityQueue<Graph.Edge> heap = new PriorityQueue<Graph.Edge>(10, new Comparator<Graph.Edge>() {
+        PriorityQueue<Edge> heap = new PriorityQueue<Edge>(10, new Comparator<Edge>() {
             @Override
-            public int compare(Graph.Edge edge1, Graph.Edge edge2) {
+            public int compare(Edge edge1, Edge edge2) {
                 return edge1.length - edge2.length;
             }
         });
 
         //Add edges associated to the first vertex to the heap
-        for(Graph.Edge edge : graph.vertices.get(sourceVertex).edgesAssociated) {
-            //Directed graph
-            if(edge.vertex1.id == sourceVertex) {
-                heap.add(edge);
-            }
-
-            //Undirected graph
-            //heap.add(edge);
+        for(Edge edge : adjacent[sourceVertex]) {
+            heap.add(edge);
         }
 
         while (heap.size() > 0) {
-            Graph.Edge edge = heap.poll();
+            Edge edge = heap.poll();
 
-            if(!edge.vertex1.processed) {
-                graph.setVertexProcessed(edge.vertex1.id);
-                computeAndAddEdgeToHeap(graph, heap, edge, edge.vertex1.id);
-            } else if(!edge.vertex2.processed) {
-                graph.setVertexProcessed(edge.vertex2.id);
-                computeAndAddEdgeToHeap(graph, heap, edge, edge.vertex2.id);
+            if(!visited[edge.vertex1]) {
+                visited[edge.vertex1] = true;
+                computeAndAddEdgeToHeap(adjacent, visited, heap, edge, edge.vertex1);
+            } else if(!visited[edge.vertex2]) {
+                visited[edge.vertex2] = true;
+                computeAndAddEdgeToHeap(adjacent, visited, heap, edge, edge.vertex2);
             }
         }
     }
 
     @SuppressWarnings("unchecked")
-    private static void computeAndAddEdgeToHeap(Graph graph, PriorityQueue heap, Graph.Edge edge, int vertexId) {
+    private static void computeAndAddEdgeToHeap(List<Edge>[] adjacent, boolean[] visited, PriorityQueue heap, Edge edge, int vertexId) {
         computedShortestPathDistances[vertexId] = edge.length;
 
-        for(Graph.Edge newEdge : graph.vertices.get(vertexId).edgesAssociated) {
-            //if (!newEdge.vertex1.processed || !newEdge.vertex2.processed) { //Undirected graph
-            if (!newEdge.vertex2.processed) {
+        for(Edge newEdge : adjacent[vertexId]) {
+            if (!visited[newEdge.vertex1] || !visited[newEdge.vertex2]) {
                 newEdge.length = edge.length + newEdge.length;
                 heap.add(newEdge);
             }
