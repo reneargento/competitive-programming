@@ -1,28 +1,32 @@
 package com.br.algs.reference.algorithms;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by rene on 29/04/17.
+ * Created by rene on 03/06/17.
  */
 public class Factors {
 
-    private static List<Integer> primeFactors(int number) {
-        List<Integer> primeFactors = new ArrayList<>();
+    private static List<Integer> getFactors(int number) {
+        List<Integer> factors = new ArrayList<>();
 
-        for (int i = 2; i * i <= number; i++) {
-            while (number % i == 0) {
-                primeFactors.add(i);
-                number /= i;
+        int upperLimit = (int) Math.sqrt(number);
+
+        for(int i=1; i <= upperLimit; i++) {
+            if (number % i == 0) {
+                factors.add(i);
+
+                if(i != number / i) {
+                    factors.add(number / i);
+                }
             }
         }
 
-        if(number > 1) {
-            primeFactors.add(number);
-        }
+        Collections.sort(factors);
 
-        return primeFactors;
+        return factors;
     }
 
 }
