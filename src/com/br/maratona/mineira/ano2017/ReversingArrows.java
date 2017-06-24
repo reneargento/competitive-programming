@@ -1,5 +1,9 @@
 package com.br.maratona.mineira.ano2017;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -31,6 +35,38 @@ import java.util.*;
 //https://www.urionlinejudge.com.br/judge/en/challenges/view/266/9
 //https://s3.amazonaws.com/codechef_shared/download/Solutions/2014/August/Tester/REVERSE.cpp
 public class ReversingArrows {
+
+    private static class FastReader {
+
+        private static BufferedReader reader;
+        private static StringTokenizer tokenizer;
+
+        /** Call this method to initialize reader for InputStream */
+        static void init(InputStream input) {
+            reader = new BufferedReader(new InputStreamReader(input));
+            tokenizer = new StringTokenizer("");
+        }
+
+        /** Get next word */
+        private static String next() throws IOException {
+            while (!tokenizer.hasMoreTokens() ) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+            return tokenizer.nextToken();
+        }
+
+        private static int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+
+        private static double nextDouble() throws IOException {
+            return Double.parseDouble(next());
+        }
+
+        private static long nextLong() throws IOException {
+            return Long.parseLong(next());
+        }
+    }
 
     private static class Graph {
 
@@ -112,16 +148,14 @@ public class ReversingArrows {
         }
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        FastReader.init(System.in);
 
-        int vertices = scanner.nextInt();
-        int edges = scanner.nextInt();
+        int vertices = FastReader.nextInt();
+        int edges = FastReader.nextInt();
 
-        int vertexA = scanner.nextInt();
-        int vertexB = scanner.nextInt();
-
-        scanner.nextLine(); //Move to next line
+        int vertexA = FastReader.nextInt();
+        int vertexB = FastReader.nextInt();
 
         Graph graph = new Graph();
         for(int i=1; i <= vertices; i++) {
@@ -129,11 +163,8 @@ public class ReversingArrows {
         }
 
         for(int i=0; i < edges; i++) {
-            String nextLine = scanner.nextLine();
-            String[] values = nextLine.split(" ");
-
-            int vertex1 = Integer.parseInt(values[0]);
-            int vertex2 = Integer.parseInt(values[1]);
+            int vertex1 = FastReader.nextInt();
+            int vertex2 = FastReader.nextInt();
 
             //Add original edge with cost = 0
             graph.addEdge(vertex1, vertex2, 0);
