@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.search;
+package com.br.algs.reference.algorithms;
 
 import java.util.TreeMap;
 
