@@ -23,8 +23,8 @@ public class AmbiguousCipher {
     private static final String FILE_OUTPUT_PATH = PATH + "cipher_large_output.txt";
 
     public static void main(String[] args) {
-       // test();
-        compete();
+        test();
+       // compete();
     }
 
     private static void test() {
