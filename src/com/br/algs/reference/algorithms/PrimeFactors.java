@@ -8,6 +8,14 @@ import java.util.List;
  */
 public class PrimeFactors {
 
+    public static void main(String[] args) {
+        //Test
+        List<Integer> primeFactors = primeFactors(10);
+        for(int primeFactor : primeFactors) {
+            System.out.print(primeFactor + " ");
+        }
+    }
+
     private static List<Integer> primeFactors(int number) {
         List<Integer> primeFactors = new ArrayList<>();
 
