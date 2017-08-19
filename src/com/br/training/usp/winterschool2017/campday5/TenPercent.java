@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
 /**
@@ -44,6 +45,17 @@ public class TenPercent {
         }
     }
 
+    private static class Query {
+        long value;
+        int originalIndex;
+        int valuesInRange;
+
+        Query(long value, int originalIndex) {
+            this.value = value;
+            this.originalIndex = originalIndex;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         FastReader.init(System.in);
 
@@ -55,65 +67,110 @@ public class TenPercent {
         }
 
         int querieCount = FastReader.nextInt();
-        long[] queries = new long[querieCount];
+        Query[] queries = new Query[querieCount];
 
         for(int i=0; i < queries.length; i++) {
-            queries[i] = FastReader.nextInt();
+            long value = FastReader.nextInt();
+            queries[i] = new Query(value, i);
         }
 
-        Arrays.sort(values);
+        Arrays.sort(queries, new Comparator<Query>() {
+            @Override
+            public int compare(Query query1, Query query2) {
+                if(query1.value < query2.value) {
+                    return -1;
+                } else if(query1.value > query2.value) {
+                    return 1;
+                }
 
-        for(int q=0; q < queries.length; q++) {
-            long target = queries[q];
+                return 0;
+            }
+        });
+
+        int[] valuesInRange = new int[queries.length];
+
+        for(int v=0; v < values.length; v++) {
+            long target = values[v];
             double leftTarget = target * 0.9;
             double rightTarget = target * 1.1;
 
-            int leftBoundary = binarySearch(values, leftTarget, 0, values.length - 1, true);
-            int rightBoundary = binarySearch(values, rightTarget, 0, values.length - 1, false);
+            int leftBoundary = binarySearch(queries, leftTarget, 0, queries.length - 1, true);
+            int rightBoundary = binarySearch(queries, rightTarget, 0, queries.length - 1, false);
 
-            long count;
+            boolean isLeftInRange = leftTarget <= queries[leftBoundary].value && queries[leftBoundary].value <= rightTarget;
+            boolean isRightInRange = leftTarget <= queries[rightBoundary].value && queries[rightBoundary].value <= rightTarget;
 
             if(leftBoundary == rightBoundary) {
-                if(leftTarget <= values[leftBoundary] && values[leftBoundary] <= rightTarget) {
-                    count = 1;
-                } else {
-                    count = 0;
+                if(isLeftInRange) {
+                    valuesInRange[leftBoundary]++;
+
+                    if(leftBoundary + 1 < valuesInRange.length) {
+                        valuesInRange[leftBoundary + 1]--;
+                    }
                 }
             }  else {
-                boolean isLeftInRange = leftTarget <= values[leftBoundary] && values[leftBoundary] <= rightTarget;
-                boolean isRightInRange = leftTarget <= values[rightBoundary] && values[rightBoundary] <= rightTarget;
-
                 if(!isLeftInRange && !isRightInRange) {
-                    count = 0;
+                    //Nothing to do in this case
                 } else if(isLeftInRange && isRightInRange) {
-                    count = rightBoundary - leftBoundary + 1;
+                    valuesInRange[leftBoundary]++;
+                    if(rightBoundary + 1 < valuesInRange.length) {
+                        valuesInRange[rightBoundary + 1]--;
+                    }
                 } else {
-                    count = rightBoundary - leftBoundary;
+                    if(isLeftInRange) {
+                        valuesInRange[leftBoundary]++;
+                        if(rightBoundary < valuesInRange.length) {
+                            valuesInRange[rightBoundary]--;
+                        }
+                    } else if(isRightInRange) {
+                        valuesInRange[leftBoundary + 1]++;
+                        if(rightBoundary + 1 < valuesInRange.length) {
+                            valuesInRange[rightBoundary + 1]--;
+                        }
+                    }
                 }
             }
+        }
 
-            System.out.println(count);
+        int currentCount = 0;
+        for(int i=0; i < valuesInRange.length; i++) {
+            currentCount += valuesInRange[i];
+            queries[i].valuesInRange = currentCount;
+        }
+
+        Arrays.sort(queries, new Comparator<Query>() {
+            @Override
+            public int compare(Query query1, Query query2) {
+                if(query1.originalIndex < query2.originalIndex) {
+                    return -1;
+                } else if(query1.originalIndex > query2.originalIndex) {
+                    return 1;
+                }
+
+                return 0;
+            }
+        });
+
+
+        for(int i=0; i < queries.length; i++) {
+            System.out.println(queries[i].valuesInRange);
         }
     }
 
-    private static int binarySearch(long[] array, double target, int low, int high, boolean leftSide) {
+    private static int binarySearch(Query[] array, double target, int low, int high, boolean leftSide) {
         if(low < 0 || high >= array.length || low > high) {
             int result;
 
             if(leftSide) {
                 result = low;
-                if(result < 0) {
-                    result = 0;
-                } else if(result >= array.length) {
-                    result = array.length - 1;
-                }
             } else {
                 result = high;
-                if(result < 0) {
-                    result = 0;
-                } else if(result >= array.length) {
-                    result = array.length - 1;
-                }
+            }
+
+            if(result < 0) {
+                result = 0;
+            } else if(result >= array.length) {
+                result = array.length - 1;
             }
 
             return result;
@@ -121,10 +178,10 @@ public class TenPercent {
 
         int middle = low + (high - low) / 2;
 
-        if(array[middle] < target) {
+        if(array[middle].value < target) {
             low = middle + 1;
             return binarySearch(array, target, low, high, leftSide);
-        } else if(array[middle] > target) {
+        } else if(array[middle].value > target) {
             high = middle - 1;
             return binarySearch(array, target, low, high, leftSide);
         } else {
@@ -132,7 +189,7 @@ public class TenPercent {
 
             if(leftSide) {
                 newResult = binarySearch(array, target, low, middle - 1, true);
-                if(newResult != -1 && newResult < middle) {
+                if(newResult < middle) {
                     return newResult;
                 }
             } else {

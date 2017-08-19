@@ -49,32 +49,34 @@ public class DoesItSort {
         int functionCalls = FastReader.nextInt();
 
         String[] commands = new String[functionCalls];
+        int[] params1 = new int[functionCalls];
+        int[] params2 = new int[functionCalls];
 
         for(int i=0; i < functionCalls; i++) {
             String function = FastReader.next();
             int param1 = FastReader.nextInt();
             int param2 = FastReader.nextInt();
 
-            String command = function + " " + param1 + " " + param2;
-
-            commands[i] = command;
+            commands[i] = function;
+            params1[i] = param1;
+            params2[i] = param2;
         }
 
-        int nonSortableBitmap = generateAll01Combinations(commands);
+        int nonSortableBitmap = generateAll01Combinations(commands, params1, params2);
 
         boolean isSorted = nonSortableBitmap == -1;
 
         if(!isSorted) {
             System.out.println("incorrect");
 
-            for(int i=0; i < 20; i++) {
+            for(int i=19; i >= 0; i--) {
                 if((nonSortableBitmap & (1 << i)) == 0) {
                     System.out.print(0);
                 } else {
                     System.out.print(1);
                 }
 
-                if(i < 19) {
+                if(i > 0) {
                     System.out.print(" ");
                 }
             }
@@ -84,116 +86,28 @@ public class DoesItSort {
         }
     }
 
-//    public static void main(String[] args) throws IOException {
-//
-//        FastReader.init(System.in);
-//        int functionCalls = FastReader.nextInt();
-//
-//        String[] commands = new String[functionCalls];
-//
-//        for(int i=0; i < functionCalls; i++) {
-//            String function = FastReader.next();
-//            int param1 = FastReader.nextInt();
-//            int param2 = FastReader.nextInt();
-//
-//            String command = function + " " + param1 + " " + param2;
-//
-//            commands[i] = command;
-//        }
-//
-//        List<int[]> combinations = generateAll01Combinations(commands);
-//
-//        boolean isSorted = true;
-//
-//        for(int i=0; i < combinations.size(); i++) {
-//            int[] array = combinations.get(i);
-//
-//            int[] arrayCopy = new int[20];
-//            System.arraycopy(array, 0, arrayCopy, 0, 20);
-//
-//            for(int j=0; j < commands.length; j++) {
-//                String[] command = commands[j].split(" ");
-//                String function = command[0];
-//                int param1 = Integer.parseInt(command[1]);
-//                int param2 = Integer.parseInt(command[2]);
-//
-//                if(function.equals("sort")) {
-//                    int numberOf1s = 0;
-//
-//                    for(int k=param1; k < param2; k++) {
-//                        if(array[k] == 1) {
-//                            numberOf1s++;
-//                        }
-//                    }
-//
-//                    for(int k=param1; k <= param2 - numberOf1s - 1; k++) {
-//                        array[k] = 0;
-//                    }
-//
-//                    for(int k=param2 - numberOf1s; k < param2; k++) {
-//                        array[k] = 1;
-//                    }
-//                    //Arrays.sort(array, param1, param2);
-//                } else {
-//                    if(array[param1] > array[param2]) {
-//                        int aux = array[param1];
-//                        array[param1] = array[param2];
-//                        array[param2] = aux;
-//                    }
-//                }
-//            }
-//
-//            for(int j=0; j < array.length - 1; j++) {
-//                if(array[j] > array[j + 1]) {
-//                    isSorted = false;
-//                    break;
-//                }
-//            }
-//
-//            if(!isSorted) {
-//                System.out.println("incorrect");
-//
-//                for(int j=0; j < 20; j++) {
-//                    System.out.print(arrayCopy[j]);
-//
-//                    if(i != arrayCopy.length - 1) {
-//                        System.out.print(" ");
-//                    }
-//                }
-//                System.out.println();
-//                break;
-//            }
-//        }
-//
-//        if(isSorted) {
-//            System.out.println("correct");
-//        }
-//    }
-
-    private static boolean testSorting(int bitmap, String[] commands) {
+    private static boolean testSorting(int bitmap, String[] commands, int[] params1,  int[] params2) {
         for(int j=0; j < commands.length; j++) {
-            String[] command = commands[j].split(" ");
-            String function = command[0];
-            int param1 = Integer.parseInt(command[1]);
-            int param2 = Integer.parseInt(command[2]);
+            String function = commands[j];
+            int originalParam1 = params1[j];
+            int originalParam2 = params2[j];
+
+            //Params are given left-to-right, so let's shift them
+            int param1 = 19 - originalParam1;
+            int param2 = 19 - originalParam2;
 
             if(function.equals("sort")) {
-                int numberOf1s = 0;
+                int bitmapFraction = clearAllBitsExceptRange(bitmap, originalParam1 + 12,
+                        originalParam2 + 12 - 1);
+                int numberOf1s = count1Bits(bitmapFraction);
 
-                for(int k=param1; k < param2; k++) {
-                    if((bitmap & (1 << k)) == 1) {
-                        numberOf1s++;
-                    }
-                }
+                int numberOfBitsInRange = originalParam2 - originalParam1;
+                int numberOfBitsToClear = numberOfBitsInRange - numberOf1s;
 
-                for(int k=param1; k <= param2 - numberOf1s - 1; k++) {
-                    bitmap = bitmap & ~(1 << k);
+                if(numberOf1s != 0 && numberOfBitsToClear != 0) {
+                    bitmap = clearRangeOfBits(bitmap, originalParam1 + 12, numberOfBitsToClear);
+                    bitmap = setRangeOfBits(bitmap, originalParam1 + 12 + numberOfBitsToClear, numberOf1s);
                 }
-
-                for(int k=param2 - numberOf1s; k < param2; k++) {
-                    bitmap = bitmap | (1 << k);
-                }
-                //Arrays.sort(array, param1, param2);
             } else {
                 if((bitmap & (1 << param1)) != 0 && (bitmap & (1 << param2)) == 0) {
                     bitmap = bitmap & ~(1 << param1);
@@ -202,12 +116,8 @@ public class DoesItSort {
             }
         }
 
-        if(bitmap == 64512) {
-            int stop = 1;
-        }
-
-        for(int j=0; j < 19; j++) {
-            if((bitmap & (1 << j)) != 0 && (bitmap & (1 << (j + 1))) == 0) {
+        for(int j=19; j > 0; j--) {
+            if((bitmap & (1 << j)) != 0 && (bitmap & (1 << (j - 1))) == 0) {
                 return false;
             }
         }
@@ -215,70 +125,62 @@ public class DoesItSort {
         return true;
     }
 
-    private static int generateAll01Combinations(String[] commands) {
-        List<Integer> combinations = new ArrayList<>();
+    private static int generateAll01Combinations(String[] commands,  int[] params1,  int[] params2) {
+        int all1Bits = (int) Math.pow(2, 20) - 1;
 
-        int initialBitmap = 0;
-        int result = generateArray(combinations, initialBitmap, 0, commands);
-        return result;
-    }
+        int[] bitmaps = new int[all1Bits + 1];
 
-    private static int generateArray(List<Integer> combinations, int bitmap, int position, String[] commands) {
-//        boolean[] arrayCopy = new boolean[array.length];
-//        System.arraycopy(array, 0, arrayCopy, 0, array.length);
-      //  int copyValue = value;
+        for(int bitmap=0; bitmap < bitmaps.length; bitmap++) {
+            bitmaps[bitmap] = bitmap;
+        }
+        //Improve worst-case by randomizing the bitmap tests
+        shuffle(bitmaps);
 
-        if(position == 2) {
-//            boolean[] arrayCopy2 = new boolean[20];
-//            System.arraycopy(arrayCopy, 0, arrayCopy2, 0, 20);
-            combinations.add(bitmap);
-
-            boolean isSorted = testSorting(bitmap, commands);
+        for(int i=0; i < bitmaps.length; i++) {
+            boolean isSorted = testSorting(bitmaps[i], commands, params1, params2);
             if(!isSorted) {
-                return bitmap;
-            } else {
-                return -1;
-            }
-        } else {
-            for(int i=0; i <= 1; i++) {
-                if(i == 0) {
-                    bitmap = bitmap & ~(1 << position);
-                } else {
-                    bitmap = bitmap | (1 << position);
-                }
-
-                int result = generateArray(combinations, bitmap, position + 1, commands);
-                if(result != -1) {
-                    return result;
-                }
+                return bitmaps[i];
             }
         }
 
         return -1;
     }
 
+    private static int clearRangeOfBits(int bitmap, int positionToStart, int numberOfBitsToClear) {
+        return bitmap & ~((~0 << (32 - numberOfBitsToClear)) >>> positionToStart);
+    }
 
-//    private static List<int[]> generateAll01Combinations(String[] commands) {
-//        List<int[]> combinations = new ArrayList<>();
-//        int[] array = new int[20];
-//
-//        generateArray(combinations, array, 0, commands);
-//        return combinations;
-//    }
-//
-//    private static void generateArray(List<int[]> combinations, int[] array, int position, String[] commands) {
-//        int[] arrayCopy = new int[array.length];
-//        System.arraycopy(array, 0, arrayCopy, 0, array.length);
-//
-//        if(position == 20) {
-//            combinations.add(arrayCopy);
-//        } else {
-//            for(int i=0; i <= 1; i++) {
-//                arrayCopy[position] = i;
-//                arrayCopy[position] = position;
-//                generateArray(combinations, arrayCopy, position + 1, commands);
-//            }
-//        }
-//    }
+    private static int setRangeOfBits(int bitmap, int positionToStart, int numberOfBitsToSet) {
+        return bitmap | (~0 << (32 - numberOfBitsToSet)) >>> positionToStart;
+    }
+
+    private static int clearAllBitsExceptRange(int bitmap, int positionToStart, int positionToEnd) {
+        int numberOfBitsInRange = positionToEnd - positionToStart + 1;
+        return bitmap & ((~0 << (32 - numberOfBitsInRange)) >>> positionToStart);
+    }
+
+    private static int count1Bits(int value) {
+        int count = 0;
+
+        while (value > 0) {
+            value = value & (value - 1);
+            count++;
+        }
+
+        return count;
+    }
+
+    //Fisher-Yates shuffle
+    private static void shuffle(int[] array) {
+        Random random = new Random();
+
+        for (int i = 0; i < array.length; i++) {
+            int randomValue = i + random.nextInt(array.length - i);
+
+            int randomElement = array[randomValue];
+            array[randomValue] = array[i];
+            array[i] = randomElement;
+        }
+    }
 
 }
