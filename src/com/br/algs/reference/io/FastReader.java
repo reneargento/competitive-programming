@@ -15,13 +15,11 @@ public class FastReader {
     private static BufferedReader reader;
     private static StringTokenizer tokenizer;
 
-    /** Call this method to initialize reader for InputStream */
     static void init(InputStream input) {
         reader = new BufferedReader(new InputStreamReader(input));
         tokenizer = new StringTokenizer("");
     }
 
-    /** Get next word */
     private static String next() throws IOException {
         while (!tokenizer.hasMoreTokens() ) {
             tokenizer = new StringTokenizer(reader.readLine());
