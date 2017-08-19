@@ -6,7 +6,7 @@ package com.br.algs.reference.algorithms;
 public class MathUtil {
 
     private static long lcm(long number1, long number2) {
-        return number1 * (number2 / gcd(number1, number2));
+        return number1 * number2 / gcd(number1, number2);
     }
 
     private static long gcd(long number1, long number2) {
@@ -16,6 +16,15 @@ public class MathUtil {
             number1 = temp;
         }
         return number1;
+    }
+
+    private static String reduceFraction(long dividend, long divisor) {
+
+        long gcd = gcd(dividend, divisor);
+        long newDividend = dividend / gcd;
+        long newDivisor = divisor / gcd;
+
+        return newDividend + "/" + newDivisor;
     }
 
 }
