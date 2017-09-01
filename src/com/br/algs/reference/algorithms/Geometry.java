@@ -26,4 +26,21 @@ public class Geometry {
         return Math.abs((x1 * (y2 - y3) + x2 * (y3-  y1) + x3 * (y1 - y2)) / 2.0);
     }
 
+    //Based on https://en.wikipedia.org/wiki/Distance_from_a_point_to_a_line
+    //Line given as 2 points
+    private static double distanceFromPointToLine(int px, int py, int x1, int y1, int x2, int y2) {
+        double numerator = Math.abs( (y2 - y1) * px
+                - (x2 - x1) * py
+                + x2 * y1
+                - y2 * x1 );
+        double denominator = Math.sqrt(Math.pow(y2 - y1, 2) + Math.pow(x2 - x1, 2));
+
+        return numerator / denominator;
+    }
+
+    //Based on https://www.mathsisfun.com/algebra/distance-2-points.html
+    private static double distanceBetweenPoints(int x1, int y1, int x2, int y2) {
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+
 }

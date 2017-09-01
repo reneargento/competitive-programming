@@ -38,4 +38,11 @@ public class FastReader {
     private static long nextLong() throws IOException {
         return Long.parseLong(next());
     }
+
+    //Used to check EOF
+    //If getLine() == null, it is a EOF
+    //Otherwise, it returns the next line
+    private static String getLine() throws IOException {
+        return reader.readLine();
+    }
 }
