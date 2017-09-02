@@ -6,16 +6,16 @@ package com.br.algs.reference.algorithms.graph;
 public class FloydWarshall {
 
     // Graph represented by an adjacency matrix
-    private double[][] graph;
+    private static double[][] graph;
 
-    private boolean negativeCycle;
+    private static boolean negativeCycle;
 
     public FloydWarshall(int size) {
         graph = new double[size][size];
         initGraph();
     }
 
-    private void initGraph() {
+    private static void initGraph() {
         for (int i = 0; i < graph.length; i++) {
             for (int j = 0; j < graph.length; j++) {
                 if (i == j) {
@@ -27,21 +27,22 @@ public class FloydWarshall {
         }
     }
 
-    public boolean hasNegativeCycle() {
+    public static boolean hasNegativeCycle() {
         return negativeCycle;
     }
 
-    public void addEdge(int from, int to, double weight) {
+    public static void addEdge(int from, int to, double weight) {
         graph[from][to] = weight;
     }
 
     // All-pairs shortest path
-    public double[][] floydWarshall() {
+    // Considering vertices 1..n -> if they are 0..n change k, i and j starting index to 0
+    public static double[][] floydWarshall() {
         double[][] distances = graph;
 
-        for (int k = 0; k < graph.length; k++) {
-            for (int i = 0; i < graph.length; i++) {
-                for (int j = 0; j < graph.length; j++) {
+        for (int k = 1; k < graph.length; k++) {
+            for (int i = 1; i < graph.length; i++) {
+                for (int j = 1; j < graph.length; j++) {
                     distances[i][j] = Math.min(distances[i][j], distances[i][k] + distances[k][j]);
                 }
             }
