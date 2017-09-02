@@ -69,7 +69,7 @@ public class DijkstraShortestPath {
 
         List<Edge>[] adjacent = (List<Edge>[]) new ArrayList[vertices + 1];
 
-        for(int i=0; i < totalEdges; i++) {
+        for(int i = 0; i < totalEdges; i++) {
             int vertex1 = FastReader.nextInt();
             int vertex2 = FastReader.nextInt();
             int length = FastReader.nextInt();
