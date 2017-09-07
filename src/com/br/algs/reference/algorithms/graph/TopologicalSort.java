@@ -53,6 +53,8 @@ public class TopologicalSort {
         int vertices = FastReader.nextInt();
         int edges = FastReader.nextInt();
 
+        //If the vertices are 0-index based, use
+        //     new ArrayList[vertices];
         List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[vertices + 1];
 
         for(int i = 0; i < adjacent.length; i++) {
@@ -72,24 +74,23 @@ public class TopologicalSort {
         }
     }
 
-    private static int time = 1;
-
     private static List<Integer> topologicalSort(List<Integer>[] adjacent) {
-        int[] finishTimes = getFinishTimes(adjacent);
+        Stack<Integer> finishTimes = getFinishTimes(adjacent);
 
         List<Integer> topologicalSort = new ArrayList<>();
 
-        for(int i = finishTimes.length - 1; i >= 1; i--) {
-            topologicalSort.add(finishTimes[i]);
+        while (!finishTimes.isEmpty()) {
+            topologicalSort.add(finishTimes.pop());
         }
 
         return topologicalSort;
     }
 
-    private static int[] getFinishTimes(List<Integer>[] adjacent) {
+    private static Stack<Integer> getFinishTimes(List<Integer>[] adjacent) {
         boolean[] visited = new boolean[adjacent.length];
-        int[] finishTimes = new int[adjacent.length];
+        Stack<Integer> finishTimes = new Stack<>();
 
+        //If the vertices are 0-index based, start i with value 0
         for(int i = 1; i < adjacent.length; i++) {
             if(!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited);
@@ -99,7 +100,7 @@ public class TopologicalSort {
         return finishTimes;
     }
 
-    private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, int[] finishTimes, boolean[] visited) {
+    private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, Stack<Integer> finishTimes, boolean[] visited) {
         Stack<Integer> stack = new Stack<>();
         stack.push(sourceVertex);
         visited[sourceVertex] = true;
@@ -119,9 +120,7 @@ public class TopologicalSort {
 
             if(!isConnectedToUnvisitedVertex) {
                 stack.pop();
-
-                finishTimes[time] = currentVertex;
-                time++;
+                finishTimes.push(currentVertex);
             }
         }
     }

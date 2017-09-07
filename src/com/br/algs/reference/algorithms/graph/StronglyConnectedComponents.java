@@ -50,6 +50,8 @@ public class StronglyConnectedComponents {
         int vertices = FastReader.nextInt();
         int edges = FastReader.nextInt();
 
+        //If the vertices are 0-index based, use
+        //     new ArrayList[vertices];
         List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[vertices + 1];
 
         for(int i = 0; i < adjacent.length; i++) {
@@ -66,12 +68,11 @@ public class StronglyConnectedComponents {
         System.out.println(countStronglyConnectedComponents(adjacent));
     }
 
-    private static int time = 1;
-
     private static int countStronglyConnectedComponents(List<Integer>[] adjacent) {
         boolean[] visited = new boolean[adjacent.length];
-        int[] finishTimes = new int[adjacent.length];
+        Stack<Integer> finishTimes = new Stack<>();
 
+        //If the vertices are 0-index based, start i with value 0
         for(int i = 1; i < adjacent.length; i++) {
             if(!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited, true);
@@ -83,17 +84,19 @@ public class StronglyConnectedComponents {
 
         int stronglyConnectedComponents = 0;
 
-        for(int i = finishTimes.length - 1; i >= 1; i--) {
-            if(!visited[finishTimes[i]]) {
+        while (!finishTimes.isEmpty()) {
+            int currentVertex = finishTimes.pop();
+
+            if(!visited[currentVertex]) {
                 stronglyConnectedComponents++;
-                depthFirstSearch(finishTimes[i], inverseEdges, finishTimes, visited, false);
+                depthFirstSearch(currentVertex, inverseEdges, finishTimes, visited, false);
             }
         }
 
         return stronglyConnectedComponents;
     }
 
-    private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, int[] finishTimes, boolean[] visited,
+    private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, Stack<Integer> finishTimes, boolean[] visited,
                                          boolean getVisitOrder) {
         Stack<Integer> stack = new Stack<>();
         stack.push(sourceVertex);
@@ -116,8 +119,7 @@ public class StronglyConnectedComponents {
                 stack.pop();
 
                 if(getVisitOrder) {
-                    finishTimes[time] = currentVertex;
-                    time++;
+                    finishTimes.push(currentVertex);
                 }
             }
         }
