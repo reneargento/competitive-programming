@@ -1,4 +1,4 @@
-package com.br.templates;
+package com.br.algs.reference.io;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by rene on 07/04/17.
  */
-public class InputOutput {
+public class FileInputOutput {
 
     private static List<String> readFileInput(String filePath) {
         Path path = Paths.get(filePath);

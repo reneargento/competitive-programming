@@ -14,7 +14,7 @@ public class Factors {
 
         int upperLimit = (int) Math.sqrt(number);
 
-        for(int i=1; i <= upperLimit; i++) {
+        for(int i = 1; i <= upperLimit; i++) {
             if (number % i == 0) {
                 factors.add(i);
 
