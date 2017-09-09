@@ -6,6 +6,7 @@ import java.util.*;
 /**
  * Created by rene on 17/06/17.
  */
+@SuppressWarnings("unchecked")
 public class VisitingCities {
 
     private static class FastReader {
@@ -32,131 +33,248 @@ public class VisitingCities {
         }
     }
 
-    private static class Vertex {
-        int id;
-        Set<Integer> citiesVisitedStartingHere;
-        boolean usedAsSource;
-
-        Vertex(int id) {
-            this.id = id;
-            citiesVisitedStartingHere = new HashSet<>();
-        }
-    }
-
-    private static class Edge {
-        Vertex vertex1;
-        Vertex vertex2;
-
-        Edge(Vertex vertex1, Vertex vertex2) {
-            this.vertex1 = vertex1;
-            this.vertex2 = vertex2;
-        }
-    }
-
-    private static Vertex getVertex(int id) {
-        if(allVertices[id] == null) {
-            allVertices[id] = new Vertex(id);
-        }
-
-        return allVertices[id];
-    }
-
-    private static Vertex[] allVertices;
-
     public static void main(String[] args) throws IOException {
         FastReader.init(System.in);
 
         int vertices = FastReader.nextInt();
         int totalEdges = FastReader.nextInt();
 
-        allVertices = new Vertex[vertices + 1];
+        List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[vertices + 1];
 
-        List<Edge>[] adjacent = (List<Edge>[]) new ArrayList[vertices + 1];
-
-        for(int i=0; i < totalEdges; i++) {
+        for(int i = 0; i < totalEdges; i++) {
             int vertex1Id = FastReader.nextInt();
             int vertex2Id = FastReader.nextInt();
 
-            Vertex vertex1 = getVertex(vertex1Id);
-            Vertex vertex2 = getVertex(vertex2Id);
-
-            Edge edge = new Edge(vertex1, vertex2);
-            if(adjacent[vertex1.id] == null) {
-                adjacent[vertex1.id] = new ArrayList<>();
+            if(adjacent[vertex1Id] == null) {
+                adjacent[vertex1Id] = new ArrayList<>();
             }
-            if(adjacent[vertex2.id] == null) {
-                adjacent[vertex2.id] = new ArrayList<>();
+            if(adjacent[vertex2Id] == null) {
+                adjacent[vertex2Id] = new ArrayList<>();
             }
 
-            adjacent[vertex1.id].add(edge);
+            adjacent[vertex1Id].add(vertex2Id);
         }
 
-        for(int i=0; i < vertices; i++) {
+        List<Integer> topologicalSort = topologicalSort(adjacent);
+        List<List<Integer>> stronglyConnectedComponents = getStronglyConnectedComponents(adjacent, topologicalSort);
 
-            if(allVertices[i] != null) {
-                Vertex sourceVertex = getVertex(i);
-
-                if(!sourceVertex.usedAsSource) {
-                    boolean[] visited = new boolean[adjacent.length];
-
-                    bfs(adjacent, visited, sourceVertex);
-                }
+        Map<Integer, List<Integer>> vertexPerComponent = new HashMap<>();
+        for(List<Integer> component : stronglyConnectedComponents) {
+            for(int vertex : component) {
+                vertexPerComponent.put(vertex, component);
             }
         }
 
         int maxCitiesVisited = 0;
-        Map<Integer, Integer> sourceCitiesByMaxCities = new HashMap<>();
+        int maxComponentLength = 0;
 
-        for(int i=0; i < allVertices.length; i++) {
-            if(allVertices[i] != null) {
-                int citiesVisited = allVertices[i].citiesVisitedStartingHere.size();
+        boolean[] visited = new boolean[adjacent.length];
 
-                int sourceCities = 0;
-                if(sourceCitiesByMaxCities.containsKey(citiesVisited)) {
-                    sourceCities = sourceCitiesByMaxCities.get(citiesVisited);
+        for(List<Integer> component : stronglyConnectedComponents) {
+            if(!visited[component.get(0)]) {
+                for(int vertexInComponent : component) {
+                    visited[vertexInComponent] = true;
                 }
-                sourceCities++;
-                sourceCitiesByMaxCities.put(citiesVisited, sourceCities);
+            }
 
-                if(citiesVisited > maxCitiesVisited) {
-                    maxCitiesVisited = citiesVisited;
+            for(int vertex : component) {
+                int maxVerticesInPathCount = getLongestDistance(vertex, adjacent, visited, vertexPerComponent);
+
+                if(maxVerticesInPathCount > maxCitiesVisited) {
+                    maxCitiesVisited = maxVerticesInPathCount;
+                    maxComponentLength = component.size();
                 }
             }
         }
 
-        System.out.println(maxCitiesVisited + " " + sourceCitiesByMaxCities.get(maxCitiesVisited));
+        System.out.println(maxCitiesVisited + " " + maxComponentLength);
     }
 
-    private static void bfs(List<Edge>[] adjacent, boolean[] visited, Vertex sourceVertex) {
+    private static List<Integer> topologicalSort(List<Integer>[] adjacent) {
+        boolean[] visited = new boolean[adjacent.length];
+        Stack<Integer> finishTimes = new Stack<>();
 
-        Queue<Vertex> queue = new LinkedList<>();
-        queue.offer(sourceVertex);
+        //If the vertices are 0-index based, start i with value 0
+        for(int i = 1; i < adjacent.length; i++) {
+            if(!visited[i]) {
+                depthFirstSearchToGetFinishTimes(i, adjacent, finishTimes, visited);
+            }
+        }
 
-        sourceVertex.usedAsSource = true;
+        List<Integer> topologicalSort = new ArrayList<>();
 
-        while (!queue.isEmpty()) {
-            Vertex currentCity = queue.poll();
+        while (!finishTimes.isEmpty()) {
+            topologicalSort.add(finishTimes.pop());
+        }
 
-            for(Edge edge : adjacent[currentCity.id]) {
-                if(!visited[edge.vertex2.id]) {
+        return topologicalSort;
+    }
 
-                    edge.vertex1.citiesVisitedStartingHere.add(edge.vertex2.id);
+    private static List<List<Integer>> getStronglyConnectedComponents(List<Integer>[] adjacent, List<Integer> topologicalSort) {
+        List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
+        boolean[] visited = new boolean[inverseEdges.length];
 
-                    if(!edge.vertex2.usedAsSource) {
-                        bfs(adjacent, visited, edge.vertex2);
-                    }
+        List<List<Integer>> stronglyConnectedComponents = new ArrayList<>();
 
-                    visited[edge.vertex2.id] = true;
-                    for(int cityVisited : edge.vertex2.citiesVisitedStartingHere) {
-                        if(cityVisited != edge.vertex1.id) {
-                            edge.vertex1.citiesVisitedStartingHere.add(cityVisited);
-                        }
-                    }
+        for(int currentVertex : topologicalSort) {
 
-                    queue.offer(edge.vertex2);
+            if(!visited[currentVertex]) {
+                List<Integer> component = depthFirstSearchToGetComponent(currentVertex, inverseEdges, visited);
+                stronglyConnectedComponents.add(component);
+            }
+        }
+
+        return stronglyConnectedComponents;
+    }
+
+    private static void depthFirstSearchToGetFinishTimes(int sourceVertex, List<Integer>[] adj, Stack<Integer> finishTimes,
+                                                         boolean[] visited) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(sourceVertex);
+        visited[sourceVertex] = true;
+
+        // Used to be able to iterate over each adjacency list, keeping track of which
+        // vertex in each adjacency list needs to be explored next
+        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adj.length];
+        for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
+            if(adj[vertexId] != null) {
+                adjacentIterators[vertexId] = adj[vertexId].iterator();
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            int currentVertex = stack.peek();
+            boolean isConnectedToUnvisitedVertex = false;
+
+            if(adjacentIterators[currentVertex].hasNext()) {
+                int neighbor = adjacentIterators[currentVertex].next();
+
+                if(!visited[neighbor]) {
+                    stack.push(neighbor);
+                    visited[neighbor] = true;
+
+                    isConnectedToUnvisitedVertex = true;
+                }
+            }
+
+            if(!isConnectedToUnvisitedVertex) {
+                stack.pop();
+                finishTimes.push(currentVertex);
+            }
+        }
+    }
+
+    private static List<Integer>[] invertGraphEdges(List<Integer>[] adj) {
+        List<Integer>[] inverseEdges = new ArrayList[adj.length];
+
+        for(int i = 0; i < inverseEdges.length; i++) {
+            inverseEdges[i] = new ArrayList<>();
+        }
+
+        for(int i = 1; i < adj.length; i++) {
+            List<Integer> neighbors = adj[i];
+
+            if(neighbors != null) {
+                for(int neighbor : adj[i]) {
+                    inverseEdges[neighbor].add(i);
                 }
             }
         }
+
+        return inverseEdges;
+    }
+
+    private static List<Integer> depthFirstSearchToGetComponent(int sourceVertex, List<Integer>[] adj, boolean[] visited) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(sourceVertex);
+        visited[sourceVertex] = true;
+
+        // Used to be able to iterate over each adjacency list, keeping track of which
+        // vertex in each adjacency list needs to be explored next
+        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adj.length];
+        for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
+            if(adj[vertexId] != null) {
+                adjacentIterators[vertexId] = adj[vertexId].iterator();
+            }
+        }
+
+        List<Integer> component = new ArrayList<>();
+        component.add(sourceVertex);
+
+        while (!stack.isEmpty()) {
+            int currentVertex = stack.peek();
+            boolean isConnectedToUnvisitedVertex = false;
+
+            if(adjacentIterators[currentVertex].hasNext()) {
+                int neighbor = adjacentIterators[currentVertex].next();
+
+                if(!visited[neighbor]) {
+                    stack.push(neighbor);
+                    visited[neighbor] = true;
+
+                    component.add(neighbor);
+                    isConnectedToUnvisitedVertex = true;
+                }
+            }
+
+            if(!isConnectedToUnvisitedVertex) {
+                stack.pop();
+            }
+        }
+
+        return component;
+    }
+
+    private static int getLongestDistance(int sourceVertexId, List<Integer>[] adjacent, boolean[] visited,
+                                          Map<Integer, List<Integer>> vertexPerComponent) {
+        int distance = vertexPerComponent.get(sourceVertexId).size();
+        int maxDistance = distance;
+
+        Stack<Integer> stack = new Stack<>();
+        stack.push(sourceVertexId);
+
+        visited[sourceVertexId] = true;
+
+        // Used to be able to iterate over each adjacency list, keeping track of which
+        // vertex in each adjacency list needs to be explored next
+        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adjacent.length];
+        for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
+            if(adjacent[vertexId] != null) {
+                adjacentIterators[vertexId] = adjacent[vertexId].iterator();
+            }
+        }
+
+        while (!stack.isEmpty()) {
+            int currentVertex = stack.peek();
+            boolean isConnectedToUnvisitedVertex = false;
+
+            if(adjacentIterators[currentVertex].hasNext()) {
+                int neighbor = adjacentIterators[currentVertex].next();
+
+                if(!visited[neighbor]) {
+                    stack.push(neighbor);
+
+                    for(int vertexInComponent : vertexPerComponent.get(neighbor)) {
+                        visited[vertexInComponent] = true;
+                    }
+
+                    distance += vertexPerComponent.get(neighbor).size();
+
+                    if(distance > maxDistance) {
+                        maxDistance = distance;
+                    }
+
+                    isConnectedToUnvisitedVertex = true;
+                }
+            }
+
+            if(!isConnectedToUnvisitedVertex) {
+                stack.pop();
+                distance -=  vertexPerComponent.get(currentVertex).size();
+            }
+        }
+
+        return maxDistance;
     }
 
 }

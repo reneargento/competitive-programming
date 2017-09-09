@@ -7,10 +7,10 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Created by rene on 01/09/17.
+ * Created by rene on 07/09/17.
  */
 @SuppressWarnings("unchecked")
-public class TopologicalSort {
+public class DepthFirstSearch {
 
     private static class FastReader {
 
@@ -65,58 +65,35 @@ public class TopologicalSort {
             adjacent[vertex1].add(vertex2);
         }
 
-        List<Integer> topologicalSort = topologicalSort(adjacent);
-        for(int vertex : topologicalSort) {
-            System.out.println(vertex);
-        }
-    }
-
-    private static List<Integer> topologicalSort(List<Integer>[] adjacent) {
-        Stack<Integer> finishTimes = getFinishTimes(adjacent);
-
-        List<Integer> topologicalSort = new ArrayList<>();
-
-        while (!finishTimes.isEmpty()) {
-            topologicalSort.add(finishTimes.pop());
-        }
-
-        return topologicalSort;
-    }
-
-    private static Stack<Integer> getFinishTimes(List<Integer>[] adjacent) {
         boolean[] visited = new boolean[adjacent.length];
-        Stack<Integer> finishTimes = new Stack<>();
 
-        //If the vertices are 0-index based, start i with value 0
-        for(int i = 1; i < adjacent.length; i++) {
-            if(!visited[i]) {
-                depthFirstSearch(i, adjacent, finishTimes, visited);
+        for(int vertexId = 1; vertexId < adjacent.length; vertexId++) {
+            if(!visited[vertexId]) {
+                depthFirstSearch(vertexId, adjacent, visited);
             }
         }
-
-        return finishTimes;
     }
 
     // Fast, but recursive
-    private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, Stack<Integer> finishTimes, boolean[] visited) {
+    private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, boolean[] visited) {
         visited[sourceVertex] = true;
+        System.out.println(sourceVertex);
 
         for(int neighbor : adj[sourceVertex]) {
             if(!visited[neighbor]) {
-                depthFirstSearch(neighbor, adj, finishTimes, visited);
+                depthFirstSearch(neighbor, adj, visited);
             }
         }
-
-        finishTimes.push(sourceVertex);
     }
 
     // Trade-off between time and memory
     // Takes longer because it has to create the iterators, but avoid stack overflows
-    private static void depthFirstSearchIterative(int sourceVertex, List<Integer>[] adj, Stack<Integer> finishTimes,
-                                                  boolean[] visited) {
+    private static void depthFirstSearchIterative(int sourceVertex, List<Integer>[] adj, boolean[] visited) {
         Stack<Integer> stack = new Stack<>();
         stack.push(sourceVertex);
         visited[sourceVertex] = true;
+
+        System.out.println(sourceVertex);
 
         // Used to be able to iterate over each adjacency list, keeping track of which
         // vertex in each adjacency list needs to be explored next
@@ -138,10 +115,11 @@ public class TopologicalSort {
                 if(!visited[neighbor]) {
                     stack.push(neighbor);
                     visited[neighbor] = true;
+
+                    System.out.println(neighbor);
                 }
             } else {
                 stack.pop();
-                finishTimes.push(currentVertex);
             }
         }
     }
