@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms;
+package com.br.algs.reference.algorithms.number.theory;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms;
+package com.br.algs.reference.algorithms.number.theory;
 
 /**
  * Created by rene on 11/06/17.

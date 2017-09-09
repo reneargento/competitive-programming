@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms;
+package com.br.algs.reference.algorithms.number.theory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +26,7 @@ public class PrimeFactors {
             }
         }
 
+        //Special case where number is a prime number
         if(number > 1) {
             primeFactors.add(number);
         }
