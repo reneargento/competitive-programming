@@ -10,7 +10,7 @@ import java.util.*;
  * Created by rene on 02/07/17.
  */
 @SuppressWarnings("unchecked")
-public class PrimsMinimumSpanningTree {
+public class PrimMinimumSpanningTree {
 
     private static class FastReader {
 
@@ -81,7 +81,7 @@ public class PrimsMinimumSpanningTree {
         Vertex[] vertices = new Vertex[totalVertices + 1];
         List<Edge>[] adjacent = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
-        for(int i=0; i < totalEdges; i++) {
+        for(int i = 0; i < totalEdges; i++) {
             int vertex1Id = FastReader.nextInt();
             int vertex2Id = FastReader.nextInt();
             int cost = FastReader.nextInt();
