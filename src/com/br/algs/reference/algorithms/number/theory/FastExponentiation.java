@@ -17,12 +17,14 @@ public class FastExponentiation {
             return base;
         }
 
+        long baseSquared = base * base;
+
         if(exponent % 2 == 0) {
-            return fastExponentiation((base * base) % mod, exponent / 2);
+            return fastExponentiation(baseSquared % mod, exponent / 2);
         }
 
         if(exponent % 2 == 1) {
-            return (base * fastExponentiation((base * base) % mod, exponent / 2)) % mod;
+            return (base * fastExponentiation(baseSquared % mod, exponent / 2)) % mod;
         }
 
         return -1;
