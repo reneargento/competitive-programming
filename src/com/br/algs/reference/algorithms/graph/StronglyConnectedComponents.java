@@ -67,13 +67,12 @@ public class StronglyConnectedComponents {
 
         System.out.println(countStronglyConnectedComponents(adjacent) + " components\n");
 
-        List<List<Integer>> stronglyConnectedComponents = getStronglyConnectedComponents(adjacent);
-        for(List<Integer> component : stronglyConnectedComponents) {
-            for(int vertex : component) {
-                System.out.print(vertex + " ");
-            }
-            System.out.println();
-        }
+        component = new int[vertices + 1];
+        componentSizes = new int[vertices + 1];
+        componentCount = 0;
+
+        // Get strongly connected components and their sizes
+        getStronglyConnectedComponents(adjacent, vertices);
     }
 
     /**
@@ -182,95 +181,122 @@ public class StronglyConnectedComponents {
         return inverseEdges;
     }
 
+    ///////////////////////// Get SCCs \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    // Array that maps vertices to a strongly connected component
+    private static int[] component;
+    private static int componentCount;
+    private static int[] componentSizes;
+
     /**
      * To not only count, but also get the strongly connected components
      */
-    private static List<List<Integer>> getStronglyConnectedComponents(List<Integer>[] adjacent) {
-        boolean[] visited = new boolean[adjacent.length];
+    private static void getStronglyConnectedComponents(List<Integer>[] adjacent, int verticesCount) {
+        //If the vertices are 0-index based, no need to add 1
+        boolean[] visited = new boolean[verticesCount + 1];
+
+        List<Integer> topologicalSort = topologicalSort(adjacent, verticesCount);
+
+        List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
+
+        for(int currentVertex : topologicalSort) {
+
+            if(!visited[currentVertex]) {
+                depthFirstSearchToGetComponent(currentVertex, inverseEdges, visited);
+                componentCount++;
+            }
+        }
+    }
+
+    private static List<Integer> topologicalSort(List<Integer>[] adjacent, int verticesCount) {
+        //If the vertices are 0-index based, no need to add 1
+        boolean[] visited = new boolean[verticesCount + 1];
         Stack<Integer> finishTimes = new Stack<>();
 
-        //Get finish times
         //If the vertices are 0-index based, start i with value 0
-        for(int i = 1; i < adjacent.length; i++) {
+        for(int i = 1; i < visited.length; i++) {
             if(!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited, true);
             }
         }
 
-        List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
-        visited = new boolean[inverseEdges.length];
-
-        List<List<Integer>> stronglyConnectedComponents = new ArrayList<>();
+        List<Integer> topologicalSort = new ArrayList<>();
 
         while (!finishTimes.isEmpty()) {
-            int currentVertex = finishTimes.pop();
+            topologicalSort.add(finishTimes.pop());
+        }
 
-            if(!visited[currentVertex]) {
-                List<Integer> component = new ArrayList<>();
-                depthFirstSearchToGetComponent(currentVertex, inverseEdges, visited, component);
-               // List<Integer> component = depthFirstSearchToGetComponentIterative(currentVertex, inverseEdges, visited);
+        return topologicalSort;
+    }
 
-                stronglyConnectedComponents.add(component);
+    private static void depthFirstSearchToGetComponent(int sourceVertex, List<Integer>[] adjacent, boolean[] visited) {
+        visited[sourceVertex] = true;
+        component[sourceVertex] = componentCount;
+        componentSizes[componentCount]++;
+
+        for(int neighbor : adjacent[sourceVertex]) {
+            if(!visited[neighbor]) {
+                depthFirstSearchToGetComponent(neighbor, adjacent, visited);
+            }
+        }
+    }
+
+    ///////////////////////// Reverse topologically sort SCCs \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+    private static void reverseTopologicallySortSCCs(List<Integer> adjacent[]) {
+
+        Set<Integer>[] adjacentComponents = (HashSet<Integer>[]) new HashSet[componentCount];
+        for(int i = 0; i < adjacentComponents.length; i++) {
+            adjacentComponents[i] = new HashSet<>();
+        }
+
+        //If the vertices are 0-index based, start vertexId with value 0
+        for(int vertexId = 1; vertexId < adjacent.length; vertexId++) {
+            int currentComponent = component[vertexId];
+
+            for(int neighbor : adjacent[vertexId]) {
+                if(currentComponent != component[neighbor]) {
+                    adjacentComponents[currentComponent].add(component[neighbor]);
+                }
             }
         }
 
-        return stronglyConnectedComponents;
+        // (Reverse) topologically sort the strongly connected components
+        // Subtract 1 because the componentCount is equal to the number of components + 1
+        List<Integer> reverseTopologicalSort = getReverseTopologicalSort(adjacentComponents, componentCount - 1);
+
+        for (int currentComponent : reverseTopologicalSort) {
+            for (int neighborComponent : adjacentComponents[currentComponent]) {
+                //Process
+            }
+        }
     }
 
-    // Fast, but recursive
-    private static void depthFirstSearchToGetComponent(int sourceVertex, List<Integer>[] adj,
-                                                           boolean[] visited, List<Integer> component) {
+    private static List<Integer> getReverseTopologicalSort(Set<Integer>[] adjacent, int verticesCount) {
+        //If the vertices are 0-index based, no need to add 1
+        boolean[] visited = new boolean[verticesCount + 1];
+        List<Integer> finishTimes = new ArrayList<>();
+
+        for(int i = 0; i < visited.length; i++) {
+            if(!visited[i]) {
+                depthFirstSearchToGetFinishTimesWithSets(i, adjacent, finishTimes, visited);
+            }
+        }
+
+        return finishTimes;
+    }
+
+    private static void depthFirstSearchToGetFinishTimesWithSets(int sourceVertex, Set<Integer>[] adj,
+                                                                 List<Integer> finishTimes, boolean[] visited) {
         visited[sourceVertex] = true;
-        component.add(sourceVertex);
 
         for(int neighbor : adj[sourceVertex]) {
             if(!visited[neighbor]) {
-                depthFirstSearchToGetComponent(neighbor, adj, visited, component);
-            }
-        }
-    }
-
-    // Trade-off between time and memory
-    // Takes longer because it has to create the iterators, but avoid stack overflows
-    private static List<Integer> depthFirstSearchToGetComponentIterative(int sourceVertex, List<Integer>[] adj, boolean[] visited) {
-        Stack<Integer> stack = new Stack<>();
-        stack.push(sourceVertex);
-        visited[sourceVertex] = true;
-
-        // Used to be able to iterate over each adjacency list, keeping track of which
-        // vertex in each adjacency list needs to be explored next
-        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adj.length];
-        for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
-            if(adj[vertexId] != null) {
-                adjacentIterators[vertexId] = adj[vertexId].iterator();
+                depthFirstSearchToGetFinishTimesWithSets(neighbor, adj, finishTimes, visited);
             }
         }
 
-        List<Integer> component = new ArrayList<>();
-        component.add(sourceVertex);
-
-        while (!stack.isEmpty()) {
-            int currentVertex = stack.peek();
-            boolean isConnectedToUnvisitedVertex = false;
-
-            if(adjacentIterators[currentVertex].hasNext()) {
-                int neighbor = adjacentIterators[currentVertex].next();
-
-                if(!visited[neighbor]) {
-                    stack.push(neighbor);
-                    visited[neighbor] = true;
-
-                    component.add(neighbor);
-                    isConnectedToUnvisitedVertex = true;
-                }
-            }
-
-            if(!isConnectedToUnvisitedVertex) {
-                stack.pop();
-            }
-        }
-
-        return component;
+        finishTimes.add(sourceVertex);
     }
 
 }
