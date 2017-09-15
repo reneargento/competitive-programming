@@ -112,9 +112,11 @@ public class StronglyConnectedComponents {
                                          boolean[] visited, boolean getFinishTimes) {
         visited[sourceVertex] = true;
 
-        for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
-                depthFirstSearch(neighbor, adj, finishTimes, visited, getFinishTimes);
+        if(adj[sourceVertex] != null) {
+            for(int neighbor : adj[sourceVertex]) {
+                if(!visited[neighbor]) {
+                    depthFirstSearch(neighbor, adj, finishTimes, visited, getFinishTimes);
+                }
             }
         }
 

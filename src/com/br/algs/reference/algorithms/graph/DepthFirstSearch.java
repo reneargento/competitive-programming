@@ -79,9 +79,11 @@ public class DepthFirstSearch {
         visited[sourceVertex] = true;
         System.out.println(sourceVertex);
 
-        for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
-                depthFirstSearch(neighbor, adj, visited);
+        if(adj[sourceVertex] != null) {
+            for(int neighbor : adj[sourceVertex]) {
+                if(!visited[neighbor]) {
+                    depthFirstSearch(neighbor, adj, visited);
+                }
             }
         }
     }
