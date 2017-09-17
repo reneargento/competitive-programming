@@ -44,22 +44,35 @@ public class DijkstraShortestPath {
         }
     }
 
-    private static class Edge {
-        int vertex1;
-        int vertex2;
-        int length;
+    private static class Vertex {
+        int id;
+        long distance;
 
-        Edge(int vertex1, int vertex2, int length) {
-            this.vertex1 = vertex1;
-            this.vertex2 = vertex2;
-            this.length = length;
+        Vertex(int id, long distance) {
+            this.id = id;
+            this.distance = distance;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if(!(other instanceof Vertex)) {
+                return false;
+            }
+
+            Vertex otherVertex = (Vertex) other;
+            return this.id == otherVertex.id;
         }
     }
 
-    //By definition
-    private static final int UNCOMPUTED_DISTANCE = 1000000;
+    private static class Edge {
+        int vertex;
+        int length;
 
-    private static int[] computedShortestPathDistances;
+        Edge(int vertex, int length) {
+            this.vertex = vertex;
+            this.length = length;
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         FastReader.init(System.in);
@@ -74,7 +87,8 @@ public class DijkstraShortestPath {
             int vertex2 = FastReader.nextInt();
             int length = FastReader.nextInt();
 
-            Edge edge = new Edge(vertex1, vertex2, length);
+            Edge edge1 = new Edge(vertex1, length);
+            Edge edge2 = new Edge(vertex2, length);
             if(adjacent[vertex1] == null) {
                 adjacent[vertex1] = new ArrayList<>();
             }
@@ -82,68 +96,91 @@ public class DijkstraShortestPath {
                 adjacent[vertex2] = new ArrayList<>();
             }
 
-            adjacent[vertex1].add(edge);
-            adjacent[vertex2].add(edge);//undirected graph
+            adjacent[vertex1].add(edge2);
+            adjacent[vertex2].add(edge1);//undirected graph
         }
 
         int sourceVertex = FastReader.nextInt();
-
-        computeShortestPath(adjacent, sourceVertex);
+        long[] computedShortestPathDistances = new long[vertices + 1];
+        dijkstra(adjacent, sourceVertex, computedShortestPathDistances);
     }
 
-    //O(n * log(m))
-    private static void computeShortestPath(List<Edge>[] adjacent, int sourceVertex) {
+    //O(V * lg(E))
+    private static void dijkstra(List<Edge>[] adjacent, int sourceVertexId, long[] computedShortestPathDistances) {
 
-        boolean[] visited = new boolean[adjacent.length];
-        computedShortestPathDistances = new int[adjacent.length];
+        //1- Init base case
+        Arrays.fill(computedShortestPathDistances, Integer.MAX_VALUE);
+        computedShortestPathDistances[sourceVertexId] = 0;
 
-        setDefaultDistances();
+        //2- Create heap and compute distances
 
-        //Distance from S to itself is 0
-        computedShortestPathDistances[sourceVertex] = 0;
-        visited[sourceVertex] = true;
-
-        //Using Java's priority queue
-        PriorityQueue<Edge> heap = new PriorityQueue<Edge>(10, new Comparator<Edge>() {
+        @SuppressWarnings("unchecked")
+        PriorityQueue<Vertex> heap = new PriorityQueue(new Comparator<Vertex>() {
             @Override
-            public int compare(Edge edge1, Edge edge2) {
-                return edge1.length - edge2.length;
+            public int compare(Vertex vertex1, Vertex vertex2) {
+                return vertex1.distance < vertex2.distance ? -1 : vertex1.distance > vertex2.distance ? 1 : 0;
             }
         });
 
-        //Add edges associated to the first vertex to the heap
-        for(Edge edge : adjacent[sourceVertex]) {
-            heap.add(edge);
-        }
+        heap.offer(new Vertex(sourceVertexId, 0));
 
-        while (heap.size() > 0) {
-            Edge edge = heap.poll();
+        while(heap.size() > 0) {
+            //Get nearest vertex
+            Vertex nearestVertex = heap.poll();
 
-            if(!visited[edge.vertex1]) {
-                visited[edge.vertex1] = true;
-                computeAndAddEdgeToHeap(adjacent, visited, heap, edge, edge.vertex1);
-            } else if(!visited[edge.vertex2]) {
-                visited[edge.vertex2] = true;
-                computeAndAddEdgeToHeap(adjacent, visited, heap, edge, edge.vertex2);
+            for(Edge edge : adjacent[nearestVertex.id]) {
+                long newDistance = computedShortestPathDistances[nearestVertex.id] + edge.length;
+
+                if(computedShortestPathDistances[edge.vertex] > newDistance) {
+                    heap.remove(new Vertex(edge.vertex, 0)); //In this case, distance is not used
+
+                    computedShortestPathDistances[edge.vertex] = newDistance;
+                    heap.add(new Vertex(edge.vertex, newDistance));
+                }
             }
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static void computeAndAddEdgeToHeap(List<Edge>[] adjacent, boolean[] visited, PriorityQueue heap, Edge edge, int vertexId) {
-        computedShortestPathDistances[vertexId] = edge.length;
+    //Optimized version when there is a target
+    private static void dijkstra(List<Edge>[] adjacent, int sourceVertexId,
+                                 long[] computedShortestPathDistances, int target) {
 
-        for(Edge newEdge : adjacent[vertexId]) {
-            if (!visited[newEdge.vertex1] || !visited[newEdge.vertex2]) {
-                newEdge.length = edge.length + newEdge.length;
-                heap.add(newEdge);
+        //1- Init base case
+        Arrays.fill(computedShortestPathDistances, Integer.MAX_VALUE);
+        computedShortestPathDistances[sourceVertexId] = 0;
+
+        //2- Create heap and compute distances
+
+        @SuppressWarnings("unchecked")
+        PriorityQueue<Vertex> heap = new PriorityQueue(new Comparator<Vertex>() {
+            @Override
+            public int compare(Vertex vertex1, Vertex vertex2) {
+                return vertex1.distance < vertex2.distance ? -1 : vertex1.distance > vertex2.distance ? 1 : 0;
             }
-        }
-    }
+        });
 
-    private static void setDefaultDistances() {
-        for (int i=0; i < computedShortestPathDistances.length; i++) {
-            computedShortestPathDistances[i] = UNCOMPUTED_DISTANCE;
+        heap.offer(new Vertex(sourceVertexId, 0));
+
+        while(heap.size() > 0) {
+            //Get nearest vertex
+            Vertex nearestVertex = heap.poll();
+
+            //Optimization
+            if(nearestVertex.id == target) {
+                break;
+            }
+
+            for(Edge edge : adjacent[nearestVertex.id]) {
+                long newDistance = computedShortestPathDistances[nearestVertex.id] + edge.length;
+
+                if(computedShortestPathDistances[edge.vertex] > newDistance) {
+                    //Optimization - do not remove vertices from heap
+                    // heap.remove(edge.vertex);
+
+                    computedShortestPathDistances[edge.vertex] = newDistance;
+                    heap.add(new Vertex(edge.vertex, newDistance));
+                }
+            }
         }
     }
 
