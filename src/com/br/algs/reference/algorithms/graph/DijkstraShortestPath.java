@@ -113,8 +113,6 @@ public class DijkstraShortestPath {
         computedShortestPathDistances[sourceVertexId] = 0;
 
         //2- Create heap and compute distances
-
-        @SuppressWarnings("unchecked")
         PriorityQueue<Vertex> heap = new PriorityQueue(new Comparator<Vertex>() {
             @Override
             public int compare(Vertex vertex1, Vertex vertex2) {
@@ -150,8 +148,6 @@ public class DijkstraShortestPath {
         computedShortestPathDistances[sourceVertexId] = 0;
 
         //2- Create heap and compute distances
-
-        @SuppressWarnings("unchecked")
         PriorityQueue<Vertex> heap = new PriorityQueue(new Comparator<Vertex>() {
             @Override
             public int compare(Vertex vertex1, Vertex vertex2) {
