@@ -69,20 +69,20 @@ public class DepthFirstSearch {
 
         for(int vertexId = 1; vertexId < adjacent.length; vertexId++) {
             if(!visited[vertexId]) {
-                depthFirstSearch(vertexId, adjacent, visited);
+                depthFirstSearch(adjacent, vertexId, visited);
             }
         }
     }
 
     // Fast, but recursive
-    private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, boolean[] visited) {
+    private static void depthFirstSearch(List<Integer>[] adjacent, int sourceVertex, boolean[] visited) {
         visited[sourceVertex] = true;
         System.out.println(sourceVertex);
 
-        if(adj[sourceVertex] != null) {
-            for(int neighbor : adj[sourceVertex]) {
+        if(adjacent[sourceVertex] != null) {
+            for(int neighbor : adjacent[sourceVertex]) {
                 if(!visited[neighbor]) {
-                    depthFirstSearch(neighbor, adj, visited);
+                    depthFirstSearch(adjacent, neighbor, visited);
                 }
             }
         }
@@ -90,7 +90,7 @@ public class DepthFirstSearch {
 
     // Trade-off between time and memory
     // Takes longer because it has to create the iterators, but avoid stack overflows
-    private static void depthFirstSearchIterative(int sourceVertex, List<Integer>[] adj, boolean[] visited) {
+    private static void depthFirstSearchIterative(List<Integer>[] adjacent, int sourceVertex, boolean[] visited) {
         Stack<Integer> stack = new Stack<>();
         stack.push(sourceVertex);
         visited[sourceVertex] = true;
@@ -99,12 +99,12 @@ public class DepthFirstSearch {
 
         // Used to be able to iterate over each adjacency list, keeping track of which
         // vertex in each adjacency list needs to be explored next
-        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adj.length];
+        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adjacent.length];
 
         //If the vertices are 0-index based, start i with value 0
         for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
-            if(adj[vertexId] != null) {
-                adjacentIterators[vertexId] = adj[vertexId].iterator();
+            if(adjacent[vertexId] != null) {
+                adjacentIterators[vertexId] = adjacent[vertexId].iterator();
             }
         }
 
@@ -117,8 +117,6 @@ public class DepthFirstSearch {
                 if(!visited[neighbor]) {
                     stack.push(neighbor);
                     visited[neighbor] = true;
-
-                    System.out.println(neighbor);
                 }
             } else {
                 stack.pop();

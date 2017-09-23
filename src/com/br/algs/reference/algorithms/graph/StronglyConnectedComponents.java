@@ -126,7 +126,7 @@ public class StronglyConnectedComponents {
 
     // Trade-off between time and memory
     // Takes longer because it has to create the iterators, but avoid stack overflows
-    private static void depthFirstSearchIterative(int sourceVertex, List<Integer>[] adj, Stack<Integer> finishTimes,
+    private static void depthFirstSearchIterative(int sourceVertex, List<Integer>[] adjacent, Stack<Integer> finishTimes,
                                                   boolean[] visited, boolean getFinishTimes) {
         Stack<Integer> stack = new Stack<>();
         stack.push(sourceVertex);
@@ -134,12 +134,12 @@ public class StronglyConnectedComponents {
 
         // Used to be able to iterate over each adjacency list, keeping track of which
         // vertex in each adjacency list needs to be explored next
-        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adj.length];
+        Iterator<Integer>[] adjacentIterators = (Iterator<Integer>[]) new Iterator[adjacent.length];
 
         //If the vertices are 0-index based, start i with value 0
         for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
-            if(adj[vertexId] != null) {
-                adjacentIterators[vertexId] = adj[vertexId].iterator();
+            if(adjacent[vertexId] != null) {
+                adjacentIterators[vertexId] = adjacent[vertexId].iterator();
             }
         }
 
