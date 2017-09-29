@@ -49,7 +49,6 @@ public class AmbiguousCipher {
         }
 
         writeDataOnFile(FILE_OUTPUT_PATH, output);
-
     }
 
     private static String decipher(String encryptedString) {

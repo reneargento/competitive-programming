@@ -44,22 +44,6 @@ public class SuperMancunian {
         }
     }
 
-    //Graph
-    private static class Vertex {
-        int id;
-        boolean processed;
-
-        int heapKey;
-        boolean isInHeap;
-
-        Vertex(int id) {
-            this.id = id;
-            heapKey = Integer.MAX_VALUE;
-            processed = false;
-            isInHeap = false;
-        }
-    }
-
     private static class Edge {
         int vertex1;
         int vertex2;
@@ -72,41 +56,77 @@ public class SuperMancunian {
         }
     }
 
+    private static class UnionFind {
+
+        private int[] leaders;
+        private int[] ranks;
+
+        private int components;
+
+        public UnionFind(int size) {
+            leaders = new int[size];
+            ranks = new int[size];
+            components = size;
+
+            for(int i = 0; i < size; i++) {
+                leaders[i]  = i;
+                ranks[i] = 0;
+            }
+        }
+
+        public int count() {
+            return components;
+        }
+
+        public boolean connected(int site1, int site2) {
+            return find(site1) == find(site2);
+        }
+
+        //O(inverse Ackermann function)
+        public int find(int site) {
+            if(site == leaders[site]) {
+                return site;
+            }
+
+            return leaders[site] = find(leaders[site]);
+        }
+
+        //O(inverse Ackermann function)
+        public void union(int site1, int site2) {
+
+            int leader1 = find(site1);
+            int leader2 = find(site2);
+
+            if(leader1 == leader2) {
+                return;
+            }
+
+            if(ranks[leader1] < ranks[leader2]) {
+                leaders[leader1] = leader2;
+            } else if (ranks[leader2] < ranks[leader1]) {
+                leaders[leader2] = leader1;
+            } else {
+                leaders[leader1] = leader2;
+                ranks[leader2]++;
+            }
+
+            components--;
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         FastReader.init(System.in);
 
         int totalVertices = FastReader.nextInt();
         int totalEdges = FastReader.nextInt();
 
-        Vertex[] vertices = new Vertex[totalVertices + 1];
+        Edge[] edges = new Edge[totalEdges];
         List<Edge>[] adjacent = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
-        for(int i=0; i < totalEdges; i++) {
+        for(int i = 0; i < totalEdges; i++) {
             int vertex1Id = FastReader.nextInt();
             int vertex2Id = FastReader.nextInt();
             int cost = FastReader.nextInt();
-
-            //Add vertices
-            Vertex vertex1 = new Vertex(vertex1Id);
-            vertices[vertex1Id] = vertex1;
-            Vertex vertex2 = new Vertex(vertex2Id);
-            vertices[vertex2Id] = vertex2;
-
-            //If multiple edges may exist, only add a new edge if its cost is smaller than the current edge
-//            boolean addEdge = true;
-//            if(adjacent[vertex1Id] != null) {
-//                for(Edge edge : adjacent[vertex1Id]) {
-//                    if(edge.vertex1 == vertex2Id || edge.vertex2 == vertex2Id) {
-//                        if(edge.cost <= cost) {
-//                            addEdge = false;
-//                            break;
-//                        }
-//                    }
-//                }
-//                if(!addEdge) {
-//                    continue;
-//                }
-//            }
 
             //Add edge
             Edge edge = new Edge(vertex1Id, vertex2Id, cost);
@@ -118,128 +138,95 @@ public class SuperMancunian {
             }
 
             adjacent[vertex1Id].add(edge);
-            adjacent[vertex2Id].add(edge);//undirected graph
+            adjacent[vertex2Id].add(edge);
+
+            edges[i] = edge;
         }
 
-        List<Edge> edgesInSpanningTree = getMinimumSpanningTreeWithPrimsAlgorithm(adjacent, vertices, totalVertices, 1);
-        int minimumSpanningTreeCost = getCostOfMinimumSpanningTree(edgesInSpanningTree);
-        System.out.println("Cost of the minimum spanning tree: " + minimumSpanningTreeCost);
+        List<Edge>[] minimumSpanningTree = getMinimumSpanningTree(edges, totalVertices);
+        long minimumSpanningTreeCost = getCostOfMinimumSpanningTree(minimumSpanningTree) - longestEdgeInMSTCost;
+        long paths = countPaths(edges, totalVertices);
+        System.out.println(minimumSpanningTreeCost + " " + paths);
     }
 
-    //O(m log(n)) <-- Overall complexity
-    //We are considering that the graph is connected
-    private static List<Edge> getMinimumSpanningTreeWithPrimsAlgorithm(List<Edge>[] edges, Vertex[] vertices,
-                                                                       int numberOfVertices, int sourceVertex) {
-        List<Vertex> verticesSpannedSoFar = new ArrayList<>();
-        List<Edge> edgesInSpanningTree = new ArrayList<>();
+    private static int longestEdgeInMSTCost;
 
-        //Add vertex to start (any vertex works)
-        Vertex firstVertexInserted = vertices[sourceVertex];
-        verticesSpannedSoFar.add(firstVertexInserted);
-        firstVertexInserted.processed = true;
+    private static List<Edge>[] getMinimumSpanningTree(Edge[] edges, int totalVertices) {
+        List<Edge>[] minimumSpanningTree = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
-        PriorityQueue<Vertex> heap = new PriorityQueue<>(new Comparator<Vertex>() {
+        Arrays.sort(edges, new Comparator<Edge>() {
             @Override
-            public int compare(Vertex node1, Vertex node2) {
-                if(node1.heapKey < 0 && node2.heapKey > 0) {
+            public int compare(Edge edge1, Edge edge2) {
+                if(edge1.cost < edge2.cost) {
                     return -1;
-                } else if(node2.heapKey < 0 && node1.heapKey > 0) {
+                } else if(edge1.cost > edge2.cost) {
                     return 1;
                 } else {
-                    return node1.heapKey - node2.heapKey;
+                    return 0;
                 }
             }
         });
 
-        //O(n log n)
-        initHeap(heap, vertices, edges, firstVertexInserted);
+        UnionFind unionFind = new UnionFind(totalVertices + 1);
 
-        //O(n)
-        while(verticesSpannedSoFar.size() != numberOfVertices) {
+        for(Edge edge : edges) {
 
-            //O(log n)
-            Vertex vertexWithCheapestEdge = heap.poll();
+            if(unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+                unionFind.union(edge.vertex1, edge.vertex2);
 
-            int cheapestEdgeCost = Integer.MAX_VALUE;
-            Edge cheapestEdge = null;
+                if(minimumSpanningTree[edge.vertex1] == null) {
+                    minimumSpanningTree[edge.vertex1] = new ArrayList<>();
+                }
+                if(minimumSpanningTree[edge.vertex2] == null) {
+                    minimumSpanningTree[edge.vertex2] = new ArrayList<>();
+                }
 
-            for(Edge edge : edges[vertexWithCheapestEdge.id]) {
+                minimumSpanningTree[edge.vertex1].add(edge);
+                minimumSpanningTree[edge.vertex2].add(edge);
 
-                if((vertices[edge.vertex1].processed && !vertices[edge.vertex2].processed)
-                        || (vertices[edge.vertex2].processed && !vertices[edge.vertex1].processed)) {
-
-                    if(edge.cost < cheapestEdgeCost) {
-                        cheapestEdgeCost = edge.cost;
-                        cheapestEdge = edge;
-                    }
+                if(longestEdgeInMSTCost < edge.cost) {
+                    longestEdgeInMSTCost = edge.cost;
                 }
             }
 
-            edgesInSpanningTree.add(cheapestEdge);
-            verticesSpannedSoFar.add(vertexWithCheapestEdge);
-            vertexWithCheapestEdge.processed = true;
-
-            //O(log n)
-            updateHeapKeys(heap, vertices, edges, vertexWithCheapestEdge);
-        }
-
-        return edgesInSpanningTree;
-    }
-
-    //Add vertices to initialize heap - O(n)
-    private static void initHeap(PriorityQueue<Vertex> heap, Vertex[] vertices, List<Edge>[] edges, Vertex firstVertexInserted) {
-
-        for(Edge edge : edges[firstVertexInserted.id]) {
-            if(edge.vertex1 == firstVertexInserted.id) {
-                vertices[edge.vertex2].heapKey = edge.cost < vertices[edge.vertex2].heapKey ?
-                        edge.cost : vertices[edge.vertex2].heapKey;
-            } else if(edge.vertex2 == firstVertexInserted.id) {
-                vertices[edge.vertex1].heapKey = edge.cost < vertices[edge.vertex1].heapKey ?
-                        edge.cost : vertices[edge.vertex1].heapKey;
+            if(unionFind.components == 1) {
+                break;
             }
         }
 
-        for(Vertex vertex : vertices) {
-            if(vertex != null && !vertex.isInHeap && vertex != firstVertexInserted) {
-                heap.add(vertex);
-                vertex.isInHeap = true;
-            }
-        }
+        return minimumSpanningTree;
     }
 
-    //O(degree(vertex))
-    private static void updateHeapKeys(PriorityQueue<Vertex> heap, Vertex[] vertices, List<Edge>[] edges, Vertex vertex) {
+    private static long getCostOfMinimumSpanningTree(List<Edge>[] minimumSpanningTree) {
+        long costOfMinimumSpanningTree = 0;
 
-        for(Edge edge : edges[vertex.id]) {
-            Vertex vertex1 = vertices[edge.vertex1];
-            Vertex vertex2 = vertices[edge.vertex2];
-
-            if(vertex1.processed && !vertex2.processed) {
-                if(edge.cost < vertex2.heapKey) {
-                    heap.remove(vertex2);
-
-                    vertex2.heapKey = edge.cost;
-                    heap.add(vertex2);
-                }
-            } else if(!vertex1.processed && vertex2.processed) {
-                if(edge.cost < vertex1.heapKey) {
-                    heap.remove(vertex1);
-
-                    vertex1.heapKey = edge.cost;
-                    heap.add(vertex1);
+        for(int vertex = 0; vertex < minimumSpanningTree.length; vertex++) {
+            if(minimumSpanningTree[vertex] != null) {
+                for(Edge edge : minimumSpanningTree[vertex]) {
+                    costOfMinimumSpanningTree += edge.cost;
                 }
             }
         }
+
+        return costOfMinimumSpanningTree / 2;
     }
 
-    private static int getCostOfMinimumSpanningTree(List<Edge> edgesInSpanningTree) {
-        int costOfMinimumSpanningTree = 0;
+    private static long countPaths(Edge[] allEdges, int totalVertices) {
 
-        for(Edge edge : edgesInSpanningTree) {
-            costOfMinimumSpanningTree += edge.cost;
+        long paths = 0;
+        UnionFind unionFind = new UnionFind(totalVertices + 1);
+
+        for(Edge edge : allEdges) {
+            if(!unionFind.connected(edge.vertex1, edge.vertex2)) {
+                if(edge.cost < longestEdgeInMSTCost) {
+                    unionFind.union(edge.vertex1, edge.vertex2);
+                } else {
+                    paths++;
+                }
+            }
         }
 
-        return costOfMinimumSpanningTree;
+        return paths;
     }
 
 }

@@ -42,6 +42,13 @@ public class KruskalMinimumSpanningTree {
         private static long nextLong() throws IOException {
             return Long.parseLong(next());
         }
+
+        //Used to check EOF
+        //If getLine() == null, it is a EOF
+        //Otherwise, it returns the next line
+        private static String getLine() throws IOException {
+            return reader.readLine();
+        }
     }
 
     private static class Edge {
@@ -159,12 +166,54 @@ public class KruskalMinimumSpanningTree {
             edges[i] = edge;
         }
 
-        List<Edge> edgesInSpanningTree = getMinimumSpanningTreeWithKruskalsAlgorithm(edges, totalVertices);
+        List<Edge> edgesInSpanningTree = getMinimumSpanningTreeEdges(edges, totalVertices);
         long minimumSpanningTreeCost = getCostOfMinimumSpanningTree(edgesInSpanningTree);
         System.out.println("Cost of the minimum spanning tree: " + minimumSpanningTreeCost);
     }
 
-    private static List<Edge> getMinimumSpanningTreeWithKruskalsAlgorithm(Edge[] edges, int totalVertices) {
+    private static List<Edge>[] getMinimumSpanningTree(Edge[] edges, int totalVertices) {
+        List<Edge>[] minimumSpanningTree = (List<Edge>[]) new ArrayList[totalVertices + 1];
+
+        Arrays.sort(edges, new Comparator<Edge>() {
+            @Override
+            public int compare(Edge edge1, Edge edge2) {
+                if(edge1.cost < edge2.cost) {
+                    return -1;
+                } else if(edge1.cost > edge2.cost) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+        UnionFind unionFind = new UnionFind(totalVertices + 1);
+
+        for(Edge edge : edges) {
+
+            if(unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+                unionFind.union(edge.vertex1, edge.vertex2);
+
+                if(minimumSpanningTree[edge.vertex1] == null) {
+                    minimumSpanningTree[edge.vertex1] = new ArrayList<>();
+                }
+                if(minimumSpanningTree[edge.vertex2] == null) {
+                    minimumSpanningTree[edge.vertex2] = new ArrayList<>();
+                }
+
+                minimumSpanningTree[edge.vertex1].add(edge);
+                minimumSpanningTree[edge.vertex2].add(edge);
+            }
+
+            if(unionFind.components == 1) {
+                break;
+            }
+        }
+
+        return minimumSpanningTree;
+    }
+
+    private static List<Edge> getMinimumSpanningTreeEdges(Edge[] edges, int totalVertices) {
         List<Edge> edgesInSpanningTree = new ArrayList<>();
 
         Arrays.sort(edges, new Comparator<Edge>() {
