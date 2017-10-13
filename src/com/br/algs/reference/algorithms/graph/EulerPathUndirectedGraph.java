@@ -49,17 +49,14 @@ public class EulerPathUndirectedGraph {
         // exactly 2 vertices have even degrees (Eulerian path)
         int verticesWithOddDegree = 0;
 
-        int vertexWithOddDegree1 = -1;
-        int vertexWithOddDegree2 = -1;
+        int vertexWithOddDegree = -1;
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
             if(adjacent[vertex] != null && adjacent[vertex].size() % 2 != 0) {
                 verticesWithOddDegree++;
 
-                if(vertexWithOddDegree1 == -1) {
-                    vertexWithOddDegree1 = vertex;
-                } else {
-                    vertexWithOddDegree2 = vertex;
+                if(vertexWithOddDegree == -1) {
+                    vertexWithOddDegree = vertex;
                 }
             }
         }
@@ -103,8 +100,8 @@ public class EulerPathUndirectedGraph {
         // Otherwise, start the cycle with a non-isolated vertex
         int sourceVertex;
 
-        if(vertexWithOddDegree1 != -1) {
-            sourceVertex = vertexWithOddDegree1;
+        if(vertexWithOddDegree != -1) {
+            sourceVertex = vertexWithOddDegree;
         } else {
             sourceVertex = nonIsolatedVertex(adjacent);
         }
