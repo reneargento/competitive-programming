@@ -10,10 +10,10 @@ public class HasCycle {
     private boolean[] visited;
     private boolean hasCycle;
 
-    public HasCycle(List<Integer>[] adjacent, int verticesNumber) {
-        visited = new boolean[verticesNumber];
+    public HasCycle(List<Integer>[] adjacent) {
+        visited = new boolean[adjacent.length];
 
-        for(int source = 0; source < verticesNumber; source++) {
+        for(int source = 0; source < adjacent.length; source++) {
             if(!visited[source]) {
                 dfs(adjacent, source, source);
             }
