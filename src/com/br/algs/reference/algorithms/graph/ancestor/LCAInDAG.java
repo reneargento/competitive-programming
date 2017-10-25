@@ -59,7 +59,6 @@ public class LCAInDAG {
         public Iterable<Integer> cycle() {
             return cycle;
         }
-
     }
 
     private List<Integer>[] adjacent;

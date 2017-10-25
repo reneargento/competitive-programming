@@ -65,19 +65,20 @@ public class TopologicalSort {
             adjacent[vertex1].add(vertex2);
         }
 
-        List<Integer> topologicalSort = topologicalSort(adjacent);
+        int[] topologicalSort = topologicalSort(adjacent);
         for(int vertex : topologicalSort) {
             System.out.println(vertex);
         }
     }
 
-    private static List<Integer> topologicalSort(List<Integer>[] adjacent) {
+    private static int[] topologicalSort(List<Integer>[] adjacent) {
         Stack<Integer> finishTimes = getFinishTimes(adjacent);
 
-        List<Integer> topologicalSort = new ArrayList<>();
+        int[] topologicalSort = new int[finishTimes.size()];
+        int arrayIndex = 0;
 
         while (!finishTimes.isEmpty()) {
-            topologicalSort.add(finishTimes.pop());
+            topologicalSort[arrayIndex++] = finishTimes.pop();
         }
 
         return topologicalSort;
