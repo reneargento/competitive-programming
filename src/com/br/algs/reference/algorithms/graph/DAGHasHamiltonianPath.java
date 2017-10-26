@@ -10,7 +10,13 @@ import java.util.Stack;
 @SuppressWarnings("unchecked")
 public class DAGHasHamiltonianPath {
 
-    // A DAG has a Hamiltonian path if and only if there is an edge between each consecutive vertex in its topological order
+    // A DAG has a Hamiltonian path if and only if there is a directed edge between each pair of consecutive vertices
+    // in a topological order
+
+    // Also, a DAG has a unique topological ordering if and only if there is a directed edge between each pair of consecutive
+    // vertices in its topological order (i.e, the digraph has a Hamiltonian path)
+    // If the DAG has multiple topological orderings, then a second topological order can be obtained by swapping
+    // any pair of consecutive and nonadjacent vertices
     public boolean hasHamiltonianPath(List<Integer>[] adjacent) {
 
         // 0- Precondition: check if the graph is a DAG
