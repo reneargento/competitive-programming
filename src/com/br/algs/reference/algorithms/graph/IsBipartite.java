@@ -11,11 +11,11 @@ public class IsBipartite {
     private boolean[] color;
     private boolean isTwoColorable = true;
 
-    public IsBipartite(List<Integer>[] adjacent, int verticesNumber) {
-        visited = new boolean[verticesNumber];
-        color = new boolean[verticesNumber];
+    public IsBipartite(List<Integer>[] adjacent) {
+        visited = new boolean[adjacent.length];
+        color = new boolean[adjacent.length];
 
-        for(int source = 0; source < verticesNumber; source++) {
+        for(int source = 0; source < adjacent.length; source++) {
             if(!visited[source]) {
                 dfs(adjacent, source);
             }

@@ -16,15 +16,15 @@ public class BreadthFirstSearchPaths {
 
     private int[] distTo;
 
-    public BreadthFirstSearchPaths(List<Integer>[] adjacent, int source, int verticesCount) {
-        visited = new boolean[verticesCount];
-        edgeTo = new int[verticesCount];
+    public BreadthFirstSearchPaths(List<Integer>[] adjacent, int source) {
+        visited = new boolean[adjacent.length];
+        edgeTo = new int[adjacent.length];
         this.source = source;
 
-        distTo = new int[verticesCount];
+        distTo = new int[adjacent.length];
 
         distTo[source] = 0;
-        for(int vertex = 0; vertex < verticesCount; vertex++) {
+        for(int vertex = 0; vertex < adjacent.length; vertex++) {
             if(vertex == source) {
                 continue;
             }

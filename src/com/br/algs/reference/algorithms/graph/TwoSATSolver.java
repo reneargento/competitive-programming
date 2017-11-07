@@ -109,20 +109,7 @@ public class TwoSATSolver {
             return inverseEdges;
         }
 
-        public List<Integer>[] getSCCsInReverseTopologicalOrder() {
-            List<Integer>[] sccsInTopologicalOrder = getSCCsInTopologicalOrder();
-
-            List<Integer>[] sccsInReverseTopologicalOrder = (List<Integer>[]) new ArrayList[sccCount];
-            int currentSCCInReverseOrderIndex = 0;
-
-            for(int scc = sccsInTopologicalOrder.length - 1; scc >= 0 ; scc--) {
-                sccsInReverseTopologicalOrder[currentSCCInReverseOrderIndex++] = sccsInTopologicalOrder[scc];
-            }
-
-            return sccsInReverseTopologicalOrder;
-        }
-
-        private List<Integer>[] getSCCsInTopologicalOrder() {
+        private List<Integer>[] getSCCsInReverseTopologicalOrder() {
             List<Integer>[] stronglyConnectedComponents = (List<Integer>[]) new ArrayList[sccCount];
 
             for(int scc = 0; scc < stronglyConnectedComponents.length; scc++) {
@@ -135,6 +122,19 @@ public class TwoSATSolver {
             }
 
             return stronglyConnectedComponents;
+        }
+
+        public List<Integer>[] getSCCsInTopologicalOrder() {
+            List<Integer>[] sccsInTopologicalOrder = getSCCsInReverseTopologicalOrder();
+
+            List<Integer>[] sccsInReverseTopologicalOrder = (List<Integer>[]) new ArrayList[sccCount];
+            int currentSCCInReverseOrderIndex = 0;
+
+            for(int scc = sccsInTopologicalOrder.length - 1; scc >= 0 ; scc--) {
+                sccsInReverseTopologicalOrder[currentSCCInReverseOrderIndex++] = sccsInTopologicalOrder[scc];
+            }
+
+            return sccsInReverseTopologicalOrder;
         }
     }
 
@@ -242,12 +242,12 @@ public class TwoSATSolver {
             return null;
         }
 
-        // Solve 2-SAT by assigning variables to true using the strongly connected components reverse topological order
-        List<Integer>[] sccsInReverseTopologicalOrder = stronglyConnectedComponents.getSCCsInReverseTopologicalOrder();
+        // Solve 2-SAT by assigning variables to true using the strongly connected components topological order
+        List<Integer>[] sccsInTopologicalOrder = stronglyConnectedComponents.getSCCsInTopologicalOrder();
 
         Map<Character, Boolean> solution = new HashMap<>();
 
-        for(List<Integer> scc : sccsInReverseTopologicalOrder) {
+        for(List<Integer> scc : sccsInTopologicalOrder) {
             for(int vertexId : scc) {
                 String vertexVariable = idToVariableMap.get(vertexId);
 
@@ -261,10 +261,10 @@ public class TwoSATSolver {
                 }
 
                 if(!solution.containsKey(variable)) {
-                    if(isNegation) {
-                        solution.put(variable, false);
-                    } else {
+                    if(!isNegation) {
                         solution.put(variable, true);
+                    } else {
+                        solution.put(variable, false);
                     }
                 }
             }

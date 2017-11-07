@@ -211,20 +211,7 @@ public class StronglyConnectedComponents {
         return inverseEdges;
     }
 
-    public List<Integer>[] getSCCsInReverseTopologicalOrder() {
-        List<Integer>[] sccsInTopologicalOrder = getSCCsInTopologicalOrder();
-
-        List<Integer>[] sccsInReverseTopologicalOrder = (List<Integer>[]) new ArrayList[sccCount];
-        int currentSCCInReverseOrderIndex = 0;
-
-        for(int scc = sccsInTopologicalOrder.length - 1; scc >= 0 ; scc--) {
-            sccsInReverseTopologicalOrder[currentSCCInReverseOrderIndex++] = sccsInTopologicalOrder[scc];
-        }
-
-        return sccsInReverseTopologicalOrder;
-    }
-
-    private List<Integer>[] getSCCsInTopologicalOrder() {
+    private List<Integer>[] getSCCsInReverseTopologicalOrder() {
         List<Integer>[] stronglyConnectedComponents = (List<Integer>[]) new ArrayList[sccCount];
 
         for(int scc = 0; scc < stronglyConnectedComponents.length; scc++) {
@@ -237,6 +224,19 @@ public class StronglyConnectedComponents {
         }
 
         return stronglyConnectedComponents;
+    }
+
+    public List<Integer>[] getSCCsInTopologicalOrder() {
+        List<Integer>[] sccsInTopologicalOrder = getSCCsInReverseTopologicalOrder();
+
+        List<Integer>[] sccsInReverseTopologicalOrder = (List<Integer>[]) new ArrayList[sccCount];
+        int currentSCCInReverseOrderIndex = 0;
+
+        for(int scc = sccsInTopologicalOrder.length - 1; scc >= 0 ; scc--) {
+            sccsInReverseTopologicalOrder[currentSCCInReverseOrderIndex++] = sccsInTopologicalOrder[scc];
+        }
+
+        return sccsInReverseTopologicalOrder;
     }
 
     // Generate the kernel DAG, the condensation graph where each SCC is a vertex
