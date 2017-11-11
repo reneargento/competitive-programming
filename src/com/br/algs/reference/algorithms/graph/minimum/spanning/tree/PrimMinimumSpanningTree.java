@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.minimum.spanning.tree;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -92,7 +92,7 @@ public class PrimMinimumSpanningTree {
             Vertex vertex2 = new Vertex(vertex2Id);
             vertices[vertex2Id] = vertex2;
 
-            //If multiple edges may exist, only add a new edge if its cost is smaller than the current edge
+            //Optimization: If multiple edges may exist, only add a new edge if its cost is smaller than the current edge
 //            boolean addEdge = true;
 //            if(adjacent[vertex1Id] != null) {
 //                for(Edge edge : adjacent[vertex1Id]) {
@@ -121,15 +121,14 @@ public class PrimMinimumSpanningTree {
             adjacent[vertex2Id].add(edge);//undirected graph
         }
 
-        List<Edge> edgesInSpanningTree = getMinimumSpanningTreeWithPrimsAlgorithm(adjacent, vertices, 1);
+        List<Edge> edgesInSpanningTree = getMinimumSpanningTree(adjacent, vertices, 1);
         long minimumSpanningTreeCost = getCostOfMinimumSpanningTree(edgesInSpanningTree);
         System.out.println("Cost of the minimum spanning tree: " + minimumSpanningTreeCost);
     }
 
     //O(m log(n)) <-- Overall complexity
     //We are considering that the graph is connected
-    private static List<Edge> getMinimumSpanningTreeWithPrimsAlgorithm(List<Edge>[] edges, Vertex[] vertices,
-                                                                       int sourceVertex) {
+    private static List<Edge> getMinimumSpanningTree(List<Edge>[] adjacent, Vertex[] vertices, int sourceVertex) {
         List<Vertex> verticesSpannedSoFar = new ArrayList<>();
         List<Edge> edgesInSpanningTree = new ArrayList<>();
 
@@ -152,10 +151,10 @@ public class PrimMinimumSpanningTree {
         });
 
         //O(n)
-        initHeap(heap, vertices, edges, firstVertexInserted);
+        initHeap(heap, vertices, adjacent, firstVertexInserted);
 
         //O(n)
-        while(verticesSpannedSoFar.size() != edges.length - 1) {
+        while(verticesSpannedSoFar.size() != adjacent.length - 1) {
 
             //O(log n)
             Vertex vertexWithCheapestEdge = heap.poll();
@@ -163,7 +162,7 @@ public class PrimMinimumSpanningTree {
             int cheapestEdgeCost = Integer.MAX_VALUE;
             Edge cheapestEdge = null;
 
-            for(Edge edge : edges[vertexWithCheapestEdge.id]) {
+            for(Edge edge : adjacent[vertexWithCheapestEdge.id]) {
 
                 if((vertices[edge.vertex1].processed && !vertices[edge.vertex2].processed)
                         || (vertices[edge.vertex2].processed && !vertices[edge.vertex1].processed)) {
@@ -180,16 +179,16 @@ public class PrimMinimumSpanningTree {
             vertexWithCheapestEdge.processed = true;
 
             //Total number of executions will be O(m log n)
-            updateHeapKeys(heap, vertices, edges, vertexWithCheapestEdge);
+            updateHeapKeys(heap, vertices, adjacent, vertexWithCheapestEdge);
         }
 
         return edgesInSpanningTree;
     }
 
     //Add vertices to initialize heap - O(n)
-    private static void initHeap(PriorityQueue<Vertex> heap, Vertex[] vertices, List<Edge>[] edges, Vertex firstVertexInserted) {
+    private static void initHeap(PriorityQueue<Vertex> heap, Vertex[] vertices, List<Edge>[] adjacent, Vertex firstVertexInserted) {
 
-        for(Edge edge : edges[firstVertexInserted.id]) {
+        for(Edge edge : adjacent[firstVertexInserted.id]) {
             if(edge.vertex1 == firstVertexInserted.id) {
                 vertices[edge.vertex2].heapKey = edge.cost < vertices[edge.vertex2].heapKey ?
                         edge.cost : vertices[edge.vertex2].heapKey;
@@ -208,9 +207,9 @@ public class PrimMinimumSpanningTree {
     }
 
     //O(degree(vertex) lg n) -> Counting all executions we have O(m lg n)
-    private static void updateHeapKeys(PriorityQueue<Vertex> heap, Vertex[] vertices, List<Edge>[] edges, Vertex vertex) {
+    private static void updateHeapKeys(PriorityQueue<Vertex> heap, Vertex[] vertices, List<Edge>[] adjacent, Vertex vertex) {
 
-        for(Edge edge : edges[vertex.id]) {
+        for(Edge edge : adjacent[vertex.id]) {
             Vertex vertex1 = vertices[edge.vertex1];
             Vertex vertex2 = vertices[edge.vertex2];
 

@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.minimum.spanning.tree;
 
 import java.io.BufferedReader;
 import java.io.IOException;
