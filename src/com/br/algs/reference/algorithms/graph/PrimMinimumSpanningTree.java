@@ -121,15 +121,15 @@ public class PrimMinimumSpanningTree {
             adjacent[vertex2Id].add(edge);//undirected graph
         }
 
-        List<Edge> edgesInSpanningTree = getMinimumSpanningTreeWithPrimsAlgorithm(adjacent, vertices, totalVertices, 1);
-        int minimumSpanningTreeCost = getCostOfMinimumSpanningTree(edgesInSpanningTree);
+        List<Edge> edgesInSpanningTree = getMinimumSpanningTreeWithPrimsAlgorithm(adjacent, vertices, 1);
+        long minimumSpanningTreeCost = getCostOfMinimumSpanningTree(edgesInSpanningTree);
         System.out.println("Cost of the minimum spanning tree: " + minimumSpanningTreeCost);
     }
 
     //O(m log(n)) <-- Overall complexity
     //We are considering that the graph is connected
     private static List<Edge> getMinimumSpanningTreeWithPrimsAlgorithm(List<Edge>[] edges, Vertex[] vertices,
-                                                                       int numberOfVertices, int sourceVertex) {
+                                                                       int sourceVertex) {
         List<Vertex> verticesSpannedSoFar = new ArrayList<>();
         List<Edge> edgesInSpanningTree = new ArrayList<>();
 
@@ -155,7 +155,7 @@ public class PrimMinimumSpanningTree {
         initHeap(heap, vertices, edges, firstVertexInserted);
 
         //O(n)
-        while(verticesSpannedSoFar.size() != numberOfVertices) {
+        while(verticesSpannedSoFar.size() != edges.length - 1) {
 
             //O(log n)
             Vertex vertexWithCheapestEdge = heap.poll();
@@ -232,8 +232,8 @@ public class PrimMinimumSpanningTree {
         }
     }
 
-    private static int getCostOfMinimumSpanningTree(List<Edge> edgesInSpanningTree) {
-        int costOfMinimumSpanningTree = 0;
+    private static long getCostOfMinimumSpanningTree(List<Edge> edgesInSpanningTree) {
+        long costOfMinimumSpanningTree = 0;
 
         for(Edge edge : edgesInSpanningTree) {
             costOfMinimumSpanningTree += edge.cost;

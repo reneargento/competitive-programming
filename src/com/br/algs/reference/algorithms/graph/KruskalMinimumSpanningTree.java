@@ -128,41 +128,14 @@ public class KruskalMinimumSpanningTree {
         int totalEdges = FastReader.nextInt();
 
         Edge[] edges = new Edge[totalEdges];
-        List<Edge>[] adjacent = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
         for(int i = 0; i < totalEdges; i++) {
             int vertex1Id = FastReader.nextInt();
             int vertex2Id = FastReader.nextInt();
             int cost = FastReader.nextInt();
 
-            //If multiple edges may exist, only add a new edge if its cost is smaller than the current edge
-//            boolean addEdge = true;
-//            if(adjacent[vertex1Id] != null) {
-//                for(Edge edge : adjacent[vertex1Id]) {
-//                    if(edge.vertex1 == vertex2Id || edge.vertex2 == vertex2Id) {
-//                        if(edge.cost <= cost) {
-//                            addEdge = false;
-//                            break;
-//                        }
-//                    }
-//                }
-//                if(!addEdge) {
-//                    continue;
-//                }
-//            }
-
             //Add edge
             Edge edge = new Edge(vertex1Id, vertex2Id, cost);
-            if(adjacent[vertex1Id] == null) {
-                adjacent[vertex1Id] = new ArrayList<>();
-            }
-            if(adjacent[vertex2Id] == null) {
-                adjacent[vertex2Id] = new ArrayList<>();
-            }
-
-            adjacent[vertex1Id].add(edge);
-            adjacent[vertex2Id].add(edge);//undirected graph
-
             edges[i] = edge;
         }
 
