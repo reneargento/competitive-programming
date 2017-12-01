@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.shortest.path;
 
 /**
  * Created by rene on 29/04/17.

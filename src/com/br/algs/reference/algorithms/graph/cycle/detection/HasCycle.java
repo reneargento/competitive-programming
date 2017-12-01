@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.cycle.detection;
 
 import java.util.List;
 

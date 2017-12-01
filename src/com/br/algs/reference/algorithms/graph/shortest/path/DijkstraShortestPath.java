@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.shortest.path;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -105,7 +105,7 @@ public class DijkstraShortestPath {
         dijkstra(adjacent, sourceVertex, computedShortestPathDistances);
     }
 
-    //O(V * lg(E))
+    //O(E * lg(V))
     private static void dijkstra(List<Edge>[] adjacent, int sourceVertexId, long[] computedShortestPathDistances) {
 
         //1- Init base case
