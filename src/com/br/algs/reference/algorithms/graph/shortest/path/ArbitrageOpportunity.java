@@ -1,5 +1,8 @@
 package com.br.algs.reference.algorithms.graph.shortest.path;
 
+import com.br.algs.reference.datastructures.DirectedEdge;
+import com.br.algs.reference.datastructures.EdgeWeightedDigraph;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,27 +12,27 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class ArbitrageOpportunity {
 
-    public List<BellmanFord.Edge> getArbitrage(List<BellmanFord.Edge>[] adjacent) {
+    public List<DirectedEdge> getArbitrage(List<DirectedEdge>[] adjacent) {
 
-        List<BellmanFord.Edge>[] graphWithNegatedLogEdges = (List<BellmanFord.Edge>[]) new ArrayList[adjacent.length];
+        EdgeWeightedDigraph graphWithNegatedLogEdges = new EdgeWeightedDigraph(adjacent.length);
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
 
-            for(BellmanFord.Edge edge : adjacent[vertex]) {
-                double weight = edge.weight;
-                BellmanFord.Edge negatedLogEdge = new BellmanFord.Edge(vertex, edge.vertex2, -Math.log(weight));
-                graphWithNegatedLogEdges[vertex].add(negatedLogEdge);
+            for(DirectedEdge edge : adjacent[vertex]) {
+                double weight = edge.weight();
+                DirectedEdge negatedLogEdge = new DirectedEdge(vertex, edge.to(), -Math.log(weight));
+                graphWithNegatedLogEdges.addEdge(negatedLogEdge);
             }
         }
 
         BellmanFord bellmanFord = new BellmanFord(graphWithNegatedLogEdges, 0);
 
         if(bellmanFord.hasNegativeCycle()) {
-            List<BellmanFord.Edge> arbitrageOpportunity = new ArrayList<>();
+            List<DirectedEdge> arbitrageOpportunity = new ArrayList<>();
 
-            for(BellmanFord.Edge edge : bellmanFord.negativeCycle()) {
-                double weight = edge.weight;
-                BellmanFord.Edge originalEdge = new BellmanFord.Edge(edge.vertex1, edge.vertex2, Math.exp(-weight));
+            for(DirectedEdge edge : bellmanFord.negativeCycle()) {
+                double weight = edge.weight();
+                DirectedEdge originalEdge = new DirectedEdge(edge.from(), edge.to(), Math.exp(-weight));
                 arbitrageOpportunity.add(originalEdge);
             }
 

@@ -1,5 +1,8 @@
 package com.br.algs.reference.algorithms.graph.shortest.path;
 
+import com.br.algs.reference.datastructures.DirectedEdge;
+import com.br.algs.reference.datastructures.EdgeWeightedDigraph;
+
 import java.util.*;
 
 /**
@@ -10,33 +13,21 @@ import java.util.*;
 // vertices to be relaxed. This leads to a typical running time of E + V.
 public class BellmanFord {
 
-    public static class Edge {
-        int vertex1;
-        int vertex2;
-        double weight;
-
-        Edge(int vertex1, int vertex2, double weight) {
-            this.vertex1 = vertex1;
-            this.vertex2 = vertex2;
-            this.weight = weight;
-        }
-    }
-
     private double[] distTo;         // length of path to vertex
-    private Edge[] edgeTo;           // last edge on path to vertex
+    private DirectedEdge[] edgeTo;           // last edge on path to vertex
     private boolean[] onQueue;       // is this vertex on the queue?
     private Queue<Integer> queue;    // vertices being relaxed
     private int callsToRelax;        // number of calls to relax()
-    private Iterable<Edge> cycle;    // if there is a negative cycle in edgeTo[], return it
+    private Iterable<DirectedEdge> cycle;    // if there is a negative cycle in edgeTo[], return it
 
     //O(E * V), but typically runs in (E + V)
-    public BellmanFord(List<Edge>[] adjacent, int source) {
-        distTo = new double[adjacent.length];
-        edgeTo = new Edge[adjacent.length];
-        onQueue = new boolean[adjacent.length];
+    public BellmanFord(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
+        distTo = new double[edgeWeightedDigraph.vertices()];
+        edgeTo = new DirectedEdge[edgeWeightedDigraph.vertices()];
+        onQueue = new boolean[edgeWeightedDigraph.vertices()];
         queue = new LinkedList<>();
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             distTo[vertex] = Double.POSITIVE_INFINITY;
         }
 
@@ -49,17 +40,17 @@ public class BellmanFord {
         while (!queue.isEmpty() && !hasNegativeCycle()) {
             int vertex = queue.poll();
             onQueue[vertex] = false;
-            relax(adjacent, vertex);
+            relax(edgeWeightedDigraph, vertex);
         }
     }
 
-    private void relax(List<Edge>[] adjacent, int vertex) {
+    private void relax(EdgeWeightedDigraph edgeWeightedDigraph, int vertex) {
 
-        for(Edge edge : adjacent[vertex]) {
-            int neighbor = edge.vertex2;
+        for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+            int neighbor = edge.to();
 
-            if(distTo[neighbor] > distTo[vertex] + edge.weight) {
-                distTo[neighbor] = distTo[vertex] + edge.weight;
+            if(distTo[neighbor] > distTo[vertex] + edge.weight()) {
+                distTo[neighbor] = distTo[vertex] + edge.weight();
                 edgeTo[neighbor] = edge;
 
                 if(!onQueue[neighbor]) {
@@ -69,7 +60,7 @@ public class BellmanFord {
             }
 
             // Check if there is a negative cycle after every V calls to relax()
-            if(callsToRelax++ % adjacent.length == 0) {
+            if(callsToRelax++ % edgeWeightedDigraph.vertices() == 0) {
                 findNegativeCycle();
             }
         }
@@ -83,13 +74,13 @@ public class BellmanFord {
         return distTo[vertex] < Double.POSITIVE_INFINITY;
     }
 
-    public Iterable<Edge> pathTo(int vertex) {
+    public Iterable<DirectedEdge> pathTo(int vertex) {
         if(!hasPathTo(vertex)) {
             return null;
         }
 
-        Stack<Edge> path = new Stack<>();
-        for(Edge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.vertex1]) {
+        Stack<DirectedEdge> path = new Stack<>();
+        for(DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
             path.push(edge);
         }
 
@@ -98,7 +89,7 @@ public class BellmanFord {
 
     private void findNegativeCycle() {
         int vertices = edgeTo.length;
-        List<Edge>[] shortestPathsTree = (List<Edge>[]) new ArrayList[vertices];
+        List<DirectedEdge>[] shortestPathsTree = (List<DirectedEdge>[]) new ArrayList[vertices];
 
         for(int vertex = 0; vertex < vertices; vertex++) {
             shortestPathsTree[vertex] = new ArrayList<>();
@@ -106,8 +97,8 @@ public class BellmanFord {
 
         for(int vertex = 0; vertex < vertices; vertex++) {
             if(edgeTo[vertex] != null) {
-                Edge edge = edgeTo[vertex];
-                shortestPathsTree[edge.vertex1].add(edge);
+                DirectedEdge edge = edgeTo[vertex];
+                shortestPathsTree[edge.from()].add(edge);
             }
         }
 
@@ -119,20 +110,20 @@ public class BellmanFord {
         return cycle != null;
     }
 
-    public Iterable<Edge> negativeCycle() {
+    public Iterable<DirectedEdge> negativeCycle() {
         return cycle;
     }
 
     public static class HasDirectedWeightedCycle {
 
         private static boolean visited[];
-        private static Edge[] edgeTo;
-        private static Stack<Edge> cycle;    // vertices on  a cycle (if one exists)
+        private static DirectedEdge[] edgeTo;
+        private static Stack<DirectedEdge> cycle;    // vertices on  a cycle (if one exists)
         private static boolean[] onStack;    // vertices on recursive call stack
 
-        public HasDirectedWeightedCycle(List<Edge>[] adjacent) {
+        public HasDirectedWeightedCycle(List<DirectedEdge>[] adjacent) {
             onStack = new boolean[adjacent.length];
-            edgeTo = new Edge[adjacent.length];
+            edgeTo = new DirectedEdge[adjacent.length];
             visited = new boolean[adjacent.length];
 
             for(int vertex = 0; vertex < adjacent.length; vertex++) {
@@ -142,12 +133,12 @@ public class BellmanFord {
             }
         }
 
-        private void dfs(List<Edge>[] adjacent, int vertex) {
+        private void dfs(List<DirectedEdge>[] adjacent, int vertex) {
             onStack[vertex] = true;
             visited[vertex] = true;
 
-            for(Edge edge : adjacent[vertex]) {
-                int neighbor = edge.vertex2;
+            for(DirectedEdge edge : adjacent[vertex]) {
+                int neighbor = edge.to();
 
                 if(hasCycle()) {
                     return;
@@ -159,8 +150,8 @@ public class BellmanFord {
 
                     cycle.push(edge);
 
-                    for(Edge edgeInCycle = edgeTo[vertex]; edgeInCycle != null && edgeInCycle.vertex1 != vertex;
-                        edgeInCycle = edgeTo[edgeInCycle.vertex1]) {
+                    for(DirectedEdge edgeInCycle = edgeTo[vertex]; edgeInCycle != null && edgeInCycle.from() != vertex;
+                        edgeInCycle = edgeTo[edgeInCycle.from()]) {
                         cycle.push(edgeInCycle);
                     }
 
@@ -175,7 +166,7 @@ public class BellmanFord {
             return cycle != null;
         }
 
-        public static Iterable<Edge> cycle() {
+        public static Iterable<DirectedEdge> cycle() {
             return cycle;
         }
 
