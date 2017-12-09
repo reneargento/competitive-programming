@@ -133,4 +133,19 @@ public class AcyclicLongestPath {
         return path;
     }
 
+    public Iterable<Edge> getLongestPath() {
+
+        int furthestVertex = -1;
+        double longestDistance = Double.NEGATIVE_INFINITY;
+
+        for(int vertex = 0; vertex < edgeTo.length; vertex++) {
+            if(distTo(vertex) > longestDistance) {
+                longestDistance = distTo(vertex);
+                furthestVertex = vertex;
+            }
+        }
+
+        return pathTo(furthestVertex);
+    }
+
 }

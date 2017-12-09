@@ -39,10 +39,12 @@ public class KShortestWalks {
         public Iterable<Edge> getPath() {
             LinkedList<Edge> path = new LinkedList<>();
 
-            while (previousPath != null && previousPath.edge != null) {
-                path.addFirst(previousPath.edge);
+            Path currentPreviousPath = previousPath;
 
-                previousPath = previousPath.previousPath;
+            while (currentPreviousPath != null && currentPreviousPath.edge != null) {
+                path.addFirst(currentPreviousPath.edge);
+
+                currentPreviousPath = currentPreviousPath.previousPath;
             }
             path.add(edge);
 
@@ -61,7 +63,7 @@ public class KShortestWalks {
         }
     }
 
-    //O(E * lg V)
+    //O(K * V * lg P), where P is the number of paths in the graph
     public List<Path> getKShortestPaths(List<Edge>[] adjacent, int source, int target, int kPaths) {
 
         List<Path> paths = new ArrayList<>();

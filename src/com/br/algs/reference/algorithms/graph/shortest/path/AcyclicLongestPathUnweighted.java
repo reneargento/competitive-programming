@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.shortest.path;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by rene on 12/09/17.
  */
-public class LongestPath {
+public class AcyclicLongestPathUnweighted {
 
     private static long longestPath(List<Integer> adjacent[], int verticesCount) {
 

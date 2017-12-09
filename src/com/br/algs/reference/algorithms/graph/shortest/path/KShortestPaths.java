@@ -45,10 +45,12 @@ public class KShortestPaths {
         public Iterable<Edge> getPath() {
             LinkedList<Edge> path = new LinkedList<>();
 
-            while (previousPath != null && previousPath.edge != null) {
-                path.addFirst(previousPath.edge);
+            Path currentPreviousPath = previousPath;
 
-                previousPath = previousPath.previousPath;
+            while (currentPreviousPath != null && currentPreviousPath.edge != null) {
+                path.addFirst(currentPreviousPath.edge);
+
+                currentPreviousPath = currentPreviousPath.previousPath;
             }
             path.add(edge);
 
@@ -67,7 +69,9 @@ public class KShortestPaths {
         }
     }
 
-    //O(V^3) because of HashSet.addAll() operation in Path constructor to avoid repeated vertices
+    //O(K * V^2 * lg P)
+    // P is the number of paths in the graph
+    // the V^2 is because of HashSet.addAll() operation in Path constructor to avoid repeated vertices
     public List<Path> getKShortestPaths(List<Edge>[] adjacent, int source, int target, int kPaths) {
 
         List<Path> paths = new ArrayList<>();

@@ -52,14 +52,15 @@ public class HasDirectedWeightedCycle {
             } else if(onStack[neighbor]) {
                 cycle = new Stack<>();
 
-                cycle.push(edge);
+                Edge edgeInCycle = edge;
 
-                for(Edge edgeInCycle = edgeTo[vertex]; edgeInCycle != null && edgeInCycle.vertex1 != vertex;
-                    edgeInCycle = edgeTo[edgeInCycle.vertex1]) {
+                while (edgeInCycle.vertex1 != neighbor) {
                     cycle.push(edgeInCycle);
+                    edgeInCycle = edgeTo[edgeInCycle.vertex1];
                 }
 
-                cycle.push(edge);
+                cycle.push(edgeInCycle);
+                return;
             }
         }
 

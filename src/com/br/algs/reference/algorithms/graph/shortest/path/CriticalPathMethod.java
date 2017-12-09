@@ -115,7 +115,11 @@ public class CriticalPathMethod {
         }
 
         public static double distTo(int vertex) {
-            return distTo[vertex];
+            if(distTo[vertex] == 0) {
+                return 0;
+            }
+
+            return distTo[vertex] * -1;
         }
 
         public static boolean hasPathTo(int vertex) {
@@ -138,21 +142,22 @@ public class CriticalPathMethod {
     }
 
     // Assuming an array of Strings with jobs information in the format:
-    // weight successor1 successor2 ... successorN
-    public static void computeCriticalPath(List<Edge>[] adjacent, String[] jobInformation) {
+    // duration successor1 successor2 ... successorN
+    public static void computeCriticalPath(String[] precedenceConstraints) {
 
-        List<Edge>[] newGraph = (List<Edge>[]) new ArrayList[adjacent.length * 2 + 2];
+        List<Edge>[] newGraph = (List<Edge>[]) new ArrayList[precedenceConstraints.length * 2 + 2];
 
         for(int vertex = 0; vertex < newGraph.length; vertex++) {
             newGraph[vertex] = new ArrayList<>();
         }
 
-        int jobs = jobInformation.length;
+        int jobs = precedenceConstraints.length;
 
         int sourceId = 2 * jobs;
         int targetId = 2 * jobs + 1;
 
         for(int job = 0; job < jobs; job++) {
+            String[] jobInformation = precedenceConstraints[job].split("\\s+");
             double duration = Double.parseDouble(jobInformation[0]);
 
             // Adds two vertices per job: a start vertex and an end vertex

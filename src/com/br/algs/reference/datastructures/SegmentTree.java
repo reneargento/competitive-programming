@@ -23,17 +23,6 @@ public class SegmentTree {
         return end - start + 1;
     }
 
-    public void push () {
-        if (lc != null) {
-            lc.sum += lc.range () * lazy;
-            lc.lazy += lazy;
-            rc.sum += rc.range () * lazy;
-            rc.lazy += lazy;
-            sum = lc.sum + rc.sum;
-        }
-        lazy = 0;
-    }
-
     public void update (int left, int right, int value) {
         if (left > end || start > right) return;
         if (left == start && right == end) {
@@ -66,5 +55,16 @@ public class SegmentTree {
         if (mid >= right) return lc.query (left, right);
         else if (mid < left) return rc.query (left, right);
         else return lc.query (left, mid) + rc.query (mid + 1, right);
+    }
+
+    private void push () {
+        if (lc != null) {
+            lc.sum += lc.range () * lazy;
+            lc.lazy += lazy;
+            rc.sum += rc.range () * lazy;
+            rc.lazy += lazy;
+            sum = lc.sum + rc.sum;
+        }
+        lazy = 0;
     }
 }
