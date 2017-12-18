@@ -10,7 +10,7 @@ import java.util.*;
  */
 @SuppressWarnings("unchecked")
 //This BellmanFord algorithm uses a queue optimization to finish the algorithm earlier if there are no more
-// vertices to be relaxed. This leads to a typical running time of E + V.
+// vertices to be relaxed. This leads to O(E * V) but with a typical running time of E + V.
 public class BellmanFord {
 
     private double[] distTo;         // length of path to vertex
@@ -169,7 +169,6 @@ public class BellmanFord {
         public static Iterable<DirectedEdge> cycle() {
             return cycle;
         }
-
     }
 
 }
