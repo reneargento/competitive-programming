@@ -10,7 +10,7 @@ import java.util.*;
  * Created by rene.argento on 30/05/17.
  */
 @SuppressWarnings("unchecked")
-public class DijkstraShortestPath {
+public class DijkstraOnlyDistances {
 
     private static class FastReader {
 

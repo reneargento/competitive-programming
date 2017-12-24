@@ -10,13 +10,13 @@ import java.util.Deque;
 /**
  * Created by rene on 09/12/17.
  */
-public class DijkstraWithPaths {
+public class Dijkstra {
 
     private DirectedEdge[] edgeTo;  // last edge on path to vertex
     private double[] distTo;        // length of path to vertex
     private IndexMinPriorityQueue<Double> priorityQueue;
 
-    public DijkstraWithPaths(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
+    public Dijkstra(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
         edgeTo = new DirectedEdge[edgeWeightedDigraph.vertices()];
         distTo = new double[edgeWeightedDigraph.vertices()];
         priorityQueue = new IndexMinPriorityQueue<>(edgeWeightedDigraph.vertices());

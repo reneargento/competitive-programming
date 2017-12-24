@@ -1,5 +1,8 @@
 package com.br.google.code.jam.kickstart2017.roundg;
 
+/**
+ * Created by rene.argento on 18/12/17.
+ */
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,14 +20,14 @@ public class HugeNumbers {
 
 //    private static final String FILE_INPUT_PATH = PATH + "huge_numbers_input.txt";
 //    private static final String FILE_OUTPUT_PATH = PATH + "huge_numbers_output.txt";
-    private static final String FILE_INPUT_PATH = PATH + "huge_numbers_small_input.txt";
-    private static final String FILE_OUTPUT_PATH = PATH + "huge_numbers_small_output.txt";
-//    private static final String FILE_INPUT_PATH = PATH + "huge_numbers_large_input.txt";
-//    private static final String FILE_OUTPUT_PATH = PATH + "huge_numbers_large_output.txt";
+//    private static final String FILE_INPUT_PATH = PATH + "huge_numbers_small_input.txt";
+//    private static final String FILE_OUTPUT_PATH = PATH + "huge_numbers_small_output.txt";
+    private static final String FILE_INPUT_PATH = PATH + "huge_numbers_large_input.txt";
+    private static final String FILE_OUTPUT_PATH = PATH + "huge_numbers_large_output.txt";
 
     public static void main(String[] args) {
-         //test();
-         compete();
+        //test();
+        compete();
     }
 
     private static void compete() {
@@ -71,42 +74,35 @@ public class HugeNumbers {
 
     private static long hugeNumber(int a, int n, int p) {
         mod = p;
-
-        long exponent = stirlingFactorial(n);
-
-        long exponentiation = fastExponentiation(a, exponent);
-        return exponentiation % p;
+        return computeAToNModP(a, n, p);
     }
 
-    private static long stirlingFactorial(int n) {
-        if (n == 1) {
-            return 1;
+    private static long computeAToNModP(int a, int n, int p) {
+        long answer = a % p;
+
+        for(int i = 2; i <= n; i++) {
+            answer = fastExponentiation(answer, i) % p;
         }
 
-        double e = 2.71; // value of natural e
-
-        // evaluating factorial using Stirling's approximation
-        long factorial = (long) (Math.sqrt(2 * 3.14 * n) * Math.pow((n/e), n));
-        return factorial;
+        return answer;
     }
 
     private static long fastExponentiation(long base, long exponent) {
         if(exponent == 0) {
             return 1;
         }
-
         if(exponent == 1) {
             return base;
         }
 
-        long baseSquared = base * base;
+        long baseSquared = (base * base) % mod;
 
         if(exponent % 2 == 0) {
-            return fastExponentiation(baseSquared % mod, exponent / 2);
+            return fastExponentiation(baseSquared, exponent / 2);
         }
 
         if(exponent % 2 == 1) {
-            return (base * fastExponentiation(baseSquared % mod, exponent / 2)) % mod;
+            return (base * fastExponentiation(baseSquared, exponent / 2)) % mod;
         }
 
         return -1;
