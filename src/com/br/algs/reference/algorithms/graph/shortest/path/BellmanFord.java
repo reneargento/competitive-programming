@@ -79,7 +79,7 @@ public class BellmanFord {
             return null;
         }
 
-        Stack<DirectedEdge> path = new Stack<>();
+        Deque<DirectedEdge> path = new ArrayDeque<>();
         for(DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
             path.push(edge);
         }
@@ -118,7 +118,7 @@ public class BellmanFord {
 
         private static boolean visited[];
         private static DirectedEdge[] edgeTo;
-        private static Stack<DirectedEdge> cycle;    // vertices on  a cycle (if one exists)
+        private static Deque<DirectedEdge> cycle;    // vertices on  a cycle (if one exists)
         private static boolean[] onStack;    // vertices on recursive call stack
 
         public HasDirectedWeightedCycle(List<DirectedEdge>[] adjacent) {
@@ -146,7 +146,7 @@ public class BellmanFord {
                     edgeTo[neighbor] = edge;
                     dfs(adjacent, neighbor);
                 } else if(onStack[neighbor]) {
-                    cycle = new Stack<>();
+                    cycle = new ArrayDeque<>();
 
                     cycle.push(edge);
 

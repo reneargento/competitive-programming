@@ -1,5 +1,7 @@
 package com.br.algs.reference.algorithms.graph.cycle.detection;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Stack;
 
@@ -22,7 +24,7 @@ public class HasDirectedWeightedCycle {
 
     private boolean visited[];
     private Edge[] edgeTo;
-    private Stack<Edge> cycle;    // vertices on  a cycle (if one exists)
+    private Deque<Edge> cycle;    // vertices on  a cycle (if one exists)
     private boolean[] onStack;    // vertices on recursive call stack
 
     public HasDirectedWeightedCycle(List<Edge>[] adjacent) {
@@ -50,7 +52,7 @@ public class HasDirectedWeightedCycle {
                 edgeTo[neighbor] = edge;
                 dfs(adjacent, neighbor);
             } else if(onStack[neighbor]) {
-                cycle = new Stack<>();
+                cycle = new ArrayDeque<>();
 
                 Edge edgeInCycle = edge;
 
