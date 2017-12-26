@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.text.DecimalFormat;
 import java.util.*;
 
 /**
  * Created by rene on 16/12/17.
  */
-//https://www.urionlinejudge.com.br/judge/en/challenges/view/338/9
+// https://www.urionlinejudge.com.br/judge/en/challenges/view/338/9
+// https://www.urionlinejudge.com.br/judge/en/problems/view/2725
 public class ChristmasVillage {
 
     private static class FastReader {
@@ -156,10 +156,6 @@ public class ChristmasVillage {
             int currencyRate = FastReader.nextInt();
 
             Coordinate[] elvesHousesCoordinates = new Coordinate[elves];
-            Set<Coordinate> elvesHousesSet = new HashSet<>();
-
-            int lowestCoordinateValue = 0;
-            int highestCoordinateValue = 0;
 
             for(int elf = 0; elf < elves; elf++) {
                 int x = FastReader.nextInt();
@@ -167,21 +163,6 @@ public class ChristmasVillage {
 
                 Coordinate house = new Coordinate(x, y);
                 elvesHousesCoordinates[elf] = house;
-                elvesHousesSet.add(house);
-
-                if(x > highestCoordinateValue) {
-                    highestCoordinateValue = x;
-                }
-                if(y > highestCoordinateValue) {
-                    highestCoordinateValue = y;
-                }
-
-                if(x < lowestCoordinateValue) {
-                    lowestCoordinateValue = x;
-                }
-                if(y < lowestCoordinateValue) {
-                    lowestCoordinateValue = y;
-                }
             }
 
             Edge[] edges = new Edge[elves * elves];
@@ -189,8 +170,16 @@ public class ChristmasVillage {
 
             for(int i = 0; i < elvesHousesCoordinates.length; i++) {
                 for(int j = 0; j < elvesHousesCoordinates.length; j++) {
-                    double cost = distanceBetweenPoints(elvesHousesCoordinates[i].x, elvesHousesCoordinates[i].y,
-                            elvesHousesCoordinates[j].x, elvesHousesCoordinates[j].y);
+                    int cost;
+
+                    if(i == j) {
+                        cost = 0;
+                    } else {
+                        cost = countIntegerCoordinatesInLine(elvesHousesCoordinates[i].x, elvesHousesCoordinates[i].y,
+                                elvesHousesCoordinates[j].x, elvesHousesCoordinates[j].y);
+                        cost -= 2; // Subtract the two elves houses
+                    }
+
                     edges[edgeIndex++] = new Edge(i, j, cost);
                 }
             }
@@ -200,24 +189,7 @@ public class ChristmasVillage {
             int numberOfLeprechaunsHousesIntersected = 0;
 
             for(Edge edge : edgesInMST) {
-                Coordinate elvesHousesCoordinate1 = elvesHousesCoordinates[edge.vertex1];
-                Coordinate elvesHousesCoordinate2 = elvesHousesCoordinates[edge.vertex2];
-
-                for(int i = lowestCoordinateValue; i <= highestCoordinateValue; i++) {
-                    for(int j = lowestCoordinateValue; j <= highestCoordinateValue; j++) {
-                        Coordinate house = new Coordinate(i, j);
-
-                        if(elvesHousesSet.contains(house)
-                                || elvesHousesCoordinate1.equals(elvesHousesCoordinate2)) {
-                            continue;
-                        }
-
-                        if(isHouseInIntersection(elvesHousesCoordinate1.x, elvesHousesCoordinate1.y,
-                                elvesHousesCoordinate2.x, elvesHousesCoordinate2.y, house.x, house.y)) {
-                            numberOfLeprechaunsHousesIntersected++;
-                        }
-                    }
-                }
+                numberOfLeprechaunsHousesIntersected += edge.cost;
             }
 
             long amountToPay = numberOfLeprechaunsHousesIntersected * currencyRate;
@@ -258,16 +230,44 @@ public class ChristmasVillage {
         return edgesInSpanningTree;
     }
 
-    private static double distanceBetweenPoints(int x1, int y1, int x2, int y2) {
-        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    // Based on https://math.stackexchange.com/questions/918362/what-is-the-number-of-integer-coordinates-on-a-line-segment
+    private static int countIntegerCoordinatesInLine(int house1X, int house1Y, int house2X, int house2Y) {
+        int minX = Math.min(house1X, house2X);
+        int maxX = Math.max(house1X, house2X);
+        int minY = Math.min(house1Y, house2Y);
+        int maxY = Math.max(house1Y, house2Y);
+
+        // Slope = (y2 - y1) / (x2 - x1)
+        int slopeY = maxY - minY;
+        int slopeX = maxX - minX;
+
+        int gcd = (int) gcd(slopeY, slopeX);
+
+        int reducedY = slopeY / gcd;
+        int reducedX = slopeX / gcd;
+
+        int integerCoordinatesInLine = 0;
+
+        int currentX = minX;
+        int currentY = minY;
+
+        while (currentX <= maxX && currentY <= maxY) {
+            integerCoordinatesInLine++;
+
+            currentX += reducedX; // Increase reducedX for every point to check
+            currentY += reducedY; // Increase reducedY for every point to check
+        }
+
+        return integerCoordinatesInLine;
     }
 
-    private static boolean isHouseInIntersection(int x1, int y1, int x2, int y2, int houseX, int houseY) {
-        DecimalFormat value = new DecimalFormat("##.########");
-        String distance1 = value.format(distanceBetweenPoints(x1, y1, x2, y2));
-        String distance2 = value.format(distanceBetweenPoints(x1, y1, houseX, houseY) + distanceBetweenPoints(houseX, houseY, x2, y2));
-
-        return distance1.equals(distance2);
+    private static long gcd(long number1, long number2) {
+        while (number2 > 0) {
+            long temp = number2;
+            number2 = number1 % number2;
+            number1 = temp;
+        }
+        return number1;
     }
 
 }

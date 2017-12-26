@@ -21,7 +21,7 @@ public class BellmanFordIntegerWeights {
     private Iterable<DirectedEdge> cycle;  // if there is a negative cycle in edgeTo[], return it
 
     // The possible path distances are in the range [-maxWeight * (V - 1), ..., maxWeight * (V - 1)]
-    // because the maximum number of vertices in a path is V - 1.
+    // because the maximum number of edges in any path is V - 1.
     // We cannot use negative indexes in an array, so we add maxWeight * (V - 1) to each index,
     // to be able to index all the distances.
     private ArrayList<Integer>[] distances; // Theoretically, an array of HashSets would be faster, but in practice

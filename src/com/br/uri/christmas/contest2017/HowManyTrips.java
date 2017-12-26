@@ -5,6 +5,7 @@ import java.util.Scanner;
 /**
  * Created by rene on 16/12/17.
  */
+//https://www.urionlinejudge.com.br/judge/en/problems/view/2719
 //https://www.urionlinejudge.com.br/judge/en/challenges/view/338/3
 public class HowManyTrips {
 

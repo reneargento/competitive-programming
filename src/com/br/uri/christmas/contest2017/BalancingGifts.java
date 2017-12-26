@@ -5,6 +5,7 @@ import java.util.Scanner;
 /**
  * Created by rene on 16/12/17.
  */
+//https://www.urionlinejudge.com.br/judge/en/problems/view/2723
 //https://www.urionlinejudge.com.br/judge/en/challenges/view/338/7
 public class BalancingGifts {
 
