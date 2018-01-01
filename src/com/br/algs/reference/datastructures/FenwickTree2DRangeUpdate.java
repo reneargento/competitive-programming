@@ -16,8 +16,9 @@ public class FenwickTree2DRangeUpdate {
     }
 
     public void pointUpdate(int row, int column, int value) {
-        for (int i = row; i <= rows; i += i & (-i)) {
-            for (int j = column; j <= columns; j += j & (-j)) {
+        // Add 1 for 0-based index operations
+        for (int i = row + 1; i <= rows; i += i & (-i)) {
+            for (int j = column + 1; j <= columns; j += j & (-j)) {
                 fenwickTree[i][j] += value;
             }
         }

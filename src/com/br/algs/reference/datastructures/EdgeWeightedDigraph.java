@@ -54,6 +54,19 @@ public class EdgeWeightedDigraph {
         return bag;
     }
 
+    public EdgeWeightedDigraph reverse() {
+        EdgeWeightedDigraph reverse = new EdgeWeightedDigraph(vertices);
+
+        for(int vertex = 0; vertex < vertices; vertex++) {
+            for(DirectedEdge edge : adjacent(vertex)) {
+                int neighbor = edge.to();
+                reverse.addEdge(new DirectedEdge(neighbor, vertex, edge.weight()));
+            }
+        }
+
+        return reverse;
+    }
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

@@ -2,7 +2,7 @@ package com.br.algs.reference.algorithms.graph.shortest.path;
 
 import com.br.algs.reference.datastructures.DirectedEdge;
 import com.br.algs.reference.datastructures.EdgeWeightedDigraph;
-import com.br.algs.reference.datastructures.IndexMinPriorityQueue;
+import com.br.algs.reference.datastructures.priority.queue.IndexMinPriorityQueue;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -29,6 +29,7 @@ public class Dijkstra {
 
         while (!priorityQueue.isEmpty()) {
             relax(edgeWeightedDigraph, priorityQueue.deleteMin());
+            // In a source-sink problem, break the loop if the sink was relaxed
         }
     }
 
@@ -41,7 +42,7 @@ public class Dijkstra {
                 edgeTo[neighbor] = edge;
 
                 if(priorityQueue.contains(neighbor)) {
-                    priorityQueue.changeKey(neighbor, distTo[neighbor]);
+                    priorityQueue.decreaseKey(neighbor, distTo[neighbor]);
                 } else {
                     priorityQueue.insert(neighbor, distTo[neighbor]);
                 }

@@ -1,6 +1,6 @@
 package com.br.algs.reference.algorithms.graph.shortest.path;
 
-import com.br.algs.reference.datastructures.IndexMinPriorityQueue;
+import com.br.algs.reference.datastructures.priority.queue.IndexMinPriorityQueue;
 
 import java.util.*;
 
@@ -181,7 +181,7 @@ public class DijkstraEuclideanGraphLinear {
                     edgeTo[neighbor] = edge;
 
                     if(priorityQueue.contains(neighbor)) {
-                        priorityQueue.changeKey(neighbor, distTo[neighbor]);
+                        priorityQueue.decreaseKey(neighbor, distTo[neighbor]);
                     } else {
                         priorityQueue.insert(neighbor, distTo[neighbor]);
                     }
