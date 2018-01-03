@@ -166,7 +166,7 @@ public class ShortestAncestralPath {
                 queue.offer(neighbor);
 
                 if(neighbor == target) {
-                    Stack<Integer> inversePath = new Stack<>();
+                    Deque<Integer> inversePath = new ArrayDeque<>();
 
                     for(int vertex = target; vertex != source; vertex = edgeTo[vertex]) {
                         inversePath.push(vertex);

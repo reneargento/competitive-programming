@@ -7,7 +7,7 @@ import java.util.*;
 /**
  * Created by rene on 09/12/17.
  */
-// Computes the shortest path between two vertices in O(V) due to the use of the Euclidean heuristic
+// Computes the shortest path between two vertices in O(V + E) due to the use of the Euclidean heuristic
 public class DijkstraEuclideanGraphLinear {
 
     private static class Edge {

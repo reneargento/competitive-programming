@@ -1,5 +1,6 @@
 package com.br.algs.reference.algorithms.graph.shortest.path;
 
+import com.br.algs.reference.algorithms.graph.cycle.detection.EdgeWeightedDirectedCycle;
 import com.br.algs.reference.datastructures.DirectedEdge;
 import com.br.algs.reference.datastructures.EdgeWeightedDigraph;
 
@@ -89,21 +90,16 @@ public class BellmanFord {
 
     private void findNegativeCycle() {
         int vertices = edgeTo.length;
-        List<DirectedEdge>[] shortestPathsTree = (List<DirectedEdge>[]) new ArrayList[vertices];
-
-        for(int vertex = 0; vertex < vertices; vertex++) {
-            shortestPathsTree[vertex] = new ArrayList<>();
-        }
+        EdgeWeightedDigraph shortestPathsTree = new EdgeWeightedDigraph(vertices);
 
         for(int vertex = 0; vertex < vertices; vertex++) {
             if(edgeTo[vertex] != null) {
-                DirectedEdge edge = edgeTo[vertex];
-                shortestPathsTree[edge.from()].add(edge);
+                shortestPathsTree.addEdge(edgeTo[vertex]);
             }
         }
 
-        new HasDirectedWeightedCycle(shortestPathsTree);
-        cycle = HasDirectedWeightedCycle.cycle();
+        EdgeWeightedDirectedCycle edgeWeightedCycleFinder = new EdgeWeightedDirectedCycle(shortestPathsTree);
+        cycle = edgeWeightedCycleFinder.cycle();
     }
 
     public boolean hasNegativeCycle() {
@@ -112,63 +108,6 @@ public class BellmanFord {
 
     public Iterable<DirectedEdge> negativeCycle() {
         return cycle;
-    }
-
-    public static class HasDirectedWeightedCycle {
-
-        private static boolean visited[];
-        private static DirectedEdge[] edgeTo;
-        private static Deque<DirectedEdge> cycle;    // vertices on  a cycle (if one exists)
-        private static boolean[] onStack;    // vertices on recursive call stack
-
-        public HasDirectedWeightedCycle(List<DirectedEdge>[] adjacent) {
-            onStack = new boolean[adjacent.length];
-            edgeTo = new DirectedEdge[adjacent.length];
-            visited = new boolean[adjacent.length];
-
-            for(int vertex = 0; vertex < adjacent.length; vertex++) {
-                if(!visited[vertex]) {
-                    dfs(adjacent, vertex);
-                }
-            }
-        }
-
-        private void dfs(List<DirectedEdge>[] adjacent, int vertex) {
-            onStack[vertex] = true;
-            visited[vertex] = true;
-
-            for(DirectedEdge edge : adjacent[vertex]) {
-                int neighbor = edge.to();
-
-                if(hasCycle()) {
-                    return;
-                } else if(!visited[neighbor]) {
-                    edgeTo[neighbor] = edge;
-                    dfs(adjacent, neighbor);
-                } else if(onStack[neighbor]) {
-                    cycle = new ArrayDeque<>();
-
-                    cycle.push(edge);
-
-                    for(DirectedEdge edgeInCycle = edgeTo[vertex]; edgeInCycle != null && edgeInCycle.from() != vertex;
-                        edgeInCycle = edgeTo[edgeInCycle.from()]) {
-                        cycle.push(edgeInCycle);
-                    }
-
-                    cycle.push(edge);
-                }
-            }
-
-            onStack[vertex] = false;
-        }
-
-        public static boolean hasCycle() {
-            return cycle != null;
-        }
-
-        public static Iterable<DirectedEdge> cycle() {
-            return cycle;
-        }
     }
 
 }

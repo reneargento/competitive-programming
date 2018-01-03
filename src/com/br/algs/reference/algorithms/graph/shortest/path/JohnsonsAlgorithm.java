@@ -94,7 +94,7 @@ public class JohnsonsAlgorithm {
     }
 
     public Iterable<DirectedEdge> path(int source, int target) {
-        if(!hasPathTo(source, target)) {
+        if(!hasPath(source, target)) {
             return null;
         }
 
@@ -110,7 +110,7 @@ public class JohnsonsAlgorithm {
         return distances[source][target];
     }
 
-    public boolean hasPathTo(int source, int target) {
+    public boolean hasPath(int source, int target) {
         return distances[source][target] != Double.POSITIVE_INFINITY;
     }
 

@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph.shortest.path;
+package com.br.algs.reference.algorithms.graph.shortest.path.parallel.jobs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,8 @@ import java.util.Stack;
 /**
  * Created by rene on 28/11/17.
  */
-// Assumes that the graph is acyclic
+// Solves the parallel job scheduling problem.
+// Assumes that the graph is acyclic.
 @SuppressWarnings("unchecked")
 public class CriticalPathMethod {
 
