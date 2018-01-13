@@ -1,4 +1,4 @@
-package com.br.algs.reference.datastructures;
+package com.br.algs.reference.datastructures.fenwick.tree;
 
 /**
  * Created by rene on 23/09/17.
