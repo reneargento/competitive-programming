@@ -1,4 +1,4 @@
-package com.br.training.unicamp.summer.school2018.day1;
+package com.br.training.unicamp.summer.school2018.contest1;
 
 import java.util.*;
 
