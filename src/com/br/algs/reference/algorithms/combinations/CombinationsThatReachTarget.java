@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms;
+package com.br.algs.reference.algorithms.combinations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.Arrays;
 /**
  * Created by rene on 20/10/17.
  */
-public class SumCombinations {
+public class CombinationsThatReachTarget {
 
     public static void main(String args[]) {
         Integer[] numbers = {3,9,8,4,5,7,10};

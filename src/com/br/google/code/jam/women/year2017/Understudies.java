@@ -1,4 +1,4 @@
-package com.br.google.code.jam.women2017;
+package com.br.google.code.jam.women.year2017;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class Understudies {
 
-    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women 2017/Input - Output/";
+    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women/2017/Input - Output/";
 
 //    private static final String FILE_INPUT_PATH = PATH + "understudies_small_input_sample.txt";
 //    private static final String FILE_OUTPUT_PATH = PATH + "understudies_small_output_sample.txt";

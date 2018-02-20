@@ -1,4 +1,4 @@
-package com.br.google.code.jam.women2017;
+package com.br.google.code.jam.women.year2017;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class WordSearch {
 
-    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women 2017/Input - Output/";
+    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women/2017/Input - Output/";
 
 //    private static final String FILE_INPUT_PATH = PATH + "word_search_input_sample.txt";
 //    private static final String FILE_OUTPUT_PATH = PATH + "word_search_output_sample.txt";

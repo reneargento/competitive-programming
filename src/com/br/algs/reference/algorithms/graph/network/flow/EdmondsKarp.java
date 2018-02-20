@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.network.flow;
 
 /**
  * Created by rene on 20/10/17.

@@ -1,4 +1,4 @@
-package com.br.google.code.jam.women2017;
+package com.br.google.code.jam.women.year2017;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -39,7 +39,7 @@ public class TicketTrouble {
         }
     }
 
-    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women 2017/Input - Output/";
+    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women/2017/Input - Output/";
 
 //    private static final String FILE_INPUT_PATH = PATH + "tickets_trouble_small_input.txt";
 //    private static final String FILE_OUTPUT_PATH = PATH + "tickets_trouble_small_output.txt";
