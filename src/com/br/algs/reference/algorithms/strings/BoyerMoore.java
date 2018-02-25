@@ -3,51 +3,122 @@ package com.br.algs.reference.algorithms.strings;
 /**
  * Created by rene on 16/12/17.
  */
+// Runs in O(N * M), but the typical running time is N / M
+// Extra space: R
+// Requires backup in the input text
 public class BoyerMoore {
-    private final int R;     // the radix
-    private int[] right;     // the bad-character skip array
 
-    private String pat;      // or as a string
+    private int[] right;
+    private String pattern;
 
-    /**
-     * Preprocesses the pattern string.
-     *
-     * @param pat the pattern string
-     */
-    public BoyerMoore(String pat) {
-        this.R = 256;
-        this.pat = pat;
+    public BoyerMoore(String pattern) {
+        this.pattern = pattern;
+        int alphabetSize = 256;
 
-        // position of rightmost occurrence of c in the pattern
-        right = new int[R];
-        for (int c = 0; c < R; c++)
-            right[c] = -1;
-        for (int j = 0; j < pat.length(); j++)
-            right[pat.charAt(j)] = j;
+        right = new int[alphabetSize];
+
+        for (int currentChar = 0; currentChar < alphabetSize; currentChar++) {
+            right[currentChar] = -1; // -1 for chars not in pattern
+        }
+
+        for (int patternIndex = 0; patternIndex < pattern.length(); patternIndex++)  {
+            right[pattern.charAt(patternIndex)] = patternIndex; // rightmost position for chars in pattern
+        }
     }
 
-    /**
-     * Returns the index of the first occurrrence of the pattern string
-     * in the text string.
-     *
-     * @param  txt the text string
-     * @return the index of the first occurrence of the pattern string
-     *         in the text string; n if no such match
-     */
-    public int search(String txt) {
-        int m = pat.length();
-        int n = txt.length();
+    // Search for pattern in the text.
+    // Returns the index of the first occurrence of the pattern string in the text string or textLength if no such match.
+    public int search(String text) {
+        int textLength = text.length();
+        int patternLength = pattern.length();
+
         int skip;
-        for (int i = 0; i <= n - m; i += skip) {
+
+        for (int textIndex = 0; textIndex <= textLength - patternLength; textIndex += skip) {
+            // Does the pattern match the text at position textIndex?
             skip = 0;
-            for (int j = m-1; j >= 0; j--) {
-                if (pat.charAt(j) != txt.charAt(i+j)) {
-                    skip = Math.max(1, j - right[txt.charAt(i+j)]);
+
+            for (int patternIndex = patternLength - 1; patternIndex >= 0; patternIndex--) {
+                if (pattern.charAt(patternIndex) != text.charAt(textIndex + patternIndex)) {
+                    skip = Math.max(1, patternIndex - right[text.charAt(textIndex + patternIndex)]);
                     break;
                 }
             }
-            if (skip == 0) return i;    // found
+            if (skip == 0) {
+                return textIndex; // found
+            }
         }
-        return n;                       // not found
+
+        return textLength;        // not found
     }
+
+    // Count the occurrences of pattern in the text
+    public int count(String text) {
+        int count = 0;
+
+        int occurrenceIndex = searchFromIndex(text, 0);
+
+        while (occurrenceIndex != text.length()) {
+            count++;
+            occurrenceIndex = searchFromIndex(text, occurrenceIndex + 1);
+        }
+
+        return count;
+    }
+
+    // Prints all the occurrences of pattern in the text
+    public void searchAll(String text) {
+        int occurrenceIndex = searchFromIndex(text, 0);
+
+        if (occurrenceIndex == text.length()) {
+            System.out.println("No occurrences");
+            return;
+        }
+
+        while (occurrenceIndex != text.length()) {
+            System.out.println("Pattern found at index " + occurrenceIndex);
+            occurrenceIndex = searchFromIndex(text, occurrenceIndex + 1);
+        }
+    }
+
+    // Searches for the pattern in the text starting at specified index.
+    private int searchFromIndex(String text, int textStartIndex) {
+        int textLength = text.length();
+        int patternLength = pattern.length();
+
+        int skip;
+
+        for (int textIndex = textStartIndex; textIndex <= textLength - patternLength; textIndex += skip) {
+            // Does the pattern match the text at position textIndex?
+            skip = 0;
+
+            for (int patternIndex = patternLength - 1; patternIndex >= 0; patternIndex--) {
+                if (pattern.charAt(patternIndex) != text.charAt(textIndex + patternIndex)) {
+                    skip = Math.max(1, patternIndex - right[text.charAt(textIndex + patternIndex)]);
+                    break;
+                }
+            }
+            if (skip == 0) {
+                return textIndex; // found
+            }
+        }
+
+        return textLength;        // not found
+    }
+
+    public static void main(String[] args) {
+        String pattern = "AACAA";
+        String text = "AABRAACADABRAACAADABRA";
+
+        BoyerMoore boyerMoore = new BoyerMoore(pattern);
+        System.out.println("text:    " + text);
+
+        int offset = boyerMoore.search(text);
+        System.out.print("pattern: ");
+        for (int i = 0; i < offset; i++) {
+            System.out.print(" ");
+        }
+        System.out.println(pattern);
+    }
+
 }
