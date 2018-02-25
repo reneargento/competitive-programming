@@ -39,25 +39,18 @@ public class DiagonalTraversal {
      * 6 3 1
      */
 
-    private static int[][] traverseDiagonally2(int rows, int seats) {
-        int[][] hallPlan = new int[rows][seats];
+    private static int[][] traverseDiagonally2(int rows, int columns) {
+        int[][] matrix = new int[rows][columns];
 
-        int[] importance = new int[rows * seats];
-        int importanceIndex = 0;
+        int number = rows * columns;
 
-        for(int i = rows * seats; i >= 1; i--) {
-            importance[importanceIndex++] = i;
-        }
-
-        int number = rows * seats;
-
-        for(int i = 0; i < importance.length; i++) {
+        for(int i = 0; i < rows * columns; i++) {
             int row = i;
             int column = 0;
 
             do {
-                if(row >= 0 && row < rows && column >= 0 && column < seats) {
-                    hallPlan[row][column] = number;
+                if(row >= 0 && row < rows && column >= 0 && column < columns) {
+                    matrix[row][column] = number;
                     number--;
                 }
 
@@ -67,7 +60,7 @@ public class DiagonalTraversal {
 
         }
 
-        return hallPlan;
+        return matrix;
     }
 
 }
