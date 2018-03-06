@@ -85,11 +85,7 @@ public class PalindromeStreamChecker {
                     + character) % largePrimeNumber;
         }
 
-        // If hashes match, compare characters. We may have the same characters, but in a different order.
-        // In the original Rabin Karp algorithm this wouldn't be a problem because we take the characters' index
-        // into account when computing hashes. Here the left string is reversed, so we cannot take the character
-        // indexes into account effectively. Each new character inserted at the beginning of the left string
-        // increases the index of all other characters.
+        // Las Vegas version - If hashes match, compare characters.
         if (leftHalfHash == rightHalfHash) {
             return leftStringReverse.toString().equals(rightString.toString());
         }
