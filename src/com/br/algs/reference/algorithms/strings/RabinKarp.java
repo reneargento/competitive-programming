@@ -1,6 +1,8 @@
 package com.br.algs.reference.algorithms.strings;
 
 import java.math.BigInteger;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 /**
@@ -13,7 +15,8 @@ import java.util.Random;
 // Has a probabilistic guarantee of giving the correct output
 
 // Las Vegas version
-// Runs in O(N + M) -> Has a probabilistic guarantee of running in this time.
+// Typical running time is O(N + M) -> Has a probabilistic guarantee of running in this time.
+// Worst case is O(N * M)
 // Extra space: 1
 // Requires backup in the input text
 // Always gives the correct output
@@ -28,6 +31,10 @@ public class RabinKarp {
     private boolean isMonteCarloVersion;
 
     public RabinKarp(String pattern, boolean isMonteCarloVersion) {
+        if (pattern == null) {
+            throw new IllegalArgumentException("Invalid pattern");
+        }
+
         this.pattern = pattern;
         patternLength = pattern.length();
         this.isMonteCarloVersion = isMonteCarloVersion;
@@ -79,6 +86,11 @@ public class RabinKarp {
     // Returns the index of the first occurrence of the pattern string in the text string or textLength if no such match.
     public int search(String text) {
         int textLength = text.length();
+
+        if (textLength < patternLength) {
+            return textLength;
+        }
+
         long textHash = hash(text);
 
         if (patternHash == textHash && check(text, 0)) {
@@ -86,7 +98,7 @@ public class RabinKarp {
         }
 
         for (int textIndex = patternLength; textIndex < textLength; textIndex++) {
-            // Remove leading digit, add trailing digit, check for match
+            // Remove leading character, add trailing character, check for match
             textHash = (textHash + largePrimeNumber - rm * text.charAt(textIndex - patternLength) % largePrimeNumber)
                     % largePrimeNumber;
             textHash = (textHash * alphabetSize + text.charAt(textIndex)) % largePrimeNumber;
@@ -120,17 +132,14 @@ public class RabinKarp {
         return count;
     }
 
-    // Prints all the occurrences of pattern in the text
-    public void searchAll(String text) {
+    // Finds all the occurrences of pattern in the text
+    public Iterable<Integer> findAll(String text) {
+        Queue<Integer> offsets = new LinkedList<>();
+
         int occurrenceIndex = searchFromIndex(text, 0);
 
-        if (occurrenceIndex == text.length()) {
-            System.out.println("No occurrences");
-            return;
-        }
-
         while (occurrenceIndex != text.length()) {
-            System.out.println("Pattern found at index " + occurrenceIndex);
+            offsets.offer(occurrenceIndex);
 
             if (occurrenceIndex + 1 >= text.length()) {
                 break;
@@ -138,6 +147,8 @@ public class RabinKarp {
 
             occurrenceIndex = searchFromIndex(text, occurrenceIndex + 1);
         }
+
+        return offsets;
     }
 
     // Searches for the pattern in the text starting at specified index
@@ -145,6 +156,11 @@ public class RabinKarp {
         String eligibleText = text.substring(textStartIndex);
 
         int textLength = eligibleText.length();
+
+        if (textLength < patternLength) {
+            return textStartIndex + textLength;  // no match
+        }
+
         long textHash = hash(eligibleText);
 
         if (patternHash == textHash && check(eligibleText, 0)) {
@@ -152,7 +168,7 @@ public class RabinKarp {
         }
 
         for (int textIndex = patternLength; textIndex < textLength; textIndex++) {
-            // Remove leading digit, add trailing digit, check for match
+            // Remove leading character, add trailing character, check for match
             textHash = (textHash + largePrimeNumber - rm * eligibleText.charAt(textIndex - patternLength) % largePrimeNumber)
                     % largePrimeNumber;
             textHash = (textHash * alphabetSize + eligibleText.charAt(textIndex)) % largePrimeNumber;

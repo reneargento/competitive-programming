@@ -1,5 +1,8 @@
 package com.br.algs.reference.algorithms.strings;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 /**
  * Created by Rene Argento on 25/02/18.
  */
@@ -69,19 +72,18 @@ public class KnuthMorrisPratt {
         return count;
     }
 
-    // Prints all the occurrences of pattern in the text
-    public void searchAll(String text) {
+    // Finds all the occurrences of pattern in the text
+    public Iterable<Integer> findAll(String text) {
+        Queue<Integer> offsets = new LinkedList<>();
+
         int occurrenceIndex = searchFromIndex(text, 0);
 
-        if (occurrenceIndex == text.length()) {
-            System.out.println("No occurrences");
-            return;
-        }
-
         while (occurrenceIndex != text.length()) {
-            System.out.println("Pattern found at index " + occurrenceIndex);
+            offsets.offer(occurrenceIndex);
             occurrenceIndex = searchFromIndex(text, occurrenceIndex + 1);
         }
+
+        return offsets;
     }
 
     // Searches for the pattern in the text starting at specified index.
