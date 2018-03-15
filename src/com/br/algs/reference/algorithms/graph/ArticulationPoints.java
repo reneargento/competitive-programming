@@ -32,7 +32,7 @@ public class ArticulationPoints {
         }
 
         for(int vertex = 1; vertex <= vertices; vertex++) {
-            if(time[vertex] == -1) {
+            if (time[vertex] == -1) {
                 dfs(adjacent, vertex);
             }
         }
@@ -55,9 +55,9 @@ public class ArticulationPoints {
 
                 low[vertex] = Math.min(low[vertex], low[neighbor]);
 
-                if(parent[vertex] == -1 && children > 1) {
+                if (parent[vertex] == -1 && children > 1) {
                     articulationPoints.add(vertex);
-                } else if(parent[vertex] != -1 && low[neighbor] >= time[vertex]) {
+                } else if (parent[vertex] != -1 && low[neighbor] >= time[vertex]) {
                     articulationPoints.add(vertex);
                 }
             } else if (parent[vertex] != neighbor) {

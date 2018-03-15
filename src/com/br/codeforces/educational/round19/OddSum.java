@@ -56,7 +56,7 @@ public class OddSum {
         int arrayLength = scanner.nextInt();
         int[] numbers = new int[arrayLength];
 
-        for(int i=0; i < arrayLength; i++) {
+        for(int i = 0; i < arrayLength; i++) {
             numbers[i] = scanner.nextInt();
         }
 
@@ -92,7 +92,7 @@ public class OddSum {
     }
 
     private static long oddSum(int[] numbers) {
-        if(numbers == null || numbers.length == 0) {
+        if (numbers == null || numbers.length == 0) {
             return -1;
         }
 
@@ -100,25 +100,25 @@ public class OddSum {
         long maxNegative = Integer.MIN_VALUE;
         long minOddPositive = Integer.MAX_VALUE;
 
-        for(int i=0; i < numbers.length; i++) {
-            if(numbers[i] >= 0) {
+        for(int i = 0; i < numbers.length; i++) {
+            if (numbers[i] >= 0) {
                 positivesSum += numbers[i];
 
-                if(numbers[i] % 2 == 1 && numbers[i] < minOddPositive) {
+                if (numbers[i] % 2 == 1 && numbers[i] < minOddPositive) {
                     minOddPositive = numbers[i];
                 }
-            } else if(numbers[i] % 2 == -1 && numbers[i] > maxNegative) {
+            } else if (numbers[i] % 2 == -1 && numbers[i] > maxNegative) {
                 maxNegative = numbers[i];
             }
         }
 
-        if(positivesSum % 2 == 1) {
+        if (positivesSum % 2 == 1) {
             return positivesSum;
         } else {
-            if(maxNegative != Integer.MIN_VALUE && minOddPositive != Integer.MAX_VALUE) {
+            if (maxNegative != Integer.MIN_VALUE && minOddPositive != Integer.MAX_VALUE) {
                 long addition = Math.max(maxNegative, -minOddPositive);
                 return positivesSum + addition;
-            } else if(maxNegative != Integer.MIN_VALUE) {
+            } else if (maxNegative != Integer.MIN_VALUE) {
                 return positivesSum + maxNegative;
             } else if (minOddPositive != Integer.MAX_VALUE){
                 return positivesSum - minOddPositive;

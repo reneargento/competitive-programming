@@ -30,7 +30,7 @@ public class Wallpapers {
 
         int tests = scanner.nextInt();
 
-        for(int i=0; i < tests; i++) {
+        for(int i = 0; i < tests; i++) {
             int stores = scanner.nextInt();
 
             long minWidth = Integer.MAX_VALUE;
@@ -40,7 +40,7 @@ public class Wallpapers {
 
             Set<Store> storeSet = new HashSet<>();
 
-            for(int s=0; s < stores; s++) {
+            for(int s = 0; s < stores; s++) {
                 long width1 = scanner.nextInt();
                 long width2 = scanner.nextInt();
                 long height1 = scanner.nextInt();
@@ -48,19 +48,19 @@ public class Wallpapers {
 
                 Store store = new Store(s, width1, width2, height1, height2);
 
-                if(width1 <= minWidth) {
+                if (width1 <= minWidth) {
                     minWidth = width1;
                     storeSet.add(store);
                 }
-                if(width2 >= maxWidth) {
+                if (width2 >= maxWidth) {
                     maxWidth = width2;
                     storeSet.add(store);
                 }
-                if(height1 <= minHeight) {
+                if (height1 <= minHeight) {
                     minHeight = height1;
                     storeSet.add(store);
                 }
-                if(height2 >= maxHeight) {
+                if (height2 >= maxHeight) {
                     maxHeight = height2;
                     storeSet.add(store);
                 }
@@ -69,14 +69,14 @@ public class Wallpapers {
             boolean hasStore = false;
 
             for(Store store : storeSet) {
-                if(store.minWidth == minWidth && store.maxWidth == maxWidth
+                if (store.minWidth == minWidth && store.maxWidth == maxWidth
                         && store.minHeight == minHeight && store.maxHeight == maxHeight) {
                     hasStore = true;
                     break;
                 }
             }
 
-            if(hasStore) {
+            if (hasStore) {
                 System.out.println("ANO");
             } else {
                 System.out.println("NIE");

@@ -105,7 +105,7 @@ public class ParallelJobSchedulingWithDeadlines {
         for(int job = 0; job < numberOfJobs; job++) {
             double distance = bellmanFord.distTo(job);
 
-            if(distance != 0) {
+            if (distance != 0) {
                 distance = distance * -1;
             }
 
@@ -114,7 +114,7 @@ public class ParallelJobSchedulingWithDeadlines {
 
         double targetDistance = bellmanFord.distTo(target);
 
-        if(targetDistance != 0) {
+        if (targetDistance != 0) {
             targetDistance = targetDistance * -1;
         }
 

@@ -13,22 +13,18 @@ public class PalindromeStreamChecker {
     // Pattern
     private StringBuilder currentString;
 
-    // Left half of the pattern reversed
-    private StringBuilder leftStringReverse;
-    // Right half of the pattern
-    private StringBuilder rightString;
-
     private long largePrimeNumber; // prime number used to evaluate Rabin-Karp's rolling hash
     private int alphabetSize;
 
     private long hash;
-    private long leftHalfHash;
+
+    // Hash of the left half of the pattern reversed
+    private long leftHalfReversedHash;
+    // Hash of the right half of the pattern
     private long rightHalfHash;
 
     PalindromeStreamChecker() {
         currentString = new StringBuilder();
-        leftStringReverse = new StringBuilder();
-        rightString = new StringBuilder();
 
         alphabetSize = 256;
         hash = 1;
@@ -49,12 +45,10 @@ public class PalindromeStreamChecker {
 
         // Base cases: strings of lengths 1 and 2
         if (patternLength == 1) {
-            leftStringReverse.append(character);
-            leftHalfHash = character % largePrimeNumber;
+            leftHalfReversedHash = character % largePrimeNumber;
 
             return true;
         } else if (patternLength == 2) {
-            rightString.append(character);
             rightHalfHash = character % largePrimeNumber;
 
             return currentString.charAt(0) == currentString.charAt(1);
@@ -65,34 +59,41 @@ public class PalindromeStreamChecker {
             // Right string -> add trailing digit in right half
             char characterToBeAddedInLeftString = currentString.charAt((patternLength - 1) / 2);
 
-            leftStringReverse.insert(0, characterToBeAddedInLeftString);
-            rightString.append(character);
-
             hash = (hash * alphabetSize) % largePrimeNumber;
 
-            leftHalfHash = (leftHalfHash + hash * characterToBeAddedInLeftString) % largePrimeNumber;
+            leftHalfReversedHash = (leftHalfReversedHash + hash * characterToBeAddedInLeftString) % largePrimeNumber;
             rightHalfHash = (rightHalfHash * alphabetSize + character) % largePrimeNumber;
         } else {
             // Left string -> no changes
             // Right string -> remove leading digit and add trailing digit
-            char characterToRemove = rightString.charAt(0);
-
-            rightString.deleteCharAt(0);
-            rightString.append(character);
+            char characterToRemove = currentString.charAt((patternLength - 1) / 2);
 
             rightHalfHash = (alphabetSize * (rightHalfHash + largePrimeNumber
                     - characterToRemove * hash) % largePrimeNumber
                     + character) % largePrimeNumber;
         }
 
+        // Monte Carlo version - If hashes match, a palindrome was found.
+//      if (leftHalfReversedHash == rightHalfHash) {
+//          return true;
+//      }
+
         // Las Vegas version - If hashes match, compare characters.
-        if (leftHalfHash == rightHalfHash) {
-            return leftStringReverse.toString().equals(rightString.toString());
+        if (leftHalfReversedHash == rightHalfHash) {
+            boolean isPalindrome = true;
+
+            for (int index = 0; index < currentString.length() / 2; index++) {
+                if (currentString.charAt(index) != currentString.charAt(currentString.length() - 1 - index)) {
+                    isPalindrome = false;
+                    break;
+                }
+            }
+
+            return isPalindrome;
         }
 
         return false;
     }
-
 
     public static void main(String[] args) {
         System.out.println("Test 1:");

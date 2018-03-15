@@ -190,13 +190,13 @@ public class CatchThemAll {
         // Divide by 2 because we counted distance from u to v and from v to u
         //distanceFromAllToAll /= verticesCount;
 
-        if(codejamonToCatch > 1) {
+        if (codejamonToCatch > 1) {
             double distanceToAllMinus1AsSource = distanceFromAllToAll - distanceFromVertexToAllOthers[1];
             time += distanceToAllMinus1AsSource / (verticesCount - 1);
         }
 
         double otherTime = 0;
-        if(codejamonToCatch > 2) {
+        if (codejamonToCatch > 2) {
             otherTime += distanceFromAllToAll * (codejamonToCatch - 1);
         }
 

@@ -25,7 +25,7 @@ public class EulerPhi {
         long eulerPhi = number;
 
         while(number != 1 && currentPrime * currentPrime <= number) {
-            if(number % currentPrime == 0) {
+            if (number % currentPrime == 0) {
                 eulerPhi -= eulerPhi / currentPrime;
             }
 
@@ -36,7 +36,7 @@ public class EulerPhi {
             currentPrime = primesIterator.next();
         }
 
-        if(number != 1) {
+        if (number != 1) {
             eulerPhi -= eulerPhi / number; //last factor, the number is a prime
         }
 
@@ -58,7 +58,7 @@ public class EulerPhi {
 
         for(long i = 2; i <= number; i++) {
 
-            if(isPrime[(int) i]) {
+            if (isPrime[(int) i]) {
                 for (long j = i * i; j < isPrime.length; j += i) {
                     isPrime[(int) j] = false;
                 }

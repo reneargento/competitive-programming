@@ -192,7 +192,7 @@ public class Ratatouille {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < recipeInformation.size(); i++) {
+        for(int i = 0; i < recipeInformation.size(); i++) {
 
             String[] values = recipeInformation.get(i).split(" ");
             int numberOfIngredients = Integer.parseInt(values[0]);
@@ -201,17 +201,17 @@ public class Ratatouille {
             i++;
             String[] ingredientsValues = recipeInformation.get(i).split(" ");
             int[] ingredients = new int[numberOfIngredients];
-            for(int j=0; j < ingredients.length; j++) {
+            for(int j = 0; j < ingredients.length; j++) {
                 ingredients[j] = Integer.parseInt(ingredientsValues[j]);
             }
 
             List<Integer[]> packages = new ArrayList<>();
-            for(int j=0; j < numberOfIngredients; j++) {
+            for(int j = 0; j < numberOfIngredients; j++) {
                 i++;
                 String[] packageValues = recipeInformation.get(i).split(" ");
                 Integer[] currentPackage = new Integer[numberOfPackages];
 
-                for(int k=0; k < numberOfPackages; k++) {
+                for(int k = 0; k < numberOfPackages; k++) {
                     currentPackage[k] = Integer.parseInt(packageValues[k]);
                 }
 
@@ -292,16 +292,16 @@ public class Ratatouille {
 
     private static int getNumberOfKits(int[] ingredients, List<Integer[]> grams) {
 
-        if(ingredients.length == 0) {
+        if (ingredients.length == 0) {
             return 0;
         }
 
         Map<Integer, List<Range>> servingsCount = new HashMap<>();
 
-        for(int i=0; i < grams.size(); i++) {
+        for(int i = 0; i < grams.size(); i++) {
 
             Integer[] grams1 = grams.get(i);
-            for(int j=0; j < grams1.length; j++) {
+            for(int j = 0; j < grams1.length; j++) {
 
                 // Lower bound: 0.9 * R * M < Q
                 // Upper bound: 1.1 * R * M > Q
@@ -317,7 +317,7 @@ public class Ratatouille {
                 Range newRange = new Range(lowerBoundInt, upperBoundInt);
                 List<Range> servingsList;
 
-                if(servingsCount.containsKey(i)) {
+                if ( servingsCount.containsKey(i)) {
                     servingsList = servingsCount.get(i);
                 } else {
                     servingsList = new ArrayList<>();
@@ -336,10 +336,10 @@ public class Ratatouille {
             Collections.sort(servingsCountList);
         }
 
-        if(servingsCount.size() == 1) {
+        if (servingsCount.size() == 1) {
             List<Range> servingsCountList = servingsCount.get(0);
             for(Range range : servingsCountList) {
-                if(range.lowerBound <= range.higherBound) {
+                if (range.lowerBound <= range.higherBound) {
                     kits++;
                 }
             }
@@ -348,7 +348,7 @@ public class Ratatouille {
                 for(int key : servingsCount.keySet()) {
                     List<Range> servingsCountList = servingsCount.get(key);
 
-                    if(servingsCountList.isEmpty()) {
+                    if (servingsCountList.isEmpty()) {
                         break;
                     }
                     Range servingsCount1 = servingsCountList.get(0);
@@ -356,30 +356,30 @@ public class Ratatouille {
                     boolean canMakeKit = false;
 
                     for(int key2 : servingsCount.keySet()) {
-                        if(key != key2) {
+                        if (key != key2) {
                             canMakeKit = false;
 
                             List<Range> servingsCountList2 = servingsCount.get(key2);
 
                             for(Range servingsCount2 : servingsCountList2) {
-                                if(isInRange(servingsCount1, servingsCount2)) {
+                                if (isInRange(servingsCount1, servingsCount2)) {
                                     canMakeKit = true;
                                     break;
                                 }
                             }
 
-                            if(!canMakeKit) {
+                            if (!canMakeKit) {
                                 break;
                             }
                         }
                     }
 
-                    if(canMakeKit) {
+                    if (canMakeKit) {
                         kits++;
 
                         for(int key2 : servingsCount.keySet()) {
                             List<Range> servingsCountList2 = servingsCount.get(key2);
-                            if(servingsCountList2 != null && servingsCountList2.size() > 0) {
+                            if (servingsCountList2 != null && servingsCountList2.size() > 0) {
                                 servingsCountList2.remove(0);
                             }
                         }
@@ -392,16 +392,16 @@ public class Ratatouille {
     }
 
     private static boolean isInRange(Range range1, Range range2) {
-        if(range1.higherBound < range2.lowerBound) {
+        if (range1.higherBound < range2.lowerBound) {
             return false;
         }
-        if(range1.lowerBound > range2.higherBound) {
+        if (range1.lowerBound > range2.higherBound) {
             return false;
         }
-        if(range2.higherBound < range1.lowerBound) {
+        if (range2.higherBound < range1.lowerBound) {
             return false;
         }
-        if(range2.lowerBound > range1.higherBound) {
+        if (range2.lowerBound > range1.higherBound) {
             return false;
         }
 
@@ -415,7 +415,7 @@ public class Ratatouille {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 valuesList.add(lines.get(i));
             }
         } catch (IOException e) {

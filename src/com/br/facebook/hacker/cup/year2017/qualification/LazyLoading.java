@@ -147,12 +147,12 @@ public class LazyLoading {
         //long numberOfDays = input[0]; //not needed
         int dayIndex = 1;
 
-        for(int i=1; i < input.length; i++) {
+        for(int  i = 1; i < input.length; i++) {
 
             long numberWeights = input[i];
             long[] weights = new long[(int) numberWeights];
 
-            for(int j=0; j < numberWeights; j++) {
+            for(int j = 0; j < numberWeights; j++) {
                 i++;
                 weights[j] = input[i];
             }
@@ -169,7 +169,7 @@ public class LazyLoading {
     //O(n log n)
     private static long numberOfTrips(long[] weights) {
 
-        if(weights == null || weights.length == 0) {
+        if (weights == null || weights.length == 0) {
             return 0;
         }
 
@@ -192,7 +192,7 @@ public class LazyLoading {
                 startIndex++;
             }
 
-            if(currentTripWeight >= 50) {
+            if (currentTripWeight >= 50) {
                 numberOfTrips++;
             }
 

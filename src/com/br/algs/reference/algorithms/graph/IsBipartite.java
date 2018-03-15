@@ -16,7 +16,7 @@ public class IsBipartite {
         color = new boolean[adjacent.length];
 
         for(int source = 0; source < adjacent.length; source++) {
-            if(!visited[source]) {
+            if (!visited[source]) {
                 dfs(adjacent, source);
             }
         }
@@ -25,12 +25,12 @@ public class IsBipartite {
     private void dfs(List<Integer>[] adjacent, int vertex) {
         visited[vertex] = true;
 
-        if(adjacent[vertex] != null) {
+        if (adjacent[vertex] != null) {
             for(int neighbor : adjacent[vertex]) {
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     color[neighbor] = !color[vertex];
                     dfs(adjacent, neighbor);
-                } else if(color[neighbor] == color[vertex]) {
+                } else if (color[neighbor] == color[vertex]) {
                     isTwoColorable = false;
                 }
             }

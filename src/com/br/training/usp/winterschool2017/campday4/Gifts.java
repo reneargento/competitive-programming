@@ -18,16 +18,16 @@ public class Gifts {
         int itemsUsed = 0;
         int[] boxes = new int[gifts];
 
-        for(int i=0; i < gifts; i++) {
+        for(int i = 0; i < gifts; i++) {
             boxes[i] = scanner.nextInt();
         }
 
         Arrays.sort(boxes);
 
-        for(int i=0; i < boxes.length; i++) {
+        for(int i = 0; i < boxes.length; i++) {
             long currentValue = boxes[i] - itemsUsed;
 
-            if(currentValue <= 0) {
+            if (currentValue <= 0) {
                 combinations = 0;
                 break;
             }

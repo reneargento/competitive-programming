@@ -52,7 +52,7 @@ public class DoesItSort {
         int[] params1 = new int[functionCalls];
         int[] params2 = new int[functionCalls];
 
-        for(int i=0; i < functionCalls; i++) {
+        for(int i = 0; i < functionCalls; i++) {
             String function = FastReader.next();
             int param1 = FastReader.nextInt();
             int param2 = FastReader.nextInt();
@@ -66,17 +66,17 @@ public class DoesItSort {
 
         boolean isSorted = nonSortableBitmap == -1;
 
-        if(!isSorted) {
+        if (!isSorted) {
             System.out.println("incorrect");
 
-            for(int i=19; i >= 0; i--) {
-                if((nonSortableBitmap & (1 << i)) == 0) {
+            for(int i = 19; i >= 0; i--) {
+                if ((nonSortableBitmap & (1 << i)) == 0) {
                     System.out.print(0);
                 } else {
                     System.out.print(1);
                 }
 
-                if(i > 0) {
+                if (i > 0) {
                     System.out.print(" ");
                 }
             }
@@ -87,7 +87,7 @@ public class DoesItSort {
     }
 
     private static boolean testSorting(int bitmap, String[] commands, int[] params1,  int[] params2) {
-        for(int j=0; j < commands.length; j++) {
+        for(int j = 0; j < commands.length; j++) {
             String function = commands[j];
             int originalParam1 = params1[j];
             int originalParam2 = params2[j];
@@ -96,7 +96,7 @@ public class DoesItSort {
             int param1 = 19 - originalParam1;
             int param2 = 19 - originalParam2;
 
-            if(function.equals("sort")) {
+            if (function.equals("sort")) {
                 int bitmapFraction = clearAllBitsExceptRange(bitmap, originalParam1 + 12,
                         originalParam2 + 12 - 1);
                 int numberOf1s = count1Bits(bitmapFraction);
@@ -104,20 +104,20 @@ public class DoesItSort {
                 int numberOfBitsInRange = originalParam2 - originalParam1;
                 int numberOfBitsToClear = numberOfBitsInRange - numberOf1s;
 
-                if(numberOf1s != 0 && numberOfBitsToClear != 0) {
+                if (numberOf1s != 0 && numberOfBitsToClear != 0) {
                     bitmap = clearRangeOfBits(bitmap, originalParam1 + 12, numberOfBitsToClear);
                     bitmap = setRangeOfBits(bitmap, originalParam1 + 12 + numberOfBitsToClear, numberOf1s);
                 }
             } else {
-                if((bitmap & (1 << param1)) != 0 && (bitmap & (1 << param2)) == 0) {
+                if ((bitmap & (1 << param1)) != 0 && (bitmap & (1 << param2)) == 0) {
                     bitmap = bitmap & ~(1 << param1);
                     bitmap = bitmap | (1 << param2);
                 }
             }
         }
 
-        for(int j=19; j > 0; j--) {
-            if((bitmap & (1 << j)) != 0 && (bitmap & (1 << (j - 1))) == 0) {
+        for(int j = 19; j > 0; j--) {
+            if ((bitmap & (1 << j)) != 0 && (bitmap & (1 << (j - 1))) == 0) {
                 return false;
             }
         }
@@ -130,15 +130,15 @@ public class DoesItSort {
 
         int[] bitmaps = new int[all1Bits + 1];
 
-        for(int bitmap=0; bitmap < bitmaps.length; bitmap++) {
+        for(int bitmap = 0; bitmap < bitmaps.length; bitmap++) {
             bitmaps[bitmap] = bitmap;
         }
         //Improve worst-case by randomizing the bitmap tests
         shuffle(bitmaps);
 
-        for(int i=0; i < bitmaps.length; i++) {
+        for(int i = 0; i < bitmaps.length; i++) {
             boolean isSorted = testSorting(bitmaps[i], commands, params1, params2);
-            if(!isSorted) {
+            if (!isSorted) {
                 return bitmaps[i];
             }
         }

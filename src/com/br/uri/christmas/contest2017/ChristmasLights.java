@@ -29,13 +29,13 @@ public class ChristmasLights {
 
             // The binary representation is inversed, but this is a not problem for this exercise
             for(char bulb : binaryBulbs.toCharArray()) {
-                if(bulb == '1') {
+                if (bulb == '1') {
                     currentConsecutiveBulbs++;
                 } else {
                     currentConsecutiveBulbs = 0;
                 }
 
-                if(currentConsecutiveBulbs > largestConsecutiveBulbs) {
+                if (currentConsecutiveBulbs > largestConsecutiveBulbs) {
                     largestConsecutiveBulbs = currentConsecutiveBulbs;
                 }
             }

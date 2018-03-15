@@ -7,7 +7,7 @@ public class MatrixExponentiation {
 
     //Used for matrices n x n
     public static long[][] fastMatrixExponentiation(long[][] matrix, int exponent, long mod) {
-        if(exponent == 0) {
+        if (exponent == 0) {
             long[][] identityMatrix = new long[matrix.length][matrix[0].length];
 
             for(int i = 0; i < matrix.length; i++) {
@@ -17,13 +17,13 @@ public class MatrixExponentiation {
             return identityMatrix;
         }
 
-        if(exponent == 1) {
+        if (exponent == 1) {
             return matrix;
         }
 
         long[][] matrixSquared = matrixMultiplication(matrix, matrix, mod);
 
-        if(exponent % 2 == 0) {
+        if (exponent % 2 == 0) {
             return fastMatrixExponentiation(matrixSquared, exponent / 2, mod);
         } else {
             return (matrixMultiplication(matrix,

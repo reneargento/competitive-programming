@@ -94,16 +94,16 @@ public class BadOrder {
 
         @Override
         public boolean equals(Object that) {
-            if(this == that) {
+            if (this == that) {
                 return true;
             }
 
-            if(!(that instanceof Path)) {
+            if (!(that instanceof Path)) {
                 return false;
             }
 
             Path otherPath = (Path) that;
-            if(this.beginning == otherPath.beginning
+            if (this.beginning == otherPath.beginning
                     && this.end == otherPath.end) {
                 return true;
             }
@@ -131,37 +131,37 @@ public class BadOrder {
         updateCubesAndCountNumberOfSwaps(array0);
 
         System.out.println(updateCubesAndCountNumberOfSwaps(array0) + " Expected: 2");
-        for(int i=0; i < array0.length; i++) {
+        for(int i = 0; i < array0.length; i++) {
             System.out.print(array0[i]);
 
-            if(i != array0.length - 1) {
+            if (i != array0.length - 1) {
                 System.out.print(" ");
             }
         }
 
         System.out.println("\n" + updateCubesAndCountNumberOfSwaps(array1) + " Expected: 1");
-        for(int i=0; i < array1.length; i++) {
+        for(int i = 0; i < array1.length; i++) {
             System.out.print(array1[i]);
 
-            if(i != array1.length - 1) {
+            if (i != array1.length - 1) {
                 System.out.print(" ");
             }
         }
 
         System.out.println("\n" + updateCubesAndCountNumberOfSwaps(array2) + " Expected: 3");
-        for(int i=0; i < array2.length; i++) {
+        for(int i = 0; i < array2.length; i++) {
             System.out.print(array2[i]);
 
-            if(i != array2.length - 1) {
+            if (i != array2.length - 1) {
                 System.out.print(" ");
             }
         }
 
         System.out.println("\n" + updateCubesAndCountNumberOfSwaps(array3) + " Expected: 2");
-        for(int i=0; i < array3.length; i++) {
+        for(int i = 0; i < array3.length; i++) {
             System.out.print(array3[i]);
 
-            if(i != array3.length - 1) {
+            if (i != array3.length - 1) {
                 System.out.print(" ");
             }
         }
@@ -171,20 +171,20 @@ public class BadOrder {
         Scanner sc = new Scanner(System.in);
         int numberOfTests = Integer.parseInt(sc.nextLine());
 
-        for(int t=0; t < numberOfTests; t++) {
+        for(int t = 0; t < numberOfTests; t++) {
             int arraySize = sc.nextInt();
 
             int[] array = new int[arraySize];
-            for(int i=0; i < arraySize; i++) {
+            for(int i = 0; i < arraySize; i++) {
                 array[i] = sc.nextInt();
             }
 
             int numberOfSwaps = updateCubesAndCountNumberOfSwaps(array);
             System.out.println(numberOfSwaps);
-            for(int i=0; i < array.length; i++) {
+            for(int i = 0; i < array.length; i++) {
                 System.out.print(array[i]);
 
-                if(i != array.length - 1) {
+                if (i != array.length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -198,17 +198,17 @@ public class BadOrder {
         Map<Integer, Path> paths = new HashMap<>();
         PriorityQueue<Path> priorityQueue = new PriorityQueue<>();
 
-        for(int i=0; i < array.length; i++) {
-            if(array[i] != 0) {
-                if(paths.containsKey(array[i])) {
+        for(int i = 0; i < array.length; i++) {
+            if (array[i] != 0) {
+                if (paths.containsKey(array[i])) {
 
                     Path path1 = paths.get(array[i]);
 
-                    if(paths.containsKey(i + 1)) {
+                    if (paths.containsKey(i + 1)) {
                         Path path2 = paths.get(i + 1);
 
                         //Get longer cycle
-                        if(path1.numberOfEdges >= path2.numberOfEdges) {
+                        if (path1.numberOfEdges >= path2.numberOfEdges) {
                             path1.end = path2.end;
                             path1.numberOfEdges += path2.numberOfEdges + 1;
 
@@ -227,7 +227,7 @@ public class BadOrder {
                         paths.put(i + 1, path1);
                     }
                 } else {
-                    if(paths.containsKey(i + 1)) {
+                    if (paths.containsKey(i + 1)) {
                         Path path = paths.get(i + 1);
 
                         path.end = array[i];
@@ -249,7 +249,7 @@ public class BadOrder {
             Path path = paths.get(pathVertex);
 
             //We don't want cycles
-            if(path.beginning == path.end
+            if (path.beginning == path.end
                     || (array[path.beginning - 1] == path.end && array[path.end - 1] == path.beginning)) {
                 continue;
             }
@@ -276,25 +276,25 @@ public class BadOrder {
         Set<Integer> existentValues = new HashSet<>();
         Queue<Integer> nonExistentValues = new LinkedList<>();
 
-        for(int i=0; i < array.length; i++) {
-            if(array[i] != 0) {
+        for(int i = 0; i < array.length; i++) {
+            if (array[i] != 0) {
                 existentValues.add(array[i]);
             }
         }
-        for(int i=1; i <= array.length; i++) {
-            if(!existentValues.contains(i)) {
+        for(int i = 1; i <= array.length; i++) {
+            if (!existentValues.contains(i)) {
                 nonExistentValues.add(i);
             }
         }
 
-        if(priorityQueue.size() == 0) {
+        if (priorityQueue.size() == 0) {
             //All values are 0 or there are only cycles in the original configuration
             //Make an array such as [2, 3, 4, 5, 6, 1] or as close as possible
-            for(int i=array.length - 1; i >= 0; i--) {
-                if(array[i] == 0) {
+            for(int i = array.length - 1; i >= 0; i--) {
+                if (array[i] == 0) {
                     int nextValue = nonExistentValues.poll();
 
-                    if(nextValue - 1 == i && nonExistentValues.size() > 0) {
+                    if (nextValue - 1 == i && nonExistentValues.size() > 0) {
                         nonExistentValues.offer(nextValue);
                         nextValue = nonExistentValues.poll();
                     }
@@ -304,11 +304,11 @@ public class BadOrder {
                 }
             }
 
-            for(int i=0; i < array.length; i++) {
-                if(array[i] == 0 && !nonExistentValues.isEmpty()) {
+            for(int i = 0; i < array.length; i++) {
+                if (array[i] == 0 && !nonExistentValues.isEmpty()) {
                     int nextValue = nonExistentValues.poll();
 
-                    if(nextValue - 1 == i && nonExistentValues.size() > 0) {
+                    if (nextValue - 1 == i && nonExistentValues.size() > 0) {
                         nonExistentValues.offer(nextValue);
                         nextValue = nonExistentValues.poll();
                     }

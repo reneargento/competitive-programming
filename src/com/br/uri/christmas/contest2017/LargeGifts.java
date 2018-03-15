@@ -63,14 +63,14 @@ public class LargeGifts {
 
         @Override
         public int compareTo(Gift other) {
-            if(this.volume > other.volume) {
+            if (this.volume > other.volume) {
                 return -1;
-            } else if(this.volume < other.volume) {
+            } else if (this.volume < other.volume) {
                 return 1;
             } else {
-                if(this.id < other.id) {
+                if (this.id < other.id) {
                     return -1;
-                } else if(this.id > other.id) {
+                } else if (this.id > other.id) {
                     return 1;
                 }
             }
@@ -110,7 +110,7 @@ public class LargeGifts {
             for(int k = 0; k < giftsToChoose; k++) {
                 System.out.print(chosenGifts[k]);
 
-                if(k != giftsToChoose - 1) {
+                if (k != giftsToChoose - 1) {
                     System.out.print(" ");
                 }
             }

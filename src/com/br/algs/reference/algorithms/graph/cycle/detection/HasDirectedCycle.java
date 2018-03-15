@@ -21,7 +21,7 @@ public class HasDirectedCycle {
         visited = new boolean[adjacent.length];
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(!visited[vertex]) {
+            if (!visited[vertex]) {
                 dfs(adjacent, vertex);
             }
         }
@@ -32,12 +32,12 @@ public class HasDirectedCycle {
         visited[vertex] = true;
 
         for(int neighbor : adjacent[vertex]) {
-            if(hasCycle()) {
+            if (hasCycle()) {
                 return;
-            } else if(!visited[neighbor]) {
+            } else if (!visited[neighbor]) {
                 edgeTo[neighbor] = vertex;
                 dfs(adjacent, neighbor);
-            } else if(onStack[neighbor]) {
+            } else if (onStack[neighbor]) {
                 cycle = new ArrayDeque<>();
 
                 for(int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {

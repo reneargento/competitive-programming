@@ -84,7 +84,7 @@ public class SuperMancunian {
 
         //O(inverse Ackermann function)
         public int find(int site) {
-            if(site == leaders[site]) {
+            if (site == leaders[site]) {
                 return site;
             }
 
@@ -97,11 +97,11 @@ public class SuperMancunian {
             int leader1 = find(site1);
             int leader2 = find(site2);
 
-            if(leader1 == leader2) {
+            if (leader1 == leader2) {
                 return;
             }
 
-            if(ranks[leader1] < ranks[leader2]) {
+            if (ranks[leader1] < ranks[leader2]) {
                 leaders[leader1] = leader2;
             } else if (ranks[leader2] < ranks[leader1]) {
                 leaders[leader2] = leader1;
@@ -130,10 +130,10 @@ public class SuperMancunian {
 
             //Add edge
             Edge edge = new Edge(vertex1Id, vertex2Id, cost);
-            if(adjacent[vertex1Id] == null) {
+            if (adjacent[vertex1Id] == null) {
                 adjacent[vertex1Id] = new ArrayList<>();
             }
-            if(adjacent[vertex2Id] == null) {
+            if (adjacent[vertex2Id] == null) {
                 adjacent[vertex2Id] = new ArrayList<>();
             }
 
@@ -157,9 +157,9 @@ public class SuperMancunian {
         Arrays.sort(edges, new Comparator<Edge>() {
             @Override
             public int compare(Edge edge1, Edge edge2) {
-                if(edge1.cost < edge2.cost) {
+                if (edge1.cost < edge2.cost) {
                     return -1;
-                } else if(edge1.cost > edge2.cost) {
+                } else if (edge1.cost > edge2.cost) {
                     return 1;
                 } else {
                     return 0;
@@ -171,25 +171,25 @@ public class SuperMancunian {
 
         for(Edge edge : edges) {
 
-            if(unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+            if (unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
                 unionFind.union(edge.vertex1, edge.vertex2);
 
-                if(minimumSpanningTree[edge.vertex1] == null) {
+                if (minimumSpanningTree[edge.vertex1] == null) {
                     minimumSpanningTree[edge.vertex1] = new ArrayList<>();
                 }
-                if(minimumSpanningTree[edge.vertex2] == null) {
+                if (minimumSpanningTree[edge.vertex2] == null) {
                     minimumSpanningTree[edge.vertex2] = new ArrayList<>();
                 }
 
                 minimumSpanningTree[edge.vertex1].add(edge);
                 minimumSpanningTree[edge.vertex2].add(edge);
 
-                if(longestEdgeInMSTCost < edge.cost) {
+                if (longestEdgeInMSTCost < edge.cost) {
                     longestEdgeInMSTCost = edge.cost;
                 }
             }
 
-            if(unionFind.components == 1) {
+            if (unionFind.components == 1) {
                 break;
             }
         }
@@ -201,7 +201,7 @@ public class SuperMancunian {
         long costOfMinimumSpanningTree = 0;
 
         for(int vertex = 0; vertex < minimumSpanningTree.length; vertex++) {
-            if(minimumSpanningTree[vertex] != null) {
+            if (minimumSpanningTree[vertex] != null) {
                 for(Edge edge : minimumSpanningTree[vertex]) {
                     costOfMinimumSpanningTree += edge.cost;
                 }
@@ -217,8 +217,8 @@ public class SuperMancunian {
         UnionFind unionFind = new UnionFind(totalVertices + 1);
 
         for(Edge edge : allEdges) {
-            if(!unionFind.connected(edge.vertex1, edge.vertex2)) {
-                if(edge.cost < longestEdgeInMSTCost) {
+            if (!unionFind.connected(edge.vertex1, edge.vertex2)) {
+                if (edge.cost < longestEdgeInMSTCost) {
                     unionFind.union(edge.vertex1, edge.vertex2);
                 } else {
                     paths++;

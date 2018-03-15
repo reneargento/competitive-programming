@@ -24,7 +24,7 @@ public class EdgeWeightedDirectedCycle {
         visited = new boolean[edgeWeightedDigraph.vertices()];
 
         for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            if(!visited[vertex]) {
+            if (!visited[vertex]) {
                 dfs(edgeWeightedDigraph, vertex);
             }
         }
@@ -37,12 +37,12 @@ public class EdgeWeightedDirectedCycle {
         for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
-            if(hasCycle()) {
+            if (hasCycle()) {
                 return;
-            } else if(!visited[neighbor]) {
+            } else if (!visited[neighbor]) {
                 edgeTo[neighbor] = edge;
                 dfs(edgeWeightedDigraph, neighbor);
-            } else if(onStack[neighbor]) {
+            } else if (onStack[neighbor]) {
                 cycle = new ArrayDeque<>();
 
                 DirectedEdge edgeInCycle = edge;

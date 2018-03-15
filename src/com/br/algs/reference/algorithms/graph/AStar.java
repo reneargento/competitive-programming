@@ -24,11 +24,11 @@ public class AStar {
 
         @Override
         public boolean equals(Object that) {
-            if(this == that) {
+            if (this == that) {
                 return true;
             }
 
-            if(!(that instanceof Node)) {
+            if (!(that instanceof Node)) {
                 return false;
             }
 
@@ -72,7 +72,7 @@ public class AStar {
 
             for(Node neighbor : getNeighbors(current)) {
 
-                if(closedSet.contains(neighbor)) {
+                if (closedSet.contains(neighbor)) {
                     continue;
                 }
 
@@ -89,7 +89,7 @@ public class AStar {
             current = openSet.poll();
         }
 
-        if(current == null) {
+        if (current == null) {
             return null;
         }
 
@@ -101,8 +101,8 @@ public class AStar {
     private String getState(int[][] grid) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(int i=0; i < grid.length; i++) {
-            for(int j=0; j < grid[0].length; j++) {
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
                 stringBuilder.append(grid[i][j]);
             }
         }
@@ -142,7 +142,7 @@ public class AStar {
         //  correct position column = 2
         for(int i = 0; i < grid.length; i++) {
             for(int j = 0; j < grid[0].length; j++) {
-                if(grid[i][j] == 0) {
+                if (grid[i][j] == 0) {
                     manhattanDistance += Math.abs(2 - i) + Math.abs(2 - j);;
                     continue;
                 }
@@ -150,7 +150,7 @@ public class AStar {
                 int correctRow;
                 int correctColumn;
 
-                if(grid[i][j] % 3 != 0) {
+                if (grid[i][j] % 3 != 0) {
                     correctRow = grid[i][j] / 3;
                     correctColumn = grid[i][j] % 3 - 1;
                 } else {
@@ -187,8 +187,8 @@ public class AStar {
         for(String state : states) {
             int index = 0;
 
-            for(int i=0; i < 3; i++) {
-                for(int j=0; j < 3; j++) {
+            for(int i = 0; i < 3; i++) {
+                for(int j = 0; j < 3; j++) {
                     System.out.print(state.charAt(index++));
                 }
                 System.out.println();

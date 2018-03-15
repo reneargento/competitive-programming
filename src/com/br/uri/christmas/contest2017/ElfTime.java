@@ -16,7 +16,7 @@ public class ElfTime {
         int toyTime1 = scanner.nextInt();
         int toyTime2 = scanner.nextInt();
 
-        if(toyTime1 + toyTime2 <= time) {
+        if (toyTime1 + toyTime2 <= time) {
             System.out.println("Farei hoje!");
         } else {
             System.out.println("Deixa para amanha!");

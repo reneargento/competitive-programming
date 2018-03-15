@@ -61,7 +61,7 @@ public class Anagrams {
 
         for(int i = left; i <= right; i++) {
             String key = getAnagram(i);
-            if(!dp.containsKey(key)) {
+            if (!dp.containsKey(key)) {
                 dp.put(key, 0);
             }
             dp.put(key, dp.get(key) + 1);

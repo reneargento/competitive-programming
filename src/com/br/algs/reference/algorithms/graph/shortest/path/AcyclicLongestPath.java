@@ -44,7 +44,7 @@ public class AcyclicLongestPath {
 
             //If the vertices are 0-index based, start i with value 0
             for(int i = 1; i < adjacent.length; i++) {
-                if(!visited[i]) {
+                if (!visited[i]) {
                     depthFirstSearch(i, adjacent, finishTimes, visited);
                 }
             }
@@ -59,7 +59,7 @@ public class AcyclicLongestPath {
             for(Edge edge : adj[sourceVertex]) {
                 int neighbor = edge.vertex2;
 
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     depthFirstSearch(neighbor, adj, finishTimes, visited);
                 }
             }
@@ -105,7 +105,7 @@ public class AcyclicLongestPath {
         for(Edge edge : adjacent[vertex]) {
             int neighbor = edge.vertex2;
 
-            if(distTo[neighbor] > distTo[vertex] + edge.weight) {
+            if (distTo[neighbor] > distTo[vertex] + edge.weight) {
                 distTo[neighbor] = distTo[vertex] + edge.weight;
                 edgeTo[neighbor] = edge;
             }
@@ -121,7 +121,7 @@ public class AcyclicLongestPath {
     }
 
     public static Iterable<Edge> pathTo(int vertex) {
-        if(!hasPathTo(vertex)) {
+        if (!hasPathTo(vertex)) {
             return null;
         }
 
@@ -139,7 +139,7 @@ public class AcyclicLongestPath {
         double longestDistance = Double.NEGATIVE_INFINITY;
 
         for(int vertex = 0; vertex < edgeTo.length; vertex++) {
-            if(distTo(vertex) > longestDistance) {
+            if (distTo(vertex) > longestDistance) {
                 longestDistance = distTo(vertex);
                 furthestVertex = vertex;
             }

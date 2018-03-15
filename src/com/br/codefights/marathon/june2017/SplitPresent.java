@@ -23,7 +23,7 @@ public class SplitPresent {
     public static ArrayList<ArrayList<Long>> combinationSum(long[] candidates, long target) {
         ArrayList<ArrayList<Long>> result = new ArrayList<>();
 
-        if(candidates == null || candidates.length == 0) {
+        if (candidates == null || candidates.length == 0) {
             return result;
         }
 
@@ -36,14 +36,14 @@ public class SplitPresent {
     }
 
     public static void combinationSum(long[] candidates, long target, long j, ArrayList<Long> curr, ArrayList<ArrayList<Long>> result){
-        if(target == 0){
+        if (target == 0){
             ArrayList<Long> temp = new ArrayList<>(curr);
             result.add(temp);
             return;
         }
 
         for(int i = (int)j; i < candidates.length; i++){
-            if(target < candidates[i]) {
+            if (target < candidates[i]) {
                 return;
             }
 

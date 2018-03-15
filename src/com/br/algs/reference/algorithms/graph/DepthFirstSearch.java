@@ -68,7 +68,7 @@ public class DepthFirstSearch {
         boolean[] visited = new boolean[adjacent.length];
 
         for(int vertexId = 1; vertexId < adjacent.length; vertexId++) {
-            if(!visited[vertexId]) {
+            if (!visited[vertexId]) {
                 depthFirstSearch(adjacent, vertexId, visited);
             }
         }
@@ -79,9 +79,9 @@ public class DepthFirstSearch {
         visited[sourceVertex] = true;
         System.out.println(sourceVertex);
 
-        if(adjacent[sourceVertex] != null) {
+        if (adjacent[sourceVertex] != null) {
             for(int neighbor : adjacent[sourceVertex]) {
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     depthFirstSearch(adjacent, neighbor, visited);
                 }
             }
@@ -103,7 +103,7 @@ public class DepthFirstSearch {
 
         //If the vertices are 0-index based, start i with value 0
         for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
-            if(adjacent[vertexId] != null) {
+            if (adjacent[vertexId] != null) {
                 adjacentIterators[vertexId] = adjacent[vertexId].iterator();
             }
         }
@@ -111,10 +111,10 @@ public class DepthFirstSearch {
         while (!stack.isEmpty()) {
             int currentVertex = stack.peek();
 
-            if(adjacentIterators[currentVertex].hasNext()) {
+            if (adjacentIterators[currentVertex].hasNext()) {
                 int neighbor = adjacentIterators[currentVertex].next();
 
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     stack.push(neighbor);
                     visited[neighbor] = true;
                 }

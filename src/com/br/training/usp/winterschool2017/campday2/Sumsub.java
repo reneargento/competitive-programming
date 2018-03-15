@@ -16,14 +16,14 @@ public class Sumsub {
 
         long sum = 0;
 
-        for(int i=0; i < elements; i++) {
+        for(int i = 0; i < elements; i++) {
             sum += scanner.nextInt();
             sum = sum % modValue;
         }
 
         long power2 = 1;
 
-        for(int i=0; i < elements - 1; i++) {
+        for(int i = 0; i < elements - 1; i++) {
             power2 = power2 * 2;
             power2 = power2 % modValue;
         }

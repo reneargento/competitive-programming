@@ -25,9 +25,9 @@ public class BalancingGifts {
             for(int gift = 0; gift < gifts; gift++) {
                 int weight = scanner.nextInt();
 
-                if(leftSideWeight + weight - rightSideWeight <= 5) {
+                if (leftSideWeight + weight - rightSideWeight <= 5) {
                     leftSideWeight += weight;
-                } else if(rightSideWeight + weight - leftSideWeight <= 5) {
+                } else if (rightSideWeight + weight - leftSideWeight <= 5) {
                     rightSideWeight += weight;
                 } else {
                     possible = false;
@@ -35,7 +35,7 @@ public class BalancingGifts {
                 }
             }
 
-            if(possible) {
+            if (possible) {
                 System.out.println("Feliz Natal!");
             } else {
                 System.out.println("Ho Ho Ho!");

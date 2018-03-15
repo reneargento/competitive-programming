@@ -22,7 +22,7 @@ public class BuildRectangle {
     private static boolean canBuildRectangle(int n) {
         int sum = (n + 1) * n / 2;
 
-        if(sum % 2 == 0 && n != 4 && n != 3) {
+        if (sum % 2 == 0 && n != 4 && n != 3) {
             return true;
         } else {
             return false;

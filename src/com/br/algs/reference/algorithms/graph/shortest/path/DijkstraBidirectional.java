@@ -51,25 +51,25 @@ public class DijkstraBidirectional {
         priorityQueueTarget.insert(target, 0.0);
 
         while (!priorityQueueSource.isEmpty() || !priorityQueueTarget.isEmpty()) {
-            if(!priorityQueueSource.isEmpty()) {
+            if (!priorityQueueSource.isEmpty()) {
                 int nextVertexToRelax = priorityQueueSource.deleteMin();
                 relax(edgeWeightedDigraph, nextVertexToRelax, priorityQueueSource, distToSource, edgeToSource,
                         relaxedFromSource);
 
                 // Combine shortest paths if there are shortest paths from source to vertex and from vertex to target
-                if(relaxedFromSource[nextVertexToRelax] && relaxedFromTarget[nextVertexToRelax]) {
+                if (relaxedFromSource[nextVertexToRelax] && relaxedFromTarget[nextVertexToRelax]) {
                     computeShortestPath(edgeWeightedDigraph);
                     break;
                 }
             }
 
-            if(!priorityQueueTarget.isEmpty()) {
+            if (!priorityQueueTarget.isEmpty()) {
                 int nextVertexToRelax = priorityQueueTarget.deleteMin();
                 relax(reverseDigraph, nextVertexToRelax, priorityQueueTarget, distToTarget, edgeToTarget,
                         relaxedFromTarget);
 
                 // Combine shortest paths if there are shortest paths from source to vertex and from vertex to target
-                if(relaxedFromSource[nextVertexToRelax] && relaxedFromTarget[nextVertexToRelax]) {
+                if (relaxedFromSource[nextVertexToRelax] && relaxedFromTarget[nextVertexToRelax]) {
                     computeShortestPath(edgeWeightedDigraph);
                     break;
                 }
@@ -83,7 +83,7 @@ public class DijkstraBidirectional {
         int intermediateVertex = -1;
 
         for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            if(distToSource[vertex] + distToTarget[vertex] < shortestDistance) {
+            if (distToSource[vertex] + distToTarget[vertex] < shortestDistance) {
                 shortestDistance = distToSource[vertex] + distToTarget[vertex];
                 intermediateVertex = vertex;
             }
@@ -101,11 +101,11 @@ public class DijkstraBidirectional {
         for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
-            if(distTo[neighbor] > distTo[vertex] + edge.weight()) {
+            if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
                 distTo[neighbor] = distTo[vertex] + edge.weight();
                 edgeTo[neighbor] = edge;
 
-                if(priorityQueue.contains(neighbor)) {
+                if (priorityQueue.contains(neighbor)) {
                     priorityQueue.decreaseKey(neighbor, distTo[neighbor]);
                 } else {
                     priorityQueue.insert(neighbor, distTo[neighbor]);
@@ -129,7 +129,7 @@ public class DijkstraBidirectional {
     }
 
     public Iterable<DirectedEdge> pathTo(int vertex) {
-        if(!hasPathTo(vertex)) {
+        if (!hasPathTo(vertex)) {
             return null;
         }
 

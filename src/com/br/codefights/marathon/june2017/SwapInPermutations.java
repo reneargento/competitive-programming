@@ -69,18 +69,18 @@ public class SwapInPermutations {
         int oddWrong = 0;
         int evenWrong = 0;
 
-        for(int i=0; i < array.length; i++) {
-            if(i % 2 == 0 && array[i] % 2 != 0) {
+        for(int i = 0; i < array.length; i++) {
+            if (i % 2 == 0 && array[i] % 2 != 0) {
                 evenWrong++;
-            } else if(i % 2 != 0 && array[i] % 2 == 0) {
+            } else if (i % 2 != 0 && array[i] % 2 == 0) {
                 oddWrong++;
             }
         }
 
-        if(evenWrong == 0 && oddWrong == 0) {
+        if (evenWrong == 0 && oddWrong == 0) {
             return true;
         }
-        if(evenWrong == 1 && oddWrong == 1) {
+        if (evenWrong == 1 && oddWrong == 1) {
             return true;
         }
 

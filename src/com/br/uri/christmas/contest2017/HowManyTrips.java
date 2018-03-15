@@ -23,7 +23,7 @@ public class HowManyTrips {
             for(int gift = 0; gift < gifts; gift++) {
                 int giftWeight = scanner.nextInt();
 
-                if(currentWeight + giftWeight > totalWeight) {
+                if (currentWeight + giftWeight > totalWeight) {
                     trips++;
                     currentWeight = giftWeight;
                 } else {
@@ -31,7 +31,7 @@ public class HowManyTrips {
                 }
             }
 
-            if(currentWeight != 0) {
+            if (currentWeight != 0) {
                 trips++;
             }
 

@@ -21,7 +21,7 @@ public class HalloweenSale {
         while (dollarsAvailable > 0) {
             int moneyToPay = Math.max(currentPrice, threshold);
 
-            if(dollarsAvailable - moneyToPay >= 0) {
+            if (dollarsAvailable - moneyToPay >= 0) {
                 totalGamesBought++;
             }
 

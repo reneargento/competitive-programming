@@ -99,16 +99,16 @@ public class EvenRoads {
             int originCityNewGraph = originCity + maxVertexValue;
             int destinationCityNewGraph = destinationCity + maxVertexValue;
 
-            if(!vertices.containsKey(originCity)) {
+            if (!vertices.containsKey(originCity)) {
                 vertices.put(originCity, new Vertex(originCity, Integer.MAX_VALUE));
             }
-            if(!vertices.containsKey(destinationCity)) {
+            if (!vertices.containsKey(destinationCity)) {
                 vertices.put(destinationCity, new Vertex(destinationCity, Integer.MAX_VALUE));
             }
-            if(!vertices.containsKey(originCityNewGraph)) {
+            if (!vertices.containsKey(originCityNewGraph)) {
                 vertices.put(originCityNewGraph, new Vertex(originCityNewGraph, Integer.MAX_VALUE));
             }
-            if(!vertices.containsKey(destinationCityNewGraph)) {
+            if (!vertices.containsKey(destinationCityNewGraph)) {
                 vertices.put(destinationCityNewGraph, new Vertex(destinationCityNewGraph, Integer.MAX_VALUE));
             }
 
@@ -116,23 +116,23 @@ public class EvenRoads {
             Edge edge2 = new Edge(originCityNewGraph, destinationCity, length);
 
             //Add edge1
-            if(edges[originCity] == null) {
+            if (edges[originCity] == null) {
                 edges[originCity] = new ArrayList<>();
             }
             edges[originCity].add(edge1);
 
-            if(edges[destinationCityNewGraph] == null) {
+            if (edges[destinationCityNewGraph] == null) {
                 edges[destinationCityNewGraph] = new ArrayList<>();
             }
             edges[destinationCityNewGraph].add(edge1);
 
             //Add edge2
-            if(edges[originCityNewGraph] == null) {
+            if (edges[originCityNewGraph] == null) {
                 edges[originCityNewGraph] = new ArrayList<>();
             }
             edges[originCityNewGraph].add(edge2);
 
-            if(edges[destinationCity] == null) {
+            if (edges[destinationCity] == null) {
                 edges[destinationCity] = new ArrayList<>();
             }
             edges[destinationCity].add(edge2);
@@ -143,9 +143,9 @@ public class EvenRoads {
         PriorityQueue<Vertex> heap = new PriorityQueue<>(10, new Comparator<Vertex>() {
             @Override
             public int compare(Vertex vertex1, Vertex vertex2) {
-                if(vertex1.distanceFromSource < vertex2.distanceFromSource) {
+                if (vertex1.distanceFromSource < vertex2.distanceFromSource) {
                     return -1;
-                } else if(vertex1.distanceFromSource > vertex2.distanceFromSource) {
+                } else if (vertex1.distanceFromSource > vertex2.distanceFromSource) {
                     return 1;
                 } else {
                     return 0;
@@ -164,14 +164,14 @@ public class EvenRoads {
                 Vertex origin = vertices.get(edge.origin);
                 Vertex destination = vertices.get(edge.destination);
 
-                if(origin != currentVertex) {
-                    if(origin.distanceFromSource > currentVertex.distanceFromSource + edge.length) {
+                if (origin != currentVertex) {
+                    if (origin.distanceFromSource > currentVertex.distanceFromSource + edge.length) {
                         heap.remove(origin);
                         origin.distanceFromSource = currentVertex.distanceFromSource + edge.length;
                         heap.add(origin);
                     }
-                } else if(destination != currentVertex) {
-                    if(destination.distanceFromSource > currentVertex.distanceFromSource + edge.length) {
+                } else if (destination != currentVertex) {
+                    if (destination.distanceFromSource > currentVertex.distanceFromSource + edge.length) {
                         heap.remove(destination);
                         destination.distanceFromSource = currentVertex.distanceFromSource + edge.length;
                         heap.add(destination);
@@ -181,7 +181,7 @@ public class EvenRoads {
         }
 
         Vertex destinationVertex = vertices.get(destinationVertexId);
-        if(destinationVertex.distanceFromSource == Integer.MAX_VALUE) {
+        if (destinationVertex.distanceFromSource == Integer.MAX_VALUE) {
             return -1;
         } else {
             return destinationVertex.distanceFromSource;

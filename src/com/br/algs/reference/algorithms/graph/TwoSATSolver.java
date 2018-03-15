@@ -25,7 +25,7 @@ public class TwoSATSolver {
             int[] topologicalOrder = topologicalSort(inverseEdges);
 
             for(int vertex : topologicalOrder) {
-                if(!visited[vertex]) {
+                if (!visited[vertex]) {
                     depthFirstSearch(vertex, adjacent, null, visited, false);
                     sccCount++;
                 }
@@ -50,7 +50,7 @@ public class TwoSATSolver {
 
             //If the vertices are 0-index based, start i with value 0
             for(int i = 0; i < visited.length; i++) {
-                if(!visited[i]) {
+                if (!visited[i]) {
                     depthFirstSearch(i, adjacent, finishTimes, visited, true);
                 }
             }
@@ -70,20 +70,20 @@ public class TwoSATSolver {
                                       boolean[] visited, boolean getFinishTimes) {
             visited[sourceVertex] = true;
 
-            if(!getFinishTimes) {
+            if (!getFinishTimes) {
                 sccId[sourceVertex] = sccCount;
                 componentSizes[sccCount]++;
             }
 
-            if(adjacent[sourceVertex] != null) {
+            if (adjacent[sourceVertex] != null) {
                 for(int neighbor : adjacent[sourceVertex]) {
-                    if(!visited[neighbor]) {
+                    if (!visited[neighbor]) {
                         depthFirstSearch(neighbor, adjacent, finishTimes, visited, getFinishTimes);
                     }
                 }
             }
 
-            if(getFinishTimes) {
+            if (getFinishTimes) {
                 finishTimes.push(sourceVertex);
             }
         }
@@ -99,7 +99,7 @@ public class TwoSATSolver {
             for(int i = 0; i < adjacent.length; i++) {
                 List<Integer> neighbors = adjacent[i];
 
-                if(neighbors != null) {
+                if (neighbors != null) {
                     for(int neighbor : adjacent[i]) {
                         inverseEdges[neighbor].add(i);
                     }
@@ -144,7 +144,7 @@ public class TwoSATSolver {
         Set<Character> variables = new HashSet<>();
         char[] charsInFormula = formula.toCharArray();
         for(int i = 0; i < charsInFormula.length; i++) {
-            if(charsInFormula[i] != '('
+            if (charsInFormula[i] != '('
                     && charsInFormula[i] != ')'
                     && charsInFormula[i] != 'V'
                     && charsInFormula[i] != '^'
@@ -177,7 +177,7 @@ public class TwoSATSolver {
             String variable1Negation;
             String variable2Negation;
 
-            if(values[i].charAt(1) == '!') {
+            if (values[i].charAt(1) == '!') {
                 variable1 = values[i].substring(2, 3);
                 isVariable1Negation = true;
             } else {
@@ -188,7 +188,7 @@ public class TwoSATSolver {
 
             i += 2;
 
-            if(values[i].charAt(0) == '!') {
+            if (values[i].charAt(0) == '!') {
                 variable2 = values[i].substring(1, 2);
                 isVariable2Negation = true;
             } else {
@@ -198,11 +198,11 @@ public class TwoSATSolver {
             variable2Negation = "!" + variable2;
 
             // Add variables to mappings if they do not exist yet
-            if(!variableToIdMap.containsKey(variable1)) {
+            if (!variableToIdMap.containsKey(variable1)) {
                 addVariableToMappings(variable1, variableToIdMap, idToVariableMap);
                 addVariableToMappings(variable1Negation, variableToIdMap, idToVariableMap);
             }
-            if(!variableToIdMap.containsKey(variable2)) {
+            if (!variableToIdMap.containsKey(variable2)) {
                 addVariableToMappings(variable2, variableToIdMap, idToVariableMap);
                 addVariableToMappings(variable2Negation, variableToIdMap, idToVariableMap);
             }
@@ -215,8 +215,8 @@ public class TwoSATSolver {
             int variable2Id = variableToIdMap.get(variable2);
             int variable2NegationId = variableToIdMap.get(variable2Negation);
 
-            if(!isVariable1Negation) {
-                if(!isVariable2Negation) {
+            if (!isVariable1Negation) {
+                if (!isVariable2Negation) {
                     adjacent[variable1Id].add(variable2NegationId);
                     adjacent[variable2Id].add(variable1NegationId);
                 } else {
@@ -224,7 +224,7 @@ public class TwoSATSolver {
                     adjacent[variable2NegationId].add(variable1NegationId);
                 }
             } else {
-                if(!isVariable2Negation) {
+                if (!isVariable2Negation) {
                     adjacent[variable1NegationId].add(variable2NegationId);
                     adjacent[variable2Id].add(variable1Id);
                 } else {
@@ -238,7 +238,7 @@ public class TwoSATSolver {
         StronglyConnectedComponents stronglyConnectedComponents = new StronglyConnectedComponents(adjacent);
 
         // Check if formula is satisfiable
-        if(!isFormulaSatisfiable(adjacent, stronglyConnectedComponents)) {
+        if (!isFormulaSatisfiable(adjacent, stronglyConnectedComponents)) {
             return null;
         }
 
@@ -254,14 +254,14 @@ public class TwoSATSolver {
                 char variable;
 
                 boolean isNegation = vertexVariable.charAt(0) == '!';
-                if(!isNegation) {
+                if (!isNegation) {
                     variable = vertexVariable.charAt(0);
                 } else {
                     variable = vertexVariable.charAt(1);
                 }
 
-                if(!solution.containsKey(variable)) {
-                    if(!isNegation) {
+                if (!solution.containsKey(variable)) {
+                    if (!isNegation) {
                         solution.put(variable, true);
                     } else {
                         solution.put(variable, false);
@@ -283,7 +283,7 @@ public class TwoSATSolver {
 
     private boolean isFormulaSatisfiable(List<Integer>[] adjacent, StronglyConnectedComponents stronglyConnectedComponents) {
         for(int vertex = 0; vertex < adjacent.length; vertex += 2) {
-            if(stronglyConnectedComponents.stronglyConnected(vertex, vertex + 1)) {
+            if (stronglyConnectedComponents.stronglyConnected(vertex, vertex + 1)) {
                 return false;
             }
         }
@@ -298,7 +298,7 @@ public class TwoSATSolver {
         System.out.println("Formula 1: " + formula1);
         Map<Character, Boolean> solution1 = twoSATSolver.solve2SAT(formula1);
 
-        if(solution1 == null) {
+        if (solution1 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
             for(char variable : solution1.keySet()) {
@@ -314,7 +314,7 @@ public class TwoSATSolver {
         System.out.println("\nFormula 2: " + formula2);
         Map<Character, Boolean> solution2 = twoSATSolver.solve2SAT(formula2);
 
-        if(solution2 == null) {
+        if (solution2 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
             for(char variable : solution2.keySet()) {
@@ -327,7 +327,7 @@ public class TwoSATSolver {
         System.out.println("\nFormula 3: " + formula3);
         Map<Character, Boolean> solution3 = twoSATSolver.solve2SAT(formula3);
 
-        if(solution3 == null) {
+        if (solution3 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
             for(char variable : solution3.keySet()) {
@@ -340,7 +340,7 @@ public class TwoSATSolver {
         System.out.println("\nFormula 4: " + formula4);
         Map<Character, Boolean> solution4 = twoSATSolver.solve2SAT(formula4);
 
-        if(solution4 == null) {
+        if (solution4 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
             for(char variable : solution4.keySet()) {
@@ -354,7 +354,7 @@ public class TwoSATSolver {
         System.out.println("\nFormula 5: " + formula5);
         Map<Character, Boolean> solution5 = twoSATSolver.solve2SAT(formula5);
 
-        if(solution5 == null) {
+        if (solution5 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
             for(char variable : solution5.keySet()) {

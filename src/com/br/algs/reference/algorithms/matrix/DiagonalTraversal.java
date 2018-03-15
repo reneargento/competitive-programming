@@ -49,7 +49,7 @@ public class DiagonalTraversal {
             int column = 0;
 
             do {
-                if(row >= 0 && row < rows && column >= 0 && column < columns) {
+                if (row >= 0 && row < rows && column >= 0 && column < columns) {
                     matrix[row][column] = number;
                     number--;
                 }

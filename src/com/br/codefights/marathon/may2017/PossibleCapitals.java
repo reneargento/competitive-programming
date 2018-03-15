@@ -85,31 +85,31 @@ public class PossibleCapitals {
     private static int possibleCapitals(int[][] country) {
         int possibleCapitals = 0;
 
-        for(int i=0; i < country.length; i++) {
+        for(int i = 0; i < country.length; i++) {
 
-            for(int j=0; j < country[0].length; j++) {
+            for(int j = 0; j < country[0].length; j++) {
 
-                if(country[i][j] != 1) {
+                if (country[i][j] != 1) {
                     continue;
                 }
 
                 int currentColumnCount = 0;
 
-                for(int k=0; k < country.length; k++) {
-                    if(country[k][j] == 1) {
+                for(int k = 0; k < country.length; k++) {
+                    if (country[k][j] == 1) {
                         currentColumnCount++;
                     }
                 }
 
                 int currentRowCount = 0;
 
-                for(int k=0; k < country[0].length; k++) {
-                    if(country[i][k] == 1) {
+                for(int k = 0; k < country[0].length; k++) {
+                    if (country[i][k] == 1) {
                         currentRowCount++;
                     }
                 }
 
-                if(currentRowCount >= 2 && currentColumnCount >= 2) {
+                if (currentRowCount >= 2 && currentColumnCount >= 2) {
                     possibleCapitals++;
                 }
             }

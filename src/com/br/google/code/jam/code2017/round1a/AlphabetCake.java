@@ -114,7 +114,7 @@ public class AlphabetCake {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < cakeInformation.size(); i++) {
+        for(int i = 0; i < cakeInformation.size(); i++) {
 
             String[] values = cakeInformation.get(i).split(" ");
             int rows = Integer.parseInt(values[0]);
@@ -122,9 +122,9 @@ public class AlphabetCake {
 
             String[][] cake = new String[rows][columns];
 
-            for(int k=0; k < rows; k++) {
+            for(int k = 0; k < rows; k++) {
                 i++;
-                for(int j=0; j < columns; j++) {
+                for(int j = 0; j < columns; j++) {
                     String nextRow = cakeInformation.get(i);
                     cake[k][j] = String.valueOf(nextRow.charAt(j));
                 }
@@ -134,11 +134,11 @@ public class AlphabetCake {
             output.add("Case #" + caseIndex + ":");// + spaces[0] + " " + spaces[1]);
             String rowValue = "";
 
-            for(int row=0; row < cake.length; row++) {
+            for(int row = 0; row < cake.length; row++) {
                 for(int column = 0; column < cake[0].length; column++) {
                     rowValue += cake[row][column];
                 }
-                if(row != cake.length - 1) {
+                if (row != cake.length - 1) {
                     rowValue += "\n";
                 }
             }
@@ -166,24 +166,24 @@ public class AlphabetCake {
         buildCake(cake2);
         buildCake(cake3);
 
-        for(int i=0; i < cake1.length; i++) {
-            for(int j=0; j < cake1[0].length; j++) {
+        for(int i = 0; i < cake1.length; i++) {
+            for(int j = 0; j < cake1[0].length; j++) {
                 System.out.print(cake1[i][j]);
             }
             System.out.println();
         }
 
         System.out.println();
-        for(int i=0; i < cake2.length; i++) {
-            for(int j=0; j < cake2[0].length; j++) {
+        for(int i = 0; i < cake2.length; i++) {
+            for(int j = 0; j < cake2[0].length; j++) {
                 System.out.print(cake2[i][j]);
             }
             System.out.println();
         }
 
         System.out.println();
-        for(int i=0; i < cake3.length; i++) {
-            for(int j=0; j < cake3[0].length; j++) {
+        for(int i = 0; i < cake3.length; i++) {
+            for(int j = 0; j < cake3[0].length; j++) {
                 System.out.print(cake3[i][j]);
             }
             System.out.println();
@@ -193,25 +193,25 @@ public class AlphabetCake {
     private static void buildCake(String[][] cake) {
         String currentChar;
 
-        for(int i=0; i < cake.length; i++) {
+        for(int i = 0; i < cake.length; i++) {
             currentChar = "?";
 
             //Get current char
             int j = 0;
             while(j < cake[0].length) {
-                if(!cake[i][j].equals("?")) {
+                if (!cake[i][j].equals("?")) {
                     currentChar = cake[i][j];
                     break;
                 }
                 j++;
             }
 
-            for(int k=0; k < j; k++) {
+            for(int k = 0; k < j; k++) {
                 cake[i][k] = currentChar;
             }
 
-            for(int k=j + 1; k < cake[0].length; k++) {
-                if(cake[i][k].equals("?")) {
+            for(int k = j + 1; k < cake[0].length; k++) {
+                if (cake[i][k].equals("?")) {
                     cake[i][k] = currentChar;
                 } else {
                     currentChar = cake[i][k];
@@ -219,7 +219,7 @@ public class AlphabetCake {
             }
         }
 
-        for(int j=0; j < cake[0].length; j++) {
+        for(int j = 0; j < cake[0].length; j++) {
             currentChar = "?";
 
             //Get current char
@@ -254,7 +254,7 @@ public class AlphabetCake {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 valuesList.add(lines.get(i));
             }
         } catch (IOException e) {

@@ -92,21 +92,21 @@ public class GreedyBoy {
         int portions = initialPortions;
 
         //Just one cake is enough
-        for(int i=0; i < cakes.length; i++) {
-            if(cakes[i] % k == 0
+        for(int i = 0; i < cakes.length; i++) {
+            if (cakes[i] % k == 0
                     && cakes[i] < portions
                     && cakes[i] >= k * 2) {
                 portions = cakes[i];
             }
         }
 
-        if(portions != initialPortions) {
+        if (portions != initialPortions) {
             return (portions / k) - 1;
         }
 
         //Some snacks are required
         for(int i = 10; i < initialPortions; i += 10) {
-            if(i % k == 0
+            if (i % k == 0
                     && i < portions
                     && i >= k * 2) {
                 portions = i;
@@ -115,10 +115,10 @@ public class GreedyBoy {
 
         //Some snacks and a cake are required
         for(int i = 10; i < initialPortions; i += 10) {
-            for(int j=0; j < cakes.length; j++) {
+            for(int j = 0; j < cakes.length; j++) {
                 int possiblePortions = (i + cakes[j]) % k;
 
-                if(possiblePortions == 0
+                if (possiblePortions == 0
                         && i + cakes[j] < portions
                         && i + cakes[j] >= k * 2) {
                     portions = i + cakes[j];

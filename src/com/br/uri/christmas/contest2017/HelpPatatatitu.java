@@ -82,10 +82,10 @@ public class HelpPatatatitu {
                     BoyerMoore boyerMoore = new BoyerMoore(dangerousElements[danger]);
                     int offset = boyerMoore.search(experiment);
 
-                    if(offset != experiment.length()) {
+                    if (offset != experiment.length()) {
                         int indexToCheckIfItIsAnotherElement = offset + dangerousElements[danger].length();
 
-                        if(indexToCheckIfItIsAnotherElement == experiment.length()
+                        if (indexToCheckIfItIsAnotherElement == experiment.length()
                             || (indexToCheckIfItIsAnotherElement < experiment.length()
                                 && Character.isUpperCase(experiment.charAt(indexToCheckIfItIsAnotherElement)))) {
                             proceed = false;
@@ -94,14 +94,14 @@ public class HelpPatatatitu {
                     }
                 }
 
-                if(proceed) {
+                if (proceed) {
                     System.out.println("Prossiga");
                 } else {
                     System.out.println("Abortar");
                 }
             }
 
-            if(t != tests - 1) {
+            if (t != tests - 1) {
                 System.out.println();
             }
         }

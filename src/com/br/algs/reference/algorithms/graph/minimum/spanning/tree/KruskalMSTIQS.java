@@ -60,7 +60,7 @@ public class KruskalMSTIQS {
 
         //O(inverse Ackermann function)
         public int find(int site) {
-            if(site == leaders[site]) {
+            if (site == leaders[site]) {
                 return site;
             }
 
@@ -73,11 +73,11 @@ public class KruskalMSTIQS {
             int leader1 = find(site1);
             int leader2 = find(site2);
 
-            if(leader1 == leader2) {
+            if (leader1 == leader2) {
                 return;
             }
 
-            if(ranks[leader1] < ranks[leader2]) {
+            if (ranks[leader1] < ranks[leader2]) {
                 leaders[leader1] = leader2;
             } else if (ranks[leader2] < ranks[leader1]) {
                 leaders[leader2] = leader1;
@@ -107,7 +107,7 @@ public class KruskalMSTIQS {
             kthLightestEdgeToFind++;
 
             // Ignore ineligible edges
-            if(unionFind.connected(edge.vertex1, edge.vertex2)) {
+            if (unionFind.connected(edge.vertex1, edge.vertex2)) {
                 continue;
             }
 
@@ -122,11 +122,11 @@ public class KruskalMSTIQS {
         int smallestCorrectPivotIndex = pivots.peek();
 
         // Pre-condition: indexToSearch <= smallestCorrectPivotIndex
-        if(indexToSearch > smallestCorrectPivotIndex) {
+        if (indexToSearch > smallestCorrectPivotIndex) {
             throw new IllegalArgumentException("Searching for an element in the wrong range");
         }
 
-        if(indexToSearch == smallestCorrectPivotIndex) {
+        if (indexToSearch == smallestCorrectPivotIndex) {
             pivots.pop();
             return array[indexToSearch];
         }
@@ -142,7 +142,7 @@ public class KruskalMSTIQS {
     }
 
     private static int partition(Comparable[] array, int pivotIndex, int low, int high) {
-        if(low == high) {
+        if (low == high) {
             return low;
         }
 
@@ -155,18 +155,18 @@ public class KruskalMSTIQS {
 
         while (true) {
             while (less(array[++lowIndex], pivot)) {
-                if(lowIndex == high) {
+                if (lowIndex == high) {
                     break;
                 }
             }
 
             while (less(pivot, array[--highIndex])) {
-                if(highIndex == low) {
+                if (highIndex == low) {
                     break;
                 }
             }
 
-            if(lowIndex >= highIndex) {
+            if (lowIndex >= highIndex) {
                 break;
             }
 
@@ -193,7 +193,7 @@ public class KruskalMSTIQS {
     }
 
     public static boolean less(Comparable value1, Comparable value2) {
-        if(value1.compareTo(value2) < 0) {
+        if (value1.compareTo(value2) < 0) {
             return true;
         } else {
             return false;

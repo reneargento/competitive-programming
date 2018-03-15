@@ -80,15 +80,15 @@ public class PaintingTheWall {
         int numberOfTests = Integer.parseInt(sc.nextLine());
         PaintingTheWall paintingTheWall = new PaintingTheWall();
 
-        for(int i=0; i < numberOfTests; i++) {
+        for(int i = 0; i < numberOfTests; i++) {
             int wallLines = sc.nextInt();
             int wallColumns = sc.nextInt();
             int numberOfColors = sc.nextInt();
 
             int[][] wall = new int[wallLines][wallColumns];
 
-            for(int j=0; j < wallLines; j++) {
-                for(int k=0; k < wallColumns; k++) {
+            for(int j = 0; j < wallLines; j++) {
+                for(int k = 0; k < wallColumns; k++) {
                     wall[j][k] = sc.nextInt();
                 }
             }
@@ -97,15 +97,15 @@ public class PaintingTheWall {
             paintingTheWall.addLamps(wall, painting);
             boolean canPaint = paintingTheWall.checkIfItIsPossibleToPaint(wall, painting, numberOfColors);
 
-            if(!canPaint) {
+            if (!canPaint) {
                 System.out.println("NO");
             } else {
                 System.out.println("YES");
 
-                for(int j=0; j < painting.length; j++) {
-                    for(int k=0; k < painting[0].length; k++) {
+                for(int j = 0; j < painting.length; j++) {
+                    for(int k = 0; k < painting[0].length; k++) {
                         System.out.print(painting[j][k]);
-                        if(k != wallColumns - 1) {
+                        if (k != wallColumns - 1) {
                             System.out.print(" ");
                         }
                     }
@@ -121,23 +121,23 @@ public class PaintingTheWall {
         int currentColor = 1;
 
         //Paint the first row
-        for(int i=0; i < painting[0].length; i++) {
+        for(int i = 0; i < painting[0].length; i++) {
             painting[0][i] = currentColor % numberOfColors;
             currentColor++;
 
-            if(currentColor % numberOfColors == 0) {
+            if (currentColor % numberOfColors == 0) {
                 currentColor++;
             }
         }
 
         //Paint the rest
-        for(int column=0; column < painting[0].length; column++) {
+        for(int column = 0; column < painting[0].length; column++) {
             currentColor = painting[0][column];
 
-            for(int row=1; row < painting.length; row++) {
+            for(int row = 1; row < painting.length; row++) {
                 currentColor++;
 
-                if(currentColor % numberOfColors == 0) {
+                if (currentColor % numberOfColors == 0) {
                     currentColor++;
                 }
 
@@ -149,9 +149,9 @@ public class PaintingTheWall {
     }
 
     private void addLamps(int[][] wall, int[][] painting) {
-        for(int i=0; i < wall.length; i++) {
-            for(int j=0; j < wall[0].length; j++) {
-                if(wall[i][j] == 0) {
+        for(int i = 0; i < wall.length; i++) {
+            for(int j = 0; j < wall[0].length; j++) {
+                if (wall[i][j] == 0) {
                     painting[i][j] = 0;
                 }
             }
@@ -165,13 +165,13 @@ public class PaintingTheWall {
         boolean[][] visited = new boolean[wall.length][wall[0].length];
 
         //Vertical search
-        for(int i=0; i < wall.length; i++) {
-            for(int j=0; j < wall[0].length; j++) {
+        for(int i = 0; i < wall.length; i++) {
+            for(int j = 0; j < wall[0].length; j++) {
 
-                if(wall[i][j] != 0 && !visited[i][j]) {
+                if (wall[i][j] != 0 && !visited[i][j]) {
                     boolean canPaint = bfs(wall, painting, visited, i, j, numberOfColors, true);
 
-                    if(!canPaint) {
+                    if (!canPaint) {
                         return false;
                     }
                 }
@@ -182,13 +182,13 @@ public class PaintingTheWall {
         //Reset visited matrix
         visited = new boolean[wall.length][wall[0].length];
 
-        for(int i=0; i < wall.length; i++) {
-            for(int j=0; j < wall[0].length; j++) {
+        for(int i = 0; i < wall.length; i++) {
+            for(int j = 0; j < wall[0].length; j++) {
 
-                if(wall[i][j] != 0 && !visited[i][j]) {
+                if (wall[i][j] != 0 && !visited[i][j]) {
                     boolean canPaint = bfs(wall, painting, visited, i, j, numberOfColors, false);
 
-                    if(!canPaint) {
+                    if (!canPaint) {
                         return false;
                     }
                 }
@@ -213,7 +213,7 @@ public class PaintingTheWall {
         int[] neighborRowCombination;
         int[] neighborColumnCombination;
 
-        if(vertical) {
+        if (vertical) {
             neighborRowCombination = new int[]{-1, 1};
             neighborColumnCombination = new int[]{0, 0};
         } else {
@@ -233,9 +233,9 @@ public class PaintingTheWall {
             int currentColumn = matrixCell.column;
 
             //Check to see if it is possible to paint
-            if(matrix[currentRow][currentColumn] != 0) {
+            if (matrix[currentRow][currentColumn] != 0) {
                 for(int colors = 1; colors <= numberOfColors; colors++) {
-                    if(colorsUsed.contains(colors) && colors == painting[currentRow][currentColumn]) {
+                    if (colorsUsed.contains(colors) && colors == painting[currentRow][currentColumn]) {
                         return false;
                     }
                 }
@@ -245,11 +245,11 @@ public class PaintingTheWall {
             colorsUsed.add(painting[currentRow][currentColumn]);
 
             //Check all neighbors
-            for(int i=0; i < 2; i++) {
+            for(int i = 0; i < 2; i++) {
                 int neighborRow = currentRow + neighborRowCombination[i];
                 int neighborColumn = currentColumn + neighborColumnCombination[i];
 
-                if(isTheCellSafe(matrix, neighborRow, neighborColumn) && !visited[neighborRow][neighborColumn]) {
+                if (isTheCellSafe(matrix, neighborRow, neighborColumn) && !visited[neighborRow][neighborColumn]) {
                     queue.add(new MatrixCell(neighborRow, neighborColumn));
                 }
             }

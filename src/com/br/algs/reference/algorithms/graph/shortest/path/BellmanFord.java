@@ -50,18 +50,18 @@ public class BellmanFord {
         for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
-            if(distTo[neighbor] > distTo[vertex] + edge.weight()) {
+            if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
                 distTo[neighbor] = distTo[vertex] + edge.weight();
                 edgeTo[neighbor] = edge;
 
-                if(!onQueue[neighbor]) {
+                if (!onQueue[neighbor]) {
                     queue.offer(neighbor);
                     onQueue[neighbor] = true;
                 }
             }
 
             // Check if there is a negative cycle after every V calls to relax()
-            if(callsToRelax++ % edgeWeightedDigraph.vertices() == 0) {
+            if (callsToRelax++ % edgeWeightedDigraph.vertices() == 0) {
                 findNegativeCycle();
             }
         }
@@ -76,7 +76,7 @@ public class BellmanFord {
     }
 
     public Iterable<DirectedEdge> pathTo(int vertex) {
-        if(!hasPathTo(vertex)) {
+        if (!hasPathTo(vertex)) {
             return null;
         }
 
@@ -93,7 +93,7 @@ public class BellmanFord {
         EdgeWeightedDigraph shortestPathsTree = new EdgeWeightedDigraph(vertices);
 
         for(int vertex = 0; vertex < vertices; vertex++) {
-            if(edgeTo[vertex] != null) {
+            if (edgeTo[vertex] != null) {
                 shortestPathsTree.addEdge(edgeTo[vertex]);
             }
         }

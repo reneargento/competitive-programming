@@ -15,7 +15,7 @@ public class DefendingAFort {
             this.attackers = attackers;
             this.killed = killed;
 
-            if(attackers > killed) {
+            if (attackers > killed) {
                 attackersThatCanBeStopped = killed;
             } else {
                 attackersThatCanBeStopped = attackers;
@@ -24,9 +24,9 @@ public class DefendingAFort {
 
         @Override
         public int compareTo(Wall that) {
-            if(this.attackersThatCanBeStopped > that.attackersThatCanBeStopped) {
+            if (this.attackersThatCanBeStopped > that.attackersThatCanBeStopped) {
                 return -1;
-            } else if(this.attackersThatCanBeStopped < that.attackersThatCanBeStopped) {
+            } else if (this.attackersThatCanBeStopped < that.attackersThatCanBeStopped) {
                 return 1;
             } else {
                 return 0;
@@ -44,7 +44,7 @@ public class DefendingAFort {
 
         PriorityQueue<Wall> priorityQueue = new PriorityQueue<>();
 
-        for(int i=0; i < walls; i++) {
+        for(int i = 0; i < walls; i++) {
             long attackers = scanner.nextLong();
             long killed = scanner.nextLong();
 
@@ -67,7 +67,7 @@ public class DefendingAFort {
 
             defenders -= defendersUsed;
             long attackersKilled = defendersUsed * currentWall.killed;
-            if(attackersKilled > currentWall.attackers) {
+            if (attackersKilled > currentWall.attackers) {
                 attackersKilled = currentWall.attackers;
             }
 

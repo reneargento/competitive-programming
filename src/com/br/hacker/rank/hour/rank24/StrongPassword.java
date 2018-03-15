@@ -21,20 +21,20 @@ public class StrongPassword {
         for(int c = 0; c < password.length(); c++) {
             char currentChar = password.charAt(c);
 
-            if(Character.isUpperCase(currentChar)) {
+            if (Character.isUpperCase(currentChar)) {
                 hasUpperCaseLetter = true;
             }
 
-            if(Character.isLowerCase(currentChar)) {
+            if (Character.isLowerCase(currentChar)) {
                 hasLowerCaseLetter = true;
             }
 
-            if(Character.isDigit(currentChar)) {
+            if (Character.isDigit(currentChar)) {
                 hasDigit = true;
             }
 
             // Special characters: //!@#$%^&*()-+
-            if(currentChar == '!'
+            if (currentChar == '!'
                     || currentChar == '@'
                     || currentChar == '#'
                     || currentChar == '$'
@@ -52,22 +52,22 @@ public class StrongPassword {
 
         int charsToAdd = 0;
 
-        if(!hasUpperCaseLetter) {
+        if (!hasUpperCaseLetter) {
             charsToAdd++;
         }
-        if(!hasLowerCaseLetter) {
+        if (!hasLowerCaseLetter) {
             charsToAdd++;
         }
-        if(!hasDigit) {
+        if (!hasDigit) {
             charsToAdd++;
         }
-        if(!hasSpecialCharacter) {
+        if (!hasSpecialCharacter) {
             charsToAdd++;
         }
 
         int totalChars = password.length() + charsToAdd;
 
-        if(totalChars < 6) {
+        if (totalChars < 6) {
             charsToAdd += 6 - totalChars;
         }
 

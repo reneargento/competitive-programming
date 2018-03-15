@@ -58,14 +58,14 @@ public class Overlaps {
 
         @Override
         public int compareTo(Class that) {
-            if(this.dayNumber < that.dayNumber) {
+            if (this.dayNumber < that.dayNumber) {
                 return -1;
-            } else if(this.dayNumber > that.dayNumber) {
+            } else if (this.dayNumber > that.dayNumber) {
                 return 1;
             } else {
-                if(this.endTime < that.endTime) {
+                if (this.endTime < that.endTime) {
                     return  -1;
-                } else if(this.endTime > that.endTime) {
+                } else if (this.endTime > that.endTime) {
                     return 1;
                 } else {
                     return 0;
@@ -85,7 +85,7 @@ public class Overlaps {
 
         Map<Integer, Class> classesInformation = new HashMap<>();
 
-        for(int i=0; i < classesNumber; i++) {
+        for(int i = 0; i < classesNumber; i++) {
             int startTime = FastReader.nextInt();
             int endTime = FastReader.nextInt();
             int dayNumber = FastReader.nextInt();
@@ -105,16 +105,16 @@ public class Overlaps {
 
         int currentClassEndTime = classes[0].endTime;
 
-        for(int i=0; i < classes.length; i++) {
-            if(classes[i].dayNumber != currentDay) {
-                if(canAttend) {
+        for(int i = 0; i < classes.length; i++) {
+            if (classes[i].dayNumber != currentDay) {
+                if (canAttend) {
                     int earliestClass;
                     int latestClass;
 
                     Class class1Info = classesInformation.get(class1);
                     Class class2Info = classesInformation.get(class2);
 
-                    if(class1Info.startTime < class2Info.startTime) {
+                    if (class1Info.startTime < class2Info.startTime) {
                         earliestClass = class1;
                         latestClass = class2;
                     } else {
@@ -133,20 +133,20 @@ public class Overlaps {
                 class1 = classes[i].id;
             }
 
-            if(classes[i].startTime > currentClassEndTime) {
+            if (classes[i].startTime > currentClassEndTime) {
                 canAttend = true;
                 class2 = classes[i].id;
             }
         }
 
-        if(canAttend) {
+        if (canAttend) {
             int earliestClass;
             int latestClass;
 
             Class class1Info = classesInformation.get(class1);
             Class class2Info = classesInformation.get(class2);
 
-            if(class1Info.startTime < class2Info.startTime) {
+            if (class1Info.startTime < class2Info.startTime) {
                 earliestClass = class1;
                 latestClass = class2;
             } else {
@@ -159,8 +159,8 @@ public class Overlaps {
             output[currentDay] = "NIE";
         }
 
-        for(int i=1; i <= days; i++) {
-            if(output[i] != null) {
+        for(int i = 1; i <= days; i++) {
+            if (output[i] != null) {
                 System.out.println(output[i]);
             } else {
                 System.out.println("NIE");

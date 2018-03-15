@@ -37,7 +37,7 @@ public class CarShow {
                         combinations.add(cars[car3]);
                     }
 
-                    if(validRange) {
+                    if (validRange) {
                         sum++;
                     }
                 }

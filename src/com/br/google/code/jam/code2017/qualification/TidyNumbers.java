@@ -108,15 +108,15 @@ public class TidyNumbers {
         while (!ordered) {
             ordered = true;
 
-            for(int i=0; i < numbersCharArray.length - 1; i++) {
+            for(int i = 0; i < numbersCharArray.length - 1; i++) {
                 int number1 = (int) numbersCharArray[i];
                 int number2 = (int) numbersCharArray[i + 1];
 
-                if(number1 > number2) {
+                if (number1 > number2) {
                     ordered = false;
 
                     numbersCharArray[i] = (char) (number1 - 1);
-                    for(int j= i + 1; j < numbersCharArray.length; j++) {
+                    for(int j = i + 1; j < numbersCharArray.length; j++) {
                         numbersCharArray[j] = '9';
                     }
 
@@ -146,7 +146,7 @@ public class TidyNumbers {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 numbersList.add(lines.get(i));
             }
         } catch (IOException e) {

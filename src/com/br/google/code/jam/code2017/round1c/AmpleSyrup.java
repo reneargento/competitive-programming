@@ -29,7 +29,7 @@ public class AmpleSyrup {
 
         @Override
         public int compareTo(Pancake that) {
-            if(this.topArea > that.topArea) {
+            if (this.topArea > that.topArea) {
                 return -1;
             } else if (this.topArea < that.topArea) {
                 return 1;
@@ -95,14 +95,14 @@ public class AmpleSyrup {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < pancakesInformation.size(); i++) {
+        for(int i = 0; i < pancakesInformation.size(); i++) {
 
             String[] values = pancakesInformation.get(i).split(" ");
             int numberOfPancakes = Integer.parseInt(values[0]);
             int stackSize = Integer.parseInt(values[1]);
             Pancake[] pancakes = new Pancake[numberOfPancakes];
 
-            for(int j=0; j < pancakes.length; j++) {
+            for(int j = 0; j < pancakes.length; j++) {
                 i++;
                 String[] pancakeInfo = pancakesInformation.get(i).split(" ");
                 double radius = Double.parseDouble(pancakeInfo[0]);
@@ -128,7 +128,7 @@ public class AmpleSyrup {
         Arrays.sort(pancakesSortedBySideArea, new Comparator<Pancake>() {
             @Override
             public int compare(Pancake pancake1, Pancake pancake2) {
-                if(pancake1.sideArea > pancake2.sideArea) {
+                if (pancake1.sideArea > pancake2.sideArea) {
                     return -1;
                 } else if (pancake1.sideArea < pancake2.sideArea) {
                     return 1;
@@ -150,7 +150,7 @@ public class AmpleSyrup {
             int j = 0;
 
             while (selectedPancakesIndex >= 0 && j < pancakesSortedBySideArea.length) {
-                if(pancakesSortedBySideArea[j] == pancakes[i]
+                if (pancakesSortedBySideArea[j] == pancakes[i]
                         || pancakesSortedBySideArea[j].radius > selectedPancakes[selectedPancakes.length - 1].radius) {
                     j++;
                     continue;
@@ -159,12 +159,12 @@ public class AmpleSyrup {
                 selectedPancakes[selectedPancakesIndex--] = pancakesSortedBySideArea[j++];
             }
 
-            if(selectedPancakesIndex >= 0) {
+            if (selectedPancakesIndex >= 0) {
                 continue;
             }
 
             double currentExposedArea = computeTotalExposedArea(selectedPancakes, stackSize);
-            if(currentExposedArea > highestExposedAreaFound) {
+            if (currentExposedArea > highestExposedAreaFound) {
                 highestExposedAreaFound = currentExposedArea;
             }
         }
@@ -176,7 +176,7 @@ public class AmpleSyrup {
         double exposedArea = 0;
 
         for(int i = stackSize - 1; i >= 0; i--) {
-            if(i == stackSize - 1) {
+            if (i == stackSize - 1) {
                 exposedArea += selectedPancakes[i].topArea + selectedPancakes[i].sideArea;
             } else {
                 exposedArea += selectedPancakes[i].sideArea;
@@ -193,7 +193,7 @@ public class AmpleSyrup {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 valuesList.add(lines.get(i));
             }
         } catch (IOException e) {

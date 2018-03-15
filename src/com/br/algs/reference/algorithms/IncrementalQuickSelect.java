@@ -30,11 +30,11 @@ public class IncrementalQuickSelect {
         int smallestCorrectPivotIndex = pivots.peek();
 
         // Pre-condition: indexToSearch <= smallestCorrectPivotIndex
-        if(indexToSearch > smallestCorrectPivotIndex) {
+        if (indexToSearch > smallestCorrectPivotIndex) {
             throw new IllegalArgumentException("Searching for an element in the wrong range");
         }
 
-        if(indexToSearch == smallestCorrectPivotIndex) {
+        if (indexToSearch == smallestCorrectPivotIndex) {
             pivots.pop();
             return array[indexToSearch];
         }
@@ -50,7 +50,7 @@ public class IncrementalQuickSelect {
     }
 
     private static int partition(Comparable[] array, int pivotIndex, int low, int high) {
-        if(low == high) {
+        if (low == high) {
             return low;
         }
 
@@ -63,18 +63,18 @@ public class IncrementalQuickSelect {
 
         while (true) {
             while (less(array[++lowIndex], pivot)) {
-                if(lowIndex == high) {
+                if (lowIndex == high) {
                     break;
                 }
             }
 
             while (less(pivot, array[--highIndex])) {
-                if(highIndex == low) {
+                if (highIndex == low) {
                     break;
                 }
             }
 
-            if(lowIndex >= highIndex) {
+            if (lowIndex >= highIndex) {
                 break;
             }
 
@@ -93,7 +93,7 @@ public class IncrementalQuickSelect {
     }
 
     public static boolean less(Comparable value1, Comparable value2) {
-        if(value1.compareTo(value2) < 0) {
+        if (value1.compareTo(value2) < 0) {
             return true;
         } else {
             return false;

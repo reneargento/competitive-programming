@@ -140,7 +140,7 @@ public class CruiseControl {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < cruiseInformation.size(); i++) {
+        for(int i = 0; i < cruiseInformation.size(); i++) {
 
             String[] values = cruiseInformation.get(i).split(" ");
             int destination = Integer.parseInt(values[0]);
@@ -148,7 +148,7 @@ public class CruiseControl {
 
             List<Integer[]> horsesInformation = new ArrayList<>();
 
-            for(int j=0; j < numberOfHorses; j++) {
+            for(int j = 0; j < numberOfHorses; j++) {
                 i++;
 
                 Integer[] horseInfo = new Integer[2];
@@ -171,13 +171,13 @@ public class CruiseControl {
 
         double maxHoursRequired = 0;
 
-        for(int i=0; i < horses.size(); i++) {
+        for(int i = 0; i < horses.size(); i++) {
             Integer[] horseInformation = horses.get(i);
             double location = horseInformation[0];
             double speed = horseInformation[1];
 
             double hoursRequired = (destination - location) / speed;
-            if(maxHoursRequired < hoursRequired) {
+            if (maxHoursRequired < hoursRequired) {
                 maxHoursRequired = hoursRequired;
             }
         }
@@ -192,7 +192,7 @@ public class CruiseControl {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 valuesList.add(lines.get(i));
             }
         } catch (IOException e) {

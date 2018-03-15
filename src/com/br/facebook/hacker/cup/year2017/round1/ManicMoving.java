@@ -177,10 +177,10 @@ public class ManicMoving {
         //O(m)
         void addEdge(int tailVertexId, int headVertexId, long length) {
 
-            if(vertices.get(headVertexId) == null) {
+            if (vertices.get(headVertexId) == null) {
                 addVertex(headVertexId);
             }
-            if(vertices.get(tailVertexId) == null) {
+            if (vertices.get(tailVertexId) == null) {
                 addVertex(tailVertexId);
             }
 
@@ -188,20 +188,20 @@ public class ManicMoving {
             Vertex tailVertex = vertices.get(tailVertexId);
 
             //Only add the path if it is shortest than the current path
-            if(headVertex.edgesAssociated.size() < tailVertex.edgesAssociated.size()) {
+            if (headVertex.edgesAssociated.size() < tailVertex.edgesAssociated.size()) {
                 for(Edge edge : headVertex.edgesAssociated) {
-                    if((edge.tail.id == tailVertexId && edge.head.id == headVertexId)
+                    if ((edge.tail.id == tailVertexId && edge.head.id == headVertexId)
                             || (edge.head.id == tailVertexId && edge.tail.id == headVertexId)) {
-                        if(edge.length < length) {
+                        if (edge.length < length) {
                             return;
                         }
                     }
                 }
             } else {
                 for(Edge edge : tailVertex.edgesAssociated) {
-                    if((edge.tail.id == tailVertexId && edge.head.id == headVertexId)
+                    if ((edge.tail.id == tailVertexId && edge.head.id == headVertexId)
                             || (edge.head.id == tailVertexId && edge.tail.id == headVertexId)) {
-                        if(edge.length < length) {
+                        if (edge.length < length) {
                             return;
                         }
                     }
@@ -345,8 +345,8 @@ public class ManicMoving {
 
         int numberOfFamilies = instructions.length;
 
-        for(int i=0; i < instructions.length; i++) {
-            if(shortestPaths[instructions[i][0]][instructions[i][1]] == Integer.MAX_VALUE) {
+        for(int i = 0; i < instructions.length; i++) {
+            if (shortestPaths[instructions[i][0]][instructions[i][1]] == Integer.MAX_VALUE) {
                 return -1;
             }
         }
@@ -356,35 +356,35 @@ public class ManicMoving {
         //dp(F, C, S) -> F: remaining number of families to pickup; C: current city; S: number of sets in the truck 0 <= H <= 2
         long[][][] dp = new long[numberOfFamilies + 1][numberOfCities + 1][3];
 
-        for(int i=0; i <= numberOfFamilies; i++) {
-            for(int j=1; j <= numberOfCities; j++) {
-                for(int k=0; k <= 2; k++) {
+        for(int i = 0; i <= numberOfFamilies; i++) {
+            for(int j = 1; j <= numberOfCities; j++) {
+                for(int k = 0; k <= 2; k++) {
                     dp[i][j][k] = Integer.MAX_VALUE;
                 }
             }
         }
 
         //Base case - No more family sets to pick up
-        for(int i=1; i <= numberOfCities; i++) {
+        for(int i = 1; i <= numberOfCities; i++) {
             dp[0][i][0] = 0; //all sets delivered
 
             int lastCity = instructions[numberOfFamilies - 1][1];
             dp[0][i][1] = shortestPaths[i][lastCity];//last set to deliver
 
-            if(numberOfFamilies > 1) {
+            if (numberOfFamilies > 1) {
                 int beforeLastCity = instructions[numberOfFamilies - 2][1];
                 dp[0][i][2] = shortestPaths[i][beforeLastCity] + shortestPaths[beforeLastCity][lastCity];//last 2 sets to deliver
             }
         }
 
-        for(int family=1; family <= numberOfFamilies; family++) {
+        for(int family = 1; family <= numberOfFamilies; family++) {
             for(int load = 0; load <= 2; load++) {
-                for(int city=1; city <= numberOfCities; city++) {
+                for(int city = 1; city <= numberOfCities; city++) {
 
                     int nextFamily = numberOfFamilies - family;
                     int nextFamilySourceCity = instructions[nextFamily][0];
 
-                    if(load == 0) {
+                    if (load == 0) {
                         //H = 0
                         //If we have no belongings in the truck, we must pick up the ith family's belongings next
                         dp[family][city][0] = dp[family-1][nextFamilySourceCity][1] + shortestPaths[city][nextFamilySourceCity];
@@ -394,7 +394,7 @@ public class ManicMoving {
                         // or drop off the current family's belongings
                         int nextFamilyToBeDropped = numberOfFamilies - family -  1;
 
-                        if(nextFamilyToBeDropped < 0) {
+                        if (nextFamilyToBeDropped < 0) {
                             continue;
                         }
 
@@ -407,7 +407,7 @@ public class ManicMoving {
                         //If we have 2 sets of belongings in the truck, we must drop off the (family - 2)th family's belongings next
 
                         //If we still have F or F-1 family sets to pick up, it is impossible to have H = 2
-                        if(family == numberOfFamilies || family == numberOfFamilies-1) {
+                        if (family == numberOfFamilies || family == numberOfFamilies-1) {
                             continue;
                         }
 
@@ -431,7 +431,7 @@ public class ManicMoving {
 
         long[][] dijkstraShortestDistances = new long[graph.getVerticesCount() + 1][];
 
-        for(int i=1; i <= graph.getVerticesCount(); i++) {
+        for(int i = 1; i <= graph.getVerticesCount(); i++) {
             dijkstraShortestDistances[i] = manicMoving.dijkstra(graph, i);
 
             graph.resetAllProcessedVertices();
@@ -448,7 +448,7 @@ public class ManicMoving {
         long[] computedShortestPathDistances = new long[graph.getVerticesCount() + 1];
 
         //1- Init base case
-        for(int i=0; i < computedShortestPathDistances.length; i++) {
+        for(int i = 0; i < computedShortestPathDistances.length; i++) {
             computedShortestPathDistances[i] = Integer.MAX_VALUE;
         }
 
@@ -479,15 +479,15 @@ public class ManicMoving {
 
                 Graph.Vertex vertexToProcess;
 
-                if(!edge.head.processed) {
+                if (!edge.head.processed) {
                     vertexToProcess = edge.head;
                 } else {
                     vertexToProcess = edge.tail;
                 }
 
-                if(!vertexToProcess.processed) {
+                if (!vertexToProcess.processed) {
 
-                    if(vertexToProcess.previous == null
+                    if (vertexToProcess.previous == null
                             || vertexToProcess.distance > nearestVertex.distance + edge.length) {
                         heap.remove(vertexToProcess);
 
@@ -516,8 +516,8 @@ public class ManicMoving {
 //
 //        int numberOfFamilies = instructions.length;
 //
-//        for(int i=0; i < instructions.length; i++) {
-//            if(shortestPaths[instructions[i][0]][instructions[i][1]][0] == Integer.MAX_VALUE) {
+//        for(int i = 0; i < instructions.length; i++) {
+//            if (shortestPaths[instructions[i][0]][instructions[i][1]][0] == Integer.MAX_VALUE) {
 //                return -1;
 //            }
 //        }
@@ -527,22 +527,22 @@ public class ManicMoving {
 //        //dp(F, C, S) -> F: remaining number of families to pickup; C: current city; S: number of sets in the truck 0 <= H <= 2
 //        long[][][] dp = new long[numberOfFamilies + 1][numberOfCities + 1][3];
 //
-//        for(int i=0; i <= numberOfFamilies; i++) {
-//            for(int j=1; j <= numberOfCities; j++) {
-//                for(int k=0; k <= 2; k++) {
+//        for(int i = 0; i <= numberOfFamilies; i++) {
+//            for(int j = 1; j <= numberOfCities; j++) {
+//                for(int k = 0; k <= 2; k++) {
 //                    dp[i][j][k] = Integer.MAX_VALUE;
 //                }
 //            }
 //        }
 //
 //        //Base case - No more family sets to pick up
-//        for(int i=1; i <= numberOfCities; i++) {
+//        for(int i = 1; i <= numberOfCities; i++) {
 //            dp[0][i][0] = 0; //all sets delivered
 //
 //            int lastCity = instructions[numberOfFamilies - 1][1];
 //            dp[0][i][1] = shortestPaths[i][lastCity][0];//last set to deliver
 //
-//            if(numberOfFamilies > 1) {
+//            if (numberOfFamilies > 1) {
 //                int beforeLastCity = instructions[numberOfFamilies - 2][1];
 //                dp[0][i][2] = shortestPaths[i][beforeLastCity][0] + shortestPaths[beforeLastCity][lastCity][0];//last 2 sets to deliver
 //            }
@@ -555,7 +555,7 @@ public class ManicMoving {
 //                    int nextFamily = numberOfFamilies - family;
 //                    int nextFamilySourceCity = instructions[nextFamily][0];
 //
-//                    if(load == 0) {
+//                    if (load == 0) {
 //                        //H = 0
 //                        //If we have no belongings in the truck, we must pick up the ith family's belongings next
 //                        dp[family][city][0] = dp[family-1][nextFamilySourceCity][1] + shortestPaths[city][nextFamilySourceCity][0];
@@ -565,7 +565,7 @@ public class ManicMoving {
 //                        // or drop off the current family's belongings
 //                        int nextFamilyToBeDropped = numberOfFamilies - family -  1;
 //
-//                        if(nextFamilyToBeDropped < 0) {
+//                        if (nextFamilyToBeDropped < 0) {
 //                            continue;
 //                        }
 //
@@ -578,7 +578,7 @@ public class ManicMoving {
 //                        //If we have 2 sets of belongings in the truck, we must drop off the (family - 2)th family's belongings next
 //
 //                        //If we still have F or F-1 family sets to pick up, it is impossible to have H = 2
-//                        if(family == numberOfFamilies || family == numberOfFamilies-1) {
+//                        if (family == numberOfFamilies || family == numberOfFamilies-1) {
 //                            continue;
 //                        }
 //
@@ -606,9 +606,9 @@ public class ManicMoving {
         // Cij if (i,j) e E
         // +Infinite if i != j && (i,j) !e E
 
-        for(int i=0; i < distances.length; i++) {
-            for(int j=0; j < distances[0].length; j++) {
-                if(i != j) {
+        for(int i = 0; i < distances.length; i++) {
+            for(int j = 0; j < distances[0].length; j++) {
+                if (i != j) {
                     distances[i][j][0] = Integer.MAX_VALUE;
                 }
             }
@@ -625,7 +625,7 @@ public class ManicMoving {
         for(int k = 1; k < distances.length; k++){
             for(int i = 1; i < distances.length; i++){
                 for(int j = 1; j < distances.length; j++) {
-                    if(distances[i][k][0] == Integer.MAX_VALUE
+                    if (distances[i][k][0] == Integer.MAX_VALUE
                             || distances[k][j][0] == Integer.MAX_VALUE
                             || distances[i][j][0] < distances[i][k][0] + distances[k][j][0]) {
                         distances[i][j][1] = distances[i][j][0];
@@ -635,7 +635,7 @@ public class ManicMoving {
 
                     //Check for a negative cycle
                     // If found, terminate
-                    if(distances[i][i][1] < 0) {
+                    if (distances[i][i][1] < 0) {
                         return true;
                     }
 
@@ -675,7 +675,7 @@ public class ManicMoving {
                     graph.addVertex(city);
                 }
 
-                for(int road=0; road < roads; road++) {
+                for(int road = 0; road < roads; road++) {
                     lineIndex++;
                     String[] roadsLine = lines.get(lineIndex).split(" ");
 
@@ -688,7 +688,7 @@ public class ManicMoving {
 
                 int[][] instructions = new int[familyBelongings][2];
 
-                for(int i=0; i < familyBelongings; i++) {
+                for(int i = 0; i < familyBelongings; i++) {
                     lineIndex++;
                     String[] instructionsLine = lines.get(lineIndex).split(" ");
 

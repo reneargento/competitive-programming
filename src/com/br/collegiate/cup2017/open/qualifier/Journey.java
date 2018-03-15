@@ -19,20 +19,20 @@ public class Journey {
         long sum1 = 0;
         long sum2 = 0;
 
-        for(int i=0; i < array.length; i++) {
+        for(int i = 0; i < array.length; i++) {
             array[i] = scanner.nextInt();
             sum2 += array[i];
         }
 
         long currentProduct;
 
-        for(int i=0; i < array.length; i++) {
+        for(int i = 0; i < array.length; i++) {
             sum2 -= array[i];
             sum1 += array[i];
 
             currentProduct = sum1 * sum2;
 
-            if(currentProduct > maxProduct) {
+            if (currentProduct > maxProduct) {
                 maxProduct = currentProduct;
             }
         }

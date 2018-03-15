@@ -76,7 +76,7 @@ public class DijkstraEuclideanGraphLinear {
         }
 
         public void addEdge(Edge edge) {
-            if(allVertices[edge.vertex1] == null || allVertices[edge.vertex2] == null) {
+            if (allVertices[edge.vertex1] == null || allVertices[edge.vertex2] == null) {
                 throw new IllegalArgumentException("Vertex id not found");
             }
 
@@ -152,7 +152,7 @@ public class DijkstraEuclideanGraphLinear {
             while (!priorityQueue.isEmpty()) {
                 int vertexToRelax = priorityQueue.deleteMin();
 
-                if(vertexToRelax == target) {
+                if (vertexToRelax == target) {
                     break;
                 }
 
@@ -176,11 +176,11 @@ public class DijkstraEuclideanGraphLinear {
                 double distanceToTargetPassingThroughNeighbor = distTo[vertex] + edge.weight
                         + distanceFromNeighborToTarget - distanceFromVertexToTarget;
 
-                if(distTo[neighbor] > distanceToTargetPassingThroughNeighbor) {
+                if (distTo[neighbor] > distanceToTargetPassingThroughNeighbor) {
                     distTo[neighbor] = distanceToTargetPassingThroughNeighbor;
                     edgeTo[neighbor] = edge;
 
-                    if(priorityQueue.contains(neighbor)) {
+                    if (priorityQueue.contains(neighbor)) {
                         priorityQueue.decreaseKey(neighbor, distTo[neighbor]);
                     } else {
                         priorityQueue.insert(neighbor, distTo[neighbor]);
@@ -199,7 +199,7 @@ public class DijkstraEuclideanGraphLinear {
 
         // O(V)
         public double distTo(int vertex) {
-            if(!shortestDistanceComputed[vertex]) {
+            if (!shortestDistanceComputed[vertex]) {
                 computeSourceSinkShortestPath(vertex);
                 shortestDistanceComputed[vertex] = true;
             }
@@ -209,7 +209,7 @@ public class DijkstraEuclideanGraphLinear {
 
         // O(V)
         public boolean hasPathTo(int vertex) {
-            if(!shortestDistanceComputed[vertex]) {
+            if (!shortestDistanceComputed[vertex]) {
                 computeSourceSinkShortestPath(vertex);
                 shortestDistanceComputed[vertex] = true;
             }
@@ -219,12 +219,12 @@ public class DijkstraEuclideanGraphLinear {
 
         // O(V)
         public Deque<Edge> pathTo(int vertex) {
-            if(!shortestDistanceComputed[vertex]) {
+            if (!shortestDistanceComputed[vertex]) {
                 computeSourceSinkShortestPath(vertex);
                 shortestDistanceComputed[vertex] = true;
             }
 
-            if(!hasPathTo(vertex)) {
+            if (!hasPathTo(vertex)) {
                 return null;
             }
 
@@ -302,7 +302,7 @@ public class DijkstraEuclideanGraphLinear {
         for(int vertex = 0; vertex < euclideanEdgeWeightedDigraph.vertices(); vertex++) {
             System.out.print("\nPath from vertex 0 to vertex " + vertex + ": ");
 
-            if(dijkstraSPEuclideanGraph.hasPathTo(vertex)) {
+            if (dijkstraSPEuclideanGraph.hasPathTo(vertex)) {
                 for(Edge edge : dijkstraSPEuclideanGraph.pathTo(vertex)) {
                     System.out.print(edge.vertex1 + "->" + edge.vertex2 + " ");
                 }

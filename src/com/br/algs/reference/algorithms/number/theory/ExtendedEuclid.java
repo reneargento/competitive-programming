@@ -22,7 +22,7 @@ public class ExtendedEuclid {
 
     private static  void extendedEuclid(int number1, int number2) {
         //Base case
-        if(number2 == 0) {
+        if (number2 == 0) {
             bezoutCoefficient1 = 1;
             bezoutCoefficient2 = 0;
             gcd = number1;

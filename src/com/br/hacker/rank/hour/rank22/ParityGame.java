@@ -16,22 +16,22 @@ public class ParityGame {
         int sum = 0;
         boolean hasOddNumber = false;
 
-        for(int i=0; i < length; i++) {
+        for(int i = 0; i < length; i++) {
             array[i] = scanner.nextInt();
             sum += array[i];
 
-            if((array[i] & 1) == 1) {
+            if ((array[i] & 1) == 1) {
                 hasOddNumber = true;
             }
         }
 
-        if((sum & 1) == 0) {
+        if ((sum & 1) == 0) {
             System.out.println("0");
         } else {
-            if(array.length == 1) {
+            if (array.length == 1) {
                 System.out.println("-1");
             } else {
-                if(hasOddNumber) {
+                if (hasOddNumber) {
                     System.out.println("1");
                 } else {
                     System.out.println("2");

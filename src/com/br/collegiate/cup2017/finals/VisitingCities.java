@@ -50,10 +50,10 @@ public class VisitingCities {
             int vertex1Id = FastReader.nextInt();
             int vertex2Id = FastReader.nextInt();
 
-            if(adjacent[vertex1Id] == null) {
+            if (adjacent[vertex1Id] == null) {
                 adjacent[vertex1Id] = new ArrayList<>();
             }
-            if(adjacent[vertex2Id] == null) {
+            if (adjacent[vertex2Id] == null) {
                 adjacent[vertex2Id] = new ArrayList<>();
             }
 
@@ -77,7 +77,7 @@ public class VisitingCities {
             int currentComponent = component[vertexId];
 
             for(int neighbor : adjacent[vertexId]) {
-                if(currentComponent != component[neighbor]) {
+                if (currentComponent != component[neighbor]) {
                     adjacentComponents[currentComponent].add(component[neighbor]);
                 }
             }
@@ -107,7 +107,7 @@ public class VisitingCities {
 
         // 5- Get number of longest paths
         for(int i = 0; i < pathSizes.length; i++) {
-            if(pathSizes[i] == maxCitiesVisited) {
+            if (pathSizes[i] == maxCitiesVisited) {
                 numberOfSourceCitiesForMaxPath += componentSizes[i];
             }
         }
@@ -127,7 +127,7 @@ public class VisitingCities {
 
         for(int currentVertex : topologicalSort) {
 
-            if(!visited[currentVertex]) {
+            if (!visited[currentVertex]) {
                 depthFirstSearchToGetComponent(currentVertex, inverseEdges, visited);
                 componentCount++;
             }
@@ -144,7 +144,7 @@ public class VisitingCities {
         for(int i = 1; i < adj.length; i++) {
             List<Integer> neighbors = adj[i];
 
-            if(neighbors != null) {
+            if (neighbors != null) {
                 for(int neighbor : adj[i]) {
                     inverseEdges[neighbor].add(i);
                 }
@@ -161,7 +161,7 @@ public class VisitingCities {
 
         //If the vertices are 0-index based, start i with value 0
         for(int i = 1; i < visited.length; i++) {
-            if(!visited[i]) {
+            if (!visited[i]) {
                 depthFirstSearchToGetFinishTimes(i, adjacent, finishTimes, visited);
             }
         }
@@ -180,7 +180,7 @@ public class VisitingCities {
         visited[sourceVertex] = true;
 
         for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
+            if (!visited[neighbor]) {
                 depthFirstSearchToGetFinishTimes(neighbor, adj, finishTimes, visited);
             }
         }
@@ -194,7 +194,7 @@ public class VisitingCities {
         componentSizes[componentCount]++;
 
         for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
+            if (!visited[neighbor]) {
                 depthFirstSearchToGetComponent(neighbor, adj, visited);
             }
         }
@@ -206,7 +206,7 @@ public class VisitingCities {
         List<Integer> finishTimes = new ArrayList<>();
 
         for(int i = 0; i < visited.length; i++) {
-            if(!visited[i]) {
+            if (!visited[i]) {
                 depthFirstSearchToGetFinishTimesWithSets(i, adjacent, finishTimes, visited);
             }
         }
@@ -219,7 +219,7 @@ public class VisitingCities {
         visited[sourceVertex] = true;
 
         for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
+            if (!visited[neighbor]) {
                 depthFirstSearchToGetFinishTimesWithSets(neighbor, adj, finishTimes, visited);
             }
         }

@@ -13,7 +13,7 @@ public class ConstructTheArray {
     static long countArray(int n, int k, int x) {
         // Return the number of ways to fill in the array.
 
-        if(n == 3) {
+        if (n == 3) {
             if (x == 1) {
                 return k - 1;
             } else {

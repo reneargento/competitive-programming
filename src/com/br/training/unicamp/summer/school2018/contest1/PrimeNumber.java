@@ -39,7 +39,7 @@ public class PrimeNumber {
 
         for(long i = 2; i <= number; i++) {
 
-            if(isPrime[(int) i]) {
+            if (isPrime[(int) i]) {
                 for (long j = i * i; j < isPrime.length; j += i) {
                     isPrime[(int) j] = false;
                 }

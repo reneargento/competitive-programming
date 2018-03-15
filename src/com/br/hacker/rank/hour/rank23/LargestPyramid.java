@@ -31,9 +31,9 @@ public class LargestPyramid {
 
             for(int i = 0; i < rows; i++){
                 for(int j = 0; j < columns; j++){
-                    if(heights[i][j] == 0) {
+                    if (heights[i][j] == 0) {
                         int pyramidSize = getPyramidSize(heights, i, j, 0, 0, cellsAvailable);
-                        if(pyramidSize > maxPyramidSize) {
+                        if (pyramidSize > maxPyramidSize) {
                             maxPyramidSize = pyramidSize;
                         }
                     }
@@ -52,16 +52,16 @@ public class LargestPyramid {
 
         int newValue = matrix[row][column] + 1;
 
-        if(currentCellsAvailable > 0) {
+        if (currentCellsAvailable > 0) {
             currentCellsAvailable--;
         } else {
             return currentPyramidSize;
         }
 
-        if(isValidCell(matrix, row - 1, column)) {
-            if(matrix[row - 1][column] <= value) {
+        if (isValidCell(matrix, row - 1, column)) {
+            if (matrix[row - 1][column] <= value) {
                 int cellsToUse = newValue - matrix[row - 1][column] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row - 1][column] += cellsToUse;
@@ -73,10 +73,10 @@ public class LargestPyramid {
             }
         }
 
-        if(isValidCell(matrix, row + 1, column)) {
-            if(matrix[row + 1][column] <= value) {
+        if (isValidCell(matrix, row + 1, column)) {
+            if (matrix[row + 1][column] <= value) {
                 int cellsToUse = newValue - matrix[row + 1][column] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row + 1][column] += cellsToUse;
@@ -88,10 +88,10 @@ public class LargestPyramid {
             }
         }
 
-        if(isValidCell(matrix, row, column - 1)) {
-            if(matrix[row][column - 1] <= value) {
+        if (isValidCell(matrix, row, column - 1)) {
+            if (matrix[row][column - 1] <= value) {
                 int cellsToUse = newValue - matrix[row][column - 1] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row][column - 1] += cellsToUse;
@@ -103,10 +103,10 @@ public class LargestPyramid {
             }
         }
 
-        if(isValidCell(matrix, row, column + 1)) {
-            if(matrix[row][column + 1] <= value) {
+        if (isValidCell(matrix, row, column + 1)) {
+            if (matrix[row][column + 1] <= value) {
                 int cellsToUse = newValue - matrix[row][column + 1] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row][column + 1] += cellsToUse;
@@ -118,10 +118,10 @@ public class LargestPyramid {
             }
         }
 
-        if(isValidCell(matrix, row + 1, column + 1)) {
-            if(matrix[row + 1][column + 1] <= value) {
+        if (isValidCell(matrix, row + 1, column + 1)) {
+            if (matrix[row + 1][column + 1] <= value) {
                 int cellsToUse = newValue - matrix[row + 1][column + 1] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row + 1][column + 1] += cellsToUse;
@@ -133,10 +133,10 @@ public class LargestPyramid {
             }
         }
 
-        if(isValidCell(matrix, row + 1, column - 1)) {
-            if(matrix[row + 1][column - 1] <= value) {
+        if (isValidCell(matrix, row + 1, column - 1)) {
+            if (matrix[row + 1][column - 1] <= value) {
                 int cellsToUse = newValue - matrix[row + 1][column - 1] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row + 1][column - 1] += cellsToUse;
@@ -148,10 +148,10 @@ public class LargestPyramid {
             }
         }
 
-        if(isValidCell(matrix, row - 1, column + 1)) {
-            if(matrix[row - 1][column + 1] <= value) {
+        if (isValidCell(matrix, row - 1, column + 1)) {
+            if (matrix[row - 1][column + 1] <= value) {
                 int cellsToUse = newValue - matrix[row - 1][column + 1] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row - 1][column + 1] += cellsToUse;
@@ -163,10 +163,10 @@ public class LargestPyramid {
             }
         }
 
-        if(isValidCell(matrix, row - 1, column - 1)) {
-            if(matrix[row - 1][column - 1] <= value) {
+        if (isValidCell(matrix, row - 1, column - 1)) {
+            if (matrix[row - 1][column - 1] <= value) {
                 int cellsToUse = newValue - matrix[row - 1][column - 1] + 1;
-                if(cellsToUse <= currentCellsAvailable) {
+                if (cellsToUse <= currentCellsAvailable) {
                     currentCellsAvailable -= cellsToUse;
 
                     matrix[row - 1][column - 1] += cellsToUse;

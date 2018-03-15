@@ -61,7 +61,7 @@ public class Stamp {
 
         int tests = FastReader.nextInt();
 
-        for(int i=0; i < tests; i++) {
+        for(int i = 0; i < tests; i++) {
             int rowPaper = FastReader.nextInt();
             int columnPaper = FastReader.nextInt();
             int rowStamp = FastReader.nextInt();
@@ -70,13 +70,13 @@ public class Stamp {
             numberOfInks = 0;
 
             char[][] paper = new char[rowPaper][columnPaper];
-            for(int row=0; row < rowPaper; row++) {
+            for(int row = 0; row < rowPaper; row++) {
                 String currentRow = FastReader.next();
 
                 for(int column = 0; column < columnPaper; column++) {
                     paper[row][column] = currentRow.charAt(column);
 
-                    if(paper[row][column] == 'x') {
+                    if (paper[row][column] == 'x') {
                         numberOfInks++;
                     }
                 }
@@ -87,14 +87,14 @@ public class Stamp {
             Set<InkPosition> inkPositions = new HashSet<>();
 
             char[][] stamp = new char[rowStamp][columnStamp];
-            for(int row=0; row < rowStamp; row++) {
+            for(int row = 0; row < rowStamp; row++) {
                 String currentRow = FastReader.next();
 
                 for(int column = 0; column < columnStamp; column++) {
                     stamp[row][column] = currentRow.charAt(column);
 
-                    if(stamp[row][column] == 'x') {
-                        if(originRow == -1) {
+                    if (stamp[row][column] == 'x') {
+                        if (originRow == -1) {
                             originRow = row;
                             originColumn = column;
                         }
@@ -107,23 +107,23 @@ public class Stamp {
             boolean[][] visited = new boolean[rowPaper][columnPaper];
             boolean possibleToCreate = true;
 
-            for(int row=0; row < rowPaper; row++) {
-                for(int column=0; column < columnPaper; column++) {
-                    if(paper[row][column] == 'x' && !visited[row][column]) {
+            for(int row = 0; row < rowPaper; row++) {
+                for(int column = 0; column < columnPaper; column++) {
+                    if (paper[row][column] == 'x' && !visited[row][column]) {
                         boolean possible = possibleToCreate(paper, row, column, visited, inkPositions);
-                        if(!possible) {
+                        if (!possible) {
                             possibleToCreate = false;
                             break;
                         }
                     }
                 }
 
-                if(!possibleToCreate) {
+                if (!possibleToCreate) {
                     break;
                 }
             }
 
-            if(possibleToCreate && numberOfInks == 0) {
+            if (possibleToCreate && numberOfInks == 0) {
                 System.out.println("ANO");
             } else {
                 System.out.println("NIE");
@@ -137,15 +137,15 @@ public class Stamp {
             int rowToCheck = paperRow + inkPosition.row;
             int columnToCheck = paperColumn + inkPosition.column;
 
-            if(!isValidIndex(paper, rowToCheck, columnToCheck)) {
+            if (!isValidIndex(paper, rowToCheck, columnToCheck)) {
                 return false;
             }
 
-            if(visited[rowToCheck][columnToCheck]) {
+            if (visited[rowToCheck][columnToCheck]) {
                 return false;
             }
 
-            if(paper[rowToCheck][columnToCheck] != 'x') {
+            if (paper[rowToCheck][columnToCheck] != 'x') {
                 return false;
             }
 

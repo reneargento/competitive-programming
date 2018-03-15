@@ -47,7 +47,7 @@ public class CriticalPathMethod {
 
                 //If the vertices are 0-index based, start i with value 0
                 for(int i = 1; i < adjacent.length; i++) {
-                    if(!visited[i]) {
+                    if (!visited[i]) {
                         depthFirstSearch(i, adjacent, finishTimes, visited);
                     }
                 }
@@ -62,7 +62,7 @@ public class CriticalPathMethod {
                 for(Edge edge : adj[sourceVertex]) {
                     int neighbor = edge.vertex2;
 
-                    if(!visited[neighbor]) {
+                    if (!visited[neighbor]) {
                         depthFirstSearch(neighbor, adj, finishTimes, visited);
                     }
                 }
@@ -108,7 +108,7 @@ public class CriticalPathMethod {
             for(Edge edge : adjacent[vertex]) {
                 int neighbor = edge.vertex2;
 
-                if(distTo[neighbor] > distTo[vertex] + edge.weight) {
+                if (distTo[neighbor] > distTo[vertex] + edge.weight) {
                     distTo[neighbor] = distTo[vertex] + edge.weight;
                     edgeTo[neighbor] = edge;
                 }
@@ -116,7 +116,7 @@ public class CriticalPathMethod {
         }
 
         public static double distTo(int vertex) {
-            if(distTo[vertex] == 0) {
+            if (distTo[vertex] == 0) {
                 return 0;
             }
 
@@ -128,7 +128,7 @@ public class CriticalPathMethod {
         }
 
         public static Iterable<Edge> pathTo(int vertex) {
-            if(!hasPathTo(vertex)) {
+            if (!hasPathTo(vertex)) {
                 return null;
             }
 

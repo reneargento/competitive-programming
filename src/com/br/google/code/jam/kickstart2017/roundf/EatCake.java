@@ -72,7 +72,7 @@ public class EatCake {
                 foundSqrt = true;
             }
 
-            if(!foundSqrt) {
+            if (!foundSqrt) {
                 temp--;
             }
         }

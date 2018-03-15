@@ -7,19 +7,19 @@ public class LongestCommonSubsequence {
     private static int dp[][];
 
     private static int longestCommonSubsequence(String sequence1, String sequence2) {
-        if(sequence1 == null || sequence2 == null) {
+        if (sequence1 == null || sequence2 == null) {
             return 0;
         }
 
         //int[][] dp = new int[sequence1.length() + 1][sequence2.length() + 1];
         dp = new int[sequence1.length() + 1][sequence2.length() + 1];
 
-        for(int i=1; i < dp.length; i++) {
-            for (int j=1; j < dp[0].length; j++) {
-                if(sequence1.charAt(i-1) == sequence2.charAt(j-1)) {
-                    dp[i][j] = dp[i-1][j-1] + 1;
+        for(int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                if (sequence1.charAt(i - 1) == sequence2.charAt(j-1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
                 } else {
-                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
                 }
             }
         }
@@ -66,7 +66,7 @@ public class LongestCommonSubsequence {
     private static List<String> getAllLCS(String sequence1, String sequence2, int sequenceIndex1, int sequenceIndex2) {
 
         //If we have reached the end, return an empty String
-        if(sequenceIndex1 == 0 || sequenceIndex2 == 0) {
+        if (sequenceIndex1 == 0 || sequenceIndex2 == 0) {
             String emptyString = "";
             List<String> emptyList = new ArrayList<>();
             emptyList.add(emptyString);
@@ -74,7 +74,7 @@ public class LongestCommonSubsequence {
             return emptyList;
         }
 
-        if(sequence1.charAt(sequenceIndex1 - 1) == sequence2.charAt(sequenceIndex2 - 1)) {
+        if (sequence1.charAt(sequenceIndex1 - 1) == sequence2.charAt(sequenceIndex2 - 1)) {
             List<String> allLCS = getAllLCS(sequence1, sequence2, sequenceIndex1 - 1, sequenceIndex2 - 1);
             List<String> appendedLCS = new ArrayList<>();
 
@@ -85,11 +85,11 @@ public class LongestCommonSubsequence {
             return appendedLCS;
         }
 
-        if(dp[sequenceIndex1 - 1][sequenceIndex2] > dp[sequenceIndex1][sequenceIndex2 - 1]) {
+        if (dp[sequenceIndex1 - 1][sequenceIndex2] > dp[sequenceIndex1][sequenceIndex2 - 1]) {
             return getAllLCS(sequence1, sequence2, sequenceIndex1 - 1, sequenceIndex2);
         }
 
-        if(dp[sequenceIndex1][sequenceIndex2 - 1] > dp[sequenceIndex1 - 1][sequenceIndex2]) {
+        if (dp[sequenceIndex1][sequenceIndex2 - 1] > dp[sequenceIndex1 - 1][sequenceIndex2]) {
             return getAllLCS(sequence1, sequence2, sequenceIndex1, sequenceIndex2 - 1);
         }
 

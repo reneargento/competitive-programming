@@ -38,7 +38,7 @@ public class BitonicShortestPaths {
             weight += previousPath.weight();
             numberOfEdges += previousPath.numberOfEdges;
 
-            if(previousPath != null && previousPath.directedEdge.weight() > directedEdge.weight()) {
+            if (previousPath != null && previousPath.directedEdge.weight() > directedEdge.weight()) {
                 isDescending = true;
             }
         }
@@ -72,9 +72,9 @@ public class BitonicShortestPaths {
 
         @Override
         public int compareTo(Path other) {
-            if(this.weight < other.weight) {
+            if (this.weight < other.weight) {
                 return -1;
-            } else if(this.weight > other.weight) {
+            } else if (this.weight > other.weight) {
                 return 1;
             } else {
                 return 0;
@@ -120,9 +120,9 @@ public class BitonicShortestPaths {
             Comparator<DirectedEdge> edgesComparator = new Comparator<DirectedEdge>() {
                 @Override
                 public int compare(DirectedEdge edge1, DirectedEdge edge2) {
-                    if(edge1.weight() > edge2.weight()) {
+                    if (edge1.weight() > edge2.weight()) {
                         return -1;
-                    } else if(edge1.weight() < edge2.weight()) {
+                    } else if (edge1.weight() < edge2.weight()) {
                         return 1;
                     } else {
                         return 0;
@@ -138,9 +138,9 @@ public class BitonicShortestPaths {
             edgesComparator = new Comparator<DirectedEdge>() {
                 @Override
                 public int compare(DirectedEdge edge1, DirectedEdge edge2) {
-                    if(edge1.weight() < edge2.weight()) {
+                    if (edge1.weight() < edge2.weight()) {
                         return -1;
-                    } else if(edge1.weight() > edge2.weight()) {
+                    } else if (edge1.weight() > edge2.weight()) {
                         return 1;
                     } else {
                         return 0;
@@ -173,7 +173,7 @@ public class BitonicShortestPaths {
             PriorityQueue<Path> priorityQueue = new PriorityQueue<>();
 
             // If we are relaxing edges for the first time, add the initial paths to the priority queue
-            if(isAscendingOrder) {
+            if (isAscendingOrder) {
                 VertexInformation sourceVertexInformation = verticesInformation.get(source);
                 while (sourceVertexInformation.getEdgeIteratorPosition() < sourceVertexInformation.getEdges().length) {
                     DirectedEdge edge = sourceVertexInformation.getEdges()[sourceVertexInformation.getEdgeIteratorPosition()];
@@ -187,7 +187,7 @@ public class BitonicShortestPaths {
             }
 
             // If we are relaxing edges for the second time, add all existing ascending paths to the priority queue
-            if(!allCurrentPaths.isEmpty()) {
+            if (!allCurrentPaths.isEmpty()) {
                 for(Path currentPath : allCurrentPaths) {
                     priorityQueue.offer(currentPath);
                 }
@@ -205,12 +205,12 @@ public class BitonicShortestPaths {
                 // s to v with only one edge is strictly increasing, v to t with only one edge is strictly decreasing
                 boolean isEdgeCase = false;
 
-                if(currentShortestPath.numberOfEdges() == 2
+                if (currentShortestPath.numberOfEdges() == 2
                         && currentEdge.weight() == currentShortestPath.previousPath.directedEdge.weight()) {
                     isEdgeCase = true;
                 }
 
-                if((currentShortestPath.isDescending() || isEdgeCase)
+                if ((currentShortestPath.isDescending() || isEdgeCase)
                         && (currentShortestPath.weight() < bitonicPathDistTo(nextVertexInPath)
                         || bitonicPathTo[nextVertexInPath] == null)) {
                     bitonicPathTo[nextVertexInPath] = currentShortestPath;
@@ -225,7 +225,7 @@ public class BitonicShortestPaths {
                     boolean isEdgeInEdgeCase = currentShortestPath.numberOfEdges() == 1
                             && edge.weight() == weightInPreviousEdge;
 
-                    if(!isEdgeInEdgeCase && ((isAscendingOrder && edge.weight() <= weightInPreviousEdge)
+                    if (!isEdgeInEdgeCase && ((isAscendingOrder && edge.weight() <= weightInPreviousEdge)
                             || (!isAscendingOrder && edge.weight() >= weightInPreviousEdge))) {
                         break;
                     }
@@ -237,7 +237,7 @@ public class BitonicShortestPaths {
 
                     // If we are relaxing edges for the first time, store the ascending paths so they can be further
                     // relaxed when computing the descending paths on the second relaxation
-                    if(isAscendingOrder) {
+                    if (isAscendingOrder) {
                         allCurrentPaths.add(path);
                     }
                 }
@@ -245,7 +245,7 @@ public class BitonicShortestPaths {
         }
 
         public double bitonicPathDistTo(int vertex) {
-            if(hasBitonicPathTo(vertex)) {
+            if (hasBitonicPathTo(vertex)) {
                 return bitonicPathTo[vertex].weight();
             } else {
                 return Double.POSITIVE_INFINITY;
@@ -258,7 +258,7 @@ public class BitonicShortestPaths {
 
         public Iterable<DirectedEdge> bitonicPathTo(int vertex) {
 
-            if(!hasBitonicPathTo(vertex)) {
+            if (!hasBitonicPathTo(vertex)) {
                 return null;
             }
 
@@ -305,7 +305,7 @@ public class BitonicShortestPaths {
         for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             System.out.print("\nPath from vertex 0 to vertex " + vertex + ": ");
 
-            if(bitonicSP.hasBitonicPathTo(vertex)) {
+            if (bitonicSP.hasBitonicPathTo(vertex)) {
                 for(DirectedEdge edge : bitonicSP.bitonicPathTo(vertex)) {
                     System.out.print(edge.from() + "->" + edge.to() + " (" + edge.weight() + ") ");
                 }

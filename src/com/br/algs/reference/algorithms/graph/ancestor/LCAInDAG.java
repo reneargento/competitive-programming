@@ -21,7 +21,7 @@ public class LCAInDAG {
             visited = new boolean[adjacent.length];
 
             for(int vertex = 0; vertex < adjacent.length; vertex++) {
-                if(!visited[vertex]) {
+                if (!visited[vertex]) {
                     dfs(adjacent, vertex);
                 }
             }
@@ -32,12 +32,12 @@ public class LCAInDAG {
             visited[vertex] = true;
 
             for(int neighbor : adjacent[vertex]) {
-                if(hasCycle()) {
+                if (hasCycle()) {
                     return;
-                } else if(!visited[neighbor]) {
+                } else if (!visited[neighbor]) {
                     edgeTo[neighbor] = vertex;
                     dfs(adjacent, neighbor);
-                } else if(onStack[neighbor]) {
+                } else if (onStack[neighbor]) {
                     cycle = new Stack<>();
 
                     for(int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
@@ -83,7 +83,7 @@ public class LCAInDAG {
         }
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(indegrees[vertex] == 0) {
+            if (indegrees[vertex] == 0) {
                 sources.add(vertex);
             }
         }
@@ -104,7 +104,7 @@ public class LCAInDAG {
             sourceDistanceQueue.offer(source);
             distanceFromCurrentSource[source] = 0;
 
-            if(distanceFromCurrentSource[source] > maxDistances[source]) {
+            if (distanceFromCurrentSource[source] > maxDistances[source]) {
                 maxDistances[source] = distanceFromCurrentSource[source];
             }
 
@@ -115,7 +115,7 @@ public class LCAInDAG {
                     distanceFromCurrentSource[neighbor] = distanceFromCurrentSource[currentVertex] + 1;
                     sourceDistanceQueue.offer(neighbor);
 
-                    if(distanceFromCurrentSource[neighbor] > maxDistances[neighbor]) {
+                    if (distanceFromCurrentSource[neighbor] > maxDistances[neighbor]) {
                         maxDistances[neighbor] = distanceFromCurrentSource[neighbor];
                     }
                 }
@@ -128,7 +128,7 @@ public class LCAInDAG {
 
         // 0- Precondition: check if the graph is a DAG
         HasDirectedCycle hasDirectedCycle = new HasDirectedCycle(adjacent);
-        if(hasDirectedCycle.hasCycle()) {
+        if (hasDirectedCycle.hasCycle()) {
             throw new IllegalArgumentException("Digraph is not a DAG");
         }
 
@@ -169,7 +169,7 @@ public class LCAInDAG {
         while (!queue.isEmpty()) {
             int currentVertex = queue.poll();
 
-            if(vertex1Ancestors.contains(currentVertex)) {
+            if (vertex1Ancestors.contains(currentVertex)) {
                 commonAncestors.add(currentVertex);
             }
 
@@ -184,7 +184,7 @@ public class LCAInDAG {
         int lowestCommonAncestor = -1;
 
         for(int commonAncestor : commonAncestors) {
-            if(maxDistances[commonAncestor] > maxDistance) {
+            if (maxDistances[commonAncestor] > maxDistance) {
                 maxDistance = maxDistances[commonAncestor];
                 lowestCommonAncestor = commonAncestor;
             }
@@ -207,7 +207,7 @@ public class LCAInDAG {
 
         LCAInDAG lcaInDAG1 = new LCAInDAG(digraph1);
         int lca1 = lcaInDAG1.getLCA(2, 4);
-        if(lca1 == -1) {
+        if (lca1 == -1) {
             System.out.print("LCA in digraph 1: There is no LCA in this DAG");
         } else {
             System.out.print("LCA in digraph 1: " + lca1);
@@ -227,7 +227,7 @@ public class LCAInDAG {
 
         LCAInDAG lcaInDAG2 = new LCAInDAG(digraph2);
         int lca2 = lcaInDAG2.getLCA(3, 4);
-        if(lca2 == -1) {
+        if (lca2 == -1) {
             System.out.print("LCA in digraph 2: There is no LCA in this DAG");
         } else {
             System.out.print("LCA in digraph 2: " + lca2);
@@ -253,7 +253,7 @@ public class LCAInDAG {
 
         LCAInDAG lcaInDAG3 = new LCAInDAG(digraph3);
         int lca3 = lcaInDAG3.getLCA(2, 3);
-        if(lca3 == -1) {
+        if (lca3 == -1) {
             System.out.print("LCA in digraph 3: There is no LCA in this DAG");
         } else {
             System.out.print("LCA in digraph 3: " + lca3);
@@ -279,7 +279,7 @@ public class LCAInDAG {
 
         LCAInDAG lcaInDAG4 = new LCAInDAG(digraph4);
         int lca4 = lcaInDAG4.getLCA(2, 3);
-        if(lca4 == -1) {
+        if (lca4 == -1) {
             System.out.print("LCA in digraph 4: There is no LCA in this DAG");
         } else {
             System.out.print("LCA in digraph 4: " + lca4);
@@ -297,7 +297,7 @@ public class LCAInDAG {
 
         LCAInDAG lcaInDAG5 = new LCAInDAG(digraph5);
         int lca5 = lcaInDAG5.getLCA(2, 3);
-        if(lca5 == -1) {
+        if (lca5 == -1) {
             System.out.print("LCA in digraph 5: There is no LCA in this DAG");
         } else {
             System.out.print("LCA in digraph 5: " + lca5);

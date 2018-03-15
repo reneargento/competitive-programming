@@ -18,7 +18,7 @@ public class Factors {
             if (number % i == 0) {
                 factors.add(i);
 
-                if(i != number / i) {
+                if (i != number / i) {
                     factors.add(number / i);
                 }
             }

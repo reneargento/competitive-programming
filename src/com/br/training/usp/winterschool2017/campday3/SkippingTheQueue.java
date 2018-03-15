@@ -55,14 +55,14 @@ public class SkippingTheQueue {
 
         @Override
         public int compareTo(Person that) {
-            if(this.cost < that.cost) {
+            if (this.cost < that.cost) {
                 return -1;
-            } else if(this.cost > that.cost) {
+            } else if (this.cost > that.cost) {
                 return 1;
             } else {
-                if(this.linePosition < that.linePosition) {
+                if (this.linePosition < that.linePosition) {
                     return -1;
-                } else if(this.linePosition > that.linePosition) {
+                } else if (this.linePosition > that.linePosition) {
                     return 1;
                 } else {
                     return 0;
@@ -77,7 +77,7 @@ public class SkippingTheQueue {
         int people = FastReader.nextInt();
         Person[] line = new Person[people];
 
-        for(int i=0; i < line.length; i++) {
+        for(int i = 0; i < line.length; i++) {
             long cost = FastReader.nextInt();
             Person person = new Person(cost, line.length - i);
             line[i] = person;
@@ -88,12 +88,12 @@ public class SkippingTheQueue {
         long totalCost = 0;
         int currentPosition = people + 1;
 
-        for(int i=0; i < line.length; i++) {
-            if(currentPosition == 1) {
+        for(int i = 0; i < line.length; i++) {
+            if (currentPosition == 1) {
                 break;
             }
 
-            if(line[i].linePosition < currentPosition) {
+            if (line[i].linePosition < currentPosition) {
                 int positionsToAdvance = currentPosition - line[i].linePosition;
                 totalCost += line[i].cost * positionsToAdvance;
 

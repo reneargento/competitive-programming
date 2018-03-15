@@ -94,14 +94,14 @@ public class CyclicGame {
 
         int currentPosition = 0;
 
-        for(int i=0; i < diceValues.length; i++) {
+        for(int i = 0; i < diceValues.length; i++) {
 
             int nextBoardPosition = (currentPosition + diceValues[i]) % board.length;
 
             int nextBoardPositionAfterExtraValue =
                     (nextBoardPosition + board[nextBoardPosition]);
 
-            if(nextBoardPositionAfterExtraValue > 0) {
+            if (nextBoardPositionAfterExtraValue > 0) {
                 currentPosition = nextBoardPositionAfterExtraValue % board.length;
             } else {
                 currentPosition = board.length + nextBoardPositionAfterExtraValue;

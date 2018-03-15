@@ -52,8 +52,8 @@ public class DijkstraIntegerWeights {
         for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             Integer neighbor = edge.to();
 
-            if(distTo[neighbor] > distTo[vertex] + edge.weight()) {
-                if(distTo[neighbor] != Long.MAX_VALUE) {
+            if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
+                if (distTo[neighbor] != Long.MAX_VALUE) {
                     int distancesIndex = (int) (distTo[neighbor] % distances.length);
                     distances[distancesIndex].remove(neighbor);
                 }
@@ -74,7 +74,7 @@ public class DijkstraIntegerWeights {
         while (distances[lastComputedShortestDistance].isEmpty()) {
             lastComputedShortestDistance = (lastComputedShortestDistance + 1) % distances.length;
 
-            if(distances[lastComputedShortestDistance].isEmpty()
+            if (distances[lastComputedShortestDistance].isEmpty()
                     && lastComputedShortestDistance == initialIndex) {
                 return -1;
             }
@@ -99,7 +99,7 @@ public class DijkstraIntegerWeights {
     }
 
     public Iterable<DirectedEdge> pathTo(int vertex) {
-        if(!hasPathTo(vertex)) {
+        if (!hasPathTo(vertex)) {
             return null;
         }
 
@@ -170,16 +170,16 @@ public class DijkstraIntegerWeights {
 //                    new DijkstraIntegerWeights(edgeWeightedDigraph, source, maxWeight);
 //
 //            for(int vertex = 1; vertex <= vertices; vertex++) {
-//                if(vertex != source) {
+//                if (vertex != source) {
 //                    long distance = dijkstraIntegerWeights.distTo(i);
 //
-//                    if(distance == Long.MAX_VALUE) {
+//                    if (distance == Long.MAX_VALUE) {
 //                        distance = -1;
 //                    }
 //
 //                    System.out.print(distance);
 //
-//                    if(vertex != vertices) {
+//                    if (vertex != vertices) {
 //                        System.out.print(" ");
 //                    }
 //                }

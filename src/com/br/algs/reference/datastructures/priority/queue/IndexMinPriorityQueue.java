@@ -39,7 +39,7 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
 
     //Return key associated with index
     public Key keyOf(int index) {
-        if(!contains(index)) {
+        if (!contains(index)) {
             throw new NoSuchElementException("Index is not in the priority queue");
         }
 
@@ -47,11 +47,11 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
     }
 
     public void insert(int index, Key key) {
-        if(contains(index)) {
+        if (contains(index)) {
             throw new IllegalArgumentException("Index is already in the priority queue");
         }
 
-        if(size != keys.length - 1) {
+        if (size != keys.length - 1) {
             size++;
 
             keys[index] = key;
@@ -64,7 +64,7 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
 
     // Remove a minimal key and return its index
     public int deleteMin() {
-        if(size == 0) {
+        if (size == 0) {
             throw new NoSuchElementException("Priority queue underflow");
         }
 
@@ -80,7 +80,7 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
     }
 
     public void delete(int i) {
-        if(!contains(i)) {
+        if (!contains(i)) {
             throw new NoSuchElementException("Index is not in the priority queue");
         }
 
@@ -159,11 +159,11 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         while (index * 2 <= size) {
             int selectedChildIndex = index * 2;
 
-            if(index * 2 + 1 <= size && more(index * 2, index * 2 + 1)){
+            if (index * 2 + 1 <= size && more(index * 2, index * 2 + 1)){
                 selectedChildIndex = index * 2 + 1;
             }
 
-            if(less(selectedChildIndex, index)) {
+            if (less(selectedChildIndex, index)) {
                 exchange(index, selectedChildIndex);
             } else {
                 break;

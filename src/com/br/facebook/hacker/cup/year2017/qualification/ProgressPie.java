@@ -97,7 +97,7 @@ public class ProgressPie {
 
         int caseCheck = 1;
 
-        for(int i=0; i < input.length; i++) {
+        for(int i = 0; i < input.length; i++) {
 
             int percent = input[i][0];
             int pointX = input[i][1];
@@ -114,7 +114,7 @@ public class ProgressPie {
 
     private static String isWhite(int percent, int pointX, int pointY) {
 
-        if(percent == 0) {
+        if (percent == 0) {
             return WHITE;
         }
 
@@ -124,7 +124,7 @@ public class ProgressPie {
         int centerY = 50;
 
         boolean isInsideCircle = Math.pow(pointX - centerX, 2) + Math.pow(pointY - centerY, 2) <= radius * radius;
-        if(!isInsideCircle) {
+        if (!isInsideCircle) {
             return WHITE;
         }
 
@@ -134,7 +134,7 @@ public class ProgressPie {
 
         double pointAngle = getAngle(centerX, centerY, pointX, pointY);
 
-        if(startingAngle <= pointAngle && pointAngle <= endingAngle) {
+        if (startingAngle <= pointAngle && pointAngle <= endingAngle) {
             return BLACK;
         } else {
             return WHITE;
@@ -146,7 +146,7 @@ public class ProgressPie {
         double angle = Math.toDegrees(Math.atan2(pointX - centerX, pointY - centerY));
 
         //Atan2 returns a value between 0 and 180 or -1 and -180, we need to map it to 0 and 360
-        if(angle < 0) {
+        if (angle < 0) {
             angle += 360;
         }
 
@@ -166,7 +166,7 @@ public class ProgressPie {
                 String[] valuesInLine = line.split(" ");
                 int[] values = new int[3];
 
-                for(int j=0; j < 3; j++) {
+                for(int j = 0; j < 3; j++) {
                     values[j] = Integer.parseInt(valuesInLine[j]);
                 }
                 numbers.add(values);

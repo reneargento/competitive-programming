@@ -34,7 +34,7 @@ public class Tournament {
         int fansOfTeamAgainstMatch2Winner = 0;
 
         //Match 1
-        if(team1Performance >= team2Performance) {
+        if (team1Performance >= team2Performance) {
             match1Winner = 1;
             match1WinnerPerformance = team1Performance;
 
@@ -47,7 +47,7 @@ public class Tournament {
         }
 
         //Match 2
-        if(team3Performance >= team4Performance) {
+        if (team3Performance >= team4Performance) {
             match2Winner = 3;
             match2WinnerPerformance = team3Performance;
 
@@ -63,7 +63,7 @@ public class Tournament {
         match1WinnerPerformance += fansOfTeamAgainstMatch2Winner;
         match2WinnerPerformance += fansOfTeamAgainstMatch1Winner;
 
-        if(match1WinnerPerformance >= match2WinnerPerformance) {
+        if (match1WinnerPerformance >= match2WinnerPerformance) {
             champion = match1Winner;
         } else {
             champion = match2Winner;

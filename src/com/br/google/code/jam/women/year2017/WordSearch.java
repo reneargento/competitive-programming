@@ -34,12 +34,12 @@ public class WordSearch {
             output.add("Case #" + caseIndex + ":");
 
             String concat = "";
-            for(int i=0; i < grid.length; i++) {
+            for(int i = 0; i < grid.length; i++) {
                 for(int j =0; j < grid[0].length; j++) {
                     concat += grid[i][j];
                 }
 
-                if(i != grid.length - 1) {
+                if (i != grid.length - 1) {
                     concat += "\n";
                 }
             }
@@ -80,8 +80,8 @@ public class WordSearch {
 
         String[][] grid = new String[50][50];
 
-        for(int i=0; i < 50; i++) {
-            for(int j=0; j < 50; j++) {
+        for(int i = 0; i < 50; i++) {
+            for(int j = 0; j < 50; j++) {
                 grid[i][j] = "O";
             }
         }
@@ -89,19 +89,19 @@ public class WordSearch {
         int maxSize = input[0];
         int occurrences = input[1];
 
-        if(occurrences == 0) {
+        if (occurrences == 0) {
             return grid;
         }
 
         int wordsWritten = 0;
 
-        for(int i=0; i < 50; i+=2) {
+        for(int i = 0; i < 50; i += 2) {
             grid[i][0] = "I";
             grid[i][1] = "/";
             grid[i][2] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -110,7 +110,7 @@ public class WordSearch {
             grid[i][5] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -119,7 +119,7 @@ public class WordSearch {
             grid[i][8] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -128,7 +128,7 @@ public class WordSearch {
             grid[i][11] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -137,7 +137,7 @@ public class WordSearch {
             grid[i][14] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -146,7 +146,7 @@ public class WordSearch {
             grid[i][17] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -155,7 +155,7 @@ public class WordSearch {
             grid[i][20] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -164,7 +164,7 @@ public class WordSearch {
             grid[i][23] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -173,7 +173,7 @@ public class WordSearch {
             grid[i][26] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -182,7 +182,7 @@ public class WordSearch {
             grid[i][29] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -191,7 +191,7 @@ public class WordSearch {
             grid[i][32] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -200,7 +200,7 @@ public class WordSearch {
             grid[i][35] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -209,7 +209,7 @@ public class WordSearch {
             grid[i][38] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -218,7 +218,7 @@ public class WordSearch {
             grid[i][41] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -227,7 +227,7 @@ public class WordSearch {
             grid[i][44] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
 
@@ -236,7 +236,7 @@ public class WordSearch {
             grid[i][47] = "O";
 
             wordsWritten++;
-            if(wordsWritten == occurrences) {
+            if (wordsWritten == occurrences) {
                 break;
             }
         }

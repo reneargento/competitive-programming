@@ -77,7 +77,7 @@ public class HeightAndTotalHeightBST {
         }
 
         private int size(Node node) {
-            if(node == null) {
+            if (node == null) {
                 return 0;
             }
 
@@ -89,7 +89,7 @@ public class HeightAndTotalHeightBST {
         }
 
         public Value get(Key key) {
-            if(key == null) {
+            if (key == null) {
                 return null;
             }
 
@@ -97,14 +97,14 @@ public class HeightAndTotalHeightBST {
         }
 
         private Value get(Node node, Key key) {
-            if(node == null) {
+            if (node == null) {
                 return null;
             }
 
             int compare = key.compareTo(node.key);
-            if(compare < 0) {
+            if (compare < 0) {
                 return get(node.left, key);
-            } else if(compare > 0) {
+            } else if (compare > 0) {
                 return get(node.right, key);
             } else {
                 return node.value;
@@ -119,7 +119,7 @@ public class HeightAndTotalHeightBST {
         }
 
         public void put(Key key, Value value) {
-            if(key == null) {
+            if (key == null) {
                 return;
             }
 
@@ -131,15 +131,15 @@ public class HeightAndTotalHeightBST {
         }
 
         private Node put(Node node, Key key, Value value) {
-            if(node == null) {
+            if (node == null) {
                 return new Node(key, value, 1);
             }
 
             int compare = key.compareTo(node.key);
 
-            if(compare < 0) {
+            if (compare < 0) {
                 node.left = put(node.left, key, value);
-            } else if(compare > 0) {
+            } else if (compare > 0) {
                 node.right = put(node.right, key, value);
             } else {
                 node.value = value;
@@ -150,7 +150,7 @@ public class HeightAndTotalHeightBST {
         }
 
         public int height(Node node) {
-            if(node == null) {
+            if (node == null) {
                 return 0;
             }
 

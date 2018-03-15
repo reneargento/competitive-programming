@@ -81,7 +81,7 @@ public class DiwaliLightings {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < diwaliInformation.size(); i++) {
+        for(int i = 0; i < diwaliInformation.size(); i++) {
 
             String pattern = diwaliInformation.get(i);
             i++;
@@ -114,8 +114,8 @@ public class DiwaliLightings {
         long newStart = start;
         long newEnd = end;
 
-        for(long i=start - smallestMultiple - 1; i < patternLength && i <= difference; i++) {
-            if(pattern.charAt((int)i) == 'B') {
+        for(long i = start - smallestMultiple - 1; i < patternLength && i <= difference; i++) {
+            if (pattern.charAt((int)i) == 'B') {
                 blueBulbs++;
             }
 
@@ -124,8 +124,8 @@ public class DiwaliLightings {
 
         long highBound = highestMultiple - end;
 
-        for(int i=0; i < patternLength - highBound; i++) {
-            if(pattern.charAt(i) == 'B') {
+        for(int i = 0; i < patternLength - highBound; i++) {
+            if (pattern.charAt(i) == 'B') {
                 blueBulbs++;
             }
 
@@ -136,8 +136,8 @@ public class DiwaliLightings {
         long multiples = difference / patternLength;
 
         int numberOfBlueBulbsOnPattern = 0;
-        for(int i=0; i < patternLength; i++) {
-            if(pattern.charAt(i) == 'B') {
+        for(int i = 0; i < patternLength; i++) {
+            if (pattern.charAt(i) == 'B') {
                 numberOfBlueBulbsOnPattern++;
             }
         }
@@ -148,7 +148,7 @@ public class DiwaliLightings {
     }
 
     private static long roundDown(long number, long multiple) {
-        if(number < multiple) {
+        if (number < multiple) {
             return 0;
         }
 
@@ -172,7 +172,7 @@ public class DiwaliLightings {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 valuesList.add(lines.get(i));
             }
         } catch (IOException e) {

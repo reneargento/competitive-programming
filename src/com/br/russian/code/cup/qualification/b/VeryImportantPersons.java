@@ -59,10 +59,10 @@ public class VeryImportantPersons {
         int[][] hallPlan1 = getHallPlan(2, 3);
         int[][] hallPlan2 = getHallPlan(3, 2);
 
-        for(int i=0; i < hallPlan1.length; i++) {
-            for(int j=0; j < hallPlan1[0].length; j++) {
+        for(int i = 0; i < hallPlan1.length; i++) {
+            for(int j = 0; j < hallPlan1[0].length; j++) {
                 System.out.print(hallPlan1[i][j]);
-                if(j < hallPlan1[0].length - 1) {
+                if (j < hallPlan1[0].length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -73,10 +73,10 @@ public class VeryImportantPersons {
                 "\n6 4 2 \n" +
                 "5 3 1");
 
-        for(int i=0; i < hallPlan2.length; i++) {
-            for(int j=0; j < hallPlan2[0].length; j++) {
+        for(int i = 0; i < hallPlan2.length; i++) {
+            for(int j = 0; j < hallPlan2[0].length; j++) {
                 System.out.print(hallPlan2[i][j]);
-                if(j < hallPlan2[0].length - 1) {
+                if (j < hallPlan2[0].length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -93,16 +93,16 @@ public class VeryImportantPersons {
         Scanner sc = new Scanner(System.in);
         int numberOfTests = Integer.parseInt(sc.nextLine());
 
-        for(int t=0; t < numberOfTests; t++) {
+        for(int t = 0; t < numberOfTests; t++) {
             int rows = sc.nextInt();
             int seats = sc.nextInt();
 
             int[][] hallPlan = getHallPlan(rows, seats);
 
-            for(int i=0; i < hallPlan.length; i++) {
-                for(int j=0; j < hallPlan[0].length; j++) {
+            for(int i = 0; i < hallPlan.length; i++) {
+                for(int j = 0; j < hallPlan[0].length; j++) {
                     System.out.print(hallPlan[i][j]);
-                    if(j < hallPlan[0].length - 1) {
+                    if (j < hallPlan[0].length - 1) {
                         System.out.print(" ");
                     }
                 }
@@ -125,7 +125,7 @@ public class VeryImportantPersons {
 
         //Top down diagonals
         for(int column = 0; column < hallPlan[0].length; column++){
-            for(int i=0, j = column; i < rows && j >= 0; i++, j--){
+            for(int i = 0, j = column; i < rows && j >= 0; i++, j--){
                 hallPlan[i][j] = importance[importanceIndex++];
             }
         }

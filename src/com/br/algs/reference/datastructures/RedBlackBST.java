@@ -33,7 +33,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private long size(Node node) {
-        if(node == null) {
+        if (node == null) {
             return 0;
         }
 
@@ -45,7 +45,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private boolean isRed(Node node) {
-        if(node == null) {
+        if (node == null) {
             return false;
         }
 
@@ -53,7 +53,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node rotateLeft(Node node) {
-        if(node == null || node.right == null) {
+        if (node == null || node.right == null) {
             return node;
         }
 
@@ -72,7 +72,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node rotateRight(Node node) {
-        if(node == null || node.left == null) {
+        if (node == null || node.left == null) {
             return node;
         }
 
@@ -91,12 +91,12 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private void flipColors(Node node) {
-        if(node == null || node.left == null || node.right == null) {
+        if (node == null || node.left == null || node.right == null) {
             return;
         }
 
         //The root must have opposite color of its two children
-        if((isRed(node) && !isRed(node.left) && !isRed(node.right))
+        if ((isRed(node) && !isRed(node.left) && !isRed(node.right))
                 || (!isRed(node) && isRed(node.left) && isRed(node.right))) {
             node.color = !node.color;
             node.left.color = !node.left.color;
@@ -109,7 +109,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             throw new IllegalArgumentException("Key cannot be null");
         }
 
-        if(value == null) {
+        if (value == null) {
             delete(key);
             return;
         }
@@ -119,27 +119,27 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node put(Node node, Key key, Value value) {
-        if(node == null) {
+        if (node == null) {
             return new Node(key, value, 1, RED);
         }
 
         int compare = key.compareTo(node.key);
 
-        if(compare < 0) {
+        if (compare < 0) {
             node.left = put(node.left, key, value);
-        } else if(compare > 0) {
+        } else if (compare > 0) {
             node.right = put(node.right, key, value);
         } else {
             node.value = value;
         }
 
-        if(isRed(node.right) && !isRed(node.left)) {
+        if (isRed(node.right) && !isRed(node.left)) {
             node = rotateLeft(node);
         }
-        if(isRed(node.left) && isRed(node.left.left)) {
+        if (isRed(node.left) && isRed(node.left.left)) {
             node = rotateRight(node);
         }
-        if(isRed(node.left) && isRed(node.right)) {
+        if (isRed(node.left) && isRed(node.right)) {
             flipColors(node);
         }
 
@@ -148,7 +148,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Value get(Key key) {
-        if(key == null) {
+        if (key == null) {
             return null;
         }
 
@@ -156,14 +156,14 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Value get(Node node, Key key) {
-        if(node == null) {
+        if (node == null) {
             return null;
         }
 
         int compare = key.compareTo(node.key);
-        if(compare < 0) {
+        if (compare < 0) {
             return get(node.left, key);
-        } else if(compare > 0) {
+        } else if (compare > 0) {
             return get(node.right, key);
         } else {
             return node.value;
@@ -178,7 +178,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Key min() {
-        if(root == null) {
+        if (root == null) {
             throw new NoSuchElementException("Empty binary search tree");
         }
 
@@ -186,7 +186,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node min(Node node) {
-        if(node.left == null) {
+        if (node.left == null) {
             return node;
         }
 
@@ -194,7 +194,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Key max() {
-        if(root == null) {
+        if (root == null) {
             throw new NoSuchElementException("Empty binary search tree");
         }
 
@@ -202,7 +202,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node max(Node node) {
-        if(node.right == null) {
+        if (node.right == null) {
             return node;
         }
 
@@ -212,7 +212,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     //Returns the highest key in the symbol table smaller than or equal to key.
     private Key floor(Key key) {
         Node node = floor(root, key);
-        if(node == null) {
+        if (node == null) {
             return null;
         }
 
@@ -220,19 +220,19 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node floor(Node node, Key key) {
-        if(node == null) {
+        if (node == null) {
             return null;
         }
 
         int compare = key.compareTo(node.key);
 
-        if(compare == 0) {
+        if (compare == 0) {
             return node;
-        } else if(compare < 0) {
+        } else if (compare < 0) {
             return floor(node.left, key);
         } else {
             Node rightNode = floor(node.right, key);
-            if(rightNode != null) {
+            if (rightNode != null) {
                 return rightNode;
             } else {
                 return node;
@@ -243,7 +243,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     //Returns the smallest key in the symbol table greater than or equal to key.
     private Key ceiling(Key key) {
         Node node = ceiling(root, key);
-        if(node == null) {
+        if (node == null) {
             return null;
         }
 
@@ -251,19 +251,19 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node ceiling(Node node, Key key) {
-        if(node == null) {
+        if (node == null) {
             return null;
         }
 
         int compare = key.compareTo(node.key);
 
-        if(compare == 0) {
+        if (compare == 0) {
             return node;
-        } else if(compare > 0) {
+        } else if (compare > 0) {
             return ceiling(node.right, key);
         } else {
             Node leftNode = ceiling(node.left, key);
-            if(leftNode != null) {
+            if (leftNode != null) {
                 return leftNode;
             } else {
                 return node;
@@ -272,7 +272,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Key select(long index) {
-        if(index >= size()) {
+        if (index >= size()) {
             throw new IllegalArgumentException("Index is higher than tree size");
         }
 
@@ -282,7 +282,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     private Node select(Node node, long index) {
         long leftSubtreeSize = size(node.left);
 
-        if(leftSubtreeSize == index) {
+        if (leftSubtreeSize == index) {
             return node;
         } else if (leftSubtreeSize > index) {
             return select(node.left, index);
@@ -296,15 +296,15 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private long rank(Node node, Key key) {
-        if(node == null) {
+        if (node == null) {
             return 0;
         }
 
         //Returns the number of keys less than node.key in the subtree rooted at node
         int compare = key.compareTo(node.key);
-        if(compare < 0) {
+        if (compare < 0) {
             return rank(node.left, key);
-        } else if(compare > 0) {
+        } else if (compare > 0) {
             return size(node.left) + 1 + rank(node.right, key);
         } else {
             return size(node.left);
@@ -312,27 +312,27 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private void deleteMin() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             return;
         }
 
-        if(!isRed(root.left) && !isRed(root.right)) {
+        if (!isRed(root.left) && !isRed(root.right)) {
             root.color = RED;
         }
 
         root = deleteMin(root);
 
-        if(!isEmpty()) {
+        if (!isEmpty()) {
             root.color = BLACK;
         }
     }
 
     private Node deleteMin(Node node) {
-        if(node.left == null) {
+        if (node.left == null) {
             return null;
         }
 
-        if(!isRed(node.left) && !isRed(node.left.left)) {
+        if (!isRed(node.left) && !isRed(node.left.left)) {
             node = moveRedLeft(node);
         }
 
@@ -341,31 +341,31 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private void deleteMax() {
-        if(isEmpty()) {
+        if (isEmpty()) {
             return;
         }
 
-        if(!isRed(root.left) && !isRed(root.right)) {
+        if (!isRed(root.left) && !isRed(root.right)) {
             root.color = RED;
         }
 
         root = deleteMax(root);
 
-        if(!isEmpty()) {
+        if (!isEmpty()) {
             root.color = BLACK;
         }
     }
 
     private Node deleteMax(Node node) {
-        if(isRed(node.left)) {
+        if (isRed(node.left)) {
             node = rotateRight(node);
         }
 
-        if(node.right == null) {
+        if (node.right == null) {
             return null;
         }
 
-        if(!isRed(node.right) && !isRed(node.right.left)) {
+        if (!isRed(node.right) && !isRed(node.right.left)) {
             node = moveRedRight(node);
         }
 
@@ -378,46 +378,46 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             throw new IllegalArgumentException("Key cannot be null");
         }
 
-        if(isEmpty() || !contains(key)) {
+        if (isEmpty() || !contains(key)) {
             return;
         }
 
-        if(!isRed(root.left) && !isRed(root.right)) {
+        if (!isRed(root.left) && !isRed(root.right)) {
             root.color = RED;
         }
 
         root = delete(root, key);
 
-        if(!isEmpty()) {
+        if (!isEmpty()) {
             root.color = BLACK;
         }
     }
 
     private Node delete(Node node, Key key) {
-        if(node == null) {
+        if (node == null) {
             return null;
         }
 
-        if(key.compareTo(node.key) < 0) {
-            if(!isRed(node.left) && node.left != null && !isRed(node.left.left)) {
+        if (key.compareTo(node.key) < 0) {
+            if (!isRed(node.left) && node.left != null && !isRed(node.left.left)) {
                 node = moveRedLeft(node);
             }
 
             node.left = delete(node.left, key);
         } else {
-            if(isRed(node.left)) {
+            if (isRed(node.left)) {
                 node = rotateRight(node);
             }
 
-            if(key.compareTo(node.key) == 0 && node.right == null) {
+            if (key.compareTo(node.key) == 0 && node.right == null) {
                 return null;
             }
 
-            if(!isRed(node.right) && node.right != null && !isRed(node.right.left)) {
+            if (!isRed(node.right) && node.right != null && !isRed(node.right.left)) {
                 node = moveRedRight(node);
             }
 
-            if(key.compareTo(node.key) == 0) {
+            if (key.compareTo(node.key) == 0) {
                 Node aux = min(node.right);
                 node.key = aux.key;
                 node.value = aux.value;
@@ -435,7 +435,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         // make node.left or one of its children red
         flipColors(node);
 
-        if(node.right != null && isRed(node.right.left)) {
+        if (node.right != null && isRed(node.right.left)) {
             node.right = rotateRight(node.right);
             node = rotateLeft(node);
             flipColors(node);
@@ -449,7 +449,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         // make node.right or one of its children red
         flipColors(node);
 
-        if(node.left != null && isRed(node.left.left)) {
+        if (node.left != null && isRed(node.left.left)) {
             node = rotateRight(node);
             flipColors(node);
         }
@@ -458,19 +458,19 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private Node balance(Node node) {
-        if(node == null) {
+        if (node == null) {
             return null;
         }
 
-        if(isRed(node.right)) {
+        if (isRed(node.right)) {
             node = rotateLeft(node);
         }
 
-        if(isRed(node.left) && isRed(node.left.left)) {
+        if (isRed(node.left) && isRed(node.left.left)) {
             node = rotateRight(node);
         }
 
-        if(isRed(node.left) && isRed(node.right)) {
+        if (isRed(node.left) && isRed(node.right)) {
             flipColors(node);
         }
 
@@ -497,22 +497,22 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
     }
 
     private void keys(Node node, Queue<Key> queue, Key low, Key high) {
-        if(node == null) {
+        if (node == null) {
             return;
         }
 
         int compareLow = low.compareTo(node.key);
         int compareHigh = high.compareTo(node.key);
 
-        if(compareLow < 0) {
+        if (compareLow < 0) {
             keys(node.left, queue, low, high);
         }
 
-        if(compareLow <= 0 && compareHigh >= 0) {
+        if (compareLow <= 0 && compareHigh >= 0) {
             queue.offer(node.key);
         }
 
-        if(compareHigh > 0) {
+        if (compareHigh > 0) {
             keys(node.right, queue, low, high);
         }
     }

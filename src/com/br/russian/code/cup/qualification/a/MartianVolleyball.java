@@ -45,7 +45,7 @@ public class MartianVolleyball {
         Scanner sc = new Scanner(System.in);
         int numberOfTests = Integer.parseInt(sc.nextLine());
 
-        for(int i=0; i < numberOfTests; i++) {
+        for(int i = 0; i < numberOfTests; i++) {
             int minimumScoreToEndGame = sc.nextInt();
             int team1Score = sc.nextInt();
             int team2Score = sc.nextInt();
@@ -57,12 +57,12 @@ public class MartianVolleyball {
     private static int getNumberOfBalls(int minimumScoreToEndGame, int team1Score, int team2Score) {
         int maxScore = Math.max(team1Score, team2Score);
 
-        if(minimumScoreToEndGame - maxScore >= 2) {
+        if (minimumScoreToEndGame - maxScore >= 2) {
             return minimumScoreToEndGame - maxScore;
         } else {
             int minScore = Math.min(team1Score, team2Score);
             int scoreDifferenceBetweenTeams = maxScore - minScore;
-            if(scoreDifferenceBetweenTeams == 0) {
+            if (scoreDifferenceBetweenTeams == 0) {
                 return 2;
             } else {
                 return 1;

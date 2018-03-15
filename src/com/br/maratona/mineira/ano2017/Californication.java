@@ -97,11 +97,11 @@ public class Californication {
         int player3TotalScore = 0;
         int player4TotalScore = 0;
 
-        for(int r=0; r < rounds; r++) {
+        for(int r = 0; r < rounds; r++) {
             String move = FastReader.next();
             int value = FastReader.nextInt();
 
-            if(move.equals("L")) {
+            if (move.equals("L")) {
                 DominantPlayer dominantPlayer = new DominantPlayer(playerIndex, time);
                 dominantRows[value - 1] = dominantPlayer;
             } else {
@@ -110,23 +110,23 @@ public class Californication {
             }
 
             playerIndex++;
-            if(playerIndex == 5) {
+            if (playerIndex == 5) {
                 playerIndex = 1;
             }
 
             time++;
         }
 
-        for(int i=0; i < rows; i++) {
-            for(int j=0; j < columns; j++) {
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < columns; j++) {
                 DominantPlayer dominantPlayerRow = dominantRows[i];
                 DominantPlayer dominantPlayerColumn = dominantColumns[j];
 
                 int dominantPlayerId = 0;
 
-                if(dominantPlayerRow != null) {
-                    if(dominantPlayerColumn != null) {
-                        if(dominantPlayerRow.time > dominantPlayerColumn.time) {
+                if (dominantPlayerRow != null) {
+                    if (dominantPlayerColumn != null) {
+                        if (dominantPlayerRow.time > dominantPlayerColumn.time) {
                             dominantPlayerId = dominantPlayerRow.playerIndex;
                         } else {
                             dominantPlayerId = dominantPlayerColumn.playerIndex;
@@ -135,18 +135,18 @@ public class Californication {
                         dominantPlayerId = dominantPlayerRow.playerIndex;
                     }
                 } else {
-                    if(dominantPlayerColumn != null) {
+                    if (dominantPlayerColumn != null) {
                         dominantPlayerId = dominantPlayerColumn.playerIndex;
                     }
                 }
 
-                if(dominantPlayerId == 1) {
+                if (dominantPlayerId == 1) {
                     player1TotalScore++;
-                } else if(dominantPlayerId == 2) {
+                } else if (dominantPlayerId == 2) {
                     player2TotalScore++;
-                } else if(dominantPlayerId == 3) {
+                } else if (dominantPlayerId == 3) {
                     player3TotalScore++;
-                } else if(dominantPlayerId == 4) {
+                } else if (dominantPlayerId == 4) {
                     player4TotalScore++;
                 }
             }

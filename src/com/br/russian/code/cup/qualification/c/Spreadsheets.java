@@ -29,7 +29,7 @@ public class Spreadsheets {
         Scanner sc = new Scanner(System.in);
         int numberOfTests = Integer.parseInt(sc.nextLine());
 
-        for(int i=0; i < numberOfTests; i++) {
+        for(int i = 0; i < numberOfTests; i++) {
             int columnId = sc.nextInt();
 
             System.out.println(getColumnValue(columnId));
@@ -72,7 +72,7 @@ public class Spreadsheets {
         while (columnId % 26 >= 0) {
             int letterKey;
 
-            if(columnId % 26 == 0) {
+            if (columnId % 26 == 0) {
                 letterKey = 26;
                 columnId = columnId / 26 - 1;
             } else {
@@ -82,8 +82,8 @@ public class Spreadsheets {
 
             result.append(columnsMap.get(letterKey));
 
-            if(columnId <= 26) {
-                if(isLastChar) {
+            if (columnId <= 26) {
+                if (isLastChar) {
                     break;
                 } else {
                     isLastChar = true;

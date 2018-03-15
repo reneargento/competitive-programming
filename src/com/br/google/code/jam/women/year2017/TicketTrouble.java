@@ -23,7 +23,7 @@ public class TicketTrouble {
 
         @Override
         public boolean equals(Object obj) {
-            if(!(obj instanceof Ticket)) {
+            if (!(obj instanceof Ticket)) {
                 return false;
             }
 
@@ -96,7 +96,7 @@ public class TicketTrouble {
                 Ticket[] tickets = new Ticket[numberOfFriends];
                 int ticketIndex = 0;
 
-                for(int j=i+1; j <= i + numberOfFriends; j++) {
+                for(int j = i + 1; j <= i + numberOfFriends; j++) {
                     String[] rowAndColumn = lines.get(j).split(" ");
 
                     int row = Integer.parseInt(rowAndColumn[0]);
@@ -124,7 +124,7 @@ public class TicketTrouble {
         for(Ticket ticket : tickets) {
 
             //Not computing the same ticket twice
-            if(ticketsComputed.contains(ticket)) {
+            if (ticketsComputed.contains(ticket)) {
                 continue;
             }
 
@@ -136,21 +136,21 @@ public class TicketTrouble {
 
             int rowFrequency1 = 0;
 
-            if(rowFrequency.containsKey(row)) {
+            if (rowFrequency.containsKey(row)) {
                 rowFrequency1 = rowFrequency.get(row);
             }
 
             rowFrequency1 = rowFrequency1 + 1;
             rowFrequency.put(row, rowFrequency1);
 
-            if(row == column) {
+            if (row == column) {
                 continue;
             }
 
             //Column
             int rowFrequency2 = 0;
 
-            if(rowFrequency.containsKey(column)) {
+            if (rowFrequency.containsKey(column)) {
                 rowFrequency2 = rowFrequency.get(column);
             }
 
@@ -161,7 +161,7 @@ public class TicketTrouble {
         //Check the highest number possible
         int highestNumberOfFriends = 0;
         for(int frequency : rowFrequency.keySet()) {
-            if(rowFrequency.get(frequency) > highestNumberOfFriends) {
+            if (rowFrequency.get(frequency) > highestNumberOfFriends) {
                 highestNumberOfFriends = rowFrequency.get(frequency);
             }
         }

@@ -15,12 +15,12 @@ public class EulerPathDirectedGraph {
         // A graph with no edges is considered to have an Eulerian path
         int edges = 0;
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 edges += adjacent[vertex].size();
             }
         }
 
-        if(edges == 0) {
+        if (edges == 0) {
             return new Stack<>();
         }
 
@@ -33,7 +33,7 @@ public class EulerPathDirectedGraph {
         int[] outdegrees = new int[adjacent.length];
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null) {
+            if (adjacent[vertex] != null) {
                 for(int neighbor : adjacent[vertex]) {
                     outdegrees[vertex]++;
                     indegrees[neighbor]++;
@@ -45,15 +45,15 @@ public class EulerPathDirectedGraph {
         int endVertex = -1;
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(indegrees[vertex] != outdegrees[vertex]) {
-                if(outdegrees[vertex] == indegrees[vertex] + 1) {
-                    if(startVertex == -1) {
+            if (indegrees[vertex] != outdegrees[vertex]) {
+                if (outdegrees[vertex] == indegrees[vertex] + 1) {
+                    if (startVertex == -1) {
                         startVertex = vertex;
                     } else {
                         return null;
                     }
-                } else if(indegrees[vertex] == outdegrees[vertex] + 1) {
-                    if(endVertex == -1) {
+                } else if (indegrees[vertex] == outdegrees[vertex] + 1) {
+                    if (endVertex == -1) {
                         endVertex = vertex;
                     } else {
                         return null;
@@ -64,7 +64,7 @@ public class EulerPathDirectedGraph {
             }
         }
 
-        if((startVertex == -1 && endVertex != -1)
+        if ((startVertex == -1 && endVertex != -1)
                 || (startVertex != -1 && endVertex == -1)) {
             return null;
         }
@@ -72,7 +72,7 @@ public class EulerPathDirectedGraph {
         // Create local view of adjacency lists, to iterate one vertex at a time
         Iterator<Integer>[] adjacentCopy = (Iterator<Integer>[]) new Iterator[adjacent.length];
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null) {
+            if (adjacent[vertex] != null) {
                 adjacentCopy[vertex] = adjacent[vertex].iterator();
             }
         }
@@ -80,7 +80,7 @@ public class EulerPathDirectedGraph {
         // If there are 2 vertices with indegree != outdegree, start the cycle with the start vertex
         // Otherwise, start the cycle with a non-isolated vertex
         int sourceVertex;
-        if(startVertex != -1) {
+        if (startVertex != -1) {
             sourceVertex = startVertex;
         } else {
             sourceVertex = nonIsolatedVertex(adjacent);
@@ -106,7 +106,7 @@ public class EulerPathDirectedGraph {
         // For each edge visited, we visited a vertex.
         // Add 1 because the first and last vertices are the same (in the case of an Euler circuit)
         // or because the vertex with one more indegree than outdegree is visited twice (in the case of an Euler path)
-        if(eulerPath.size() == edges + 1) {
+        if (eulerPath.size() == edges + 1) {
             return eulerPath;
         } else {
             return null;
@@ -117,7 +117,7 @@ public class EulerPathDirectedGraph {
         int nonIsolatedVertex = -1;
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 nonIsolatedVertex = vertex;
                 break;
             }
@@ -144,7 +144,7 @@ public class EulerPathDirectedGraph {
 
         Stack<Integer> eulerCycle1 = directedEulerianPath.getDirectedEulerianPath(adjacent1);
 
-        if(eulerCycle1 != null) {
+        if (eulerCycle1 != null) {
             directedEulerianPath.printCycle(eulerCycle1);
         } else {
             System.out.println("There is no directed Eulerian path");
@@ -164,7 +164,7 @@ public class EulerPathDirectedGraph {
 
         Stack<Integer> eulerCycle2 = directedEulerianPath.getDirectedEulerianPath(adjacent2);
 
-        if(eulerCycle2 != null) {
+        if (eulerCycle2 != null) {
             directedEulerianPath.printCycle(eulerCycle2);
         } else {
             System.out.println("There is no directed Eulerian path");
@@ -189,7 +189,7 @@ public class EulerPathDirectedGraph {
 
         Stack<Integer> eulerCycle3 = directedEulerianPath.getDirectedEulerianPath(adjacent3);
 
-        if(eulerCycle3 != null) {
+        if (eulerCycle3 != null) {
             directedEulerianPath.printCycle(eulerCycle3);
         } else {
             System.out.println("There is no directed Eulerian path");
@@ -210,7 +210,7 @@ public class EulerPathDirectedGraph {
 
         Stack<Integer> eulerCycle4 = directedEulerianPath.getDirectedEulerianPath(adjacent4);
 
-        if(eulerCycle4 != null) {
+        if (eulerCycle4 != null) {
             directedEulerianPath.printCycle(eulerCycle4);
         } else {
             System.out.println("There is no directed Eulerian path");
@@ -224,10 +224,10 @@ public class EulerPathDirectedGraph {
         while (!eulerPath.isEmpty()) {
             int vertex = eulerPath.pop();
 
-            if(!eulerPath.isEmpty()) {
+            if (!eulerPath.isEmpty()) {
                 System.out.print(vertex + "->" + eulerPath.peek());
 
-                if(eulerPath.size() > 1) {
+                if (eulerPath.size() > 1) {
                     System.out.print(" ");
                 }
             }

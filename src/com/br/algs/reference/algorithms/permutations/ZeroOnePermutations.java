@@ -21,7 +21,7 @@ public class ZeroOnePermutations {
         int[] arrayCopy = new int[array.length];
         System.arraycopy(array, 0, arrayCopy, 0, array.length);
 
-        if(position == size) {
+        if (position == size) {
             combinations.add(arrayCopy);
         } else {
             for(int i = 0; i <= 1; i++) {

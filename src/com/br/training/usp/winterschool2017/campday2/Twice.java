@@ -15,16 +15,16 @@ public class Twice {
 
         int tests = scanner.nextInt();
 
-        for(int t=0; t < tests; t++) {
+        for(int t = 0; t < tests; t++) {
             String value = scanner.nextLine();
 
-            if(value.length() > 20) {
+            if (value.length() > 20) {
                 System.out.println(maxValue);
                 continue;
             }
 
             Map<Integer, Integer> countMap = new HashMap<>();
-            for(int i=0; i <=9 ; i++) {
+            for(int i = 0; i <= 9 ; i++) {
                 countMap.put(i, 0);
             }
 
@@ -33,14 +33,14 @@ public class Twice {
     }
 
     private static String fixValue(String value, int index, Map<Integer, Integer> countMap) {
-        if(index > value.length() || index < 0) {
+        if (index > value.length() || index < 0) {
             return value;
         }
 
         int number = Integer.parseInt("" + value.charAt(index));
 
         while(countMap.get(number) == 2) {
-            if(number == 0) {
+            if (number == 0) {
                 number = 9;
 
 

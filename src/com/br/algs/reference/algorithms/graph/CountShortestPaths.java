@@ -25,13 +25,13 @@ public class CountShortestPaths {
 
             for(int neighbor : adjacent[currentVertex]) {
 
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     shortestPathValue[neighbor] = shortestPathValue[currentVertex] + 1;
                     shortestPaths[neighbor] = shortestPaths[currentVertex];
 
                     queue.offer(neighbor);
                 } else {
-                    if(shortestPathValue[currentVertex] + 1 == shortestPathValue[neighbor]) {
+                    if (shortestPathValue[currentVertex] + 1 == shortestPathValue[neighbor]) {
                         shortestPaths[neighbor] += shortestPaths[currentVertex];
                     }
                 }

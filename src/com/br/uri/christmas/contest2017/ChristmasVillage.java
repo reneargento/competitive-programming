@@ -92,7 +92,7 @@ public class ChristmasVillage {
 
         //O(inverse Ackermann function)
         public int find(int site) {
-            if(site == leaders[site]) {
+            if (site == leaders[site]) {
                 return site;
             }
 
@@ -105,11 +105,11 @@ public class ChristmasVillage {
             int leader1 = find(site1);
             int leader2 = find(site2);
 
-            if(leader1 == leader2) {
+            if (leader1 == leader2) {
                 return;
             }
 
-            if(ranks[leader1] < ranks[leader2]) {
+            if (ranks[leader1] < ranks[leader2]) {
                 leaders[leader1] = leader2;
             } else if (ranks[leader2] < ranks[leader1]) {
                 leaders[leader2] = leader1;
@@ -133,7 +133,7 @@ public class ChristmasVillage {
 
         @Override
         public boolean equals(Object object) {
-            if(!(object instanceof Coordinate)) {
+            if (!(object instanceof Coordinate)) {
                 return false;
             }
 
@@ -172,7 +172,7 @@ public class ChristmasVillage {
                 for(int j = 0; j < elvesHousesCoordinates.length; j++) {
                     int cost;
 
-                    if(i == j) {
+                    if (i == j) {
                         cost = 0;
                     } else {
                         cost = countIntegerCoordinatesInLine(elvesHousesCoordinates[i].x, elvesHousesCoordinates[i].y,
@@ -203,9 +203,9 @@ public class ChristmasVillage {
         Arrays.sort(edges, new Comparator<Edge>() {
             @Override
             public int compare(Edge edge1, Edge edge2) {
-                if(edge1.cost < edge2.cost) {
+                if (edge1.cost < edge2.cost) {
                     return -1;
-                } else if(edge1.cost > edge2.cost) {
+                } else if (edge1.cost > edge2.cost) {
                     return 1;
                 } else {
                     return 0;
@@ -217,12 +217,12 @@ public class ChristmasVillage {
 
         for(Edge edge : edges) {
 
-            if(unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+            if (unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
                 unionFind.union(edge.vertex1, edge.vertex2);
                 edgesInSpanningTree.add(edge);
             }
 
-            if(unionFind.components == 1) {
+            if (unionFind.components == 1) {
                 break;
             }
         }

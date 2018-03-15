@@ -27,7 +27,7 @@ public class PrimeFactors {
         }
 
         //Special case where number is a prime number
-        if(number > 1) {
+        if (number > 1) {
             primeFactors.add(number);
         }
 

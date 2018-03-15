@@ -116,7 +116,7 @@ public class BestArbitrageOpportunity {
 
         BellmanFord bellmanFord = new BellmanFord(edgeWeightedDigraph, 0);
 
-        if(!bellmanFord.hasNegativeCycle()) {
+        if (!bellmanFord.hasNegativeCycle()) {
             return null;
         }
 
@@ -150,7 +150,7 @@ public class BestArbitrageOpportunity {
                 totalWeight += edge.weight();
             }
 
-            if(totalWeight < smallestWeightInAnyCycle) {
+            if (totalWeight < smallestWeightInAnyCycle) {
                 smallestWeightInAnyCycle = totalWeight;
                 bestArbitrageOpportunity = cycle;
             }

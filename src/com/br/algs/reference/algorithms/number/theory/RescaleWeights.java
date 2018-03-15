@@ -11,7 +11,7 @@ public class RescaleWeights {
     // Rescale weights between range [minWeightInScale, maxWeightInScale]
     // Based on https://stackoverflow.com/questions/5294955/how-to-scale-down-a-range-of-numbers-with-a-known-min-and-max-value
     private List<Double> rescaleWeights(List<Double> weights, double minWeightInScale, double maxWeightInScale) {
-        if(weights == null || weights.isEmpty()) {
+        if (weights == null || weights.isEmpty()) {
             return new ArrayList<>();
         }
 
@@ -19,10 +19,10 @@ public class RescaleWeights {
         double maxWeightOriginal = weights.get(0);
 
         for(double weight : weights) {
-            if(weight < minWeightOriginal) {
+            if (weight < minWeightOriginal) {
                 minWeightOriginal = weight;
             }
-            if(weight > maxWeightOriginal) {
+            if (weight > maxWeightOriginal) {
                 maxWeightOriginal = weight;
             }
         }

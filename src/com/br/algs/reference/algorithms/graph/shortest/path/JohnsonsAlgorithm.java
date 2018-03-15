@@ -47,7 +47,7 @@ public class JohnsonsAlgorithm {
         // O(V * E)
         BellmanFord bellmanFord = new BellmanFord(edgeWeightedDigraphWithSource, newVertexId);
 
-        if(bellmanFord.hasNegativeCycle()) {
+        if (bellmanFord.hasNegativeCycle()) {
             throw new IllegalArgumentException("Graph has a negative cycle");
         }
 
@@ -79,7 +79,7 @@ public class JohnsonsAlgorithm {
 
                 DirectedEdge currentEdge = dijkstra.edgeTo(target);
 
-                if(currentEdge == null) {
+                if (currentEdge == null) {
                     continue;
                 }
 
@@ -94,7 +94,7 @@ public class JohnsonsAlgorithm {
     }
 
     public Iterable<DirectedEdge> path(int source, int target) {
-        if(!hasPath(source, target)) {
+        if (!hasPath(source, target)) {
             return null;
         }
 

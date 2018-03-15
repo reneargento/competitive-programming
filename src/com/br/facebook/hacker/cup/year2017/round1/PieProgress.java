@@ -165,17 +165,17 @@ public class PieProgress {
         int addedTaxPerPie = 1;
 
         //Computes added tax per pie bought
-        for(int i=0; i < addedTax.length; i++) {
+        for(int i = 0; i < addedTax.length; i++) {
             addedTax[i] = addedTaxPerPie;
             addedTaxPerPie += 2;
         }
 
         int taxIndex = 0;
         //Sort costs to get maximum pie bought later
-        for(int i=0; i < pieCosts.length; i++) {
+        for(int i = 0; i < pieCosts.length; i++) {
             Arrays.sort(pieCosts[i]);
 
-            for(int j=0; j < numberOfPies; j++) {
+            for(int j = 0; j < numberOfPies; j++) {
                 pieCosts[i][j] += addedTax[taxIndex];
                 taxIndex++;
             }
@@ -187,9 +187,9 @@ public class PieProgress {
 
         Queue<Integer> piesPriceHeap = new PriorityQueue<>();
 
-        for(int i=0; i < numberOfDays; i++) {
+        for(int i = 0; i < numberOfDays; i++) {
             //Insert all pies of the day in the heap
-            for(int j=0; j < numberOfPies; j++) {
+            for(int j = 0; j < numberOfPies; j++) {
                 piesPriceHeap.offer(pieCosts[i][j]);
             }
 
@@ -220,11 +220,11 @@ public class PieProgress {
 
                 int[][] pieCosts = new int[days][prices];
 
-                for(int j=0; j < days; j++) {
+                for(int j = 0; j < days; j++) {
                     lineIndex++;
                     String[] pricesOfTheDay = lines.get(lineIndex).split(" ");
 
-                    for(int k=0; k < prices; k++) {
+                    for(int k = 0; k < prices; k++) {
                         pieCosts[j][k] = Integer.parseInt(pricesOfTheDay[k]);
                     }
                 }

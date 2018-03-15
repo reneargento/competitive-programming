@@ -12,24 +12,24 @@ public class SevenDwarfs {
         int packages = scanner.nextInt();
         long[] pack = new long[packages];
 
-        for(int i=0; i < packages; i++) {
+        for(int i = 0; i < packages; i++) {
             pack[i] = scanner.nextLong();
         }
 
         long[] dp = new long[7];
         long[] aux = new long[7];
 
-        for(int i=0; i < pack.length; i++) {
+        for(int i = 0; i < pack.length; i++) {
             //Copy current dp values
-            for(int j=0; j < dp.length; j++) {
+            for(int j = 0; j < dp.length; j++) {
                 aux[j] = dp[j];
             }
 
-            for(int j=0; j < dp.length; j++) {
+            for(int j = 0; j < dp.length; j++) {
                 long sum = aux[j] + pack[i];
                 int mod = (int) sum % 7;
 
-                if(dp[mod] < sum) {
+                if (dp[mod] < sum) {
                     dp[mod] = sum;
                 }
             }

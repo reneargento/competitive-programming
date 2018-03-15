@@ -11,7 +11,7 @@ public class Posters {
         int buildings = scanner.nextInt();
         long[] heights = new long[buildings];
 
-        for(int i=0; i < buildings; i++) {
+        for(int i = 0; i < buildings; i++) {
             int width = scanner.nextInt();
             heights[i] = scanner.nextInt();
         }
@@ -23,15 +23,15 @@ public class Posters {
 
         for(int i = 0; i < heights.length - 1; i++) {
 
-            if(heights[i] > heights[i + 1]) {
+            if (heights[i] > heights[i + 1]) {
                 while (!stack.isEmpty() && stack.peek() > heights[i + 1]) {
                     stack.pop();
                 }
 
-                if(stack.isEmpty() || (stack.peek() != heights[i + 1])) {
+                if (stack.isEmpty() || (stack.peek() != heights[i + 1])) {
                     count++;
                 }
-            } else if(heights[i] < heights[i+1]) {
+            } else if (heights[i] < heights[i+1]) {
                 count++;
                 stack.push(heights[i]);
             }

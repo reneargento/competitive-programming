@@ -11,15 +11,15 @@ public class AliceAndBobPlay {
         Scanner scanner = new Scanner(System.in);
 
         int tests = scanner.nextInt();
-        for(int i=0; i < tests; i++) {
+        for(int i = 0; i < tests; i++) {
             int rows = scanner.nextInt();
             int columns = scanner.nextInt();
 
-            if(columns % 2 != 0) {
-                if(columns == 1 && rows > 1) {
+            if (columns % 2 != 0) {
+                if (columns == 1 && rows > 1) {
                     System.out.println("Bob");
                 } else {
-                    if(rows % 2 != 0) {
+                    if (rows % 2 != 0) {
                         System.out.println("Alice");
                     } else {
                         System.out.println("Bob");

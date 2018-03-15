@@ -21,10 +21,10 @@ public class WireRemoval {
             int node1 = scanner.nextInt();
             int node2 = scanner.nextInt();
 
-            if(adjacent[node1] == null) {
+            if (adjacent[node1] == null) {
                 adjacent[node1] = new ArrayList<>();
             }
-            if(adjacent[node2] == null) {
+            if (adjacent[node2] == null) {
                 adjacent[node2] = new ArrayList<>();
             }
 

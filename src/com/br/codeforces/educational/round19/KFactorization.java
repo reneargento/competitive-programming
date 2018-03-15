@@ -63,13 +63,13 @@ public class KFactorization {
         int[] factors4 = kFactorization(100000, 2);
         int[] factors5 = kFactorization(100000, 20);
 
-        if(factors1[0] == -1) {
+        if (factors1[0] == -1) {
             System.out.println(-1);
         } else {
-            for(int i=0; i < factors1.length; i++) {
+            for(int i = 0; i < factors1.length; i++) {
                 System.out.print(factors1[i]);
 
-                if(i != factors1.length - 1) {
+                if (i != factors1.length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -77,13 +77,13 @@ public class KFactorization {
 
         System.out.println("\nExpected: 5");
 
-        if(factors2[0] == -1) {
+        if (factors2[0] == -1) {
             System.out.println(-1);
         } else {
-            for(int i=0; i < factors2.length; i++) {
+            for(int i = 0; i < factors2.length; i++) {
                 System.out.print(factors2[i]);
 
-                if(i != factors2.length - 1) {
+                if (i != factors2.length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -91,13 +91,13 @@ public class KFactorization {
 
         System.out.println("Expected: -1");
 
-        if(factors3[0] == -1) {
+        if (factors3[0] == -1) {
             System.out.println(-1);
         } else {
-            for(int i=0; i < factors3.length; i++) {
+            for(int i = 0; i < factors3.length; i++) {
                 System.out.print(factors3[i]);
 
-                if(i != factors3.length - 1) {
+                if (i != factors3.length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -105,13 +105,13 @@ public class KFactorization {
 
         System.out.println("\nExpected: 2 64 2 2 2");
 
-        if(factors4[0] == -1) {
+        if (factors4[0] == -1) {
             System.out.println(-1);
         } else {
-            for(int i=0; i < factors4.length; i++) {
+            for(int i = 0; i < factors4.length; i++) {
                 System.out.print(factors4[i]);
 
-                if(i != factors4.length - 1) {
+                if (i != factors4.length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -119,13 +119,13 @@ public class KFactorization {
 
         System.out.println("\nExpected: 2 50000");
 
-        if(factors5[0] == -1) {
+        if (factors5[0] == -1) {
             System.out.println(-1);
         } else {
-            for(int i=0; i < factors5.length; i++) {
+            for(int i = 0; i < factors5.length; i++) {
                 System.out.print(factors5[i]);
 
-                if(i != factors5.length - 1) {
+                if (i != factors5.length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -141,13 +141,13 @@ public class KFactorization {
         int numbersRequired = scanner.nextInt();;
 
         int[] output = kFactorization(number, numbersRequired);
-        if(output[0] == -1) {
+        if (output[0] == -1) {
             System.out.println(-1);
         } else {
-            for(int i=0; i < output.length; i++) {
+            for(int i = 0; i < output.length; i++) {
                 System.out.print(output[i]);
 
-                if(i != output.length - 1) {
+                if (i != output.length - 1) {
                     System.out.print(" ");
                 }
             }
@@ -160,7 +160,7 @@ public class KFactorization {
         List<Integer> factors = new ArrayList<>();
 
         //Get all factors
-        for(int i=2; i <= number && number != 1; i++) {
+        for(int i = 2; i <= number && number != 1; i++) {
 
             while(number % i == 0) {
                 factors.add(i);
@@ -177,8 +177,8 @@ public class KFactorization {
             factors.add(resultingFactor);
         }
 
-        if(factors.size() == numbersRequired) {
-            for(int i=0; i < factors.size(); i++) {
+        if (factors.size() == numbersRequired) {
+            for(int i = 0; i < factors.size(); i++) {
                 output[i] = factors.get(i);
             }
         } else {

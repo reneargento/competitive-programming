@@ -39,7 +39,7 @@ public class CountYourProgressions {
         int length = scanner.nextInt();
         int[] array = new int[length];
 
-        for(int i=0; i < length; i++) {
+        for(int i = 0; i < length; i++) {
             array[i] = scanner.nextInt();
         }
 
@@ -55,14 +55,14 @@ public class CountYourProgressions {
         int difference;
         int elementsInSequenceSoFar;
 
-        for(int i=0; i < array.length; i++) {
-            for(int j=i+1; j < array.length; j++) {
+        for(int i = 0; i < array.length; i++) {
+            for(int j = i + 1; j < array.length; j++) {
                 difference = Math.abs(array[j] - array[i]);
                 count++;
                 elementsInSequenceSoFar = 2;
 
-                for(int k=j+1; k < array.length; k++){
-                    if(Math.abs(array[k] - array[i]) == difference * elementsInSequenceSoFar) {
+                for(int k = j + 1; k < array.length; k++){
+                    if (Math.abs(array[k] - array[i]) == difference * elementsInSequenceSoFar) {
                         count++;
                         elementsInSequenceSoFar++;
                     }

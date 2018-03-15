@@ -11,7 +11,7 @@ public class DiophantineEquations {
         int[] solution = diophantineEquation(25, 18, 839);
         //int[] solution = diophantineEquation(18, 25, 839);
 
-        if(solution[0] == 0) {
+        if (solution[0] == 0) {
             System.out.println(solution[1] + ", " + solution[2]);
             System.out.println("Expected: 17, 23");
         }
@@ -33,7 +33,7 @@ public class DiophantineEquations {
         extendedEuclid(a, b);
 
         //The equation only has integer solutions if gcd(a, b) divides c
-        if(c % gcd != 0) {
+        if (c % gcd != 0) {
             return solution;
         }
 
@@ -45,7 +45,7 @@ public class DiophantineEquations {
         int y = bezoutCoefficient2 * (c / gcd);
 
         // If both values are negative, return
-        if(x < 0 && y < 0) {
+        if (x < 0 && y < 0) {
             solution[0] = 2;
             return solution;
         }
@@ -59,7 +59,7 @@ public class DiophantineEquations {
             double equalOrHigherThan;
             double equalOrLowerThan;
 
-            if(isXNegative) {
+            if (isXNegative) {
                 equalOrHigherThan = Math.abs(x) / (double) b;
                 equalOrLowerThan = Math.abs(y) / (double) a;
             } else {
@@ -67,7 +67,7 @@ public class DiophantineEquations {
                 equalOrLowerThan = Math.abs(x) / (double) b;
             }
 
-            if(equalOrHigherThan == (int) equalOrHigherThan) {
+            if (equalOrHigherThan == (int) equalOrHigherThan) {
                 factorToGetAPositiveSolution = (int) equalOrHigherThan;
             } else if (equalOrLowerThan == (int) equalOrLowerThan) {
                 factorToGetAPositiveSolution = (int) equalOrLowerThan;
@@ -75,7 +75,7 @@ public class DiophantineEquations {
                 factorToGetAPositiveSolution = ((int) equalOrHigherThan) + 1;
             }
 
-            if(isXNegative) {
+            if (isXNegative) {
                 x += (b / gcd) * factorToGetAPositiveSolution;
                 y -= (a / gcd) * factorToGetAPositiveSolution;
             } else {
@@ -100,7 +100,7 @@ public class DiophantineEquations {
 
     private static  void extendedEuclid(int number1, int number2) {
         //Base case
-        if(number2 == 0) {
+        if (number2 == 0) {
             bezoutCoefficient1 = 1;
             bezoutCoefficient2 = 0;
             gcd = number1;

@@ -82,17 +82,17 @@ public class GroupingWithMistakes {
         int position = 0;
         boolean increasing = true;
 
-        for(int i=0; i < students.length; i++) {
-            if(increasing) {
+        for(int i = 0; i < students.length; i++) {
+            if (increasing) {
                 position = position + 1;
 
-                if(position == n) {
+                if (position == n) {
                     increasing = false;
                 }
             } else {
                 position = position - 1;
 
-                if(position == 1) {
+                if (position == 1) {
                     increasing = true;
                 }
             }
@@ -102,8 +102,8 @@ public class GroupingWithMistakes {
 
         int incorrectPositions = 0;
 
-        for(int i=0; i < students.length; i++) {
-            if(students[i] != correctPositions[i]) {
+        for(int i = 0; i < students.length; i++) {
+            if (students[i] != correctPositions[i]) {
                 incorrectPositions++;
             }
         }
@@ -117,19 +117,19 @@ public class GroupingWithMistakes {
         int ans = 0;
         int cur = 0;
 
-        for(int i=0; i<students.length; i++){
-            if(up && cur==n){
-                cur = n-1;
+        for(int i = 0; i < students.length; i++){
+            if (up && cur==n){
+                cur = n - 1;
                 up = false;
-            }else if(up) {
+            }else if (up) {
                 cur++;
-            }else if(!up && cur==1){
+            }else if (!up && cur==1){
                 cur = 2;
                 up = true;
-            }else if(!up){
+            }else if (!up){
                 cur--;
             }
-            if(cur != students[i])
+            if (cur != students[i])
                 ans++;
         }
         return ans;

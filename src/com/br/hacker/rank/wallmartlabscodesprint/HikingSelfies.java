@@ -100,7 +100,7 @@ public class HikingSelfies {
             count = totalFactorials;
             rFactorial = 1;
 
-            if(factorials[count] != 0) {
+            if (factorials[count] != 0) {
                 rFactorial = factorials[count];
             } else {
                 while(count > 0) {
@@ -113,7 +113,7 @@ public class HikingSelfies {
 
             nMinusRFactorial = 1;
             int countNMinusR = numberOfFrieds - totalFactorials;
-            if(factorials[countNMinusR] != 0) {
+            if (factorials[countNMinusR] != 0) {
                 nMinusRFactorial = factorials[countNMinusR];
             } else {
                 while(countNMinusR > 0) {

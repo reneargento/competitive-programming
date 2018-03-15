@@ -21,7 +21,7 @@ public class DAGHasHamiltonianPath {
 
         // 0- Precondition: check if the graph is a DAG
         HasDirectedCycle hasDirectedCycle = new HasDirectedCycle(adjacent);
-        if(hasDirectedCycle.hasCycle()) {
+        if (hasDirectedCycle.hasCycle()) {
             throw new IllegalArgumentException("Digraph is not a DAG");
         }
 
@@ -32,13 +32,13 @@ public class DAGHasHamiltonianPath {
             boolean hasEdgeToNextVertex = false;
 
             for(int neighbor : adjacent[topologicalOrder[i]]) {
-                if(neighbor == topologicalOrder[i + 1]) {
+                if (neighbor == topologicalOrder[i + 1]) {
                     hasEdgeToNextVertex = true;
                     break;
                 }
             }
 
-            if(!hasEdgeToNextVertex) {
+            if (!hasEdgeToNextVertex) {
                 return false;
             }
         }
@@ -64,7 +64,7 @@ public class DAGHasHamiltonianPath {
         Stack<Integer> finishTimes = new Stack<>();
 
         for(int i = 0; i < adjacent.length; i++) {
-            if(!visited[i]) {
+            if (!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited);
             }
         }
@@ -76,7 +76,7 @@ public class DAGHasHamiltonianPath {
         visited[sourceVertex] = true;
 
         for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
+            if (!visited[neighbor]) {
                 depthFirstSearch(neighbor, adj, finishTimes, visited);
             }
         }
@@ -97,7 +97,7 @@ public class DAGHasHamiltonianPath {
             visited = new boolean[adjacent.length];
 
             for(int vertex = 0; vertex < adjacent.length; vertex++) {
-                if(!visited[vertex]) {
+                if (!visited[vertex]) {
                     dfs(adjacent, vertex);
                 }
             }
@@ -108,12 +108,12 @@ public class DAGHasHamiltonianPath {
             visited[vertex] = true;
 
             for(int neighbor : adjacent[vertex]) {
-                if(hasCycle()) {
+                if (hasCycle()) {
                     return;
-                } else if(!visited[neighbor]) {
+                } else if (!visited[neighbor]) {
                     edgeTo[neighbor] = vertex;
                     dfs(adjacent, neighbor);
-                } else if(onStack[neighbor]) {
+                } else if (onStack[neighbor]) {
                     cycle = new Stack<>();
 
                     for(int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {

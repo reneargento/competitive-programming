@@ -48,7 +48,7 @@ public class SevenOneWitch {
         num2String = num2String.replace('7', '0');
 
         int result;
-        if(operation.equals("+")) {
+        if (operation.equals("+")) {
             result = Integer.parseInt(num1String) + Integer.parseInt(num2String);
         } else {
             result = Integer.parseInt(num1String) * Integer.parseInt(num2String);
@@ -58,8 +58,8 @@ public class SevenOneWitch {
 
         StringBuilder sb = new StringBuilder();
         boolean leadingZero = true;
-        for(int i=0; i < finalResult.length(); i++) {
-            if(leadingZero && finalResult.charAt(i) == '0') {
+        for(int i = 0; i < finalResult.length(); i++) {
+            if (leadingZero && finalResult.charAt(i) == '0') {
                 continue;
             } else {
                 leadingZero = false;
@@ -68,7 +68,7 @@ public class SevenOneWitch {
         }
 
         String resultAfterRemovingLeadingZeroes = sb.toString();
-        if(resultAfterRemovingLeadingZeroes.equals("")) {
+        if (resultAfterRemovingLeadingZeroes.equals("")) {
             resultAfterRemovingLeadingZeroes = "0";
         }
 

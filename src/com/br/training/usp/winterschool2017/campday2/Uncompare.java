@@ -16,15 +16,15 @@ public class Uncompare {
         Stack<Integer> stack = new Stack<>();
         Stack<Integer> aux = new Stack<>();
 
-        for(int i=maxValue; i >= 1; i--) {
+        for(int i = maxValue; i >= 1; i--) {
             stack.push(i);
         }
 
-        for(int i=0; i < line.length(); i++) {
-            if(line.charAt(i) == '<' ) {
+        for(int i = 0; i < line.length(); i++) {
+            if (line.charAt(i) == '<' ) {
                 System.out.print(stack.pop());
 
-                if(!stack.isEmpty()) {
+                if (!stack.isEmpty()) {
                     System.out.print(" ");
                 }
             } else {
@@ -38,14 +38,14 @@ public class Uncompare {
 
                 System.out.print(stack.pop());
 
-                if(!stack.isEmpty() || !aux.isEmpty()) {
+                if (!stack.isEmpty() || !aux.isEmpty()) {
                     System.out.print(" ");
                 }
 
                 while (count > 0) {
                     System.out.print(aux.pop());
 
-                    if(!aux.isEmpty()) {
+                    if (!aux.isEmpty()) {
                         System.out.print(" ");
                     }
 

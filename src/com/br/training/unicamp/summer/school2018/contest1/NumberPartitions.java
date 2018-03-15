@@ -27,7 +27,7 @@ public class NumberPartitions {
         while(fib.get(0) != 1) {
 
             for(int j = 0; j < target - 1 ; j++){
-                if(fib.get(j) > fib.get(j + 1) + 1 ) {
+                if (fib.get(j) > fib.get(j + 1) + 1 ) {
                     fib.set(j, fib.get(j) - 1);
                     fib.set(j + 1, fib.get(j + 1) + 1);
                     break;

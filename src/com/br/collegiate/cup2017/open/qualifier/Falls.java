@@ -17,7 +17,7 @@ public class Falls {
 
         int[] array = new int[totalDays];
 
-        for(int i=0; i < totalDays; i++) {
+        for(int i = 0; i < totalDays; i++) {
             array[i] = scanner.nextInt();
         }
 
@@ -40,8 +40,8 @@ public class Falls {
 
         for(int i = 0; i < array.length; i++){
             //Remove old element
-            if(smallSize + bigSize == k){
-                if(array[i-k] <= small.firstKey()){
+            if (smallSize + bigSize == k){
+                if (array[i-k] <= small.firstKey()){
                     remove(small, array[i-k]);
                     smallSize--;
                 } else {
@@ -51,7 +51,7 @@ public class Falls {
             }
 
             //Add new element
-            if(smallSize <= bigSize){
+            if (smallSize <= bigSize){
                 add(small, array[i]);
                 smallSize++;
             } else {
@@ -60,7 +60,7 @@ public class Falls {
             }
 
             //Make sure elements are in the correct position
-            if(bigSize > 0) {
+            if (bigSize > 0) {
                 while(small.firstKey() > big.firstKey()){
                     add(big, remove(small, small.firstKey()));
                     add(small, remove(big, big.firstKey()));
@@ -68,8 +68,8 @@ public class Falls {
             }
 
             //Get median
-            if(smallSize + bigSize == k){
-                if(useBoth) {
+            if (smallSize + bigSize == k){
+                if (useBoth) {
                     median = (small.firstKey() + big.firstKey()) / 2;
                 }
                 else {
@@ -77,7 +77,7 @@ public class Falls {
                 }
             }
 
-            if(median > bestMedian) {
+            if (median > bestMedian) {
                 bestMedian = median;
             }
         }
@@ -90,7 +90,7 @@ public class Falls {
         //Decrease its quantity in the map
         map.put(valueToRemove, map.get(valueToRemove) - 1);
 
-        if(map.get(valueToRemove) == 0) {
+        if (map.get(valueToRemove) == 0) {
             map.remove(valueToRemove);
         }
 
@@ -98,7 +98,7 @@ public class Falls {
     }
 
     private static void add(TreeMap<Integer, Integer> map, int valueToAdd){
-        if(!map.containsKey(valueToAdd)) {
+        if (!map.containsKey(valueToAdd)) {
             map.put(valueToAdd, 1);
         } else {
             map.put(valueToAdd, map.get(valueToAdd) + 1);

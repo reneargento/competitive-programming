@@ -27,13 +27,13 @@ public class IntervalBST<Value> {
 
         @Override
         public int compareTo(Interval that) {
-            if(this.min < that.min) {
+            if (this.min < that.min) {
                 return -1;
-            } else if(this.min > that.min) {
+            } else if (this.min > that.min) {
                 return 1;
-            } else if(this.max < that.max) {
+            } else if (this.max < that.max) {
                 return -1;
-            } else if(this.max > that.max) {
+            } else if (this.max > that.max) {
                 return 1;
             } else {
                 return 0;
@@ -42,7 +42,7 @@ public class IntervalBST<Value> {
 
         @Override
         public boolean equals(Object other) {
-            if(!(other instanceof IntervalBST.Interval)) {
+            if (!(other instanceof IntervalBST.Interval)) {
                 return false;
             }
 

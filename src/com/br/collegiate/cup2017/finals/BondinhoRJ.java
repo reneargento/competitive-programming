@@ -15,19 +15,19 @@ public class BondinhoRJ {
         int people = scanner.nextInt();
         int[] previous = new int[people + 1];
 
-        for(int i=1; i < previous.length; i++) {
+        for(int i = 1; i < previous.length; i++) {
             previous[i] = scanner.nextInt();
         }
 
         int suggestions = scanner.nextInt();
         int capacity = scanner.nextInt();
 
-        for(int i=0; i < suggestions; i++) {
+        for(int i = 0; i < suggestions; i++) {
 
             Set<Integer> consideredPeople = new HashSet<>();
 
             int[] bond = new int[capacity];
-            for(int j=0; j < capacity; j++) {
+            for(int j = 0; j < capacity; j++) {
                 bond[j] = scanner.nextInt();
 
                 consideredPeople.add(bond[j]);
@@ -35,9 +35,9 @@ public class BondinhoRJ {
 
             boolean fair = true;
 
-            for(int j=0; j < previous.length; j++) {
-                if(consideredPeople.contains(j + 1)) {
-                    if(!consideredPeople.contains(previous[j + 1])) {
+            for(int j = 0; j < previous.length; j++) {
+                if (consideredPeople.contains(j + 1)) {
+                    if (!consideredPeople.contains(previous[j + 1])) {
                         System.out.println("no");
                         fair = false;
                         break;
@@ -45,7 +45,7 @@ public class BondinhoRJ {
                 }
             }
 
-            if(fair) {
+            if (fair) {
                 System.out.println("yes");
             }
         }

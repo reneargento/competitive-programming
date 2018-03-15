@@ -63,8 +63,8 @@ public class ConvertToOneCase {
         int countLower = 0;
         int countUpper = 0;
 
-        for(int i=0; i < word.length(); i++) {
-            if(word.charAt(i) == Character.toUpperCase(word.charAt(i))) {
+        for(int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == Character.toUpperCase(word.charAt(i))) {
                 countUpper++;
             } else {
                 countLower++;
@@ -73,11 +73,11 @@ public class ConvertToOneCase {
 
         String newString;
 
-        if(countLower == 0 || countUpper == 0) {
+        if (countLower == 0 || countUpper == 0) {
             return word;
         }
 
-        if(countLower % 2 != countUpper % 2) {
+        if (countLower % 2 != countUpper % 2) {
             newString = word.toUpperCase();
         } else {
             newString = word.toLowerCase();

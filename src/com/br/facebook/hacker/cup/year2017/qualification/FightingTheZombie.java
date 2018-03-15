@@ -117,7 +117,7 @@ public class FightingTheZombie {
         String[] spells5 = {"1d10", "1d10+1", "1d10+2", "1d10+3"};
         System.out.println(chanceOfKillingTheZombie(10, spells5) + " Expected: 0.400000");
 //
-//        for(int i=0; i < 1000; i++) {
+//        for(int i = 0; i < 1000; i++) {
 //            String[] spellsHeavyInput = {"20d20", "20d20", "20d20", "20d20", "20d20", "20d20", "20d20", "20d20", "20d20", "20d20"};
 //            System.out.println(chanceOfKillingTheZombie(300, spellsHeavyInput) + " Expected: Enough memory");
 //        }
@@ -156,7 +156,7 @@ public class FightingTheZombie {
 
             timesToRoll = Integer.parseInt(currentSpell.substring(0, indexOfDChar));
 
-            if(indexOfPlusChar != -1) {
+            if (indexOfPlusChar != -1) {
                 sides = Integer.parseInt(currentSpell.substring(indexOfDChar+1, indexOfPlusChar));
                 zValue = Integer.parseInt(currentSpell.substring(indexOfPlusChar+1));
             } else if (indexOfMinusChar != -1){
@@ -167,11 +167,11 @@ public class FightingTheZombie {
             }
 
             double probability = getSpellProbability(health, timesToRoll, sides, zValue);
-            if(probability > chanceOfKillingTheZombie) {
+            if (probability > chanceOfKillingTheZombie) {
                 chanceOfKillingTheZombie = probability;
             }
 
-            if(chanceOfKillingTheZombie == 1) {
+            if (chanceOfKillingTheZombie == 1) {
                 break;
             }
         }
@@ -182,15 +182,15 @@ public class FightingTheZombie {
     private static double getSpellProbability(int health, int dices, int sides, int zValue) {
 
         //Considering a maximum of 20 dices and 20 sides
-        if(zValue < 0 && health > 400) {
+        if (zValue < 0 && health > 400) {
             return 0;
         }
 
-        if(zValue > health) {
+        if (zValue > health) {
             return 1;
         }
 
-        if(dices >= health && zValue >= 0) {
+        if (dices >= health && zValue >= 0) {
             return 1;
         }
 
@@ -201,13 +201,13 @@ public class FightingTheZombie {
         BigDecimal totalValues = BigDecimal.valueOf(Math.pow(sides, dices));
 
         //Base case - for just 1 dice
-        for(int i=1; i <= sides; i++) {
+        for(int i = 1; i <= sides; i++) {
             dp[1][i] = BigInteger.valueOf(1);
         }
 
         int hitRequired = zValue > 0 ? health - zValue : health - zValue;
 
-        if(hitRequired > maxValuePossible) {
+        if (hitRequired > maxValuePossible) {
             return 0;
         }
 
@@ -215,17 +215,17 @@ public class FightingTheZombie {
         // Check if it is better to compute the chances of killing or not killing the zombie
         boolean computeChancesOfKillingZombie = maxValuePossible - hitRequired < hitRequired - 1;
 
-        if(computeChancesOfKillingZombie) {
+        if (computeChancesOfKillingZombie) {
 
-            for(int i=2; i <= dices; i++) {
-                for(int j=1; j <= maxValuePossible; j++) {
-                    for(int k=1; k <= sides && k < j; k++) {
+            for(int i = 2; i <= dices; i++) {
+                for(int j = 1; j <= maxValuePossible; j++) {
+                    for(int k = 1; k <= sides && k < j; k++) {
 
-                        if(dp[i][j] == null) {
+                        if (dp[i][j] == null) {
                             dp[i][j] = BigInteger.valueOf(0);
                         }
 
-                        if(dp[i-1][j - k] == null) {
+                        if (dp[i-1][j - k] == null) {
                             dp[i-1][j - k] = BigInteger.valueOf(0);
                         }
 
@@ -236,8 +236,8 @@ public class FightingTheZombie {
 
             BigInteger numberOfValuesThatWouldKillTheZombie = BigInteger.valueOf(0);
 
-            for(int i=hitRequired; i <= maxValuePossible; i++) {
-                if(dp[dices][i] != null) {
+            for(int i = hitRequired; i <= maxValuePossible; i++) {
+                if (dp[dices][i] != null) {
                     numberOfValuesThatWouldKillTheZombie = numberOfValuesThatWouldKillTheZombie.add(dp[dices][i]);
                 }
             }
@@ -246,15 +246,15 @@ public class FightingTheZombie {
             return killZombieValues.divide(totalValues, 6, RoundingMode.HALF_UP).doubleValue();
         } else {
 
-            for(int i=2; i <= dices; i++) {
-                for(int j=1; j <= hitRequired + sides; j++) {
-                    for(int k=1; k <= sides && k < j; k++) {
+            for(int i = 2; i <= dices; i++) {
+                for(int j = 1; j <= hitRequired + sides; j++) {
+                    for(int k = 1; k <= sides && k < j; k++) {
 
-                        if(dp[i][j] == null) {
+                        if (dp[i][j] == null) {
                             dp[i][j] = BigInteger.valueOf(0);
                         }
 
-                        if(dp[i-1][j - k] == null) {
+                        if (dp[i-1][j - k] == null) {
                             dp[i-1][j - k] = BigInteger.valueOf(0);
                         }
                         dp[i][j] = dp[i][j].add(dp[i - 1][j - k]);
@@ -264,8 +264,8 @@ public class FightingTheZombie {
 
             BigInteger numberOfValuesThatWouldNotKillTheZombie = BigInteger.valueOf(0);
 
-            for(int i=1; i < hitRequired; i++) {
-                if(dp[dices][i] != null) {
+            for(int i = 1; i < hitRequired; i++) {
+                if (dp[dices][i] != null) {
                     numberOfValuesThatWouldNotKillTheZombie = numberOfValuesThatWouldNotKillTheZombie.add(dp[dices][i]);
                 }
             }

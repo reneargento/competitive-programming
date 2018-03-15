@@ -30,7 +30,7 @@ public class EdmondsKarp {
     }
 
     public void addEdge(int from, int to, long capacity) {
-        if(capacity < 0) {
+        if (capacity < 0) {
             throw new IllegalArgumentException("Capacity must be equal or higher than 0");
         }
 

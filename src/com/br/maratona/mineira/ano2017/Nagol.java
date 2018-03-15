@@ -41,7 +41,7 @@ public class Nagol {
 
         int totalTilesScratched = rowToSearch * columns + columnToSearch;
 
-        if(totalTilesScratched % 2 != 0) {
+        if (totalTilesScratched % 2 != 0) {
             System.out.println("Esquerda");
         } else {
             System.out.println("Direita");

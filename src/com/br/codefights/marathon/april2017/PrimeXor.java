@@ -73,13 +73,13 @@ public class PrimeXor {
         }
 
         for(Integer value : primesA) {
-            if(!primesB.contains(value)) {
+            if (!primesB.contains(value)) {
                 product *= value;
             }
         }
 
         for(Integer value : primesB) {
-            if(!primesA.contains(value)) {
+            if (!primesA.contains(value)) {
                 product *= value;
             }
         }

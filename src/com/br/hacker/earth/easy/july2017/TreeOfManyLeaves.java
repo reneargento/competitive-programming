@@ -11,12 +11,12 @@ public class TreeOfManyLeaves {
         Scanner scanner = new Scanner(System.in);
 
         int tests = scanner.nextInt();
-        for(int i=0; i < tests; i++) {
+        for(int i = 0; i < tests; i++) {
             int leaves = scanner.nextInt();
 
             int result = 0;
 
-            for(int j=0; j < leaves; j++) {
+            for(int j = 0; j < leaves; j++) {
                 result = result ^ scanner.nextInt();
             }
 

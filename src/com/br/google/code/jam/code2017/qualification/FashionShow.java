@@ -33,7 +33,7 @@ public class FashionShow {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < input.size(); i++) {
+        for(int i = 0; i < input.size(); i++) {
             String[] matrixSizeAndModels = input.get(i).split(" ");
 
             int matrixSize = Integer.parseInt(matrixSizeAndModels[0]);
@@ -41,7 +41,7 @@ public class FashionShow {
 
             String[] models = new String[numberOfModelsPreSet];
 
-            for(int j=0; j < numberOfModelsPreSet; j++) {
+            for(int j = 0; j < numberOfModelsPreSet; j++) {
                 models[j] = input.get(++i);
             }
 
@@ -84,7 +84,7 @@ public class FashionShow {
         String[] output4 = getStylishConfigurationSmall(3, modelConfiguration4);
 
         System.out.println("Output 1:");
-        for(int i=0; i < output1.length; i++) {
+        for(int i = 0; i < output1.length; i++) {
             System.out.println(output1[i]);
         }
         System.out.println();
@@ -96,7 +96,7 @@ public class FashionShow {
 
         System.out.println();
         System.out.println("Output 2:");
-        for(int i=0; i < output2.length; i++) {
+        for(int i = 0; i < output2.length; i++) {
             System.out.println(output2[i]);
         }
         System.out.println();
@@ -105,7 +105,7 @@ public class FashionShow {
 
 //        System.out.println();
 //        System.out.println("Output 3:");
-//        for(int i=0; i < output3.length; i++) {
+//        for(int i = 0; i < output3.length; i++) {
 //            System.out.println(output3[i]);
 //        }
 //        System.out.println();
@@ -116,7 +116,7 @@ public class FashionShow {
 
         System.out.println();
         System.out.println("Output 4:");
-        for(int i=0; i < output4.length; i++) {
+        for(int i = 0; i < output4.length; i++) {
             System.out.println(output4[i]);
         }
         System.out.println();
@@ -136,22 +136,22 @@ public class FashionShow {
         int totalPoints = 0;
         List<String> modelsUpdated = new ArrayList<>();
 
-        for(int i=0; i < modelsMatrix.length; i++) {
-            for(int j=0; j < modelsMatrix[0].length; j++) {
+        for(int i = 0; i < modelsMatrix.length; i++) {
+            for(int j = 0; j < modelsMatrix[0].length; j++) {
                 modelsMatrix[i][j] = ".";
             }
         }
 
-        for(int i=0; i < models.length; i++) {
+        for(int i = 0; i < models.length; i++) {
             String[] modelConfiguration = models[i].split(" ");
             String modelStyle = modelConfiguration[0];
             int row = Integer.parseInt(modelConfiguration[1]) - 1;
             int column = Integer.parseInt(modelConfiguration[2]) - 1;
 
             modelsMatrix[row][column] = modelStyle;
-            if(modelStyle.equals("+") || modelStyle.equals("x")){
+            if (modelStyle.equals("+") || modelStyle.equals("x")){
                 totalPoints++;
-            } else if(modelStyle.equals("o")) {
+            } else if (modelStyle.equals("o")) {
                 totalPoints += 2;
             }
         }
@@ -161,26 +161,26 @@ public class FashionShow {
         String[][] rookMatrix = new String[matrixSize][matrixSize];
 
         //Init rook matrix
-        for(int i=0; i < modelsMatrix.length; i++) {
-            for(int j=0; j < modelsMatrix[0].length; j++) {
+        for(int i = 0; i < modelsMatrix.length; i++) {
+            for(int j = 0; j < modelsMatrix[0].length; j++) {
                 rookMatrix[i][j] = ".";
             }
         }
 
         Map<Integer, Integer> unusedRowsMap = new HashMap<>();
-        for(int i=0; i < matrixSize; i++) {
+        for(int i = 0; i < matrixSize; i++) {
             unusedRowsMap.put(i, i);
         }
 
         Map<Integer, Integer> unusedColumnsMap = new HashMap<>();
-        for(int i=0; i < matrixSize; i++) {
+        for(int i = 0; i < matrixSize; i++) {
             unusedColumnsMap.put(i, i);
         }
 
         boolean isThereAQueenInTheFirstRow = false;
 
-        for(int j=0; j < modelsMatrix.length; j++) {
-            if(modelsMatrix[0][j].equals("o")) {
+        for(int j = 0; j < modelsMatrix.length; j++) {
+            if (modelsMatrix[0][j].equals("o")) {
                 isThereAQueenInTheFirstRow = true;
                 unusedRowsMap.remove(0);
                 unusedColumnsMap.remove(j);
@@ -189,9 +189,9 @@ public class FashionShow {
         }
 
         //Add pre-placed rooks
-        for(int i=0; i < modelsMatrix.length; i++) {
-            for(int j=0; j < modelsMatrix[0].length; j++) {
-                if(modelsMatrix[i][j].equals("x")) {
+        for(int i = 0; i < modelsMatrix.length; i++) {
+            for(int j = 0; j < modelsMatrix[0].length; j++) {
+                if (modelsMatrix[i][j].equals("x")) {
                     rookMatrix[i][j] = "x";
 
                     unusedRowsMap.remove(i);
@@ -207,8 +207,8 @@ public class FashionShow {
             int row = matrixSize - 1;
             int column = 0;
 
-            for(int i=1; i < matrixSize - 1; i++) {
-                if(unusedColumnsMap.containsKey(i)) {
+            for(int i = 1; i < matrixSize - 1; i++) {
+                if (unusedColumnsMap.containsKey(i)) {
                     column = i;
                     break;
                 }
@@ -224,15 +224,15 @@ public class FashionShow {
             int row = 0;
             int column = 0;
 
-            for(int i=0; i < matrixSize; i++) {
-                if(unusedRowsMap.containsKey(i)) {
+            for(int i = 0; i < matrixSize; i++) {
+                if (unusedRowsMap.containsKey(i)) {
                     row = i;
                     break;
                 }
             }
 
-            for(int i=0; i < matrixSize; i++) {
-                if(unusedColumnsMap.containsKey(i)) {
+            for(int i = 0; i < matrixSize; i++) {
+                if (unusedColumnsMap.containsKey(i)) {
                     column = i;
                     break;
                 }
@@ -249,16 +249,16 @@ public class FashionShow {
         String[][] bishopMatrix = new String[matrixSize][matrixSize];
 
         //Init rook matrix
-        for(int i=0; i < modelsMatrix.length; i++) {
-            for(int j=0; j < modelsMatrix[0].length; j++) {
+        for(int i = 0; i < modelsMatrix.length; i++) {
+            for(int j = 0; j < modelsMatrix[0].length; j++) {
                 bishopMatrix[i][j] = ".";
             }
         }
 
         //Add pre-placed bishops
-        for(int i=0; i < modelsMatrix.length; i++) {
-            for(int j=0; j < modelsMatrix[0].length; j++) {
-                if(modelsMatrix[i][j].equals("+")) {
+        for(int i = 0; i < modelsMatrix.length; i++) {
+            for(int j = 0; j < modelsMatrix[0].length; j++) {
+                if (modelsMatrix[i][j].equals("+")) {
                     bishopMatrix[i][j] = "+";
                 }
             }
@@ -266,25 +266,25 @@ public class FashionShow {
 
         //Add new bishops
         //In the first column
-        for(int j=0; j < modelsMatrix[0].length; j++) {
+        for(int j = 0; j < modelsMatrix[0].length; j++) {
            bishopMatrix[0][j] = "+";
         }
 
         //In the last column
         //Adding in all positions, except on the corners
-        for(int j=1; j < modelsMatrix[0].length - 1; j++) {
+        for(int j = 1; j < modelsMatrix[0].length - 1; j++) {
            bishopMatrix[matrixSize - 1][j] = "+";
         }
 
         //**************************************************************
         //Third, update the original matrix and update cells with both a rook and a bishop to a queen
 
-        for(int i=0; i < modelsMatrix.length; i++) {
-            for(int j=0; j < modelsMatrix[0].length; j++) {
-                if(modelsMatrix[i][j].equals(".")){
+        for(int i = 0; i < modelsMatrix.length; i++) {
+            for(int j = 0; j < modelsMatrix[0].length; j++) {
+                if (modelsMatrix[i][j].equals(".")){
 
-                    if(rookMatrix[i][j].equals("x") && bishopMatrix[i][j].equals("+")) {
-                        if(i != 0 || !isThereAQueenInTheFirstRow) {
+                    if (rookMatrix[i][j].equals("x") && bishopMatrix[i][j].equals("+")) {
+                        if (i != 0 || !isThereAQueenInTheFirstRow) {
                             modelsMatrix[i][j] = "o";
                             totalPoints += 2;
 
@@ -296,22 +296,22 @@ public class FashionShow {
                         }
 
                         numberOfModelsUpdated++;
-                    } else if(rookMatrix[i][j].equals("x")) {
+                    } else if (rookMatrix[i][j].equals("x")) {
 
                         modelsMatrix[i][j] = "x";
                         totalPoints++;
                         numberOfModelsUpdated++;
 
                         modelsUpdated.add("x " + (i + 1) + " " + (j + 1)); //1-based index
-                    } else if(bishopMatrix[i][j].equals("+")) {
+                    } else if (bishopMatrix[i][j].equals("+")) {
                         modelsMatrix[i][j] = "+";
                         totalPoints++;
                         numberOfModelsUpdated++;
 
                         modelsUpdated.add("+ " + (i + 1) + " " + (j + 1)); //1-based index
                     }
-                } else if(modelsMatrix[i][j].equals("+")) {
-                    if(rookMatrix[i][j].equals("x")
+                } else if (modelsMatrix[i][j].equals("+")) {
+                    if (rookMatrix[i][j].equals("x")
                             && (i != 0 || !isThereAQueenInTheFirstRow)) {
                         modelsMatrix[i][j] = "o";
                         totalPoints++;
@@ -319,8 +319,8 @@ public class FashionShow {
 
                         modelsUpdated.add("o " + (i + 1) + " " + (j + 1)); //1-based index
                     }
-                } else if(modelsMatrix[i][j].equals("x")) {
-                    if(bishopMatrix[i][j].equals("+")
+                } else if (modelsMatrix[i][j].equals("x")) {
+                    if (bishopMatrix[i][j].equals("+")
                             && (i != 0 || !isThereAQueenInTheFirstRow)) {
                         modelsMatrix[i][j] = "o";
                         totalPoints++;
@@ -334,7 +334,7 @@ public class FashionShow {
 
         String[] output = new String[modelsUpdated.size() + 1];
         output[0] = totalPoints + " " + numberOfModelsUpdated;
-        for(int i=1; i <= numberOfModelsUpdated; i++) {
+        for(int i = 1; i <= numberOfModelsUpdated; i++) {
             output[i] = modelsUpdated.get(i - 1);
         }
         return output;
@@ -347,7 +347,7 @@ public class FashionShow {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 numbersList.add(lines.get(i));
             }
         } catch (IOException e) {

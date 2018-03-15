@@ -48,7 +48,7 @@ public class Clusterization {
 
         //O(inverse Ackermann function)
         public int find(int site) {
-            if(site == leaders[site]) {
+            if (site == leaders[site]) {
                 return site;
             }
 
@@ -61,11 +61,11 @@ public class Clusterization {
             int leader1 = find(site1);
             int leader2 = find(site2);
 
-            if(leader1 == leader2) {
+            if (leader1 == leader2) {
                 return;
             }
 
-            if(ranks[leader1] < ranks[leader2]) {
+            if (ranks[leader1] < ranks[leader2]) {
                 leaders[leader1] = leader2;
             } else if (ranks[leader2] < ranks[leader1]) {
                 leaders[leader2] = leader1;
@@ -92,7 +92,7 @@ public class Clusterization {
         int currentEdge = 0;
 
         while (unionFind.count() > clusters) {
-            if(!unionFind.connected(edges[currentEdge].vertex1, edges[currentEdge].vertex2)) {
+            if (!unionFind.connected(edges[currentEdge].vertex1, edges[currentEdge].vertex2)) {
                 cost += edges[currentEdge].cost;
                 unionFind.union(edges[currentEdge].vertex1, edges[currentEdge].vertex2);
             }

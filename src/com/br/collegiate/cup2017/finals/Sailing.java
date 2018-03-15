@@ -43,11 +43,11 @@ public class Sailing {
 
         int[] colors = new int[boats + 1];
 
-        for(int i=1; i < colors.length; i++) {
+        for(int i = 1; i < colors.length; i++) {
             colors[i] = FastReader.nextInt();
         }
 
-        for(int i=0; i < tourists; i++) {
+        for(int i = 0; i < tourists; i++) {
             int left = FastReader.nextInt();
             int right = FastReader.nextInt();
 
@@ -57,9 +57,9 @@ public class Sailing {
 
             int maxCost = cost;
 
-            for(int j=left + 1; j <= right; j++) {
-                if(colors[j] != lastColor) {
-                    if(cost > maxCost) {
+            for(int j = left + 1; j <= right; j++) {
+                if (colors[j] != lastColor) {
+                    if (cost > maxCost) {
                         maxCost = cost;
                         cost = 0;
                         boatsUsed = -1;

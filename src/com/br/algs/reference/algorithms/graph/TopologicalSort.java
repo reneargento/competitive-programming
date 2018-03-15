@@ -90,7 +90,7 @@ public class TopologicalSort {
 
         //If the vertices are 0-index based, start i with value 0
         for(int i = 1; i < adjacent.length; i++) {
-            if(!visited[i]) {
+            if (!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited);
             }
         }
@@ -103,7 +103,7 @@ public class TopologicalSort {
         visited[sourceVertex] = true;
 
         for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
+            if (!visited[neighbor]) {
                 depthFirstSearch(neighbor, adj, finishTimes, visited);
             }
         }
@@ -125,7 +125,7 @@ public class TopologicalSort {
 
         //If the vertices are 0-index based, start i with value 0
         for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
-            if(adj[vertexId] != null) {
+            if (adj[vertexId] != null) {
                 adjacentIterators[vertexId] = adj[vertexId].iterator();
             }
         }
@@ -133,10 +133,10 @@ public class TopologicalSort {
         while (!stack.isEmpty()) {
             int currentVertex = stack.peek();
 
-            if(adjacentIterators[currentVertex].hasNext()) {
+            if (adjacentIterators[currentVertex].hasNext()) {
                 int neighbor = adjacentIterators[currentVertex].next();
 
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     stack.push(neighbor);
                     visited[neighbor] = true;
                 }

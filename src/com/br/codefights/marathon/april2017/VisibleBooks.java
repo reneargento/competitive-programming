@@ -63,7 +63,7 @@ public class VisibleBooks {
         for(int i = 0; i < visibleBooks1.length; i++) {
             System.out.print(visibleBooks1[i]);
 
-            if(i < visibleBooks1.length - 1) {
+            if (i < visibleBooks1.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -75,7 +75,7 @@ public class VisibleBooks {
         for(int i = 0; i < visibleBooks2.length; i++) {
             System.out.print(visibleBooks2[i]);
 
-            if(i < visibleBooks2.length - 1) {
+            if (i < visibleBooks2.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -87,7 +87,7 @@ public class VisibleBooks {
         for(int i = 0; i < visibleBooks3.length; i++) {
             System.out.print(visibleBooks3[i]);
 
-            if(i < visibleBooks3.length - 1) {
+            if (i < visibleBooks3.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -99,7 +99,7 @@ public class VisibleBooks {
         for(int i = 0; i < visibleBooks4.length; i++) {
             System.out.print(visibleBooks4[i]);
 
-            if(i < visibleBooks4.length - 1) {
+            if (i < visibleBooks4.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -111,7 +111,7 @@ public class VisibleBooks {
         for(int i = 0; i < visibleBooks5.length; i++) {
             System.out.print(visibleBooks5[i]);
 
-            if(i < visibleBooks5.length - 1) {
+            if (i < visibleBooks5.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -123,7 +123,7 @@ public class VisibleBooks {
         for(int i = 0; i < visibleBooks6.length; i++) {
             System.out.print(visibleBooks6[i]);
 
-            if(i < visibleBooks6.length - 1) {
+            if (i < visibleBooks6.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -135,11 +135,11 @@ public class VisibleBooks {
         int[] visible = new int[books.length];
 
 
-        for(int i=0; i < books.length; i++) {
+        for(int i = 0; i < books.length; i++) {
             int secondsVisible = 1;
 
-            for(int j=i + 1; j < books.length; j++) {
-                if(books[i] > books[j]) {
+            for(int j = i + 1; j < books.length; j++) {
+                if (books[i] > books[j]) {
                     secondsVisible++;
                 } else {
                     break;

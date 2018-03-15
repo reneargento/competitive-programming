@@ -26,13 +26,13 @@ public class EvergreenTrick {
             for(int i = 0; i < line1.length() / 2; i++) {
                 result.append(line1.charAt(line1Index++));
 
-                if(line1Index < line1.length()) {
+                if (line1Index < line1.length()) {
                     result.append(line1.charAt(line1Index++));
                 }
 
                 result.append(line2.charAt(line2Index++));
 
-                if(line2Index < line2.length()) {
+                if (line2Index < line2.length()) {
                     result.append(line2.charAt(line2Index++));
                 }
             }

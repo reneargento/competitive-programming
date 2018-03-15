@@ -19,7 +19,7 @@ public class ConstructingANumber {
 
         }
 
-        if(numberSum % 3 == 0) {
+        if (numberSum % 3 == 0) {
             return "Yes";
         } else {
             return "No";

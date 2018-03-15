@@ -62,28 +62,28 @@ public class MaxPreSuffix {
         int firstPreSuffix = 0;
         int secondPreSuffix = 0;
 
-        for(int i=0; i < s1.length(); i++) {
+        for(int i = 0; i < s1.length(); i++) {
             temp = s1.substring(0, i + 1);
 
-            if(s2.length() - 1 - i < 0) {
+            if (s2.length() - 1 - i < 0) {
                 break;
             }
 
-            if(s2.substring(s2.length() - 1 - i, s2.length()).equals(temp)) {
+            if (s2.substring(s2.length() - 1 - i, s2.length()).equals(temp)) {
                 result = temp;
             }
         }
 
         firstPreSuffix = Integer.parseInt(result);
 
-        for(int i=0; i < s2.length(); i++) {
+        for(int i = 0; i < s2.length(); i++) {
             temp = s2.substring(0, i + 1);
 
-            if(s1.length() - 1 - i < 0) {
+            if (s1.length() - 1 - i < 0) {
                 break;
             }
 
-            if(s1.substring(s1.length() - 1 - i, s1.length()).equals(temp)) {
+            if (s1.substring(s1.length() - 1 - i, s1.length()).equals(temp)) {
                 result = temp;
             }
         }

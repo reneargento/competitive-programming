@@ -91,7 +91,7 @@ public class KruskalMinimumSpanningTree {
 
         //O(inverse Ackermann function)
         public int find(int site) {
-            if(site == leaders[site]) {
+            if (site == leaders[site]) {
                 return site;
             }
 
@@ -104,11 +104,11 @@ public class KruskalMinimumSpanningTree {
             int leader1 = find(site1);
             int leader2 = find(site2);
 
-            if(leader1 == leader2) {
+            if (leader1 == leader2) {
                 return;
             }
 
-            if(ranks[leader1] < ranks[leader2]) {
+            if (ranks[leader1] < ranks[leader2]) {
                 leaders[leader1] = leader2;
             } else if (ranks[leader2] < ranks[leader1]) {
                 leaders[leader2] = leader1;
@@ -150,9 +150,9 @@ public class KruskalMinimumSpanningTree {
         Arrays.sort(edges, new Comparator<Edge>() {
             @Override
             public int compare(Edge edge1, Edge edge2) {
-                if(edge1.cost < edge2.cost) {
+                if (edge1.cost < edge2.cost) {
                     return -1;
-                } else if(edge1.cost > edge2.cost) {
+                } else if (edge1.cost > edge2.cost) {
                     return 1;
                 } else {
                     return 0;
@@ -164,13 +164,13 @@ public class KruskalMinimumSpanningTree {
 
         for(Edge edge : edges) {
 
-            if(unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+            if (unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
                 unionFind.union(edge.vertex1, edge.vertex2);
 
-                if(minimumSpanningTree[edge.vertex1] == null) {
+                if (minimumSpanningTree[edge.vertex1] == null) {
                     minimumSpanningTree[edge.vertex1] = new ArrayList<>();
                 }
-                if(minimumSpanningTree[edge.vertex2] == null) {
+                if (minimumSpanningTree[edge.vertex2] == null) {
                     minimumSpanningTree[edge.vertex2] = new ArrayList<>();
                 }
 
@@ -178,7 +178,7 @@ public class KruskalMinimumSpanningTree {
                 minimumSpanningTree[edge.vertex2].add(edge);
             }
 
-            if(unionFind.components == 1) {
+            if (unionFind.components == 1) {
                 break;
             }
         }
@@ -192,9 +192,9 @@ public class KruskalMinimumSpanningTree {
         Arrays.sort(edges, new Comparator<Edge>() {
             @Override
             public int compare(Edge edge1, Edge edge2) {
-                if(edge1.cost < edge2.cost) {
+                if (edge1.cost < edge2.cost) {
                     return -1;
-                } else if(edge1.cost > edge2.cost) {
+                } else if (edge1.cost > edge2.cost) {
                     return 1;
                 } else {
                     return 0;
@@ -206,12 +206,12 @@ public class KruskalMinimumSpanningTree {
 
         for(Edge edge : edges) {
 
-            if(unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+            if (unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
                 unionFind.union(edge.vertex1, edge.vertex2);
                 edgesInSpanningTree.add(edge);
             }
 
-            if(unionFind.components == 1) {
+            if (unionFind.components == 1) {
                 break;
             }
         }

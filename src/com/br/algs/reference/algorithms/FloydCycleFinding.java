@@ -27,7 +27,7 @@ public class FloydCycleFinding {
         fourth.next = first; //Cycle
 
         Node cycleNode = detectCycle(first);
-        if(cycleNode != null) {
+        if (cycleNode != null) {
             System.out.println(cycleNode.val);
         }
         System.out.println("Expected: 1");
@@ -53,13 +53,13 @@ public class FloydCycleFinding {
             fast = fast.next;
             fast = fast.next;
 
-            if(slow != null && slow == fast) {
+            if (slow != null && slow == fast) {
                 hasCycle = true;
                 break;
             }
         }
 
-        if(!hasCycle) {
+        if (!hasCycle) {
             return null;
         }
 

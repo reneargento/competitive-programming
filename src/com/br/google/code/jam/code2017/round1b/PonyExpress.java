@@ -220,7 +220,7 @@ public class PonyExpress {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < cruiseInformation.size(); i++) {
+        for(int i = 0; i < cruiseInformation.size(); i++) {
 
             String[] values = cruiseInformation.get(i).split(" ");
             int destination = Integer.parseInt(values[0]);
@@ -228,7 +228,7 @@ public class PonyExpress {
 
             List<Integer[]> horsesInformation = new ArrayList<>();
 
-            for(int j=0; j < numberOfHorses; j++) {
+            for(int j = 0; j < numberOfHorses; j++) {
                 i++;
 
                 Integer[] horseInfo = new Integer[2];
@@ -258,13 +258,13 @@ public class PonyExpress {
         for(int i = source - 1; i < destination - 1; i++) {
             totalDistance += distances[i][i+1];
 
-            if(travelledHorseDistance + distances[i][i+1] < horseEndurance) {
+            if (travelledHorseDistance + distances[i][i+1] < horseEndurance) {
                 travelledHorseDistance += distances[i][i+1];
             }
 
         }
 
-        if(horses[0][0] >= totalDistance) {
+        if (horses[0][0] >= totalDistance) {
             time = totalDistance / horses[0][1];
         }
 
@@ -278,7 +278,7 @@ public class PonyExpress {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 valuesList.add(lines.get(i));
             }
         } catch (IOException e) {

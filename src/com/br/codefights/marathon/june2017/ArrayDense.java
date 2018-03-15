@@ -62,8 +62,8 @@ public class ArrayDense {
     private static boolean isArrayDense(int[] array) {
         Arrays.sort(array);
 
-        for(int i=1; i < array.length; i++) {
-            if(array[i] != array[i - 1] + 1) {
+        for(int i = 1; i < array.length; i++) {
+            if (array[i] != array[i - 1] + 1) {
                 return false;
             }
         }

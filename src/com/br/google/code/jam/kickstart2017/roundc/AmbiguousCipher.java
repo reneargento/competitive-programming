@@ -39,7 +39,7 @@ public class AmbiguousCipher {
         List<String> output = new ArrayList<>();
 
         int caseIndex = 1;
-        for(int i=0; i < input.size(); i++) {
+        for(int i = 0; i < input.size(); i++) {
 
             String encryptedString = input.get(i);
             String decryptedString = decipher(encryptedString);
@@ -52,7 +52,7 @@ public class AmbiguousCipher {
     }
 
     private static String decipher(String encryptedString) {
-        if(encryptedString.length() % 2 == 1) {
+        if (encryptedString.length() % 2 == 1) {
             return "AMBIGUOUS";
         }
 
@@ -67,7 +67,7 @@ public class AmbiguousCipher {
         char currentLetter = secondLetter;
 
         //Left-right pass for odd positions
-        for(int i=3; i < encryptedString.length(); i+= 2) {
+        for(int i = 3; i < encryptedString.length(); i+= 2) {
             int encryptedLetterValue = encryptedString.charAt(i - 1) - 'A';
             int currentLetterValue = currentLetter - 'A';
 
@@ -82,7 +82,7 @@ public class AmbiguousCipher {
         currentLetter = beforeLastLetter;
 
         //Right-left pass for even positions
-        for(int i=encryptedString.length() - 4; i >= 0; i-= 2) {
+        for(int i = encryptedString.length() - 4; i >= 0; i-= 2) {
             int encryptedLetterValue = encryptedString.charAt(i + 1) - 'A';
             int currentLetterValue = currentLetter - 'A';
 
@@ -104,7 +104,7 @@ public class AmbiguousCipher {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 valuesList.add(lines.get(i));
             }
         } catch (IOException e) {

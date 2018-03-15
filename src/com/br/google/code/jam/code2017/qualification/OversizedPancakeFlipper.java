@@ -136,15 +136,15 @@ public class OversizedPancakeFlipper {
         int numberOfFlips = 0;
 
         char[] pancakesCharArray = pancakes.toCharArray();
-        for(int i=0; i < pancakesCharArray.length; i++) {
-            if(pancakesCharArray[i] == '-') {
+        for(int i = 0; i < pancakesCharArray.length; i++) {
+            if (pancakesCharArray[i] == '-') {
                 numberOfFlips++;
 
-                if(i + pancakeFlipperSize - 1 < pancakesCharArray.length) {
+                if (i + pancakeFlipperSize - 1 < pancakesCharArray.length) {
                     int pancakesFlipped = 0;
 
                     while (pancakesFlipped < pancakeFlipperSize) {
-                        if(pancakesCharArray[i + pancakesFlipped] == '-') {
+                        if (pancakesCharArray[i + pancakesFlipped] == '-') {
                             pancakesCharArray[i + pancakesFlipped] = '+';
                         } else {
                             pancakesCharArray[i + pancakesFlipped] = '-';
@@ -168,7 +168,7 @@ public class OversizedPancakeFlipper {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 pancakesRowList.add(lines.get(i));
             }
         } catch (IOException e) {

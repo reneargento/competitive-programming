@@ -83,13 +83,13 @@ public class PrimMSTDenseGraphs {
 
         for(Edge edge : adjacent[vertex]) {
             int otherVertex = edge.other(vertex);
-            if(marked[otherVertex]) {
+            if (marked[otherVertex]) {
                 continue; // vertex-otherVertex is ineligible
             }
 
-            if(edge.weight() < distTo[otherVertex]) {
+            if (edge.weight() < distTo[otherVertex]) {
                 // Edge edge is the new best connection from the minimum spanning tree to otherVertex
-                if(distTo[otherVertex] != Double.POSITIVE_INFINITY) {
+                if (distTo[otherVertex] != Double.POSITIVE_INFINITY) {
                     weight -= distTo[otherVertex];
                 }
                 weight += edge.weight();
@@ -103,7 +103,7 @@ public class PrimMSTDenseGraphs {
         double minEdgeWeight = Double.POSITIVE_INFINITY;
 
         for(int vertexToVisit = 0; vertexToVisit < adjacent.length; vertexToVisit++) {
-            if(!marked[vertexToVisit] && distTo[vertexToVisit] < minEdgeWeight) {
+            if (!marked[vertexToVisit] && distTo[vertexToVisit] < minEdgeWeight) {
                 nextVertexToVisit = vertexToVisit;
                 minEdgeWeight = distTo[vertexToVisit];
             }

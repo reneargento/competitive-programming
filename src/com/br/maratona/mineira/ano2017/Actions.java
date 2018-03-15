@@ -42,8 +42,8 @@ public class Actions {
         boolean rise = !isDayEven;
         int stockPrice = initialPrice;
 
-        for(int i=0; i < daysInTheFuture; i++) {
-            if(rise) {
+        for(int i = 0; i < daysInTheFuture; i++) {
+            if (rise) {
                 stockPrice += priceMovement;
             } else {
                 stockPrice -= priceMovement;

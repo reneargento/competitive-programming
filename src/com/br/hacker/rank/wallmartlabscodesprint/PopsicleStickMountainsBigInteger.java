@@ -33,7 +33,7 @@ public class PopsicleStickMountainsBigInteger {
 
         int sticks;
 
-        for(int i=0; i < trips; i++) {
+        for(int i = 0; i < trips; i++) {
             sticks = scanner.nextInt();
             System.out.println(countMountains(mountains, factorials, dp, sticks).longValue() % mod);
         }
@@ -43,9 +43,9 @@ public class PopsicleStickMountainsBigInteger {
 
         int lastComputedCountIndex = 4;
 
-        if(dp[sticks] == null || dp[sticks].longValue() == 0) {
+        if (dp[sticks] == null || dp[sticks].longValue() == 0) {
 
-            for(int i=sticks-2; i>= 4; i-=2) {
+            for(int i = sticks-2; i>= 4; i-=2) {
                 if (dp[sticks] != null && dp[i].longValue() != 0) {
                     lastComputedCountIndex = i;
 
@@ -53,7 +53,7 @@ public class PopsicleStickMountainsBigInteger {
                 }
             }
 
-            for(int i=lastComputedCountIndex +2; i <= sticks; i +=2) {
+            for(int i = lastComputedCountIndex +2; i <= sticks; i +=2) {
 
                 computeFactorial(factorials, i);
 
@@ -71,7 +71,7 @@ public class PopsicleStickMountainsBigInteger {
         int lastComputedCountIndex = 2;
 
         for(int i = n-1; i >= 2; i--) {
-            if(factorials[i] != null && factorials[i].longValue() != 0) {
+            if (factorials[i] != null && factorials[i].longValue() != 0) {
                 lastComputedCountIndex = i;
             }
         }

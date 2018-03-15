@@ -26,7 +26,7 @@ public class DepthFirstOrderDirectedWeighted {
         visited = new boolean[edgeWeightedDigraph.vertices()];
 
         for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            if(!visited[vertex]) {
+            if (!visited[vertex]) {
                 dfs(edgeWeightedDigraph, vertex);
             }
         }
@@ -40,7 +40,7 @@ public class DepthFirstOrderDirectedWeighted {
         for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
-            if(!visited[neighbor]) {
+            if (!visited[neighbor]) {
                 dfs(edgeWeightedDigraph, neighbor);
             }
         }

@@ -74,7 +74,7 @@ public class BuyingTextBooks {
         for(int i = 0; i < copiesToPurchase1.length; i++) {
             System.out.print(copiesToPurchase1[i]);
 
-            if(i < copiesToPurchase1.length - 1) {
+            if (i < copiesToPurchase1.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -88,7 +88,7 @@ public class BuyingTextBooks {
         for(int i = 0; i < copiesToPurchase2.length; i++) {
             System.out.print(copiesToPurchase2[i]);
 
-            if(i < copiesToPurchase2.length - 1) {
+            if (i < copiesToPurchase2.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -102,7 +102,7 @@ public class BuyingTextBooks {
         for(int i = 0; i < copiesToPurchase3.length; i++) {
             System.out.print(copiesToPurchase3[i]);
 
-            if(i < copiesToPurchase3.length - 1) {
+            if (i < copiesToPurchase3.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -116,7 +116,7 @@ public class BuyingTextBooks {
         for(int i = 0; i < copiesToPurchase4.length; i++) {
             System.out.print(copiesToPurchase4[i]);
 
-            if(i < copiesToPurchase4.length - 1) {
+            if (i < copiesToPurchase4.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -130,7 +130,7 @@ public class BuyingTextBooks {
         for(int i = 0; i < copiesToPurchase5.length; i++) {
             System.out.print(copiesToPurchase5[i]);
 
-            if(i < copiesToPurchase5.length - 1) {
+            if (i < copiesToPurchase5.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -144,7 +144,7 @@ public class BuyingTextBooks {
         for(int i = 0; i < copiesToPurchase6.length; i++) {
             System.out.print(copiesToPurchase6[i]);
 
-            if(i < copiesToPurchase6.length - 1) {
+            if (i < copiesToPurchase6.length - 1) {
                 System.out.print(", ");
             }
         }
@@ -154,11 +154,11 @@ public class BuyingTextBooks {
     private static int[] buyingTextbooks(int n, int[][] textbooks) {
         int[] copiesToPurchase = new int[n];
 
-        for(int i=0; i < textbooks.length; i++) {
+        for(int i = 0; i < textbooks.length; i++) {
 
-            for(int j=1; j <= n; j++) {
-                if(textbooks[i][0] > 0 && j % textbooks[i][0] == 0) {
-                    if(textbooks[i][1] > copiesToPurchase[j - 1]) {
+            for(int j = 1; j <= n; j++) {
+                if (textbooks[i][0] > 0 && j % textbooks[i][0] == 0) {
+                    if (textbooks[i][1] > copiesToPurchase[j - 1]) {
                         copiesToPurchase[j - 1] = textbooks[i][1];
                     }
                 }
@@ -174,7 +174,7 @@ public class BuyingTextBooks {
             int mod = out[0];
             int need = out[1];
             for(int a = mod; a <= n; a+=mod) {
-                ret[a-1] = Math.max(ret[a-1], need);
+                ret[a - 1] = Math.max(ret[a - 1], need);
             }
         }
         return ret;

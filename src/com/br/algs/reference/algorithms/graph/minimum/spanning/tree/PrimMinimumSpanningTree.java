@@ -94,26 +94,26 @@ public class PrimMinimumSpanningTree {
 
             //Optimization: If multiple edges may exist, only add a new edge if its cost is smaller than the current edge
 //            boolean addEdge = true;
-//            if(adjacent[vertex1Id] != null) {
+//            if (adjacent[vertex1Id] != null) {
 //                for(Edge edge : adjacent[vertex1Id]) {
-//                    if(edge.vertex1 == vertex2Id || edge.vertex2 == vertex2Id) {
-//                        if(edge.cost <= cost) {
+//                    if (edge.vertex1 == vertex2Id || edge.vertex2 == vertex2Id) {
+//                        if (edge.cost <= cost) {
 //                            addEdge = false;
 //                            break;
 //                        }
 //                    }
 //                }
-//                if(!addEdge) {
+//                if (!addEdge) {
 //                    continue;
 //                }
 //            }
 
             //Add edge
             Edge edge = new Edge(vertex1Id, vertex2Id, cost);
-            if(adjacent[vertex1Id] == null) {
+            if (adjacent[vertex1Id] == null) {
                 adjacent[vertex1Id] = new ArrayList<>();
             }
-            if(adjacent[vertex2Id] == null) {
+            if (adjacent[vertex2Id] == null) {
                 adjacent[vertex2Id] = new ArrayList<>();
             }
 
@@ -140,9 +140,9 @@ public class PrimMinimumSpanningTree {
         PriorityQueue<Vertex> heap = new PriorityQueue<>(new Comparator<Vertex>() {
             @Override
             public int compare(Vertex node1, Vertex node2) {
-                if(node1.heapKey < 0 && node2.heapKey > 0) {
+                if (node1.heapKey < 0 && node2.heapKey > 0) {
                     return -1;
-                } else if(node2.heapKey < 0 && node1.heapKey > 0) {
+                } else if (node2.heapKey < 0 && node1.heapKey > 0) {
                     return 1;
                 } else {
                     return node1.heapKey - node2.heapKey;
@@ -164,10 +164,10 @@ public class PrimMinimumSpanningTree {
 
             for(Edge edge : adjacent[vertexWithCheapestEdge.id]) {
 
-                if((vertices[edge.vertex1].processed && !vertices[edge.vertex2].processed)
+                if ((vertices[edge.vertex1].processed && !vertices[edge.vertex2].processed)
                         || (vertices[edge.vertex2].processed && !vertices[edge.vertex1].processed)) {
 
-                    if(edge.cost < cheapestEdgeCost) {
+                    if (edge.cost < cheapestEdgeCost) {
                         cheapestEdgeCost = edge.cost;
                         cheapestEdge = edge;
                     }
@@ -189,17 +189,17 @@ public class PrimMinimumSpanningTree {
     private static void initHeap(PriorityQueue<Vertex> heap, Vertex[] vertices, List<Edge>[] adjacent, Vertex firstVertexInserted) {
 
         for(Edge edge : adjacent[firstVertexInserted.id]) {
-            if(edge.vertex1 == firstVertexInserted.id) {
+            if (edge.vertex1 == firstVertexInserted.id) {
                 vertices[edge.vertex2].heapKey = edge.cost < vertices[edge.vertex2].heapKey ?
                         edge.cost : vertices[edge.vertex2].heapKey;
-            } else if(edge.vertex2 == firstVertexInserted.id) {
+            } else if (edge.vertex2 == firstVertexInserted.id) {
                 vertices[edge.vertex1].heapKey = edge.cost < vertices[edge.vertex1].heapKey ?
                         edge.cost : vertices[edge.vertex1].heapKey;
             }
         }
 
         for(Vertex vertex : vertices) {
-            if(vertex != null && !vertex.isInHeap && vertex != firstVertexInserted) {
+            if (vertex != null && !vertex.isInHeap && vertex != firstVertexInserted) {
                 heap.add(vertex);
                 vertex.isInHeap = true;
             }
@@ -213,15 +213,15 @@ public class PrimMinimumSpanningTree {
             Vertex vertex1 = vertices[edge.vertex1];
             Vertex vertex2 = vertices[edge.vertex2];
 
-            if(vertex1.processed && !vertex2.processed) {
-                if(edge.cost < vertex2.heapKey) {
+            if (vertex1.processed && !vertex2.processed) {
+                if (edge.cost < vertex2.heapKey) {
                     heap.remove(vertex2);
 
                     vertex2.heapKey = edge.cost;
                     heap.add(vertex2);
                 }
-            } else if(!vertex1.processed && vertex2.processed) {
-                if(edge.cost < vertex1.heapKey) {
+            } else if (!vertex1.processed && vertex2.processed) {
+                if (edge.cost < vertex1.heapKey) {
                     heap.remove(vertex1);
 
                     vertex1.heapKey = edge.cost;

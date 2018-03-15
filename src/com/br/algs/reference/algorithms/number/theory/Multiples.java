@@ -8,7 +8,7 @@ public class Multiples {
     //Rounds down a number to a multiple
     //Example: 13 and 4 becomes 12
     private static long roundDown(long number, long multiple) {
-        if(number < multiple) {
+        if (number < multiple) {
             return 0;
         }
 

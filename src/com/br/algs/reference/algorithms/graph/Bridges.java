@@ -35,7 +35,7 @@ public class Bridges {
         }
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(time[vertex] == -1) {
+            if (time[vertex] == -1) {
                 dfs(adjacent, vertex, vertex, bridges);
             }
         }
@@ -49,16 +49,16 @@ public class Bridges {
         count++;
 
         for(int neighbor : adjacent[currentVertex]) {
-            if(time[neighbor] == -1) {
+            if (time[neighbor] == -1) {
                 dfs(adjacent, neighbor, currentVertex, bridges);
 
                 low[currentVertex] = Math.min(low[currentVertex], low[neighbor]);
 
-                if(low[neighbor] == time[neighbor]) {
+                if (low[neighbor] == time[neighbor]) {
                     bridges.add(new Edge(currentVertex, neighbor));
                 }
 
-            } else if(neighbor != sourceVertex) {
+            } else if (neighbor != sourceVertex) {
                 low[currentVertex] = Math.min(low[currentVertex], time[neighbor]);
             }
         }

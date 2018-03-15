@@ -165,7 +165,7 @@ public class BathroomStalls {
         PriorityQueueResize priorityQueueResize = new BathroomStalls().new PriorityQueueResize(Orientation.MAX);
         priorityQueueResize.insert(numberOfStalls);
 
-        for(int i=0; i < users; i++) {
+        for(int i = 0; i < users; i++) {
 
             long maxSpaces = priorityQueueResize.deleteTop();
             maxSpaces--;
@@ -173,7 +173,7 @@ public class BathroomStalls {
             leftSpaces = maxSpaces / 2;
             rightSpaces = maxSpaces - leftSpaces;
 
-            if(i == users - 1) {
+            if (i == users - 1) {
                 maxSpace = Math.max(leftSpaces, rightSpaces);
                 minSpace = Math.min(leftSpaces, rightSpaces);
             }
@@ -213,35 +213,35 @@ public class BathroomStalls {
             rightSpaces = maxValue - 1 - leftSpaces;
 
             long maxValueCount = 0;
-            if(countMap.containsKey(maxValue)) {
+            if (countMap.containsKey(maxValue)) {
                 maxValueCount = countMap.get(maxValue);
             }
 
             totalValues += maxValueCount;
 
-            if(totalValues >= users){
+            if (totalValues >= users){
                 break;
             }
 
             set.remove(maxValue);
-            if(!set.contains(leftSpaces)) {
+            if (!set.contains(leftSpaces)) {
                 set.add(leftSpaces);
                 priorityQueue.insert(leftSpaces);
             }
-            if(!set.contains(rightSpaces)) {
+            if (!set.contains(rightSpaces)) {
                 set.add(rightSpaces);
                 priorityQueue.insert(rightSpaces);
             }
 
             long leftSpacesCount = 0;
-            if(countMap.containsKey(leftSpaces)) {
+            if (countMap.containsKey(leftSpaces)) {
                 leftSpacesCount = countMap.get(leftSpaces);
             }
             leftSpacesCount += maxValueCount;
             countMap.put(leftSpaces, leftSpacesCount);
 
             long rightSpacesCount = 0;
-            if(countMap.containsKey(rightSpaces)) {
+            if (countMap.containsKey(rightSpaces)) {
                 rightSpacesCount = countMap.get(rightSpaces);
             }
             rightSpacesCount += maxValueCount;
@@ -258,7 +258,7 @@ public class BathroomStalls {
         try {
             List<String> lines = Files.readAllLines(path);
 
-            for (int i=1; i < lines.size(); i++) {
+            for (int i = 1; i < lines.size(); i++) {
                 numbersList.add(lines.get(i));
             }
         } catch (IOException e) {
@@ -314,7 +314,7 @@ public class BathroomStalls {
 
         public void insert(long key) {
 
-            if(size == priorityQueue.length - 1) {
+            if (size == priorityQueue.length - 1) {
                 resize(priorityQueue.length * 2);
             }
 
@@ -326,7 +326,7 @@ public class BathroomStalls {
 
         public long deleteTop() {
 
-            if(size == 0) {
+            if (size == 0) {
                 throw new RuntimeException("Priority queue underflow");
             }
 
@@ -338,7 +338,7 @@ public class BathroomStalls {
 
             sink(1);
 
-            if(size == priorityQueue.length / 4) {
+            if (size == priorityQueue.length / 4) {
                 resize(priorityQueue.length / 2);
             }
 
@@ -347,7 +347,7 @@ public class BathroomStalls {
 
         private void swim(int index) {
             while(index / 2 >= 1) {
-                if((orientation == Orientation.MAX && arrayUtil.less(priorityQueue[index / 2], priorityQueue[index]))
+                if ((orientation == Orientation.MAX && arrayUtil.less(priorityQueue[index / 2], priorityQueue[index]))
                         || (orientation == Orientation.MIN && arrayUtil.more(priorityQueue[index / 2], priorityQueue[index]))) {
                     arrayUtil.exchange(priorityQueue, index / 2, index);
                 } else {
@@ -362,7 +362,7 @@ public class BathroomStalls {
             while (index * 2 <= size) {
                 int selectedChildIndex = index * 2;
 
-                if(index * 2 + 1 <= size &&
+                if (index * 2 + 1 <= size &&
                         (
                                 (orientation == Orientation.MAX && arrayUtil.less(priorityQueue[index * 2], priorityQueue[index * 2 + 1]))
                                         || (orientation == Orientation.MIN && arrayUtil.more(priorityQueue[index * 2], priorityQueue[index * 2 + 1]))
@@ -371,7 +371,7 @@ public class BathroomStalls {
                     selectedChildIndex = index * 2 + 1;
                 }
 
-                if((orientation == Orientation.MAX && arrayUtil.more(priorityQueue[selectedChildIndex], priorityQueue[index]))
+                if ((orientation == Orientation.MAX && arrayUtil.more(priorityQueue[selectedChildIndex], priorityQueue[index]))
                         || (orientation == Orientation.MIN && arrayUtil.less(priorityQueue[selectedChildIndex], priorityQueue[index]))) {
                     arrayUtil.exchange(priorityQueue, index, selectedChildIndex);
                 } else {
@@ -393,7 +393,7 @@ public class BathroomStalls {
     private class ArrayUtil {
 
         boolean less(long value1, long value2) {
-            if(value1 < value2) {
+            if (value1 < value2) {
                 return true;
             } else {
                 return false;
@@ -401,7 +401,7 @@ public class BathroomStalls {
         }
 
         boolean more(long value1, long value2) {
-            if(value1 > value2) {
+            if (value1 > value2) {
                 return true;
             } else {
                 return false;

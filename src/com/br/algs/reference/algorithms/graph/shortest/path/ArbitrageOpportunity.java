@@ -27,7 +27,7 @@ public class ArbitrageOpportunity {
 
         BellmanFord bellmanFord = new BellmanFord(graphWithNegatedLogEdges, 0);
 
-        if(bellmanFord.hasNegativeCycle()) {
+        if (bellmanFord.hasNegativeCycle()) {
             List<DirectedEdge> arbitrageOpportunity = new ArrayList<>();
 
             for(DirectedEdge edge : bellmanFord.negativeCycle()) {

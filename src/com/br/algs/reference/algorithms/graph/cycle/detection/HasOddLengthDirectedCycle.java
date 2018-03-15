@@ -45,13 +45,13 @@ public class HasOddLengthDirectedCycle {
 
             for(int vertex : strongComponents[scc]) {
                 for(int neighbor : adjacent[vertex]) {
-                    if(strongComponents[scc].contains(neighbor)) {
+                    if (strongComponents[scc].contains(neighbor)) {
 
                         //Lazily initialize adjacency lists to keep algorithm O(V + E) instead of O(V^2)
-                        if(subGraph[vertex] == null) {
+                        if (subGraph[vertex] == null) {
                             subGraph[vertex] = new ArrayList<>();
                         }
-                        if(subGraph[neighbor] == null) {
+                        if (subGraph[neighbor] == null) {
                             subGraph[neighbor] = new ArrayList<>();
                         }
 
@@ -62,7 +62,7 @@ public class HasOddLengthDirectedCycle {
             }
 
             IsBipartite isBipartite = new IsBipartite(subGraph);
-            if(!isBipartite.isBipartite()) {
+            if (!isBipartite.isBipartite()) {
                 return true;
             }
         }
@@ -146,7 +146,7 @@ public class HasOddLengthDirectedCycle {
             int[] topologicalOrder = topologicalSort(inverseEdges);
 
             for(int vertex : topologicalOrder) {
-                if(!visited[vertex]) {
+                if (!visited[vertex]) {
                     depthFirstSearch(vertex, adjacent, null, visited, false);
                     sccCount++;
                 }
@@ -170,7 +170,7 @@ public class HasOddLengthDirectedCycle {
             Stack<Integer> finishTimes = new Stack<>();
 
             for(int i = 0; i < visited.length; i++) {
-                if(!visited[i]) {
+                if (!visited[i]) {
                     depthFirstSearch(i, adjacent, finishTimes, visited, true);
                 }
             }
@@ -190,20 +190,20 @@ public class HasOddLengthDirectedCycle {
                                       boolean[] visited, boolean getFinishTimes) {
             visited[sourceVertex] = true;
 
-            if(!getFinishTimes) {
+            if (!getFinishTimes) {
                 sccId[sourceVertex] = sccCount;
                 componentSizes[sccCount]++;
             }
 
-            if(adjacent[sourceVertex] != null) {
+            if (adjacent[sourceVertex] != null) {
                 for(int neighbor : adjacent[sourceVertex]) {
-                    if(!visited[neighbor]) {
+                    if (!visited[neighbor]) {
                         depthFirstSearch(neighbor, adjacent, finishTimes, visited, getFinishTimes);
                     }
                 }
             }
 
-            if(getFinishTimes) {
+            if (getFinishTimes) {
                 finishTimes.push(sourceVertex);
             }
         }
@@ -218,7 +218,7 @@ public class HasOddLengthDirectedCycle {
             for(int i = 0; i < adjacent.length; i++) {
                 List<Integer> neighbors = adjacent[i];
 
-                if(neighbors != null) {
+                if (neighbors != null) {
                     for(int neighbor : adjacent[i]) {
                         inverseEdges[neighbor].add(i);
                     }
@@ -240,7 +240,7 @@ public class HasOddLengthDirectedCycle {
             color = new boolean[adjacent.length];
 
             for(int source = 0; source < adjacent.length; source++) {
-                if(!visited[source]) {
+                if (!visited[source]) {
                     dfs(adjacent, source);
                 }
             }
@@ -249,12 +249,12 @@ public class HasOddLengthDirectedCycle {
         private void dfs(List<Integer>[] adjacent, int vertex) {
             visited[vertex] = true;
 
-            if(adjacent[vertex] != null) {
+            if (adjacent[vertex] != null) {
                 for(int neighbor : adjacent[vertex]) {
-                    if(!visited[neighbor]) {
+                    if (!visited[neighbor]) {
                         color[neighbor] = !color[vertex];
                         dfs(adjacent, neighbor);
-                    } else if(color[neighbor] == color[vertex]) {
+                    } else if (color[neighbor] == color[vertex]) {
                         isTwoColorable = false;
                     }
                 }

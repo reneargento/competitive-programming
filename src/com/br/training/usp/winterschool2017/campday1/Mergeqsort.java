@@ -14,12 +14,12 @@ public class Mergeqsort {
         Scanner scanner = new Scanner(System.in);
         int arraySize = scanner.nextInt();
 
-        for(int i=0; i < 1000; i++) {
+        for(int i = 0; i < 1000; i++) {
             dp[i] = -1;
         }
 
-        if(arraySize > 1000) {
-            for(int i=1; i <= 1000; i++) {
+        if (arraySize > 1000) {
+            for(int i = 1; i <= 1000; i++) {
                 fillDpArray(i);
             }
         }
@@ -30,7 +30,7 @@ public class Mergeqsort {
     }
 
     private static long sqrtMergesort(int n) {
-        if(n == 1) {
+        if (n == 1) {
             return 0;
         }
 
@@ -40,10 +40,10 @@ public class Mergeqsort {
         int nRight = n - nLeft;
 
         long left;
-        if(nLeft < dp.length) {
+        if (nLeft < dp.length) {
             left = dp[nLeft];
 
-            if(left == -1) {
+            if (left == -1) {
                 left = sqrtMergesort(nLeft);
             } else {
                 asterisks += left;
@@ -53,10 +53,10 @@ public class Mergeqsort {
         }
 
         long right;
-        if(nRight < dp.length) {
+        if (nRight < dp.length) {
             right = dp[nRight];
 
-            if(right == -1) {
+            if (right == -1) {
                 right = sqrtMergesort(nRight);
             } else {
                 asterisks += right;

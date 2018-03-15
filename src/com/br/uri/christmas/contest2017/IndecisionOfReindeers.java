@@ -23,12 +23,12 @@ public class IndecisionOfReindeers {
         while (snowballs > 0){
             snowballs--;
 
-            if(snowballs == 0) {
+            if (snowballs == 0) {
                 System.out.println(reindeers[reindeerIndex]);
             }
             reindeerIndex++;
 
-            if(reindeerIndex >= 9) {
+            if (reindeerIndex >= 9) {
                 reindeerIndex = 0;
             }
         }

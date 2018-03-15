@@ -85,9 +85,9 @@ public class MonotonicShortestPaths {
             Comparator<DirectedEdge> edgesComparator = new Comparator<DirectedEdge>() {
                 @Override
                 public int compare(DirectedEdge edge1, DirectedEdge edge2) {
-                    if(edge1.weight() > edge2.weight()) {
+                    if (edge1.weight() > edge2.weight()) {
                         return -1;
-                    } else if(edge1.weight() < edge2.weight()) {
+                    } else if (edge1.weight() < edge2.weight()) {
                         return 1;
                     } else {
                         return 0;
@@ -102,9 +102,9 @@ public class MonotonicShortestPaths {
             edgesComparator = new Comparator<DirectedEdge>() {
                 @Override
                 public int compare(DirectedEdge edge1, DirectedEdge edge2) {
-                    if(edge1.weight() < edge2.weight()) {
+                    if (edge1.weight() < edge2.weight()) {
                         return -1;
-                    } else if(edge1.weight() > edge2.weight()) {
+                    } else if (edge1.weight() > edge2.weight()) {
                         return 1;
                     } else {
                         return 0;
@@ -141,9 +141,9 @@ public class MonotonicShortestPaths {
             PriorityQueue<Path> priorityQueue = new PriorityQueue<>(new Comparator<Path>() {
                 @Override
                 public int compare(Path path1, Path path2) {
-                    if(path1.weight() < path2.weight()) {
+                    if (path1.weight() < path2.weight()) {
                         return -1;
-                    } else if(path1.weight() > path2.weight()) {
+                    } else if (path1.weight() > path2.weight()) {
                         return 1;
                     } else {
                         return 0;
@@ -176,7 +176,7 @@ public class MonotonicShortestPaths {
                     DirectedEdge edge =
                             verticesInformation.get(nextVertexInPath).getEdges()[nextVertexInformation.getCurrentEdgeIteratorPosition()];
 
-                    if((isAscendingOrder && edge.weight() <= weightInPreviousEdge)
+                    if ((isAscendingOrder && edge.weight() <= weightInPreviousEdge)
                             || (!isAscendingOrder && edge.weight() >= weightInPreviousEdge)) {
                         break;
                     }
@@ -190,7 +190,7 @@ public class MonotonicShortestPaths {
                     priorityQueue.offer(path);
                 }
 
-                if(edgeToVertex[nextVertexInPath] == null) {
+                if (edgeToVertex[nextVertexInPath] == null) {
                     edgeToVertex[nextVertexInPath] = currentEdge;
                     distToVertex[nextVertexInPath] = currentShortestPath.weight();
                 }
@@ -199,7 +199,7 @@ public class MonotonicShortestPaths {
 
         private void compareMonotonicPathsAndComputeShortest() {
             for(int vertex = 0; vertex < edgeTo.length; vertex++) {
-                if(distToMonotonicAscending[vertex] <= distToMonotonicDescending[vertex]) {
+                if (distToMonotonicAscending[vertex] <= distToMonotonicDescending[vertex]) {
                     distTo[vertex] = distToMonotonicAscending[vertex];
                     edgeTo[vertex] = edgeToMonotonicAscending[vertex];
                 } else {
@@ -219,7 +219,7 @@ public class MonotonicShortestPaths {
         }
 
         public Iterable<DirectedEdge> pathTo(int vertex) {
-            if(!hasPathTo(vertex)) {
+            if (!hasPathTo(vertex)) {
                 return null;
             }
 
@@ -241,7 +241,7 @@ public class MonotonicShortestPaths {
         }
 
         public Iterable<DirectedEdge> pathToMonotonicAscending(int vertex) {
-            if(!hasPathTo(vertex)) {
+            if (!hasPathTo(vertex)) {
                 return null;
             }
 
@@ -263,7 +263,7 @@ public class MonotonicShortestPaths {
         }
 
         public Iterable<DirectedEdge> pathToMonotonicDescending(int vertex) {
-            if(!hasPathTo(vertex)) {
+            if (!hasPathTo(vertex)) {
                 return null;
             }
 
@@ -298,7 +298,7 @@ public class MonotonicShortestPaths {
         for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             System.out.print("\nPath from vertex 0 to vertex " + vertex + ": ");
 
-            if(dijkstraMonotonicSP.hasPathTo(vertex)) {
+            if (dijkstraMonotonicSP.hasPathTo(vertex)) {
                 for(DirectedEdge edge : dijkstraMonotonicSP.pathTo(vertex)) {
                     System.out.print(edge.from() + "->" + edge.to() + " (" + edge.weight() + ") ");
                 }

@@ -15,12 +15,12 @@ public class EulerCycleDirectedGraph {
         // A graph with no edges is considered to have an Eulerian cycle
         int edges = 0;
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 edges += adjacent[vertex].size();
             }
         }
 
-        if(edges == 0) {
+        if (edges == 0) {
             return new Stack<>();
         }
 
@@ -30,7 +30,7 @@ public class EulerCycleDirectedGraph {
         int[] outdegrees = new int[adjacent.length];
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null) {
+            if (adjacent[vertex] != null) {
                 for(int neighbor : adjacent[vertex]) {
                     outdegrees[vertex]++;
                     indegrees[neighbor]++;
@@ -39,7 +39,7 @@ public class EulerCycleDirectedGraph {
         }
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(indegrees[vertex] != outdegrees[vertex]) {
+            if (indegrees[vertex] != outdegrees[vertex]) {
                 return null;
             }
         }
@@ -47,7 +47,7 @@ public class EulerCycleDirectedGraph {
         // Create local view of adjacency lists, to iterate one vertex at a time
         Iterator<Integer>[] adjacentCopy = (Iterator<Integer>[]) new Iterator[adjacent.length];
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null) {
+            if (adjacent[vertex] != null) {
                 adjacentCopy[vertex] = adjacent[vertex].iterator();
             }
         }
@@ -72,7 +72,7 @@ public class EulerCycleDirectedGraph {
         }
 
         // For each edge visited, we visited a vertex. Add 1 because the first and last vertices are the same.
-        if(eulerCycle.size() == edges + 1) {
+        if (eulerCycle.size() == edges + 1) {
             return eulerCycle;
         } else {
             return null;
@@ -83,7 +83,7 @@ public class EulerCycleDirectedGraph {
         int nonIsolatedVertex = -1;
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 nonIsolatedVertex = vertex;
                 break;
             }
@@ -110,7 +110,7 @@ public class EulerCycleDirectedGraph {
 
         Stack<Integer> eulerCycle1 = directedEulerianCycle.getDirectedEulerianCycle(adjacent1);
 
-        if(eulerCycle1 != null) {
+        if (eulerCycle1 != null) {
             directedEulerianCycle.printCycle(eulerCycle1);
         } else {
             System.out.println("There is no directed Eulerian cycle");
@@ -130,7 +130,7 @@ public class EulerCycleDirectedGraph {
 
         Stack<Integer> eulerCycle2 = directedEulerianCycle.getDirectedEulerianCycle(adjacent2);
 
-        if(eulerCycle2 != null) {
+        if (eulerCycle2 != null) {
             directedEulerianCycle.printCycle(eulerCycle2);
         } else {
             System.out.println("There is no directed Eulerian cycle");
@@ -155,7 +155,7 @@ public class EulerCycleDirectedGraph {
 
         Stack<Integer> eulerCycle3 = directedEulerianCycle.getDirectedEulerianCycle(adjacent3);
 
-        if(eulerCycle3 != null) {
+        if (eulerCycle3 != null) {
             directedEulerianCycle.printCycle(eulerCycle3);
         } else {
             System.out.println("There is no directed Eulerian cycle");
@@ -176,7 +176,7 @@ public class EulerCycleDirectedGraph {
 
         Stack<Integer> eulerCycle4 = directedEulerianCycle.getDirectedEulerianCycle(adjacent4);
 
-        if(eulerCycle4 != null) {
+        if (eulerCycle4 != null) {
             directedEulerianCycle.printCycle(eulerCycle4);
         } else {
             System.out.println("There is no directed Eulerian cycle");
@@ -190,10 +190,10 @@ public class EulerCycleDirectedGraph {
         while (!eulerCycle.isEmpty()) {
             int vertex = eulerCycle.pop();
 
-            if(!eulerCycle.isEmpty()) {
+            if (!eulerCycle.isEmpty()) {
                 System.out.print(vertex + "->" + eulerCycle.peek());
 
-                if(eulerCycle.size() > 1) {
+                if (eulerCycle.size() > 1) {
                     System.out.print(" ");
                 }
             }

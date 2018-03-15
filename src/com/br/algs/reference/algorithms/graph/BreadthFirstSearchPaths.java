@@ -25,7 +25,7 @@ public class BreadthFirstSearchPaths {
 
         distTo[source] = 0;
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(vertex == source) {
+            if (vertex == source) {
                 continue;
             }
             distTo[vertex] = Integer.MAX_VALUE;
@@ -43,9 +43,9 @@ public class BreadthFirstSearchPaths {
         while (!queue.isEmpty()) {
             int currentVertex = queue.poll();
 
-            if(adjacent[currentVertex] != null) {
+            if (adjacent[currentVertex] != null) {
                 for(int neighbor : adjacent[currentVertex]) {
-                    if(!visited[neighbor]) {
+                    if (!visited[neighbor]) {
                         visited[neighbor] = true;
 
                         edgeTo[neighbor] = currentVertex;
@@ -68,7 +68,7 @@ public class BreadthFirstSearchPaths {
     }
 
     public Iterable<Integer> pathTo(int vertex) {
-        if(!hasPathTo(vertex)) {
+        if (!hasPathTo(vertex)) {
             return null;
         }
 

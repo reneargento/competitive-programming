@@ -108,14 +108,14 @@ public class ReversingArrows {
 
         //O(1)
         public void addEdge(int vertexId1, int vertexId2, int length) {
-            if(length < 0) {
+            if (length < 0) {
                 throw new UnsupportedOperationException("Edge length cannot be negative");
             }
 
-            if(vertices.get(vertexId1) == null) {
+            if (vertices.get(vertexId1) == null) {
                 addVertex(vertexId1);
             }
-            if(vertices.get(vertexId2) == null) {
+            if (vertices.get(vertexId2) == null) {
                 addVertex(vertexId2);
             }
 
@@ -158,11 +158,11 @@ public class ReversingArrows {
         int vertexB = FastReader.nextInt();
 
         Graph graph = new Graph();
-        for(int i=1; i <= vertices; i++) {
+        for(int i = 1; i <= vertices; i++) {
             graph.addVertex(i);
         }
 
-        for(int i=0; i < edges; i++) {
+        for(int i = 0; i < edges; i++) {
             int vertex1 = FastReader.nextInt();
             int vertex2 = FastReader.nextInt();
 
@@ -179,12 +179,12 @@ public class ReversingArrows {
         computeShortestPath(graph, vertexB);
         int distanceFromBtoA = computedShortestPathDistances[vertexA];
 
-        if(distanceFromAtoB == distanceFromBtoA
+        if (distanceFromAtoB == distanceFromBtoA
                 || distanceFromAtoB == UNCOMPUTED_DISTANCE
                 || distanceFromBtoA == UNCOMPUTED_DISTANCE) {
             System.out.println("Bibibibika");
         } else {
-            if(distanceFromAtoB < distanceFromBtoA) {
+            if (distanceFromAtoB < distanceFromBtoA) {
                 System.out.println("Bibi: " + distanceFromAtoB);
             } else {
                 System.out.println("Bibika: " + distanceFromBtoA);
@@ -222,7 +222,7 @@ public class ReversingArrows {
         //Add edges associated to the first vertex to the heap
         for(Graph.Edge edge : graph.vertices.get(sourceVertex).edgesAssociated) {
             //Directed graph
-            if(edge.vertex1.id == sourceVertex) {
+            if (edge.vertex1.id == sourceVertex) {
                 heap.add(edge);
             }
 
@@ -233,10 +233,10 @@ public class ReversingArrows {
         while (heap.size() > 0) {
             Graph.Edge edge = heap.poll();
 
-            if(!edge.vertex1.processed) {
+            if (!edge.vertex1.processed) {
                 graph.setVertexProcessed(edge.vertex1.id);
                 computeAndAddEdgeToHeap(graph, heap, edge, edge.vertex1.id);
-            } else if(!edge.vertex2.processed) {
+            } else if (!edge.vertex2.processed) {
                 graph.setVertexProcessed(edge.vertex2.id);
                 computeAndAddEdgeToHeap(graph, heap, edge, edge.vertex2.id);
             }
@@ -257,7 +257,7 @@ public class ReversingArrows {
     }
 
     private static void setDefaultDistances() {
-        for (int i=0; i < computedShortestPathDistances.length; i++) {
+        for (int i = 0; i < computedShortestPathDistances.length; i++) {
             computedShortestPathDistances[i] = UNCOMPUTED_DISTANCE;
         }
     }

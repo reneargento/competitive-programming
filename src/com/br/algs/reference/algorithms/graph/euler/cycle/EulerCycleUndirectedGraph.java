@@ -20,7 +20,7 @@ public class EulerCycleUndirectedGraph {
         }
 
         public int otherVertex(int vertex) {
-            if(vertex == vertex1) {
+            if (vertex == vertex1) {
                 return vertex2;
             } else {
                 return vertex1;
@@ -33,14 +33,14 @@ public class EulerCycleUndirectedGraph {
         // A graph with no edges is considered to have an Eulerian cycle
         int edges = 0;
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 edges += adjacent[vertex].size();
             }
         }
 
         edges /= 2;
 
-        if(edges == 0) {
+        if (edges == 0) {
             return new Stack<>();
         }
 
@@ -48,7 +48,7 @@ public class EulerCycleUndirectedGraph {
         // (this test is needed or it might find an Eulerian path instead of an Eulerian cycle)
         // An Eulerian path have exactly 2 vertices with even degrees
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null && adjacent[vertex].size() % 2 != 0) {
+            if (adjacent[vertex] != null && adjacent[vertex].size() % 2 != 0) {
                 return null;
             }
         }
@@ -62,11 +62,11 @@ public class EulerCycleUndirectedGraph {
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
             int selfLoops = 0;
 
-            if(adjacent[vertex] != null) {
+            if (adjacent[vertex] != null) {
                 for(int neighbor : adjacent[vertex]) {
                     //Careful with self-loops
-                    if(vertex == neighbor) {
-                        if(selfLoops % 2 == 0) {
+                    if (vertex == neighbor) {
+                        if (selfLoops % 2 == 0) {
                             Edge edge = new Edge(vertex, neighbor);
                             adjacentCopy[vertex].offer(edge);
                             adjacentCopy[neighbor].offer(edge);
@@ -74,7 +74,7 @@ public class EulerCycleUndirectedGraph {
 
                         selfLoops++;
                     } else {
-                        if(vertex < neighbor) {
+                        if (vertex < neighbor) {
                             Edge edge = new Edge(vertex, neighbor);
                             adjacentCopy[vertex].offer(edge);
                             adjacentCopy[neighbor].offer(edge);
@@ -96,7 +96,7 @@ public class EulerCycleUndirectedGraph {
 
             while (!adjacentCopy[vertex].isEmpty()) {
                 Edge edge = adjacentCopy[vertex].poll();
-                if(edge.isUsed) {
+                if (edge.isUsed) {
                     continue;
                 }
                 edge.isUsed = true;
@@ -110,7 +110,7 @@ public class EulerCycleUndirectedGraph {
         }
 
         // For each edge visited, we visited a vertex. Add 1 because the first and last vertices are the same.
-        if(eulerCycle.size() == edges + 1) {
+        if (eulerCycle.size() == edges + 1) {
             return eulerCycle;
         } else {
             return null;
@@ -121,7 +121,7 @@ public class EulerCycleUndirectedGraph {
         int nonIsolatedVertex = -1;
 
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            if(adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 nonIsolatedVertex = vertex;
                 break;
             }
@@ -153,7 +153,7 @@ public class EulerCycleUndirectedGraph {
 
         Stack<Integer> eulerCycle1 = eulerCycle.getEulerCycle(adjacent1);
 
-        if(eulerCycle1 != null) {
+        if (eulerCycle1 != null) {
             printCycle(eulerCycle1);
         } else {
             System.out.println("There is no Eulerian cycle");
@@ -177,7 +177,7 @@ public class EulerCycleUndirectedGraph {
 
         Stack<Integer> eulerCycle2 = eulerCycle.getEulerCycle(adjacent2);
 
-        if(eulerCycle2 != null) {
+        if (eulerCycle2 != null) {
             printCycle(eulerCycle2);
         } else {
             System.out.println("There is no Eulerian cycle");
@@ -236,7 +236,7 @@ public class EulerCycleUndirectedGraph {
 
         Stack<Integer> eulerCycle3 = eulerCycle.getEulerCycle(adjacent3);
 
-        if(eulerCycle3 != null) {
+        if (eulerCycle3 != null) {
             printCycle(eulerCycle3);
         } else {
             System.out.println("There is no Eulerian cycle");
@@ -262,7 +262,7 @@ public class EulerCycleUndirectedGraph {
 
         Stack<Integer> eulerCycle4 = eulerCycle.getEulerCycle(adjacent4);
 
-        if(eulerCycle4 != null) {
+        if (eulerCycle4 != null) {
             printCycle(eulerCycle4);
         } else {
             System.out.println("There is no Eulerian cycle");
@@ -276,10 +276,10 @@ public class EulerCycleUndirectedGraph {
         while (!eulerCycle.isEmpty()) {
             int vertex = eulerCycle.pop();
 
-            if(!eulerCycle.isEmpty()) {
+            if (!eulerCycle.isEmpty()) {
                 System.out.print(vertex + "-" + eulerCycle.peek());
 
-                if(eulerCycle.size() > 1) {
+                if (eulerCycle.size() > 1) {
                     System.out.print(" ");
                 }
             }

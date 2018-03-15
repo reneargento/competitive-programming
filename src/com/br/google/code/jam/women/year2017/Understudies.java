@@ -53,7 +53,7 @@ public class Understudies {
                 double[] probability = new double[numberOfRoles * 2];
 
                 String[] probabilitiesLine = lines.get(i + 1).split(" ");
-                for(int j=0; j < probabilitiesLine.length; j++) {
+                for(int j = 0; j < probabilitiesLine.length; j++) {
                     probability[j] = Double.parseDouble(probabilitiesLine[j]);
                 }
 
@@ -76,7 +76,7 @@ public class Understudies {
         int leftIndex = 0;
         int rightIndex = probabilities.length - 1;
 
-        for(int i=0; i < probabilities.length / 2; i++) {
+        for(int i = 0; i < probabilities.length / 2; i++) {
 
             double probabilityOfCurrentRole = 1 - probabilities[leftIndex] * probabilities[rightIndex];
             result *= probabilityOfCurrentRole;

@@ -88,20 +88,20 @@ public class HugeNumbers {
     }
 
     private static long fastExponentiation(long base, long exponent) {
-        if(exponent == 0) {
+        if (exponent == 0) {
             return 1;
         }
-        if(exponent == 1) {
+        if (exponent == 1) {
             return base;
         }
 
         long baseSquared = (base * base) % mod;
 
-        if(exponent % 2 == 0) {
+        if (exponent % 2 == 0) {
             return fastExponentiation(baseSquared, exponent / 2);
         }
 
-        if(exponent % 2 == 1) {
+        if (exponent % 2 == 1) {
             return (base * fastExponentiation(baseSquared, exponent / 2)) % mod;
         }
 

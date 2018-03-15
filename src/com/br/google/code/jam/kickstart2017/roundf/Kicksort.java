@@ -87,7 +87,7 @@ public class Kicksort {
 
         Arrays.sort(copyArray);
 
-        if(array.length % 2 != 0) {
+        if (array.length % 2 != 0) {
             currentValue = array[array.length / 2];
             isNextLeft = true;
 
@@ -103,23 +103,23 @@ public class Kicksort {
 
         while (left != 0 && right != array.length - 1) {
 
-            if((copyLeft >= 0 && currentValue != copyArray[copyLeft])
+            if ((copyLeft >= 0 && currentValue != copyArray[copyLeft])
                     && (copyRight < copyArray.length && currentValue != copyArray[copyRight])) {
                 return isNotWorstCase;
             } else {
-                if(copyLeft >= 0 && currentValue == copyArray[copyLeft]) {
+                if (copyLeft >= 0 && currentValue == copyArray[copyLeft]) {
                     copyLeft++;
-                } else if(copyRight < copyArray.length && currentValue == copyArray[copyRight]) {
+                } else if (copyRight < copyArray.length && currentValue == copyArray[copyRight]) {
                     copyRight--;
                 }
             }
 
             int nextValue;
 
-            if(isNextLeft) {
+            if (isNextLeft) {
                 left = left - 1;
 
-                if(left < 0) {
+                if (left < 0) {
                     return isWorstCase;
                 }
 
@@ -127,7 +127,7 @@ public class Kicksort {
             } else {
                 right = right + 1;
 
-                if(right > array.length - 1) {
+                if (right > array.length - 1) {
                     return isWorstCase;
                 }
 

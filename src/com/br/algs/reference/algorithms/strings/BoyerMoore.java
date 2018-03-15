@@ -34,7 +34,7 @@ public class BoyerMoore {
     }
 
     // Search for pattern in the text.
-    // Returns the index of the first occurrence of the pattern string in the text string or textLength if no such match.
+    // Returns the index of the first occurrence of the pattern in the text or textLength if no such match.
     public int search(String text) {
         int textLength = text.length();
         int patternLength = pattern.length();

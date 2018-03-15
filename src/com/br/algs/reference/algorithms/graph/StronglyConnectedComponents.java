@@ -84,7 +84,7 @@ public class StronglyConnectedComponents {
         int[] topologicalOrder = topologicalSort(inverseEdges);
 
         for(int vertex : topologicalOrder) {
-            if(!visited[vertex]) {
+            if (!visited[vertex]) {
                 depthFirstSearch(vertex, adjacent, null, visited, false);
                 sccCount++;
             }
@@ -109,7 +109,7 @@ public class StronglyConnectedComponents {
 
         //If the vertices are 0-index based, start i with value 0
         for(int i = 1; i < visited.length; i++) {
-            if(!visited[i]) {
+            if (!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited, true);
             }
         }
@@ -129,20 +129,20 @@ public class StronglyConnectedComponents {
                                          boolean[] visited, boolean getFinishTimes) {
         visited[sourceVertex] = true;
 
-        if(!getFinishTimes) {
+        if (!getFinishTimes) {
             sccId[sourceVertex] = sccCount;
             componentSizes[sccCount]++;
         }
 
-        if(adjacent[sourceVertex] != null) {
+        if (adjacent[sourceVertex] != null) {
             for(int neighbor : adjacent[sourceVertex]) {
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     depthFirstSearch(neighbor, adjacent, finishTimes, visited, getFinishTimes);
                 }
             }
         }
 
-        if(getFinishTimes) {
+        if (getFinishTimes) {
             finishTimes.push(sourceVertex);
         }
     }
@@ -155,7 +155,7 @@ public class StronglyConnectedComponents {
         stack.push(sourceVertex);
         visited[sourceVertex] = true;
 
-        if(!getFinishTimes) {
+        if (!getFinishTimes) {
             sccId[sourceVertex] = sccCount;
         }
 
@@ -165,7 +165,7 @@ public class StronglyConnectedComponents {
 
         //If the vertices are 0-index based, start i with value 0
         for (int vertexId = 1; vertexId < adjacentIterators.length; vertexId++) {
-            if(adjacent[vertexId] != null) {
+            if (adjacent[vertexId] != null) {
                 adjacentIterators[vertexId] = adjacent[vertexId].iterator();
             }
         }
@@ -173,17 +173,17 @@ public class StronglyConnectedComponents {
         while (!stack.isEmpty()) {
             int currentVertex = stack.peek();
 
-            if(adjacentIterators[currentVertex].hasNext()) {
+            if (adjacentIterators[currentVertex].hasNext()) {
                 int neighbor = adjacentIterators[currentVertex].next();
 
-                if(!visited[neighbor]) {
+                if (!visited[neighbor]) {
                     stack.push(neighbor);
                     visited[neighbor] = true;
                 }
             } else {
                 stack.pop();
 
-                if(getFinishTimes) {
+                if (getFinishTimes) {
                     finishTimes.push(currentVertex);
                 }
             }
@@ -201,7 +201,7 @@ public class StronglyConnectedComponents {
         for(int i = 1; i < adjacent.length; i++) {
             List<Integer> neighbors = adjacent[i];
 
-            if(neighbors != null) {
+            if (neighbors != null) {
                 for(int neighbor : adjacent[i]) {
                     inverseEdges[neighbor].add(i);
                 }
@@ -252,7 +252,7 @@ public class StronglyConnectedComponents {
             int currentComponent = sccId[vertexId];
 
             for(int neighbor : adjacent[vertexId]) {
-                if(currentComponent != sccId[neighbor]) {
+                if (currentComponent != sccId[neighbor]) {
                     adjacentComponents[currentComponent].add(sccId[neighbor]);
                 }
             }

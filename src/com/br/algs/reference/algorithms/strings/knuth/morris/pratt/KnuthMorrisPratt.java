@@ -1,47 +1,55 @@
-package com.br.algs.reference.algorithms.strings;
+package com.br.algs.reference.algorithms.strings.knuth.morris.pratt;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by Rene Argento on 25/02/18.
+ * Created by Rene Argento on 10/03/18.
  */
 // Runs in O(N + M)
-// Extra space: R * M
+// Extra space: N + M
 // Does not require backup in the input text
+
+// Based on https://algs4.cs.princeton.edu/53substring/KMPplus.java.html
 public class KnuthMorrisPratt {
 
     private String pattern;
-    private int[][] dfa;  // deterministic-finite-automaton
+    private int[] next; // prefix
 
     public KnuthMorrisPratt(String pattern) {
         if (pattern == null || pattern.length() == 0) {
             throw new IllegalArgumentException("Invalid pattern");
         }
 
-        // Build DFA from pattern
+        // Build NFA from pattern
         this.pattern = pattern;
-
         int patternLength = pattern.length();
-        int alphabetSize = 256;
 
-        dfa = new int[alphabetSize][patternLength];
-        dfa[pattern.charAt(0)][0] = 1;
+        next = new int[patternLength];
 
-        int restartState = 0;
+        int j = -1;
 
-        for (int patternIndex = 1; patternIndex < patternLength; patternIndex++) {
-            // Compute dfa[][patternIndex]
-            for (int currentChar = 0; currentChar < alphabetSize; currentChar++) {
-                dfa[currentChar][patternIndex] = dfa[currentChar][restartState]; // Copy mismatch cases
+        for (int patternIndex = 0; patternIndex < patternLength; patternIndex++) {
+            // Compute next[patternIndex]
+
+            if (patternIndex == 0) {
+                next[patternIndex] = -1;
+            } else if (pattern.charAt(patternIndex) != pattern.charAt(j)) {
+                next[patternIndex] = j;
+            } else {
+                next[patternIndex] = next[j];
             }
-            dfa[pattern.charAt(patternIndex)][patternIndex] = patternIndex + 1;  // Set match case
-            restartState = dfa[pattern.charAt(patternIndex)][restartState];      // Update restart state
+
+            while (j >= 0 && pattern.charAt(patternIndex) != pattern.charAt(j)) {
+                j = next[j];
+            }
+
+            j++;
         }
     }
 
     // Search for pattern in text.
-    // Returns the index of the first occurrence of the pattern string in the text string or textLength if no such match.
+    // Returns the index of the first occurrence of the pattern in the text or textLength if no such match.
     public int search(String text) {
         int textIndex;
         int patternIndex;
@@ -49,8 +57,12 @@ public class KnuthMorrisPratt {
         int patternLength = pattern.length();
 
         for (textIndex = 0, patternIndex = 0; textIndex < textLength && patternIndex < patternLength; textIndex++) {
-            patternIndex = dfa[text.charAt(textIndex)][patternIndex];
+            while (patternIndex >= 0 && text.charAt(textIndex) != pattern.charAt(patternIndex)) {
+                patternIndex = next[patternIndex];
+            }
+            patternIndex++;
         }
+
         if (patternIndex == patternLength) {
             return textIndex - patternLength; // found
         } else {
@@ -95,8 +107,12 @@ public class KnuthMorrisPratt {
 
         for (textIndex = textStartIndex, patternIndex = 0; textIndex < textLength && patternIndex < patternLength;
              textIndex++) {
-            patternIndex = dfa[text.charAt(textIndex)][patternIndex];
+            while (patternIndex >= 0 && text.charAt(textIndex) != pattern.charAt(patternIndex)) {
+                patternIndex = next[patternIndex];
+            }
+            patternIndex++;
         }
+
         if (patternIndex == patternLength) {
             return textIndex - patternLength; // found
         } else {

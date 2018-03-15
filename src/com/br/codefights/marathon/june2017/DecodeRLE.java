@@ -48,19 +48,19 @@ public class DecodeRLE {
     private static int decodeRLE(String code) {
         int count = 0;
 
-        for(int i=0; i < code.length(); i++) {
+        for(int i = 0; i < code.length(); i++) {
             String currentNumber = "";
 
             while(code.charAt(i) >= '0' && code.charAt(i) <= '9') {
                 currentNumber += code.charAt(i);
                 i++;
 
-                if(i == code.length()) {
+                if (i == code.length()) {
                     break;
                 }
             }
 
-            if(!currentNumber.equals("")) {
+            if (!currentNumber.equals("")) {
                 int currentValue = Integer.parseInt(currentNumber);
                 count += currentValue;
             }

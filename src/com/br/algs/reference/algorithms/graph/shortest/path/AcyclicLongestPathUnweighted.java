@@ -37,7 +37,7 @@ public class AcyclicLongestPathUnweighted {
         List<Integer> finishTimes = new ArrayList<>();
 
         for(int i = 0; i < visited.length; i++) {
-            if(!visited[i]) {
+            if (!visited[i]) {
                 depthFirstSearchToGetFinishTimes(i, adjacent, finishTimes, visited);
             }
         }
@@ -50,7 +50,7 @@ public class AcyclicLongestPathUnweighted {
         visited[sourceVertex] = true;
 
         for(int neighbor : adj[sourceVertex]) {
-            if(!visited[neighbor]) {
+            if (!visited[neighbor]) {
                 depthFirstSearchToGetFinishTimes(neighbor, adj, finishTimes, visited);
             }
         }
