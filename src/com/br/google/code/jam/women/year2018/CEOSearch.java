@@ -11,21 +11,20 @@ import java.util.*;
 /**
  * Created by Rene Argento on 17/02/18.
  */
-//TODO
 public class CEOSearch {
 
-    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women/2018/Input - Output/";
+    private static final String PATH = "/Users/rene/Desktop/";
 
-    private static final String FILE_INPUT_PATH = PATH + "ceo_search_input.txt";
-    private static final String FILE_OUTPUT_PATH = PATH + "ceo_search_output.txt";
+//    private static final String FILE_INPUT_PATH = PATH + "ceo_search_input.txt";
+//    private static final String FILE_OUTPUT_PATH = PATH + "ceo_search_output.txt";
 //    private static final String FILE_INPUT_PATH = PATH + "ceo_search_small_input.txt";
 //    private static final String FILE_OUTPUT_PATH = PATH + "ceo_search_small_output.txt";
-//    private static final String FILE_INPUT_PATH = PATH + "ceo_search_large_input.txt";
-//    private static final String FILE_OUTPUT_PATH = PATH + "ceo_search_large_output.txt";
+    private static final String FILE_INPUT_PATH = PATH + "ceo_search_large_input.txt";
+    private static final String FILE_OUTPUT_PATH = PATH + "ceo_search_large_output.txt";
 
     public static void main(String[] args) {
-        test();
-        // compete();
+        // test();
+        compete();
     }
 
     private static void compete() {
@@ -42,8 +41,8 @@ public class CEOSearch {
             for(int i = 1; i <= experiences; i++) {
                 String[] values = input.get(l + i).split(" ");
 
-                int experience = Integer.parseInt(values[0]);
-                BigInteger employeeNumber = new BigInteger(values[1]);
+                BigInteger employeeNumber = new BigInteger(values[0]);
+                BigInteger experience = new BigInteger(values[1]);
 
                 employees[i - 1] = new Employee(employeeNumber, experience);
             }
@@ -59,106 +58,82 @@ public class CEOSearch {
 
     private static void test() {
         Employee[] employees1 = new Employee[3];
-        employees1[0] = new Employee(BigInteger.valueOf(2), 0);
-        employees1[1] = new Employee(BigInteger.valueOf(2), 2);
-        employees1[2] = new Employee(BigInteger.valueOf(1), 3);
+        employees1[0] = new Employee(BigInteger.valueOf(2), BigInteger.valueOf(0));
+        employees1[1] = new Employee(BigInteger.valueOf(2), BigInteger.valueOf(2));
+        employees1[2] = new Employee(BigInteger.valueOf(1), BigInteger.valueOf(3));
 
         Employee[] employees2 = new Employee[1];
-        employees2[0] = new Employee(BigInteger.valueOf(5), 0);
+        employees2[0] = new Employee(BigInteger.valueOf(5), BigInteger.valueOf(0));
 
         Employee[] employees3 = new Employee[3];
-        employees3[0] = new Employee(BigInteger.valueOf(4), 0);
-        employees3[1] = new Employee(BigInteger.valueOf(3), 1);
-        employees3[2] = new Employee(BigInteger.valueOf(1), 2);
+        employees3[0] = new Employee(BigInteger.valueOf(4), BigInteger.valueOf(0));
+        employees3[1] = new Employee(BigInteger.valueOf(3), BigInteger.valueOf(1));
+        employees3[2] = new Employee(BigInteger.valueOf(1), BigInteger.valueOf(2));
+
+        Employee[] employees4 = new Employee[2];
+        employees4[0] = new Employee(BigInteger.valueOf(6), BigInteger.valueOf(1));
+        employees4[1] = new Employee(BigInteger.valueOf(1), BigInteger.valueOf(2));
 
         System.out.println(getCEOExperience(employees1) + " Expected: 4");
         System.out.println(getCEOExperience(employees2) + " Expected: 5");
-        System.out.println(getCEOExperience(employees3) + " Expected: ?");
+        System.out.println(getCEOExperience(employees3) + " Expected: 3");
+        System.out.println(getCEOExperience(employees4) + " Expected: 5");
     }
 
     public static class Employee implements Comparable<Employee> {
         BigInteger number;
-        int experience;
-        BigInteger managing;
+        BigInteger experience;
 
-        Employee(BigInteger number, int experience) {
+        Employee(BigInteger number, BigInteger experience) {
             this.number = number;
             this.experience = experience;
-            managing = BigInteger.valueOf(experience);
         }
 
         @Override
         public int compareTo(Employee other) {
-            return this.experience - other.experience;
+            if (this.experience.compareTo(other.experience) > 0) {
+                return -1;
+            } else if (this.experience.compareTo(other.experience) < 0) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
     private static BigInteger getCEOExperience(Employee[] employees) {
-        Arrays.sort(employees);
-        PriorityQueue<Employee> heap = new PriorityQueue<>(new Comparator<Employee>() {
-            @Override
-            public int compare(Employee employee1, Employee employee2) {
-                return employee2.experience - employee1.experience;
-            }
-        });
-        heap.offer(employees[0]);
 
-        int maxExperience = 0;
+        BigInteger slotsToManage = BigInteger.ZERO;
 
-        for(int i = 1; i < employees.length; i++) {
-            Employee currentEmployee = employees[i];
-            Employee employeeInHeap = heap.peek();
-
-            if (currentEmployee.experience > maxExperience) {
-                maxExperience = currentEmployee.experience;
-            }
-
-            int compare = currentEmployee.managing.compareTo(employeeInHeap.number);
+        for (int i = 1; i < employees.length; i++) {
+            BigInteger slots = employees[i].experience.multiply(employees[i].number);
+            BigInteger difference = slots.subtract(employees[i - 1].number);
+            int compare = difference.compareTo(BigInteger.ZERO);
 
             if (compare == 0) {
-                heap.poll();
+                continue;
             } else if (compare > 0) {
-                heap.poll();
-
-                BigInteger managersLeft = currentEmployee.managing.subtract(employeeInHeap.number);
-
-                while (!heap.isEmpty() && managersLeft.compareTo(BigInteger.ZERO) > 0) {
-                    Employee nextEmployeeInHeap = heap.peek();
-
-                    BigInteger managing = managersLeft.subtract(nextEmployeeInHeap.number);
-
-                    if (managing.compareTo(BigInteger.ZERO) < 0) {
-                        nextEmployeeInHeap.number = nextEmployeeInHeap.number.subtract(managersLeft);
-                        managersLeft = BigInteger.ZERO;
-                    } else {
-                        heap.poll();
-                        managersLeft = managing;
-                    }
+                if (difference.compareTo(slotsToManage) >= 0) {
+                    slotsToManage = BigInteger.ZERO;
+                } else {
+                    slotsToManage = slotsToManage.subtract(difference);
                 }
             } else {
-                employeeInHeap.number = employeeInHeap.number.subtract(currentEmployee.number);
+                BigInteger differenceNegated = difference.negate();
+                slotsToManage = slotsToManage.add(differenceNegated);
             }
-
-            heap.offer(currentEmployee);
         }
 
-        BigInteger employeesNeedingManagers = BigInteger.ZERO;
+        slotsToManage = slotsToManage.add(employees[employees.length - 1].number);
 
-        while (!heap.isEmpty()) {
-            Employee employee = heap.poll();
-            employeesNeedingManagers = employeesNeedingManagers.add(employee.number);
-        }
+        BigInteger maxExperienePlusOne = employees[employees.length - 1].experience;
+        maxExperienePlusOne = maxExperienePlusOne.add(BigInteger.ONE);
 
-        BigInteger ceoLevel;
-        long maxExperienceNeeded = maxExperience + 1;
-
-        if (employeesNeedingManagers.compareTo(BigInteger.valueOf(maxExperienceNeeded)) > 0) {
-            ceoLevel = employeesNeedingManagers;
+        if (slotsToManage.compareTo(maxExperienePlusOne) >= 0) {
+            return slotsToManage;
         } else {
-            ceoLevel = BigInteger.valueOf(maxExperienceNeeded);
+            return maxExperienePlusOne;
         }
-
-        return ceoLevel;
     }
 
     private static List<String> readFileInput(String filePath) {
