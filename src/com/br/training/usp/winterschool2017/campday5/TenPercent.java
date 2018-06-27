@@ -66,8 +66,8 @@ public class TenPercent {
             values[i] = FastReader.nextInt();
         }
 
-        int querieCount = FastReader.nextInt();
-        Query[] queries = new Query[querieCount];
+        int queriesCount = FastReader.nextInt();
+        Query[] queries = new Query[queriesCount];
 
         for(int i = 0; i < queries.length; i++) {
             long value = FastReader.nextInt();

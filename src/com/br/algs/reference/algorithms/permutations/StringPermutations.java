@@ -8,6 +8,16 @@ import java.util.List;
  */
 public class StringPermutations {
 
+    public static void main(String[] args) {
+        List<String> permutations = new ArrayList<>();
+
+        stringPermutation("caa", permutations);
+
+        for (String permutation : permutations) {
+            System.out.println(permutation);
+        }
+    }
+
     //String
     private static void stringPermutation(String string, List<String> combinations) {
         stringPermutation("", string, combinations);

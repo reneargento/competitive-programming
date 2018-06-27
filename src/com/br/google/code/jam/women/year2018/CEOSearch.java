@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class CEOSearch {
 
-    private static final String PATH = "/Users/rene/Desktop/";
+    private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Google Code Jam/Women/2018/Input - Output/";
 
 //    private static final String FILE_INPUT_PATH = PATH + "ceo_search_input.txt";
 //    private static final String FILE_OUTPUT_PATH = PATH + "ceo_search_output.txt";
