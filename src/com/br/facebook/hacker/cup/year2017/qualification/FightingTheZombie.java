@@ -96,7 +96,7 @@ public class FightingTheZombie {
     private static final String PATH = "/Users/rene/Desktop/Algorithms/Competitions/Facebook Hacker Cup/2017/Qualification/Input - Output/";
 
     private static final String FILE_INPUT_PATH = PATH + "fighting_the_zombie_example_input.txt";
-    private static final String FILE_OUTPUT_PATH = "/Users/rene/Desktop/teste.txt";//PATH + "fighting_the_zombie_output.txt";
+    private static final String FILE_OUTPUT_PATH = PATH + "fighting_the_zombie_output.txt";
 
     //private static final String FILE_INPUT_PATH = PATH + "fighting_the_zombie_input.txt";
     //private static final String FILE_OUTPUT_PATH = PATH + "fighting_the_zombie_output_submission.txt";
