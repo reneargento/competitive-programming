@@ -21,7 +21,7 @@ public class NextPermutation {
 
     // Modifies a permutation to the next permutation (lexicographically greater) or returns null if such permutation
     // does not exist
-    private static Comparable[] nextPermutation(final Comparable[] permutation) {
+    public static Comparable[] nextPermutation(final Comparable[] permutation) {
         // 1. Find the largest k, such that permutation[k] < permutation[k+1]
         int first = getFirstIndexToSwap(permutation);
 
