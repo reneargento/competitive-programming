@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.shortest.path;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class CountShortestPaths {
 
         visited[source] = true;
 
-        while (queue.size() > 0) {
+        while (!queue.isEmpty()) {
             int currentVertex = queue.poll();
 
             for(int neighbor : adjacent[currentVertex]) {
