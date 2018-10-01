@@ -1,5 +1,7 @@
 package com.br.algs.reference.algorithms.strings.suffix.array;
 
+import java.util.*;
+
 /**
  * Created by Rene Argento on 15/09/18.
  */
@@ -77,6 +79,80 @@ public class LongestRepeatedSubstring {
         }
 
         throw new IllegalStateException("All characters appear in both texts");
+    }
+
+    // Finds the longest substring that is repeated k or more times.
+    // Runtime complexity: O(N * k)
+    public String longestRepeatedSubstring(String string, int k) {
+        if (string == null) {
+            throw new IllegalArgumentException("String cannot be null");
+        }
+
+        if (string.length() == 0) {
+            return "";
+        }
+
+        if (k == 0) {
+            return string;
+        }
+
+        int longestSubstringSuffixIndex = 0;
+        int maxLength = 0;
+
+        SuffixArrayLinearTime suffixArray = new SuffixArrayLinearTime(string);
+        int[] lcp = new KasaiAlgorithm().buildLCPArray(suffixArray.getSuffixes(), string);
+
+        for (int i = 0; i < string.length(); i++) {
+            int currentIndex = i;
+            int currentMinLength = lcp[i];
+
+            while (currentIndex <= i + k - 1 && currentIndex < string.length()) {
+                if (lcp[currentIndex] < currentMinLength) {
+                    currentMinLength = lcp[currentIndex];
+                }
+
+                currentIndex++;
+            }
+
+            if (currentIndex == i + k && currentMinLength > maxLength) {
+                maxLength = currentMinLength;
+                longestSubstringSuffixIndex = i;
+            }
+        }
+
+        return suffixArray.select(longestSubstringSuffixIndex).substring(0, maxLength);
+    }
+
+    // Finds all repeated substrings of size equal or higher to minimumLength.
+    // Runtime complexity of O(N^2)
+    public List<String> getAllRepeatedSubstringsOfMinimumLength(String string, int minimumLength) {
+        if (string == null) {
+            throw new IllegalArgumentException("String cannot be null");
+        }
+
+        if (string.length() == 0) {
+            return new ArrayList<>();
+        }
+
+        SuffixArrayLinearTime suffixArray = new SuffixArrayLinearTime(string);
+        int[] lcp = new KasaiAlgorithm().buildLCPArray(suffixArray.getSuffixes(), string);
+
+        Set<String> substrings = new HashSet<>();
+
+        for (int i = 0; i < lcp.length; i++) {
+            // Small optimization to avoid processing the same substrings
+            if (i > 0 && lcp[i] == lcp[i - 1]) {
+                continue;
+            }
+
+            if (lcp[i] >= minimumLength) {
+                substrings.add(suffixArray.select(i).substring(0, lcp[i]));
+            }
+        }
+
+        List<String> substringsList = new ArrayList<>(substrings);
+        Collections.sort(substringsList);
+        return substringsList;
     }
 
 }

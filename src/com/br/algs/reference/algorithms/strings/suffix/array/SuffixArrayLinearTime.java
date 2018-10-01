@@ -46,6 +46,11 @@ public class SuffixArrayLinearTime {
         int length = text.length();
         suffixes = new Suffix[length];
 
+        if (length == 1) {
+            suffixes[0] = new Suffix(text, 0);
+            return;
+        }
+
         for (int i = 0; i < text.length(); i++) {
             input[i] = text.charAt(i);
         }
@@ -324,6 +329,17 @@ public class SuffixArrayLinearTime {
         }
 
         return suffixesArray;
+    }
+
+    // Direct access to a suffix character in O(1).
+    // This method is useful when we need to check specific characters of the suffix in constant time (instead of
+    // getting the entire suffix first with select() in O(N)).
+    public char getSuffixCharAt(int suffixIndex, int charIndex) {
+        if (suffixIndex < 0 || suffixIndex >= suffixes.length) {
+            throw new IllegalArgumentException("Suffix index must be between 0 and " + (suffixes.length - 1));
+        }
+
+        return suffixes[suffixIndex].charAt(charIndex);
     }
 
     public static void main(String[] args) {

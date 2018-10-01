@@ -1,94 +1,74 @@
 package com.br.algs.reference.algorithms.graph.network.flow;
 
 /**
- * Created by rene on 20/10/17.
+ * Created by Rene Argento on 30/09/18.
  */
 
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Edmonds–Karp algorithm is an implementation of the Ford–Fulkerson method for
- * computing the maximum flow in a flow network. Complexity O(V * E^2) time.
+ * Edmonds–Karp algorithm implementation for the Ford–Fulkerson method for computing the maximum flow in a flow network.
+ * Runtime O(V * E^2) time
  */
 public class EdmondsKarp {
 
-    private long[][] flow; //max flow between i and j vertices
-    private long[][] capacity; // edge capacity
-    private int[] parent; //parent
-    private boolean[] visited; //just for checking if visited
+    private boolean[] visited;  // Is s -> v path in residual graph?
+    private FlowEdge[] edgeTo;  // Last edge on shortest s -> v path
+    private double maxFlowValue;
 
-    private int verticesNumber;
+    public EdmondsKarp(FlowNetwork flowNetwork, int source, int target) {
+        // Find max flow in flowNetwork from source to target
+        while (hasAugmentingPath(flowNetwork, source, target)) {
+            // Compute bottleneck capacity
+            double bottleneck = Double.POSITIVE_INFINITY;
 
-    public EdmondsKarp(int vertices) {
-        this.verticesNumber = vertices;
-
-        this.flow = new long[verticesNumber][verticesNumber];
-        this.capacity = new long[verticesNumber][verticesNumber];
-        this.parent = new int[verticesNumber];
-        this.visited = new boolean[verticesNumber];
-    }
-
-    public void addEdge(int from, int to, long capacity) {
-        if (capacity < 0) {
-            throw new IllegalArgumentException("Capacity must be equal or higher than 0");
-        }
-
-        this.capacity[from][to] += capacity;
-    }
-
-    public long getMaxFlow(int source, int target) {
-        while (true) {
-            final Queue<Integer> queue = new ArrayDeque<>();
-            queue.add(source);
-
-            for (int i = 0; i < this.verticesNumber; ++i) {
-                visited[i] = false;
+            for (int vertex = target; vertex != source; vertex = edgeTo[vertex].other(vertex)) {
+                bottleneck = Math.min(bottleneck, edgeTo[vertex].residualCapacityTo(vertex));
             }
 
-            visited[source] = true;
+            // Augment flow
+            for (int vertex = target; vertex != source; vertex = edgeTo[vertex].other(vertex)) {
+                edgeTo[vertex].addResidualFlowTo(vertex, bottleneck);
+            }
 
-            boolean check = false;
-            int current;
+            maxFlowValue += bottleneck;
+        }
+    }
 
-            while (!queue.isEmpty()) {
-                current = queue.peek();
-                if (current == target) {
-                    check = true;
-                    break;
-                }
+    private boolean hasAugmentingPath(FlowNetwork flowNetwork, int source, int target) {
+        visited = new boolean[flowNetwork.vertices()];
+        edgeTo = new FlowEdge[flowNetwork.vertices()];
 
-                queue.remove();
+        Queue<Integer> queue = new LinkedList<>();
 
-                for (int i = 0; i < verticesNumber; ++i) {
-                    if (!visited[i] && capacity[current][i] > flow[current][i]) {
-                        visited[i] = true;
-                        queue.add(i);
-                        parent[i] = current;
-                    }
+        visited[source] = true;
+        queue.offer(source);
+
+        while (!queue.isEmpty() && !visited[target]) {
+            int vertex = queue.poll();
+
+            for (FlowEdge edge : flowNetwork.adjacent(vertex)) {
+                int neighbor = edge.other(vertex);
+
+                if (edge.residualCapacityTo(neighbor) > 0 && !visited[neighbor]) {
+                    edgeTo[neighbor] = edge;
+                    visited[neighbor] = true;
+                    queue.offer(neighbor);
                 }
             }
-            if (!check) {
-                break;
-            }
-
-            long temp = capacity[parent[target]][target] - flow[parent[target]][target];
-
-            for (int i = target; i != source; i = parent[i]) {
-                temp = Math.min(temp, (capacity[parent[i]][i] - flow[parent[i]][i]));
-            }
-
-            for (int i = target; i != source; i = parent[i]) {
-                flow[parent[i]][i] += temp;
-                flow[i][parent[i]] -= temp;
-            }
         }
 
-        long result = 0;
-        for (int i = 0; i < verticesNumber; ++i) {
-            result += flow[source][i];
-        }
-
-        return result;
+        return visited[target];
     }
+
+    public double maxFlowValue() {
+        return maxFlowValue;
+    }
+
+    // Returns true if the vertex is on the source side of the min cut
+    public boolean inCut(int vertex) {
+        return visited[vertex];
+    }
+
 }
