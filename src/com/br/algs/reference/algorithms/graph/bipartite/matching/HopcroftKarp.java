@@ -4,8 +4,13 @@ import com.br.algs.reference.datastructures.Graph;
 
 import java.util.*;
 
-// Maximum bipartite matching
+/**
+ * Created by Rene Argento on 07/02/18.
+ */
+
+// Finds a maximum cardinality matching (and minimum cardinality vertex cover) in a bipartite graph.
 // O(E * sqrt(V))
+// Based on https://algs4.cs.princeton.edu/65reductions/HopcroftKarp.java.html
 @SuppressWarnings("unchecked")
 public class HopcroftKarp {
     private static final int UNMATCHED = -1;
@@ -20,8 +25,7 @@ public class HopcroftKarp {
     private int[] distTo;                // distTo[v] = number of edges on shortest path to v
 
     /**
-     * Determines a maximum matching (and a minimum vertex cover)
-     * in a bipartite graph.
+     * Determines a maximum matching (and a minimum vertex cover) in a bipartite graph.
      *
      * @param graph the bipartite graph
      * @throws IllegalArgumentException if {@code graph} is not bipartite
@@ -32,14 +36,14 @@ public class HopcroftKarp {
             throw new IllegalArgumentException("graph is not bipartite");
         }
 
-        // initialize empty matching
+        // Initialize empty matching
         this.vertices = graph.vertices();
         mate = new int[vertices];
         for (int vertex = 0; vertex < vertices; vertex++) {
             mate[vertex] = UNMATCHED;
         }
 
-        // the call to hasAugmentingPath() provides enough info to reconstruct level graph
+        // The call to hasAugmentingPath() provides enough information to reconstruct level graph
         while (hasAugmentingPath(graph)) {
 
             // to be able to iterate over each adjacency list, keeping track of which
@@ -49,32 +53,32 @@ public class HopcroftKarp {
                 adjacent[vertex] = graph.adjacent(vertex).iterator();
             }
 
-            // for each unmatched vertex source on one side of bipartition
+            // For each unmatched vertex source on one side of bipartition
             for (int source = 0; source < vertices; source++) {
                 if (isMatched(source) || !bipartition.color(source)) {
                     continue;   // or use distTo[source] == 0
                 }
 
-                // find augmenting path from source using nonrecursive DFS
+                // Find augmenting path from source using nonrecursive DFS
                 Deque<Integer> path = new ArrayDeque<Integer>();
                 path.push(source);
                 while (!path.isEmpty()) {
                     int vertex = path.peek();
 
-                    // retreat, no more edges in level graph leaving vertex
+                    // Retreat, no more edges in level graph leaving vertex
                     if (!adjacent[vertex].hasNext()) {
                         path.pop();
-                    } else { // advance
-                        // process edge vertex-w only if it is an edge in level graph
+                    } else { // Advance
+                        // Process edge vertex-w only if it is an edge in level graph
                         int w = adjacent[vertex].next();
                         if (!isLevelGraphEdge(vertex, w)) {
                             continue;
                         }
 
-                        // add w to augmenting path
+                        // Add w to augmenting path
                         path.push(w);
 
-                        // augmenting path found: update the matching
+                        // Augmenting path found: update the matching
                         if (!isMatched(w)) {
                             // StdOut.println("augmenting path: " + toString(path));
 
@@ -91,7 +95,7 @@ public class HopcroftKarp {
             }
         }
 
-        // also find a min vertex cover
+        // Also find a min vertex cover
         inMinVertexCover = new boolean[vertices];
         for (int vertex = 0; vertex < vertices; vertex++) {
             if (bipartition.color(vertex) && !marked[vertex]) {
@@ -103,7 +107,7 @@ public class HopcroftKarp {
         }
     }
 
-    // string representation of augmenting path (chop off last vertex)
+    // String representation of augmenting path (chop off last vertex)
     private String toString(Iterable<Integer> path) {
         StringBuilder stringBuilder = new StringBuilder();
         for (int vertex : path) {
@@ -115,12 +119,12 @@ public class HopcroftKarp {
         return string;
     }
 
-    // is the edge vertex1-vertex2 in the level graph?
+    // Is the edge vertex1-vertex2 in the level graph?
     private boolean isLevelGraphEdge(int vertex1, int vertex2) {
         return (distTo[vertex2] == distTo[vertex1] + 1) && isResidualGraphEdge(vertex1, vertex2);
     }
 
-    // is the edge vertex1-vertex2 a forward edge not in the matching or a reverse edge in the matching?
+    // Is the edge vertex1-vertex2 a forward edge not in the matching or a reverse edge in the matching?
     private boolean isResidualGraphEdge(int vertex1, int vertex2) {
         if ((mate[vertex1] != vertex2) && bipartition.color(vertex1)) {
             return true;
@@ -132,26 +136,26 @@ public class HopcroftKarp {
     }
 
     /*
-     * is there an augmenting path?
+     * Is there an augmenting path?
      *   - if so, upon termination adj[] contains the level graph;
      *   - if not, upon termination marked[] specifies those vertices reachable via an alternating
      *     path from one side of the bipartition
      *
-     * an alternating path is a path whose edges belong alternately to the matching and not
-     * to the matching
+     * An alternating path is a path whose edges belong alternately to the matching and not
+     * to the matching.
      *
-     * an augmenting path is an alternating path that starts and ends at unmatched vertices
+     * An augmenting path is an alternating path that starts and ends at unmatched vertices.
      */
     private boolean hasAugmentingPath(Graph graph) {
 
-        // shortest path distances
+        // Shortest path distances
         marked = new boolean[vertices];
         distTo = new int[vertices];
         for (int vertex = 0; vertex < vertices; vertex++) {
             distTo[vertex] = Integer.MAX_VALUE;
         }
 
-        // breadth-first search (starting from all unmatched vertices on one side of bipartition)
+        // Breadth-first search (starting from all unmatched vertices on one side of bipartition)
         Queue<Integer> queue = new LinkedList<>();
         for (int vertex = 0; vertex < vertices; vertex++) {
             if (bipartition.color(vertex) && !isMatched(vertex)) {
@@ -161,7 +165,7 @@ public class HopcroftKarp {
             }
         }
 
-        // run BFS until an augmenting path is found
+        // Run BFS until an augmenting path is found
         // (and keep going until all vertices at that distance are explored)
         boolean hasAugmentingPath = false;
 
@@ -169,7 +173,7 @@ public class HopcroftKarp {
             int vertex = queue.poll();
             for (int neighbor : graph.adjacent(vertex)) {
 
-                // forward edge not in matching or backwards edge in matching
+                // Forward edge not in matching or backwards edge in matching
                 if (isResidualGraphEdge(vertex, neighbor)) {
                     if (!marked[neighbor]) {
                         distTo[neighbor] = distTo[vertex] + 1;
@@ -178,7 +182,7 @@ public class HopcroftKarp {
                             hasAugmentingPath = true;
                         }
 
-                        // stop enqueuing vertices once an alternating path has been discovered
+                        // Stop enqueuing vertices once an alternating path has been discovered
                         // (no vertex on same side will be marked if its shortest path distance longer)
                         if (!hasAugmentingPath) {
                             queue.offer(neighbor);
