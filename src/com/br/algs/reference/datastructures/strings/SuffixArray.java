@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.strings.suffix.array;
+package com.br.algs.reference.datastructures.strings;
 
 import java.util.Arrays;
 

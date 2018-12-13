@@ -1,5 +1,7 @@
 package com.br.algs.reference.algorithms.strings.suffix.array;
 
+import com.br.algs.reference.datastructures.strings.SuffixArray;
+
 import java.util.ArrayList;
 import java.util.List;
 

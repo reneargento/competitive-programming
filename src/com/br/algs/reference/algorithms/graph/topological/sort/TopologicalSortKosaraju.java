@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms.graph;
+package com.br.algs.reference.algorithms.graph.topological.sort;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.*;
  * Created by rene on 01/09/17.
  */
 @SuppressWarnings("unchecked")
-public class TopologicalSort {
+public class TopologicalSortKosaraju {
 
     private static class FastReader {
 

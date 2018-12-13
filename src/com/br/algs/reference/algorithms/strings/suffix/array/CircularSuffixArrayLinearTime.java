@@ -1,5 +1,7 @@
 package com.br.algs.reference.algorithms.strings.suffix.array;
 
+import com.br.algs.reference.datastructures.strings.SuffixArrayLinearTime;
+
 /**
  * Created by Rene Argento on 16/09/18.
  */
