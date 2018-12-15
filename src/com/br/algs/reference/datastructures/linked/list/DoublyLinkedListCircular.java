@@ -1,6 +1,8 @@
 package com.br.algs.reference.datastructures.linked.list;
 
 import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * Created by Rene Argento on 12/04/18.
@@ -341,6 +343,37 @@ public class DoublyLinkedListCircular<Item> implements Iterable<Item> {
         removeItemWithNode(currentNode);
 
         return item;
+    }
+
+    public List<Item> getLastXItems(int items) {
+        if (size() < items) {
+            return null;
+        }
+
+        Stack<Item> stack = new Stack<>();
+        DoubleNode current = last;
+
+        stack.push(current.item);
+
+        int count = 0;
+        while (count < items - 1) {
+            current = current.previous;
+            stack.push(current.item);
+            count++;
+        }
+
+        return stack;
+    }
+
+    public DoubleNode getNode(DoubleNode node, int indexesToMove) {
+        int moved = 0;
+
+        while (moved < indexesToMove){
+            node = node.next;
+            moved++;
+        }
+
+        return node;
     }
 
     @Override

@@ -26,6 +26,7 @@ public class LongestRepeatedSubstring {
         return text.substring(suffixArray.index(targetSuffixIndex), suffixArray.index(targetSuffixIndex) + highestLCPLength);
     }
 
+    // Longest common substring
     public String longestRepeatedSubstringIn2Sources(String text1, String text2) {
         char inexistentCharacter = getInexistentCharacter(text1, text2);
         String mergedTexts = text1 + inexistentCharacter + text2;

@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms;
+package com.br.algs.reference.algorithms.general;
 
 import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;

@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms;
+package com.br.algs.reference.algorithms.general;
 
 /**
  * Created by rene on 09/09/17.

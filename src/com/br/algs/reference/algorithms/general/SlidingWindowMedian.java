@@ -1,4 +1,4 @@
-package com.br.algs.reference.algorithms;
+package com.br.algs.reference.algorithms.general;
 
 import java.util.TreeMap;
 
@@ -7,22 +7,22 @@ import java.util.TreeMap;
  */
 public class SlidingWindowMedian {
 
-    //Get highest median in the array
+    // Get highest median in the array
     private static int highestMedianSlidingWindow(int[] array, int k) {
         int median = 0;
         int bestMedian = 0;
 
         boolean useBothValues = k % 2 == 0;
 
-        //Max-orientation
+        // Max-orientation
         TreeMap<Integer, Integer> small = new TreeMap<>((a, b)-> (int)((double)b-a));
         int smallSize = 0;
 
-        //Min-orientation
+        // Min-orientation
         TreeMap<Integer, Integer> big = new TreeMap<>();
         int bigSize = 0;
 
-        for(int i = 0; i < array.length; i++){
+        for (int i = 0; i < array.length; i++){
             //Remove old element
             if (smallSize + bigSize == k){
                 if (array[i-k] <= small.firstKey()){
@@ -69,9 +69,9 @@ public class SlidingWindowMedian {
         return bestMedian;
     }
 
-    //Methods used to handle duplicates in the trees
+    // Methods used to handle duplicates in the trees
     private static int remove(TreeMap<Integer, Integer> map, int valueToRemove){
-        //Decrease its quantity in the map
+        // Decrease its quantity in the map
         map.put(valueToRemove, map.get(valueToRemove) - 1);
 
         if (map.get(valueToRemove) == 0) {
