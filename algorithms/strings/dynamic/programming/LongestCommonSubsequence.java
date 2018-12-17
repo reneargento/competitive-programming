@@ -26,7 +26,7 @@ public class LongestCommonSubsequence {
 
     private static int dp[][];
 
-    private static int longestCommonSubsequence(String sequence1, String sequence2) {
+    private static int longestCommonSubsequenceLength(String sequence1, String sequence2) {
         if(sequence1 == null || sequence2 == null) {
             return 0;
         }
@@ -47,7 +47,7 @@ public class LongestCommonSubsequence {
         return dp[sequence1.length()][sequence2.length()];
     }
 
-    private static void printSubsequence(int[][] dp, String sequence1, String sequence2) {
+    private static String longestCommonSubsequence(int[][] dp, String sequence1, String sequence2) {
         Stack<Character> stack = new Stack<>();
 
         int i = sequence1.length();
@@ -68,11 +68,11 @@ public class LongestCommonSubsequence {
             }
         }
 
-        System.out.println("Subsequence found: ");
+        StringBuilder longestCommonSubsequence = new StringBuilder();
         while (!stack.isEmpty()) {
-            System.out.print(stack.pop());
+            longestCommonSubsequence.append(stack.pop());
         }
-        System.out.println();
+        return longestCommonSubsequence.toString();
     }
 
     // Print all LCSs
@@ -125,28 +125,28 @@ public class LongestCommonSubsequence {
         String sequence1 = "ABCDGH";
         String sequence2 = "AEDFHR";
 
-        int longestSubsequence1 = longestCommonSubsequence(sequence1, sequence2);
-        System.out.println("Longest subsequence 1: " + longestSubsequence1 + " Expected: 3\n");
+        int longestSubsequence1Length = longestCommonSubsequenceLength(sequence1, sequence2);
+        System.out.println("Longest subsequence length: " + longestSubsequence1Length + " Expected: 3");
 
-        printSubsequence(dp, sequence1, sequence2);
-        System.out.println("Expected sequence: ADH\n");
+        String longestSubsequence1 = longestCommonSubsequence(dp, sequence1, sequence2);
+        System.out.println("LCS: " + longestSubsequence1 + " Expected: ADH\n");
 
 
         String sequence3 = "AGGTAB";
         String sequence4 = "GXTXAYB";
 
-        int longestSubsequence2 = longestCommonSubsequence(sequence3, sequence4);
-        System.out.println("Longest subsequence 2: " + longestSubsequence2 + " Expected: 4\n");
+        int longestSubsequence2Length = longestCommonSubsequenceLength(sequence3, sequence4);
+        System.out.println("Longest subsequence length: " + longestSubsequence2Length + " Expected: 4");
 
-        printSubsequence(dp, sequence3, sequence4);
-        System.out.println("Expected sequence: GTAB\n");
+        String longestCommonSubsequence2 = longestCommonSubsequence(dp, sequence3, sequence4);
+        System.out.println("LCS: " + longestCommonSubsequence2 + " Expected: GTAB\n");
 
 
         // Print all LCS
         String sequence5 = "AGTGATG";
         String sequence6 = "GTTAG";
 
-        longestCommonSubsequence(sequence5, sequence6);
+        longestCommonSubsequenceLength(sequence5, sequence6);
         Set<String> allLongestSubsequences = getAllLCS(sequence5, sequence6);
 
         System.out.println("All longest subsequences:");
