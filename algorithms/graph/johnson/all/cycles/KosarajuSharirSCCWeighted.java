@@ -1,7 +1,7 @@
 package algorithms.graph.johnson.all.cycles;
 
-import datastructures.DirectedEdge;
-import datastructures.EdgeWeightedDigraph;
+import datastructures.graph.DirectedEdge;
+import datastructures.graph.EdgeWeightedDigraph;
 
 import java.util.ArrayList;
 import java.util.List;

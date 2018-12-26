@@ -1,6 +1,6 @@
 package algorithms.graph.bipartite.matching;
 
-import datastructures.Graph;
+import datastructures.graph.Graph;
 
 import java.util.*;
 

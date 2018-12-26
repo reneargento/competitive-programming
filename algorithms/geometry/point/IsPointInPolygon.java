@@ -1,4 +1,4 @@
-package algorithms.geometry;
+package algorithms.geometry.point;
 
 import java.awt.*;
 

@@ -1,12 +1,10 @@
 package algorithms.graph.cycle.detection;
 
-import datastructures.DirectedEdge;
-import datastructures.EdgeWeightedDigraph;
+import datastructures.graph.DirectedEdge;
+import datastructures.graph.EdgeWeightedDigraph;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.List;
-import java.util.Stack;
 
 /**
  * Created by rene on 28/11/17.

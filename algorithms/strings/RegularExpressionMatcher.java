@@ -1,6 +1,6 @@
 package algorithms.strings;
 
-import datastructures.Digraph;
+import datastructures.graph.Digraph;
 
 import java.util.*;
 

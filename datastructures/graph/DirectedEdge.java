@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.graph;
 
 /**
  * Created by rene on 09/12/17.

@@ -23,7 +23,7 @@ public class GrahamScan {
             return Arrays.asList(points);
         }
 
-        //Find the lowest point in the plane. If there are multiple lowest points then pick the leftmost one.
+        // Find the lowest point in the plane. If there are multiple lowest points then pick the leftmost one.
         Point start = points[0];
         for (int i = 1; i < points.length; i++) {
             if (start.y > points[i].y) {
@@ -65,27 +65,29 @@ public class GrahamScan {
                     return 1;
                 }
 
-                int cp = crossProduct(start, p1, p2);
-                if (cp == 0) {
+                int crossProduct = crossProduct(start, p1, p2);
+                if (crossProduct == 0) {
                     return distance(start, p1, p2);
                 } else {
-                    return -cp;
+                    return -crossProduct;
                 }
             }
         });
 
         // Make sure last collinear points are in reverse order of distance.
-        Point p = points[0], q = points[points.length - 1];
+        Point p = points[0];
+        Point q = points[points.length - 1];
         int i = points.length - 2;
+
         while (i >= 0 && crossProduct(p, q, points[i]) == 0) {
             i--;
         }
 
         // reverse sort order of collinear points in the end positions
         for (int l = i + 1, h = points.length - 1; l < h; l++, h--) {
-            Point tmp = points[l];
+            Point temp = points[l];
             points[l] = points[h];
-            points[h] = tmp;
+            points[h] = temp;
         }
     }
 

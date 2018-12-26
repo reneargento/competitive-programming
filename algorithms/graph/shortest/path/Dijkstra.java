@@ -1,7 +1,7 @@
 package algorithms.graph.shortest.path;
 
-import datastructures.DirectedEdge;
-import datastructures.EdgeWeightedDigraph;
+import datastructures.graph.DirectedEdge;
+import datastructures.graph.EdgeWeightedDigraph;
 import datastructures.priority.queue.IndexMinPriorityQueue;
 
 import java.util.ArrayDeque;

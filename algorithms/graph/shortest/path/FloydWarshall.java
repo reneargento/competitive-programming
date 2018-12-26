@@ -1,8 +1,8 @@
 package algorithms.graph.shortest.path;
 
 import algorithms.graph.cycle.detection.EdgeWeightedDirectedCycle;
-import datastructures.DirectedEdge;
-import datastructures.EdgeWeightedDigraph;
+import datastructures.graph.DirectedEdge;
+import datastructures.graph.EdgeWeightedDigraph;
 
 import java.util.ArrayDeque;
 import java.util.Deque;

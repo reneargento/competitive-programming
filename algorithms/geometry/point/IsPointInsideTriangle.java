@@ -1,4 +1,4 @@
-package algorithms.geometry;
+package algorithms.geometry.point;
 
 /**
  * Created by rene on 17/11/17.

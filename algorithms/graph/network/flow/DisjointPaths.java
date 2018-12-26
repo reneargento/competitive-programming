@@ -1,6 +1,6 @@
 package algorithms.graph.network.flow;
 
-import datastructures.Graph;
+import datastructures.graph.Graph;
 
 /**
  * Created by Rene Argento on 26/10/18.

@@ -1,8 +1,8 @@
 package algorithms.graph.bipartite.matching;
 
 import algorithms.graph.shortest.path.Dijkstra;
-import datastructures.DirectedEdge;
-import datastructures.EdgeWeightedDigraph;
+import datastructures.graph.DirectedEdge;
+import datastructures.graph.EdgeWeightedDigraph;
 
 import java.util.Random;
 

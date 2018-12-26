@@ -1,8 +1,8 @@
 package algorithms.graph.shortest.path.parallel.jobs;
 
 import algorithms.graph.shortest.path.BellmanFord;
-import datastructures.DirectedEdge;
-import datastructures.EdgeWeightedDigraph;
+import datastructures.graph.DirectedEdge;
+import datastructures.graph.EdgeWeightedDigraph;
 
 import java.util.HashMap;
 import java.util.List;
