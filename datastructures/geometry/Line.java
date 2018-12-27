@@ -6,9 +6,9 @@ package datastructures.geometry;
 // A line is a set of points that satisfy the linear equation ax + by + c = 0
 // Vertical lines have b = 0; otherwise b = 1
 public class Line {
-    double a;
-    double b;
-    double c;
+    public double a;
+    public double b;
+    public double c;
 
     public Line (double a, double b, double c) {
         this.a = a;

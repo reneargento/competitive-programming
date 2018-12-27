@@ -9,7 +9,7 @@ import datastructures.geometry.Point;
 // Get the line that intercepts two given points.
 public class LineGivenTwoPoints {
 
-    private static final double EPS = Math.pow(10, -9);
+    private static final double EPS = 1E-9;
 
     public static Line pointsToLine(Point point1, Point point2) {
         double a;

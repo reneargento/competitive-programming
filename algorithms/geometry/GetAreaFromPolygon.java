@@ -1,9 +1,9 @@
 package algorithms.geometry;
 
-import java.awt.*;
+import datastructures.geometry.Point;
 
 /**
- * Created by rene on 17/11/17.
+ * Created by Rene Argento on 17/11/17.
  */
 public class GetAreaFromPolygon {
 
