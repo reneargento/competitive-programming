@@ -1,13 +1,13 @@
-package algorithms.geometry;
+package algorithms.geometry.polygon;
 
 import datastructures.geometry.Point;
 
 /**
  * Created by Rene Argento on 17/11/17.
  */
-public class GetAreaFromPolygon {
+public class PolygonArea {
 
-    // Make sure the first and last points are the same
+    // Make sure the first and last points are the same.
     private static double area(Point[] points) {
         double result = 0.0, x1, y1, x2, y2;
 

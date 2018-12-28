@@ -1,4 +1,4 @@
-package algorithms.geometry;
+package algorithms.geometry.polygon;
 
 import java.awt.*;
 import java.awt.geom.Area;
