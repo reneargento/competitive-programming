@@ -7,7 +7,7 @@ import datastructures.geometry.Point;
  */
 public class PolygonArea {
 
-    // Make sure the first and last points are the same.
+    // Assumption: first and last points are the same.
     private static double area(Point[] points) {
         double result = 0.0, x1, y1, x2, y2;
 

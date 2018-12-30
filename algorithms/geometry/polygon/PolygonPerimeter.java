@@ -8,7 +8,7 @@ import datastructures.geometry.Point;
  */
 public class PolygonPerimeter {
 
-    // Make sure the first and last points are the same.
+    // Assumption: first and last points are the same.
     public static double perimeter(Point[] points) {
         double perimeter = 0;
 

@@ -3,9 +3,9 @@ package algorithms.geometry;
 import java.util.*;
 
 /**
- * Created by rene on 17/11/17.
+ * Created by Rene Argento on 17/11/17.
  */
-// Computes the convex hull taking into account collinear points
+// Computes the convex hull taking into account collinear points.
 public class GrahamScan {
 
     private static class Point {
@@ -23,18 +23,20 @@ public class GrahamScan {
             return Arrays.asList(points);
         }
 
-        // Find the lowest point in the plane. If there are multiple lowest points then pick the leftmost one.
-        Point start = points[0];
+        // 1- Find the lowest point in the plane. If there are multiple lowest points then pick the leftmost one.
+        Point pivot = points[0];
         for (int i = 1; i < points.length; i++) {
-            if (start.y > points[i].y) {
-                start = points[i];
-            } else if (start.y == points[i].y && start.x > points[i].x) {
-                start = points[i];
+            if (points[i].y < pivot.y) {
+                pivot = points[i];
+            } else if (points[i].y == pivot.y && points[i].x < pivot.x) {
+                pivot = points[i];
             }
         }
 
-        sortToHandleCollinear(points, start);
+        // 2 - Sort points according to the angle formed with the pivot
+        sortToHandleCollinear(points, pivot);
 
+        // 3- Find points in convex hull
         Stack<Point> stack = new Stack<>();
         stack.push(points[0]);
         stack.push(points[1]);
@@ -42,7 +44,7 @@ public class GrahamScan {
         for (int i = 2; i < points.length; i++) {
             Point top = stack.pop();
             // Second point will always be in answer so this will never cause empty stack exception.
-            // As long as points[i] is on right of vector stack.peek() -> top keep getting rid of top of stack.
+            // As long as points[i] is on the right of vector stack.peek() -> top, keep getting rid of top of stack.
             while (crossProduct(stack.peek(), top, points[i]) < 0) {
                 top = stack.pop();
             }
@@ -54,20 +56,20 @@ public class GrahamScan {
         return new ArrayList<>(stack);
     }
 
-    private static void sortToHandleCollinear(Point[] points, final Point start) {
+    private static void sortToHandleCollinear(Point[] points, final Point pivot) {
         Arrays.sort(points, new Comparator<Point>() {
             @Override
             public int compare(Point p1, Point p2) {
-                if (p1 == start) {
+                if (p1 == pivot) {
                     return -1;
                 }
-                if (p2 == start) {
+                if (p2 == pivot) {
                     return 1;
                 }
 
-                int crossProduct = crossProduct(start, p1, p2);
+                int crossProduct = crossProduct(pivot, p1, p2);
                 if (crossProduct == 0) {
-                    return distance(start, p1, p2);
+                    return distance(pivot, p1, p2);
                 } else {
                     return -crossProduct;
                 }
@@ -83,11 +85,11 @@ public class GrahamScan {
             i--;
         }
 
-        // reverse sort order of collinear points in the end positions
-        for (int l = i + 1, h = points.length - 1; l < h; l++, h--) {
-            Point temp = points[l];
-            points[l] = points[h];
-            points[h] = temp;
+        // Reverse sort order of collinear points in the end positions
+        for (int left = i + 1, right = points.length - 1; left < right; left++, right--) {
+            Point temp = points[left];
+            points[left] = points[right];
+            points[right] = temp;
         }
     }
 
