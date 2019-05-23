@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rene on 29/04/17.
+ * Created by Rene Argento on 29/04/17.
  */
 public class PrimeFactors {
 
     public static void main(String[] args) {
-        //Test
+        // Test
         List<Integer> primeFactors = primeFactors(10);
         for(int primeFactor : primeFactors) {
             System.out.print(primeFactor + " ");
@@ -26,7 +26,7 @@ public class PrimeFactors {
             }
         }
 
-        //Special case where number is a prime number
+        // Special case where number is a prime number
         if (number > 1) {
             primeFactors.add(number);
         }
