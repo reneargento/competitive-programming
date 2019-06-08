@@ -6,7 +6,6 @@ package algorithms.general;
 public class Bits {
 
     public static String decimalToBinary(long decimalValue) {
-
         if (decimalValue == 0) {
             return "0";
         }
@@ -21,6 +20,46 @@ public class Bits {
         }
 
         return binaryString.toString();
+    }
+
+    public static int getBit(int number, int index) {
+        int mask = 1 << index;
+        if ((number & mask) != 0) {
+            return 1;
+        }
+        return 0;
+    }
+
+    public static int setBit(int number, int index) {
+        int mask = 1 << index;
+        return number | mask;
+    }
+
+    public static int clearBit(int number, int index) {
+        int mask = ~(1 << index);
+        return number & mask;
+    }
+
+    public static int updateBit(int number, int index, boolean isBit1) {
+        int value = isBit1 ? 1 : 0;
+        int mask = ~(1 << index);
+        return (number & mask) | (value << index);
+    }
+
+    // Clears all bits from the most significant bit to index.
+    // Example: number = 11111001, index = 5
+    // Result: 00011001
+    public static int clearBitsMSBThroughI(int number, int index) {
+        int mask = (1 << index) - 1;
+        return number & mask;
+    }
+
+    // Clears all bits in the range [index, 0].
+    // Example: number = 11111001, index = 5
+    // Result: 11000000
+    public static int clearBitsIThrough0(int number, int index) {
+        int mask = -1 << (index + 1);
+        return number & mask;
     }
 
     /**
@@ -45,7 +84,7 @@ public class Bits {
     }
 
     /**
-     * Clears a range of bits in the specified integer.
+     * Sets a range of bits in the specified integer.
      *
      * @param bitmap
      *            Integer argument
@@ -64,7 +103,7 @@ public class Bits {
         return bitmap & ((~0 << (32 - numberOfBitsInRange)) >>> positionToStart);
     }
 
-    //O(s) where s is the number of set bits
+    // O(s) where s is the number of set bits
     public static int count1Bits(int value) {
         int count = 0;
 
@@ -76,7 +115,7 @@ public class Bits {
         return count;
     }
 
-    //O(lg s) where s is the number of set bits
+    // O(lg s) where s is the number of set bits
     public static int count1BitsLgSetBits(int value) {
         value = value - ((value >>> 1) & 0x55555555);
         value = (value & 0x33333333) + ((value >>> 2) & 0x33333333);
