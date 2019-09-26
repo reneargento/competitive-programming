@@ -1,4 +1,4 @@
-package algorithms.combinations;
+package algorithms.recursion.combinations;
 
 /**
  * Created by Rene Argento on 16/02/18.

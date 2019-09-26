@@ -8,7 +8,6 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked")
 public class EdgeWeightedDigraph {
-
     private final int vertices;
     private int edges;
     private List<DirectedEdge>[] adjacent;

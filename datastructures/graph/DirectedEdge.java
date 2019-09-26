@@ -4,7 +4,6 @@ package datastructures.graph;
  * Created by rene on 09/12/17.
  */
 public class DirectedEdge {
-
     private final int vertex1;
     private final int vertex2;
     private final double weight;
