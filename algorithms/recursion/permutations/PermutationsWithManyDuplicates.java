@@ -10,7 +10,7 @@ import java.util.Map;
  */
 // This algorithm has a much better runtime than Permutations when generating permutations from a string with
 // many duplicate characters.
-// The best case runtime can get to n^2 when we have a string with all duplicate characters such as "aaaaaaaaaaaaa".
+// The best case runtime is n^2 when we have a string with all duplicate characters such as "aaaaaaaaaaaaa".
 // The worst case runtime is still the same.
 public class PermutationsWithManyDuplicates {
 
