@@ -9,14 +9,14 @@ import datastructures.geometry.Point;
 // Get the line that intercepts two given points.
 public class LineGivenTwoPoints {
 
-    private static final double EPS = 1E-9;
+    private static final double EPSILON = 1E-9;
 
     public static Line pointsToLine(Point point1, Point point2) {
         double a;
         double b;
         double c;
 
-        if (Math.abs(point1.x - point2.x) < EPS) {
+        if (Math.abs(point1.x - point2.x) < EPSILON) {
             // Vertical line
             a = 1;
             b = 0;

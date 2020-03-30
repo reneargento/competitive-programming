@@ -12,7 +12,7 @@ import datastructures.geometry.Point;
 // a2x + b2y + c2 = 0
 public class LinesIntersection {
 
-    private static final double EPS = 1E-9;
+    private static final double EPSILON = 1E-9;
 
     // Returns the point of intersection between two lines or null if there is no intersection.
     public static Point intersection(Line line1, Line line2) {
@@ -25,7 +25,7 @@ public class LinesIntersection {
         double pointY;
 
         // Special case: test for vertical line to avoid division by zero
-        if (Math.abs(line1.b) > EPS) {
+        if (Math.abs(line1.b) > EPSILON) {
             pointY = -(line1.a * pointX + line1.c);
         } else {
             pointY = -(line2.a * pointX + line2.c);
@@ -35,8 +35,8 @@ public class LinesIntersection {
     }
 
     public static boolean areLinesParallel(Line line1, Line line2) {
-        return Math.abs(line1.a - line2.a) < EPS
-                && Math.abs(line1.b - line2.b) < EPS;
+        return Math.abs(line1.a - line2.a) < EPSILON
+                && Math.abs(line1.b - line2.b) < EPSILON;
     }
 
 }

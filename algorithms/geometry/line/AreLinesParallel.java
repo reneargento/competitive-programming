@@ -7,12 +7,12 @@ import datastructures.geometry.Line;
  */
 public class AreLinesParallel {
 
-    private static final double EPS = 1E-9;
+    private static final double EPSILON = 1E-9;
 
     // Lines are parallel if their a and b coefficients are the same
     public static boolean areLinesParallel(Line line1, Line line2) {
-        return Math.abs(line1.a - line2.a) < EPS
-                && Math.abs(line1.b - line2.b) < EPS;
+        return Math.abs(line1.a - line2.a) < EPSILON
+                && Math.abs(line1.b - line2.b) < EPSILON;
     }
 
 }

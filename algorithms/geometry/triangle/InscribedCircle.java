@@ -15,7 +15,7 @@ import datastructures.geometry.Vector;
 //
 public class InscribedCircle {
 
-    private static final double EPS = 1E-9;
+    private static final double EPSILON = 1E-9;
 
     // Returns the radius of the inscribed circle given the 3 triangle edge lengths.
     // Inscribed circle radius = triangle area / triangle semiperimeter
@@ -33,7 +33,7 @@ public class InscribedCircle {
     // The inscribed circle center is the point of intersection of the triangle's 3 bisectors.
     public static Point center(Point point1, Point point2, Point point3) {
         double radius = radius(point1, point2, point3);
-        if (Math.abs(radius) < EPS) {
+        if (Math.abs(radius) < EPSILON) {
             // There is no circle center
             return null;
         }

@@ -14,7 +14,7 @@ public class IsPointInPolygon {
         return polygon.contains(point);
     }
 
-    private static final double EPS = 1E-9;
+    private static final double EPSILON = 1E-9;
 
     // Winding algorithm: compute the sum of all angles formed by the extremities of each polygon edge with the
     // queried point. If the sum is equal to 360 then the queried point is inside the polygon.
@@ -39,7 +39,7 @@ public class IsPointInPolygon {
             }
         }
 
-        return Math.abs(Math.abs(sum) - 2 * Math.PI) < EPS;
+        return Math.abs(Math.abs(sum) - 2 * Math.PI) < EPSILON;
     }
 
 }

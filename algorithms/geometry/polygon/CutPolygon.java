@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class CutPolygon {
 
-    private static final double EPS = 1E-9;
+    private static final double EPSILON = 1E-9;
 
     // Cuts polygon along the line formed by linePoint1 -> linePoint2
     // Assumption: first and last points are the same.
@@ -31,11 +31,11 @@ public class CutPolygon {
                 pointLeftOfLine2 = CrossProduct.crossProduct(lineVector, new Vector(linePoint1, polygon[i + 1]));
             }
 
-            if (pointLeftOfLine1 > -EPS) {
+            if (pointLeftOfLine1 > -EPSILON) {
                 // polygon[i] is on the left of line
                 resultingPolygon.add(polygon[i]);
             }
-            if (pointLeftOfLine1 * pointLeftOfLine2 < -EPS) {
+            if (pointLeftOfLine1 * pointLeftOfLine2 < -EPSILON) {
                 // Edge (polygon[i], polygon[i + 1]) crosses line
                 Line cuttingLine = LineGivenTwoPoints.pointsToLine(linePoint1, linePoint2);
                 Line pointsLine = LineGivenTwoPoints.pointsToLine(polygon[i], polygon[i + 1]);
