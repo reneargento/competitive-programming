@@ -1,4 +1,4 @@
-package algorithms.graph.cycle.detection;
+package algorithms.graph.cycle;
 
 import datastructures.graph.Graph;
 

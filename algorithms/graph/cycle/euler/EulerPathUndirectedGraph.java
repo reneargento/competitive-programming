@@ -1,4 +1,4 @@
-package algorithms.graph.euler.cycle;
+package algorithms.graph.cycle.euler;
 
 import java.util.*;
 
