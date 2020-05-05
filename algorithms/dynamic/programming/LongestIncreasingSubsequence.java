@@ -1,16 +1,14 @@
 package algorithms.dynamic.programming;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Deque;
+import java.util.*;
 
 /**
  * Created by Rene Argento on 28/12/16.
  */
 
 // Computes the longest increasing subsequence in O(N lg N)
-// Based on https://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/
-// and https://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/
+// Based on https://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/
+// and https://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/
 public class LongestIncreasingSubsequence {
 
     public static String longestIncreasingSubsequence(int[] array) {
@@ -40,22 +38,8 @@ public class LongestIncreasingSubsequence {
             }
         }
 
-        Deque<Integer> deque = new ArrayDeque<>();
-
-        for (int i = endIndexes[length - 1]; i >= 0; i = previousIndices[i]) {
-            deque.push(array[i]);
-        }
-
-        StringBuilder longestIncreasingSubsequence = new StringBuilder();
-        while (!deque.isEmpty()) {
-            longestIncreasingSubsequence.append(deque.pop());
-
-            if (!deque.isEmpty()) {
-                longestIncreasingSubsequence.append(" ");
-            }
-        }
-
-        return longestIncreasingSubsequence.toString();
+        List<Integer> sequence = getSequence(array, endIndexes, previousIndices, length);
+        return getSequenceDescription(sequence);
     }
 
     private static int ceilIndex(int[] array, int[] endIndexes, int low, int high, int key) {
@@ -68,8 +52,24 @@ public class LongestIncreasingSubsequence {
                 low = middle;
             }
         }
-
         return high;
+    }
+
+    private static List<Integer> getSequence(int[] array, int[] endIndexes, int[] previousIndices, int length) {
+        LinkedList<Integer> sequence = new LinkedList<>();
+
+        for (int i = endIndexes[length - 1]; i >= 0; i = previousIndices[i]) {
+            sequence.addFirst(array[i]);
+        }
+        return sequence;
+    }
+
+    private static String getSequenceDescription(List<Integer> sequence) {
+        StringJoiner sequenceDescription = new StringJoiner(" ");
+        for (Integer value : sequence) {
+            sequenceDescription.add(value.toString());
+        }
+        return sequenceDescription.toString();
     }
 
     public static void main (String[] args) {
