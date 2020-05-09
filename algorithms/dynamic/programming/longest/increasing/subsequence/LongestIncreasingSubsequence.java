@@ -1,4 +1,4 @@
-package algorithms.dynamic.programming;
+package algorithms.dynamic.programming.longest.increasing.subsequence;
 
 import java.util.*;
 
