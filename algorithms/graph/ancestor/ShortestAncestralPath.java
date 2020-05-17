@@ -5,6 +5,7 @@ import java.util.*;
 /**
  * Created by rene on 24/10/17.
  */
+// Computes the shortest ancestral path between 2 vertices in O(V + E)
 @SuppressWarnings("unchecked")
 public class ShortestAncestralPath {
 
@@ -140,7 +141,6 @@ public class ShortestAncestralPath {
         return pathString.toString();
     }
 
-    // O(V + E)
     public ShortestAncestralPathResult getShortestAncestralPath(List<Integer>[] adjacent, int vertex1, int vertex2) {
         // 0- Precondition: check if the graph is a DAG
         HasDirectedCycle hasDirectedCycle = new HasDirectedCycle(adjacent);
