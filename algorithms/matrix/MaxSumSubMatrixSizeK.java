@@ -3,9 +3,11 @@ package algorithms.matrix;
 /**
  * Created by Rene Argento on 11/12/18.
  */
-// Finds maximum sum in a k x k sub-matrix
+// Finds maximum sum sub-matrix of size k x k in a matrix of size r x c.
+// O(r * c) runtime, where r is the number of rows in the matrix and c is the number of columns in the matrix.
+// O(r * c) space
 // Based on https://www.techiedelight.com/find-maximum-sum-submatrix-in-given-matrix/
-public class MaxSubMatrixSum {
+public class MaxSumSubMatrixSizeK {
 
     private static class Cell {
         private int row;

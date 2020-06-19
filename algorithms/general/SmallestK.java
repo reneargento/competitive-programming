@@ -30,12 +30,12 @@ public class SmallestK {
         }
         int targetRank = k - 1;
 
-        shuffle(array);
         int startIndex = 0;
         int endIndex = array.length - 1;
 
         while (true) {
-            int pivot = array[startIndex];
+            int randomIndex = getRandomIndexInRange(startIndex, endIndex);
+            int pivot = array[randomIndex];
             PartitionResult partitionResult = partition(array, startIndex, endIndex, pivot);
 
             if (targetRank <= partitionResult.leftEndIndex) {
@@ -83,13 +83,9 @@ public class SmallestK {
         return numbers;
     }
 
-    private static void shuffle(int[] array) {
+    private static int getRandomIndexInRange(int min, int max) {
         Random random = new Random();
-
-        for (int i = 0; i < array.length; i++) {
-            int randomIndex = i + random.nextInt(array.length - i);
-            swap(array, randomIndex, i);
-        }
+        return min + random.nextInt(max - min + 1);
     }
 
     public static void main(String[] args) {
