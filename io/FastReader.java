@@ -9,9 +9,8 @@ import java.util.StringTokenizer;
 /**
  * Created by rene.argento on 30/05/17.
  */
-//Based on https://www.cpe.ku.ac.th/~jim/java-io.html
+// Based on https://www.cpe.ku.ac.th/~jim/java-io.html
 public class FastReader {
-
     private static BufferedReader reader;
     private static StringTokenizer tokenizer;
 
@@ -39,9 +38,9 @@ public class FastReader {
         return Long.parseLong(next());
     }
 
-    //Used to check EOF
-    //If getLine() == null, it is a EOF
-    //Otherwise, it returns the next line
+    // Used to check EOF
+    // If getLine() == null, it is a EOF
+    // Otherwise, it returns the next line
     private static String getLine() throws IOException {
         return reader.readLine();
     }
