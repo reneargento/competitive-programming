@@ -1,8 +1,5 @@
 package io;
 
-/**
- * Created by rene on 30/05/17.
- */
 import java.io.*;
 import java.util.InputMismatchException;
 
@@ -13,7 +10,7 @@ import java.util.InputMismatchException;
 
 //initialize
   InputReader in = new InputReader(System.in);
-  OutputWriter out =  new OutputWriter(System.out);
+  OutputWriter out = new OutputWriter(System.out);
 
 //read int
    int i = in.readInt();

@@ -19,7 +19,6 @@ public class GCD_LCM {
     }
 
     private static String reduceFraction(long dividend, long divisor) {
-
         long gcd = gcd(dividend, divisor);
         long newDividend = dividend / gcd;
         long newDivisor = divisor / gcd;
