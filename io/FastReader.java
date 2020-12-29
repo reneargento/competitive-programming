@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 /**
- * Created by rene.argento on 30/05/17.
+ * Created by Rene Argento on 30/05/17.
  */
 // Based on https://www.cpe.ku.ac.th/~jim/java-io.html
 public class FastReader {

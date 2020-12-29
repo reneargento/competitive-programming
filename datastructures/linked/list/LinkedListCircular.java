@@ -95,13 +95,11 @@ public class LinkedListCircular<Item> implements Iterable<Item> {
                 current = current.next;
             }
 
-            current.next = current.next.next;
-
             if (current.next == last) {
                 last = current;
             }
+            current.next = current.next.next;
         }
-
         size--;
     }
 
@@ -129,12 +127,10 @@ public class LinkedListCircular<Item> implements Iterable<Item> {
             }
 
             if (current != last) {
-                current.next = current.next.next;
-
                 if (current.next == last) {
                     last = current;
                 }
-
+                current.next = current.next.next;
                 size--;
             }
         }
@@ -146,7 +142,6 @@ public class LinkedListCircular<Item> implements Iterable<Item> {
     }
 
     private class LinkedListIterator implements Iterator<Item> {
-
         int index = 0;
         Node currentNode = first;
 
@@ -164,5 +159,4 @@ public class LinkedListCircular<Item> implements Iterable<Item> {
             return item;
         }
     }
-
 }

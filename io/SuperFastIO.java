@@ -9,23 +9,23 @@ import java.util.InputMismatchException;
 /* USAGE
 
 //initialize
-  InputReader in = new InputReader(System.in);
-  OutputWriter out = new OutputWriter(System.out);
+  InputReader inputReader = new InputReader(System.in);
+  OutputWriter outputWriter = new OutputWriter(System.out);
 
 //read int
-   int i = in.readInt();
+   int i = inputReader.readInt();
 //read String
-   String s = in.readString();
+   String s = inputReader.readString();
 //read int array of size N
    int[] x = IOUtils.readIntArray(in,N);
 //printline
-   out.printLine("X");
+   outputWriter.printLine("X");
 
 //flush output
-   out.flush();
+   outputWriter.flush();
 
 //Remember to close the outputstream, at the end:
-   out.close();
+   outputWriter.close();
  */
 //Based on https://www.quora.com/What-is-the-best-way-in-Java-to-take-input-and-write-output-for-an-Online-Judge
 // http://ideone.com/fSroES
@@ -33,7 +33,7 @@ public class SuperFastIO {
 
     private static class InputReader {
         private InputStream stream;
-        private byte[] buf = new byte[1024];
+        private byte[] buffer = new byte[1024];
         private int curChar;
         private int numChars;
         private SpaceCharFilter filter;
@@ -49,7 +49,7 @@ public class SuperFastIO {
             if (curChar >= numChars) {
                 curChar = 0;
                 try {
-                    numChars = stream.read(buf);
+                    numChars = stream.read(buffer);
                 } catch (IOException e) {
                     throw new InputMismatchException();
                 }
@@ -57,7 +57,7 @@ public class SuperFastIO {
                     return -1;
                 }
             }
-            return buf[curChar++];
+            return buffer[curChar++];
         }
 
         public int readInt() {
@@ -174,7 +174,6 @@ public class SuperFastIO {
             if (filter != null) {
                 return filter.isSpaceChar(c);
             }
-
             return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
         }
 
@@ -183,7 +182,7 @@ public class SuperFastIO {
         }
 
         private interface SpaceCharFilter {
-            public boolean isSpaceChar(int ch);
+            boolean isSpaceChar(int ch);
         }
     }
 
@@ -219,7 +218,6 @@ public class SuperFastIO {
         public void flush() {
             writer.flush();
         }
-
     }
 
     private static class IOUtils {

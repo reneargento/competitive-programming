@@ -1,13 +1,11 @@
 package datastructures;
 
 /**
- * Created by rene on 03/06/17.
+ * Created by Rene Argento on 03/06/17.
  */
 public class UnionFind {
-
     private int[] leaders;
     private int[] ranks;
-
     private int components;
 
     public UnionFind(int size) {
@@ -29,18 +27,16 @@ public class UnionFind {
         return find(site1) == find(site2);
     }
 
-    //O(inverse Ackermann function)
+    // O(inverse Ackermann function)
     public int find(int site) {
         if (site == leaders[site]) {
             return site;
         }
-
         return leaders[site] = find(leaders[site]);
     }
 
-    //O(inverse Ackermann function)
+    // O(inverse Ackermann function)
     public void union(int site1, int site2) {
-
         int leader1 = find(site1);
         int leader2 = find(site2);
 
@@ -56,8 +52,6 @@ public class UnionFind {
             leaders[leader1] = leader2;
             ranks[leader2]++;
         }
-
         components--;
     }
-
 }

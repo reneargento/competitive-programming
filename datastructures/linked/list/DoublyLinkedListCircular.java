@@ -198,7 +198,6 @@ public class DoublyLinkedListCircular<Item> implements Iterable<Item> {
     }
 
     public void insertLinkedListAtTheEnd(DoublyLinkedListCircular<Item> doublyLinkedListCircular) {
-
         if (!doublyLinkedListCircular.isEmpty()) {
             doublyLinkedListCircular.first().previous = last;
             doublyLinkedListCircular.last().next = first;

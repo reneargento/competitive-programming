@@ -1,4 +1,4 @@
-package algorithms.number.theory;
+package algorithms.math;
 
 /**
  * Created by Rene Argento on 01/01/18.

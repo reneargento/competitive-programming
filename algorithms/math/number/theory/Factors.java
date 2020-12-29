@@ -1,4 +1,4 @@
-package algorithms.number.theory;
+package algorithms.math.number.theory;
 
 import java.util.ArrayList;
 import java.util.Collections;
