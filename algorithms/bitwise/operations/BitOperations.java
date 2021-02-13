@@ -1,26 +1,9 @@
-package algorithms.general;
+package algorithms.bitwise.operations;
 
 /**
  * Created by rene on 15/07/17.
  */
-public class Bits {
-
-    public static String decimalToBinary(long decimalValue) {
-        if (decimalValue == 0) {
-            return "0";
-        }
-
-        StringBuilder binaryString = new StringBuilder();
-
-        while (decimalValue > 0) {
-            long remaining = decimalValue % 2;
-            binaryString.insert(0, remaining);
-
-            decimalValue /= 2;
-        }
-
-        return binaryString.toString();
-    }
+public class BitOperations {
 
     public static int getBit(int number, int index) {
         int mask = 1 << index;
@@ -103,23 +86,31 @@ public class Bits {
         return bitmap & ((~0 << (32 - numberOfBitsInRange)) >>> positionToStart);
     }
 
-    // O(s) where s is the number of set bits
-    public static int count1Bits(int value) {
-        int count = 0;
-
-        while (value > 0) {
-            value = value & (value - 1);
-            count++;
-        }
-
-        return count;
+    // Clears last set bit.
+    // Example: number = 10010
+    // Result: 10000
+    public static int clearLastBit1(int number) {
+        return number & (number - 1);
     }
 
-    // O(lg s) where s is the number of set bits
-    public static int count1BitsLgSetBits(int value) {
-        value = value - ((value >>> 1) & 0x55555555);
-        value = (value & 0x33333333) + ((value >>> 2) & 0x33333333);
-        return (((value + (value >>> 4)) & 0x0F0F0F0F) * 0x01010101) >>> 24;
+    // Sets last unset bit.
+    // Example: number = 100101
+    // Result: 100111
+    public static int setLastBit0(int number) {
+        return number | (number + 1);
     }
 
+    // Clears last consecutive set bits.
+    // Example: number = 100111
+    // Result: 100000
+    public static int clearLastConsecutiveSetBits(int number) {
+        return number & (number + 1);
+    }
+
+    // Sets last consecutive unset bits.
+    // Example: number = 1001000
+    // Result: 1001111
+    public static int setLastConsecutiveUnsetBits(int number) {
+        return number | (number - 1);
+    }
 }

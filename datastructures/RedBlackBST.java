@@ -462,7 +462,7 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             return null;
         }
 
-        if (isRed(node.right)) {
+        if (isRed(node.right) && !isRed(node.left)) {
             node = rotateLeft(node);
         }
 
@@ -535,5 +535,4 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             return rank(high) - rank(low);
         }
     }
-
 }

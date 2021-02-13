@@ -11,7 +11,7 @@ import java.time.temporal.ChronoUnit;
 public class NumberOfHourMinuteSecondBetweenTimes {
 
     // Change to hh:mm:ss aa for AM/PM format
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     public static void main(String[] args) {
         int day = 18;
