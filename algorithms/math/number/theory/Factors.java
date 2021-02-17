@@ -11,7 +11,6 @@ public class Factors {
 
     private static List<Integer> getFactors(int number) {
         List<Integer> factors = new ArrayList<>();
-
         int upperLimit = (int) Math.sqrt(number);
 
         for(int i = 1; i <= upperLimit; i++) {
@@ -23,10 +22,7 @@ public class Factors {
                 }
             }
         }
-
         Collections.sort(factors);
-
         return factors;
     }
-
 }
