@@ -15,7 +15,7 @@ import java.time.temporal.ChronoUnit;
 // Reference: https://mkyong.com/java8/java-8-difference-between-two-localdate-or-localdatetime/
 public class NumberOfDaysBetweenDates {
 
-    private static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    private static final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
     public static void main(String[] args) {
         long numberOfDays = numberOfDays(20, 1, 1998, 10, 1, 2009);

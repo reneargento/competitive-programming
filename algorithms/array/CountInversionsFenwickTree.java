@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Created by Rene Argento on 14/02/21.
  */
-public class CountInversions {
+public class CountInversionsFenwickTree {
 
     public static void main(String[] args) {
         long[] array = { 1, -9, 5, 4, 3 };
