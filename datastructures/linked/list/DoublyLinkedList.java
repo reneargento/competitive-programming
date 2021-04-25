@@ -191,6 +191,27 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
         }
     }
 
+    public void insertAfterNode(DoubleNode afterNode, Item item) {
+        if (afterNode == null) {
+            return;
+        }
+        DoubleNode newNode = new DoubleNode();
+        newNode.item = item;
+
+        DoubleNode nextNode = afterNode.next;
+        newNode.next = nextNode;
+        if (nextNode != null) {
+            nextNode.previous = newNode;
+        } else {
+            // This is the last node
+            last = newNode;
+        }
+
+        newNode.previous = afterNode;
+        afterNode.next = newNode;
+        size++;
+    }
+
     public Item removeFromTheBeginning() {
         if (isEmpty()) {
             return null;
@@ -205,9 +226,7 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
         }
 
         first = first.next;
-
         size--;
-
         return item;
     }
 
@@ -225,9 +244,7 @@ public class DoublyLinkedList<Item> implements Iterable<Item> {
         }
 
         last = last.previous;
-
         size--;
-
         return item;
     }
 

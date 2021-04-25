@@ -197,6 +197,27 @@ public class DoublyLinkedListCircular<Item> implements Iterable<Item> {
         size++;
     }
 
+    public void insertAfterNode(DoubleNode afterNode, Item item) {
+        if (afterNode == null) {
+            return;
+        }
+        DoubleNode newNode = new DoubleNode();
+        newNode.item = item;
+
+        DoubleNode nextNode = afterNode.next;
+        newNode.next = nextNode;
+        nextNode.previous = newNode;
+
+        if (nextNode == first) {
+            // This is the last node
+            last = newNode;
+        }
+
+        newNode.previous = afterNode;
+        afterNode.next = newNode;
+        size++;
+    }
+
     public void insertLinkedListAtTheEnd(DoublyLinkedListCircular<Item> doublyLinkedListCircular) {
         if (!doublyLinkedListCircular.isEmpty()) {
             doublyLinkedListCircular.first().previous = last;
