@@ -1,15 +1,11 @@
-package datastructures;
+package datastructures.tree;
 
-/**
- * Created by rene on 23/09/17.
- */
 import java.util.Arrays;
 
 /**
  * @author Ricardo Pacheco
  * Adapted by Rene Argento on 21/12/17.
  */
-
 // Based on https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/SegmentTree.java
 public class SegmentTree {
 

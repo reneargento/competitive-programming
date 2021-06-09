@@ -1,6 +1,6 @@
 package algorithms.tree;
 
-import datastructures.TreeNode;
+import datastructures.tree.TreeNode;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

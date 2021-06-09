@@ -12,28 +12,30 @@ import java.util.InputMismatchException;
   InputReader inputReader = new InputReader(System.in);
   OutputWriter outputWriter = new OutputWriter(System.out);
 
-//read int
+// read int
    int i = inputReader.readInt();
-//read String
+// read String
    String s = inputReader.readString();
-//read int array of size N
+// read line
+   String s = inputReader.readLine();
+// read int array of size N
    int[] x = IOUtils.readIntArray(in,N);
-//printline
+// printline
    outputWriter.printLine("X");
 
-//flush output
+// flush output
    outputWriter.flush();
 
-//Remember to close the outputstream, at the end:
+// Remember to close the outputstream, at the end:
    outputWriter.close();
  */
-//Based on https://www.quora.com/What-is-the-best-way-in-Java-to-take-input-and-write-output-for-an-Online-Judge
+// Adapted from https://www.quora.com/What-is-the-best-way-in-Java-to-take-input-and-write-output-for-an-Online-Judge
 // http://ideone.com/fSroES
 public class SuperFastIO {
 
     private static class InputReader {
-        private InputStream stream;
-        private byte[] buffer = new byte[1024];
+        private final InputStream stream;
+        private final byte[] buffer = new byte[1024];
         private int curChar;
         private int numChars;
         private SpaceCharFilter filter;
@@ -96,6 +98,21 @@ public class SuperFastIO {
                 res.appendCodePoint(c);
                 c = read();
             } while (!isSpaceChar(c));
+            return res.toString();
+        }
+
+        // Returns null on EOF
+        public String readLine() {
+            int c = read();
+            if (c == -1) {
+                return null;
+            }
+
+            StringBuilder res = new StringBuilder();
+            do {
+                res.appendCodePoint(c);
+                c = read();
+            } while (!isEndOfLine(c));
             return res.toString();
         }
 
@@ -177,6 +194,13 @@ public class SuperFastIO {
             return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
         }
 
+        private boolean isEndOfLine(int c) {
+            if (filter != null) {
+                return filter.isSpaceChar(c);
+            }
+            return c == '\n' || c == -1;
+        }
+
         public String next() {
             return readString();
         }
@@ -191,10 +215,6 @@ public class SuperFastIO {
 
         public OutputWriter(OutputStream outputStream) {
             writer = new PrintWriter(new BufferedWriter(new OutputStreamWriter(outputStream)));
-        }
-
-        public OutputWriter(Writer writer) {
-            this.writer = new PrintWriter(writer);
         }
 
         public void print(Object... objects) {

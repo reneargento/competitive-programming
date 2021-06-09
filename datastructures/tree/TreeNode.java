@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.tree;
 
 /**
  * Created by Rene Argento on 25/05/19.

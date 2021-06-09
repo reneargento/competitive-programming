@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.tree;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
@@ -35,7 +35,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return 0;
         }
-
         return node.size;
     }
 
@@ -47,7 +46,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (key == null) {
             return null;
         }
-
         return get(root, key);
     }
 
@@ -82,7 +80,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
             delete(key);
             return;
         }
-
         root = put(root, key, value);
     }
 
@@ -109,7 +106,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (root == null) {
             throw new NoSuchElementException("Empty binary search tree");
         }
-
         return min(root).key;
     }
 
@@ -117,7 +113,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (node.left == null) {
             return node;
         }
-
         return min(node.left);
     }
 
@@ -125,7 +120,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (root == null) {
             throw new NoSuchElementException("Empty binary search tree");
         }
-
         return max(root).key;
     }
 
@@ -133,7 +127,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (node.right == null) {
             return node;
         }
-
         return max(node.right);
     }
 
@@ -143,7 +136,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return null;
         }
-
         return node.key;
     }
 
@@ -174,7 +166,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return null;
         }
-
         return node.key;
     }
 
@@ -203,7 +194,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (index < 0 || index >= size()) {
             throw new IllegalArgumentException("Index cannot be negative and must be lower than tree size");
         }
-
         return select(root, index).key;
     }
 
@@ -243,7 +233,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (root == null) {
             return;
         }
-
         root = deleteMin(root);
     }
 
@@ -261,7 +250,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (root == null) {
             return;
         }
-
         root = deleteMax(root);
     }
 
@@ -283,7 +271,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (!contains(key)) {
             return;
         }
-
         root = delete(root, key);
     }
 
@@ -371,7 +358,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return 0;
         }
-
         return 1 + Math.max(height(node.left), height(node.right));
     }
 
@@ -380,7 +366,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (isEmpty()) {
             return -1;
         }
-
         return totalHeight(root);
     }
 
@@ -388,8 +373,6 @@ public class BinarySearchTree<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return 0;
         }
-
         return height(node) - 1 + totalHeight(node.left) + totalHeight(node.right);
     }
-
 }

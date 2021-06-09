@@ -1,4 +1,4 @@
-package datastructures.fenwick.tree;
+package datastructures.tree.fenwick;
 
 /**
  * Created by Rene Argento on 13/01/21.

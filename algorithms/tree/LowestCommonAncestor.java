@@ -1,6 +1,6 @@
 package algorithms.tree;
 
-import datastructures.TreeNode;
+import datastructures.tree.TreeNode;
 
 /**
  * Created by Rene Argento on 23/05/19.

@@ -1,4 +1,4 @@
-package datastructures;
+package datastructures.tree;
 
 import java.util.*;
 

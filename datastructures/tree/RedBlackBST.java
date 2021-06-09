@@ -1,11 +1,10 @@
-package datastructures;
+package datastructures.tree;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
 public class RedBlackBST<Key extends Comparable<Key>, Value> {
-
     private static final boolean RED = true;
     private static final boolean BLACK = false;
 
@@ -36,7 +35,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return 0;
         }
-
         return node.size;
     }
 
@@ -48,7 +46,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return false;
         }
-
         return node.color == RED;
     }
 
@@ -56,7 +53,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node == null || node.right == null) {
             return node;
         }
-
         Node newRoot = node.right;
 
         node.right = newRoot.left;
@@ -75,7 +71,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node == null || node.left == null) {
             return node;
         }
-
         Node newRoot = node.left;
 
         node.left = newRoot.right;
@@ -108,7 +103,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (key == null) {
             throw new IllegalArgumentException("Key cannot be null");
         }
-
         if (value == null) {
             delete(key);
             return;
@@ -151,7 +145,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (key == null) {
             return null;
         }
-
         return get(root, key);
     }
 
@@ -181,7 +174,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (root == null) {
             throw new NoSuchElementException("Empty binary search tree");
         }
-
         return min(root).key;
     }
 
@@ -189,7 +181,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node.left == null) {
             return node;
         }
-
         return min(node.left);
     }
 
@@ -197,7 +188,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (root == null) {
             throw new NoSuchElementException("Empty binary search tree");
         }
-
         return max(root).key;
     }
 
@@ -205,7 +195,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node.right == null) {
             return node;
         }
-
         return max(node.right);
     }
 
@@ -215,7 +204,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return null;
         }
-
         return node.key;
     }
 
@@ -246,7 +234,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (node == null) {
             return null;
         }
-
         return node.key;
     }
 
@@ -275,7 +262,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         if (index >= size()) {
             throw new IllegalArgumentException("Index is higher than tree size");
         }
-
         return select(root, index).key;
     }
 
@@ -426,7 +412,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
                 node.right = delete(node.right, key);
             }
         }
-
         return balance(node);
     }
 
@@ -440,7 +425,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             node = rotateLeft(node);
             flipColors(node);
         }
-
         return node;
     }
 
@@ -453,7 +437,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
             node = rotateRight(node);
             flipColors(node);
         }
-
         return node;
     }
 
@@ -475,7 +458,6 @@ public class RedBlackBST<Key extends Comparable<Key>, Value> {
         }
 
         node.size = size(node.left) + 1 + size(node.right);
-
         return node;
     }
 
