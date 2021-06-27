@@ -50,15 +50,33 @@ public class FenwickTreeRangeSum {
         }
     }
 
+    // O(log n)
+    int select(long rank) {
+        int p = 1;
+        while (p * 2 < fenwickTree.length) {
+            p *= 2;
+        }
+
+        int index = 0;
+        while (p > 0) {
+            if (rank > fenwickTree[index + p]) {
+                rank -= fenwickTree[index + p];
+                index += p;
+            }
+            p /= 2;
+        }
+        return index + 1;
+    }
+
     // O(lg^2 n)
-    public int select(long value) {
+    public int select2(long rank) {
         int low = 1;
         int high = fenwickTree.length - 1;
 
         for (int i = 0; i < 30; i++) { // 2^30 is higher than 10^9, which is usually ok
             int middle = low + (high - low) / 2;
 
-            if (rangeSumQuery(1, middle) < value) {
+            if (rangeSumQuery(1, middle) < rank) {
                 low = middle;
             } else {
                 high = middle;
@@ -67,7 +85,7 @@ public class FenwickTreeRangeSum {
         return high;
     }
 
-    int lsOne(int value) {
+    private int lsOne(int value) {
         return value & (-value);
     }
 }

@@ -4,8 +4,8 @@ package datastructures.tree.fenwick;
  * Created by Rene Argento on 13/01/21.
  */
 public class FenwickTreeRangeSumRangeUpdate {
-    private FenwickTreeRangeSum fenwickTreeRangeSum;
-    private FenwickTreeRangeUpdate fenwickTreeRangeUpdate;
+    private final FenwickTreeRangeSum fenwickTreeRangeSum;
+    private final FenwickTreeRangeUpdate fenwickTreeRangeUpdate;
 
     FenwickTreeRangeSumRangeUpdate(int size) {
         fenwickTreeRangeSum = new FenwickTreeRangeSum(size);
@@ -13,7 +13,7 @@ public class FenwickTreeRangeSumRangeUpdate {
     }
 
     public void rangeUpdate(int startIndex, int endIndex, int value) {
-        fenwickTreeRangeUpdate.rangeUpdate(startIndex, endIndex, value); // [startIndex, startIndex + 1, ..., endIndex] + value
+        fenwickTreeRangeUpdate.rangeUpdate(startIndex, endIndex, value); // [startIndex, startIndex + 1, ..., endIndex] (+ value)
         fenwickTreeRangeSum.update(startIndex, value * (startIndex - 1));
         fenwickTreeRangeSum.update(endIndex + 1, -value * endIndex);
     }

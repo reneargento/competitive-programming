@@ -3,20 +3,22 @@ package datastructures.tree.fenwick;
 /**
  * Created by Rene Argento on 04/01/18.
  */
-// Adapted from https://arxiv.org/pdf/1311.6093.pdf
-// and https://www.codechef.com/viewsolution/6391361
+// Adapted from https://arxiv.org/pdf/1311.6093.pdf and https://www.codechef.com/viewsolution/6391361
 public class FenwickTree2DRangeSumRangeUpdate {
-
-    private FenwickTree fenwickTree2DXY;
-    private FenwickTree fenwickTree2DX;
-    private FenwickTree fenwickTree2DY;
-    private FenwickTree fenwickTree2DI;
+    private final FenwickTree fenwickTree2DXY;
+    private final FenwickTree fenwickTree2DX;
+    private final FenwickTree fenwickTree2DY;
+    private final FenwickTree fenwickTree2DI;
+    private final int rows;
+    private final int columns;
 
     public FenwickTree2DRangeSumRangeUpdate(int rows, int columns) {
         fenwickTree2DXY = new FenwickTree(rows, columns);
         fenwickTree2DX = new FenwickTree(rows, columns);
         fenwickTree2DY = new FenwickTree(rows, columns);
         fenwickTree2DI = new FenwickTree(rows, columns);
+        this.rows = rows;
+        this.columns = columns;
     }
 
     public void rangeUpdate(int row1, int column1, int row2, int column2, int value) {
@@ -72,25 +74,25 @@ public class FenwickTree2DRangeSumRangeUpdate {
                 + fenwickTree2DY.pointQuery(minRow - 1, minColumn - 1) * (minColumn - 1)
                 + fenwickTree2DI.pointQuery(minRow - 1, minColumn - 1);
 
-        //Rectangular region between lower row and left column x upper row and right column
+        // Rectangular region between lower row and left column x upper row and right column
         return value1 - value2 - value3 + value4;
     }
 
     public static class FenwickTree {
-        private int[][] fenwickTree;
-        private int rows;
-        private int columns;
+        private final long[][] fenwickTree;
+        private final int rows;
+        private final int columns;
 
         public FenwickTree(int rows, int columns) {
             this.rows = rows;
             this.columns = columns;
 
-            fenwickTree = new int[rows + 1][columns + 1];
+            fenwickTree = new long[rows + 1][columns + 1];
         }
 
-        public void pointUpdate(int row, int column, int value) {
-            for (int i = row; i <= rows; i += i & (-i)) {
-                for (int j = column; j <= columns; j += j & (-j)) {
+        private void pointUpdate(int row, int column, int value) {
+            for (int i = row; i <= rows; i += lsOne(i)) {
+                for (int j = column; j <= columns; j += lsOne(j)) {
                     fenwickTree[i][j] += value;
                 }
             }
@@ -98,26 +100,46 @@ public class FenwickTree2DRangeSumRangeUpdate {
 
         private int pointQuery(int row, int column) {
             int sum = 0;
-            for (int i = row; i > 0; i -= i & (-i)) {
-                for (int j = column; j > 0; j -= j & (-j)) {
+            for (int i = row; i > 0; i -= lsOne(i)) {
+                for (int j = column; j > 0; j -= lsOne(j)) {
                     sum += fenwickTree[i][j];
                 }
             }
             return sum;
         }
+
+        private int lsOne(int value) {
+            return value & (-value);
+        }
     }
 
     // Tests
     public static void main(String[] args) {
-        FenwickTree2DRangeSumRangeUpdate fenwickTree2D = new FenwickTree2DRangeSumRangeUpdate(3, 3);
-        fenwickTree2D.rangeUpdate(2, 2, 1, 1, 1);
-        // fenwickTree2D.rangeUpdate(1, 1, 1, 2, 2);
+        FenwickTree2DRangeSumRangeUpdate fenwickTree2D = new FenwickTree2DRangeSumRangeUpdate(3, 4);
+        fenwickTree2D.rangeUpdate(1, 2, 1, 3, 1);
+        fenwickTree2D.rangeUpdate(2, 2, 2, 3, 2);
+        fenwickTree2D.rangeUpdate(3, 2, 3, 3, 3);
 
-        for(int i = 1; i <= 3; i++) {
-            for(int j = 1; j <= 3; j++) {
-                System.out.println("row " + i + " column " + j + ": " + fenwickTree2D.rangeSum(i, j, i, j));
-            }
-        }
+        System.out.println("Fenwick Tree");
+        printFenwickTree(fenwickTree2D);
+
+        fenwickTree2D.rangeUpdate(1, 1, 1, 4, 5);
+        fenwickTree2D.rangeUpdate(2, 2, 3, 4, 10);
+
+        System.out.println("\nAfter updates");
+        printFenwickTree(fenwickTree2D);
     }
 
+    private static void printFenwickTree(FenwickTree2DRangeSumRangeUpdate fenwickTree2DRURQ) {
+        for (int row = 1; row <= fenwickTree2DRURQ.rows; row++) {
+            for (int column = 1; column <= fenwickTree2DRURQ.columns; column++) {
+                System.out.print(fenwickTree2DRURQ.rangeSum(row, column, row, column));
+
+                if (column != fenwickTree2DRURQ.columns) {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
 }
