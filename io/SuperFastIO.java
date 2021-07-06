@@ -38,7 +38,6 @@ public class SuperFastIO {
         private final byte[] buffer = new byte[1024];
         private int curChar;
         private int numChars;
-        private SpaceCharFilter filter;
 
         public InputReader(InputStream stream) {
             this.stream = stream;
@@ -188,25 +187,15 @@ public class SuperFastIO {
         }
 
         private boolean isSpaceChar(int c) {
-            if (filter != null) {
-                return filter.isSpaceChar(c);
-            }
             return c == ' ' || c == '\n' || c == '\r' || c == '\t' || c == -1;
         }
 
         private boolean isEndOfLine(int c) {
-            if (filter != null) {
-                return filter.isSpaceChar(c);
-            }
             return c == '\n' || c == -1;
         }
 
         public String next() {
             return readString();
-        }
-
-        private interface SpaceCharFilter {
-            boolean isSpaceChar(int ch);
         }
     }
 

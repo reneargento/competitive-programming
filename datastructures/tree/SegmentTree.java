@@ -9,33 +9,33 @@ import java.util.Arrays;
 // Based on https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/SegmentTree.java
 public class SegmentTree {
 
-    //The Node class represents a partition range of the array.
+    // The Node class represents a partition range of the array.
     private static class Node {
-        double sum;
-        double min;
+        long sum;
+        long min;
 
-        //Here we store the value that will be propagated lazily
-        Double pendingValue = null;
-        int from;
-        int to;
+        // Value that will be propagated lazily
+        Long pendingValue = null;
+        int left;
+        int right;
 
         int size() {
-            return to - from + 1;
+            return right - left + 1;
         }
     }
 
-    private Node[] heap;
-    private double[] array;
+    private final Node[] heap;
+    private final long[] array;
 
     /**
-     * Time-Complexity:  O(n*log(n))
+     * Time-Complexity:  O(n * log(n))
      *
      * @param array the Initialization array
      */
-    public SegmentTree(double[] array) {
+    public SegmentTree(long[] array) {
         this.array = Arrays.copyOf(array, array.length);
-        //The max size of this array is about 2 * 2 ^ (log2(n) + 1)
-        int size = (int) (2 * Math.pow(2.0, Math.floor((Math.log((double) array.length) / Math.log(2.0)) + 1)));
+        // The max size of this array is about 2 * 2 ^ (log2(n) + 1)
+        int size = (int) (2 * Math.pow(2.0, Math.floor((Math.log(array.length) / Math.log(2.0)) + 1)));
         heap = new Node[size];
         build(1, 0, array.length);
     }
@@ -44,22 +44,21 @@ public class SegmentTree {
         return array.length;
     }
 
-    //Initialize the Nodes of the Segment tree
-    private void build(int index, int from, int size) {
+    // Initialize the Nodes of the Segment tree
+    private void build(int index, int left, int size) {
         heap[index] = new Node();
-        heap[index].from = from;
-        heap[index].to = from + size - 1;
+        heap[index].left = left;
+        heap[index].right = left + size - 1;
 
         if (size == 1) {
-            heap[index].sum = array[from];
-            heap[index].min = array[from];
+            heap[index].sum = array[left];
+            heap[index].min = array[left];
         } else {
-            //Build childs
-            build(2 * index, from, size / 2);
-            build(2 * index + 1, from + size / 2, size - size / 2);
+            // Build children
+            build(2 * index, left, size / 2);
+            build(2 * index + 1, left + size / 2, size - size / 2);
 
             heap[index].sum = heap[2 * index].sum + heap[2 * index + 1].sum;
-            //min = min of the children
             heap[index].min = Math.min(heap[2 * index].min, heap[2 * index + 1].min);
         }
     }
@@ -69,34 +68,33 @@ public class SegmentTree {
      *
      * Time-Complexity: O(log(n))
      *
-     * @param  from from index
-     * @param  to to index
+     * @param  left left index
+     * @param  right right index
      * @return sum
      */
-    public double rangeSumQuery(int from, int to) {
-        return rangeSumQuery(1, from, to);
+    public long rangeSumQuery(int left, int right) {
+        return rangeSumQuery(1, left, right);
     }
 
-    private double rangeSumQuery(int index, int from, int to) {
+    private long rangeSumQuery(int index, int left, int right) {
         Node node = heap[index];
 
-        //If you did a range update that contained this node, you can infer the Sum without going down the tree
-        if (node.pendingValue != null && contains(node.from, node.to, from, to)) {
-            return (to - from + 1) * node.pendingValue;
+        // If you did a range update that contained this node, you can infer the Sum without going down the tree
+        if (node.pendingValue != null && contains(node.left, node.right, left, right)) {
+            return (right - left + 1) * node.pendingValue;
         }
 
-        if (contains(from, to, node.from, node.to)) {
+        if (contains(left, right, node.left, node.right)) {
             return heap[index].sum;
         }
 
-        if (intersects(from, to, node.from, node.to)) {
+        if (intersects(left, right, node.left, node.right)) {
             propagate(index);
-            double leftSum = rangeSumQuery(2 * index, from, to);
-            double rightSum = rangeSumQuery(2 * index + 1, from, to);
+            long leftSum = rangeSumQuery(2 * index, left, right);
+            long rightSum = rangeSumQuery(2 * index + 1, left, right);
 
             return leftSum + rightSum;
         }
-
         return 0;
     }
 
@@ -105,35 +103,34 @@ public class SegmentTree {
      *
      * Time-Complexity: O(log(n))
      *
-     * @param  from from index
-     * @param  to to index
+     * @param  left left index
+     * @param  right right index
      * @return min
      */
-    public double rangeMinQuery(int from, int to) {
-        return rangeMinQuery(1, from, to);
+    public long rangeMinQuery(int left, int right) {
+        return rangeMinQuery(1, left, right);
     }
 
-    private double rangeMinQuery(int index, int from, int to) {
+    private long rangeMinQuery(int index, int left, int right) {
         Node node = heap[index];
 
-        //If you did a range update that contained this node, you can infer the Min value without going down the tree
-        if (node.pendingValue != null && contains(node.from, node.to, from, to)) {
+        // If you did a range update that contained this node, you can infer the Min value without going down the tree
+        if (node.pendingValue != null && contains(node.left, node.right, left, right)) {
             return node.pendingValue;
         }
 
-        if (contains(from, to, node.from, node.to)) {
+        if (contains(left, right, node.left, node.right)) {
             return heap[index].min;
         }
 
-        if (intersects(from, to, node.from, node.to)) {
+        if (intersects(left, right, node.left, node.right)) {
             propagate(index);
-            double leftMin = rangeMinQuery(2 * index, from, to);
-            double rightMin = rangeMinQuery(2 * index + 1, from, to);
+            long leftMin = rangeMinQuery(2 * index, left, right);
+            long rightMin = rangeMinQuery(2 * index + 1, left, right);
 
             return Math.min(leftMin, rightMin);
         }
-
-        return Double.MAX_VALUE;
+        return Long.MAX_VALUE;
     }
 
     /**
@@ -145,17 +142,16 @@ public class SegmentTree {
      * <p>
      * Time-Complexity: O(log(n))
      *
-     * @param from  from index
-     * @param to    to index
+     * @param left  left index
+     * @param right right index
      * @param value value
      */
-    public void update(int from, int to, double value) {
-        update(1, from, to, value);
+    public void update(int left, int right, long value) {
+        update(1, left, right, value);
     }
 
-    private void update(int index, int from, int to, double value) {
-
-        //The Node of the heap tree represents a range of the array with bounds: [node.from, node.to]
+    private void update(int index, int left, int right, long value) {
+        // The Node of the heap tree represents a range of the array with bounds: [node.left, node.right]
         Node node = heap[index];
 
         /**
@@ -163,13 +159,15 @@ public class SegmentTree {
          * This means that we do NOT update each position of the vector, but update only some temporal
          * values into the Node; such values will be propagated down to the Node's children only when they need to.
          */
-        if (contains(from, to, node.from, node.to)) {
+        if (contains(left, right, node.left, node.right)) {
             change(node, value);
         }
 
-        if (node.size() == 1) return;
+        if (node.size() == 1) {
+            return;
+        }
 
-        if (intersects(from, to, node.from, node.to)) {
+        if (intersects(left, right, node.left, node.right)) {
             /**
              * Before continuing to go down the tree we need to propagate the
              * values that have been temporarily/lazily saved into this Node to its children,
@@ -177,41 +175,41 @@ public class SegmentTree {
              */
             propagate(index);
 
-            update(2 * index, from, to, value);
-            update(2 * index + 1, from, to, value);
+            update(2 * index, left, right, value);
+            update(2 * index + 1, left, right, value);
 
             node.sum = heap[2 * index].sum + heap[2 * index + 1].sum;
             node.min = Math.min(heap[2 * index].min, heap[2 * index + 1].min);
         }
     }
 
-    //Propagate temporal values to children
+    // Propagate temporal values to children
     private void propagate(int index) {
         Node node = heap[index];
 
         if (node.pendingValue != null) {
             change(heap[2 * index], node.pendingValue);
             change(heap[2 * index + 1], node.pendingValue);
-            node.pendingValue = null; //unset the pending propagation value
+            node.pendingValue = null; // Unset the pending propagation value
         }
     }
 
-    //Save the temporal values that will be propagated lazily
-    private void change(Node node, double value) {
+    // Save the temporal values that will be propagated lazily
+    private void change(Node node, long value) {
         node.pendingValue = value;
         node.sum = node.size() * value;
         node.min = value;
-        array[node.from] = value;
+        array[node.left] = value;
     }
 
-    //Test if range1 contains range2
-    private boolean contains(int from1, int to1, int from2, int to2) {
-        return from2 >= from1 && to2 <= to1;
+    // Check if range1 contains range2
+    private boolean contains(int left1, int right1, int left2, int right2) {
+        return left2 >= left1 && right2 <= right1;
     }
 
-    //Check inclusive intersection, test if range1[from1, to1] intersects range2[from2, to2]
-    private boolean intersects(int from1, int to1, int from2, int to2) {
-        return from1 <= from2 && to1 >= from2   //  (.[..)..] or (.[...]..)
-                || from1 >= from2 && from1 <= to2; // [.(..]..) or [..(..)..
+    // Check inclusive intersection, test if range1[left1, right1] intersects range2[left2, right2]
+    private boolean intersects(int left1, int right1, int left2, int right2) {
+        return left1 <= left2 && right1 >= left2   //  (.[..)..] or (.[...]..)
+                || left1 >= left2 && left1 <= right2; // [.(..]..) or [..(..)..]
     }
 }
