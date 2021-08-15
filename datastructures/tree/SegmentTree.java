@@ -8,7 +8,6 @@ import java.util.Arrays;
  */
 // Based on https://github.com/kevin-wayne/algs4/blob/master/src/main/java/edu/princeton/cs/algs4/SegmentTree.java
 public class SegmentTree {
-
     // The Node class represents a partition range of the array.
     private static class Node {
         long sum;
@@ -40,10 +39,6 @@ public class SegmentTree {
         build(1, 0, array.length);
     }
 
-    public int size() {
-        return array.length;
-    }
-
     // Initialize the Nodes of the Segment tree
     private void build(int index, int left, int size) {
         heap[index] = new Node();
@@ -61,6 +56,10 @@ public class SegmentTree {
             heap[index].sum = heap[2 * index].sum + heap[2 * index + 1].sum;
             heap[index].min = Math.min(heap[2 * index].min, heap[2 * index + 1].min);
         }
+    }
+
+    public int size() {
+        return array.length;
     }
 
     /**
