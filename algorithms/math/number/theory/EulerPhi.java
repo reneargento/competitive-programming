@@ -13,8 +13,8 @@ public class EulerPhi {
         System.out.println(eulerPhi(36) + " Expected: 12");
     }
 
-    //Returns the number of coprimes to the number that are less than the number
-    //Example:
+    // Returns the number of coprimes to the number that are less than the number
+    // Example:
     // 36 -> 12
     // {1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35}
     private static long eulerPhi(long number) {
@@ -37,7 +37,7 @@ public class EulerPhi {
         }
 
         if (number != 1) {
-            eulerPhi -= eulerPhi / number; //last factor, the number is a prime
+            eulerPhi -= eulerPhi / number; // last factor, the number is a prime
         }
 
         return eulerPhi;
@@ -48,16 +48,15 @@ public class EulerPhi {
         List<Integer> primeNumbers = new ArrayList<>();
         boolean[] isPrime = new boolean[(int) number + 1];
 
-        //1- Mark all numbers as prime
-        for(int i = 2; i < isPrime.length; i++) {
+        // 1- Mark all numbers as prime
+        for (int i = 2; i < isPrime.length; i++) {
             isPrime[i] = true;
         }
 
-        //2- Remove numbers multiple of the current element
-        //3- Repeat until we finish verifying the maxNumberToCheck
+        // 2- Remove numbers multiple of the current element
+        // 3- Repeat until we finish verifying the maxNumberToCheck
 
-        for(long i = 2; i <= number; i++) {
-
+        for (long i = 2; i <= number; i++) {
             if (isPrime[(int) i]) {
                 for (long j = i * i; j < isPrime.length; j += i) {
                     isPrime[(int) j] = false;
@@ -66,8 +65,6 @@ public class EulerPhi {
                 primeNumbers.add((int) i);
             }
         }
-
         return primeNumbers;
     }
-
 }

@@ -21,50 +21,44 @@ public class NextPermutation {
 
     // Modifies a permutation to the next permutation (lexicographically greater) or returns null if such permutation
     // does not exist
-    public static Comparable[] nextPermutation(final Comparable[] permutation) {
-        // 1. Find the largest k, such that permutation[k] < permutation[k+1]
+    public static Comparable[] nextPermutation(Comparable[] permutation) {
+        // 1. Find the largest k, such that permutation[k] < permutation[k + 1]
         int first = getFirstIndexToSwap(permutation);
-
         if (first == -1) {
             return null; // no greater permutation
         }
 
         // 2. Find the last index toSwap, that permutation[k] < permutation[toSwap]
         int toSwap = permutation.length - 1;
-
         while (permutation[first].compareTo(permutation[toSwap]) >= 0) {
             toSwap--;
         }
 
-        // 3. Swap elements with indexes first and last
+        // 3. Swap elements with indexes first and toSwap
         swap(permutation, first++, toSwap);
 
-        // 4. Reverse sequence from k+1 to n (inclusive)
+        // 4. Reverse sequence from k + 1 to n (inclusive)
         toSwap = permutation.length - 1;
-
         while (first < toSwap) {
             swap(permutation, first++, toSwap--);
         }
-
         return permutation;
     }
 
-    // Finds the largest k, that permutation[k] < permutation[k+1]
+    // Finds the largest k, that permutation[k] < permutation[k + 1]
     // If no such k exists (there is not greater permutation), return -1
-    private static int getFirstIndexToSwap(final Comparable[] permutation ) {
-
+    private static int getFirstIndexToSwap(Comparable[] permutation ) {
         for (int i = permutation.length - 2; i >= 0; --i) {
-            if (permutation[i].compareTo(permutation[i + 1] ) < 0) {
+            if (permutation[i].compareTo(permutation[i + 1]) < 0) {
                 return i;
             }
         }
-
         return -1;
     }
 
     // Swaps two elements (with indexes index1 and index2) in array
-    private static void swap( final Comparable[] permutation, final int index1, final int index2) {
-        final Comparable temp = permutation[index1];
+    private static void swap(Comparable[] permutation, int index1, int index2) {
+        Comparable temp = permutation[index1];
         permutation[index1] = permutation[index2];
         permutation[index2] = temp;
     }

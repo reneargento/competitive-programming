@@ -17,22 +17,21 @@ public class AllCombinations {
         }
     }
 
-    private static void printCombination(int arr[], int numbersLength, int combinationSize) {
+    private static void printCombination(int[] arr, int numbersLength, int combinationSize) {
         // A temporary array to store all combinations one by one
-        int data[] = new int[combinationSize];
+        int[] data = new int[combinationSize];
 
         // Print all combinations using temporary array 'data[]'
         combinationUtil(arr, data, 0, numbersLength - 1, 0, combinationSize);
     }
 
-    private static void combinationUtil(int arr[], int data[], int start, int end, int index,
+    private static void combinationUtil(int[] arr, int[] data, int start, int end, int index,
                                         int combinationSize) {
         // Current combination is ready to be printed, print it
         if (index == combinationSize) {
             for (int j = 0; j < combinationSize; j++) {
                 System.out.print(data[j] + " ");
             }
-
             System.out.println();
             return;
         }
@@ -45,5 +44,4 @@ public class AllCombinations {
             combinationUtil(arr, data, i + 1, end, index + 1, combinationSize);
         }
     }
-
 }

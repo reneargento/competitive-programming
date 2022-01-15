@@ -6,10 +6,11 @@ import java.util.List;
 /**
  * Created by Rene Argento on 25/06/17.
  */
-public class Permutations {
+// Generates all the permutations (in order) of a given string.
+// O(n^2 * n!) runtime, where n is the string size
+// O(n!) space
+public class PermutationsString {
 
-    // O(n^2 * n!) runtime, where n is the string size
-    // O(n!) space
     public static List<String> permutations(String string) {
         if (string == null) return null;
 

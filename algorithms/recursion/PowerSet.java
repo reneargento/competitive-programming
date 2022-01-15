@@ -29,8 +29,6 @@ public class PowerSet {
 
             subsets.add(subset);
         }
-
         return subsets;
     }
-
 }

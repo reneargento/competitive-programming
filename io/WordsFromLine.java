@@ -30,7 +30,7 @@ public class WordsFromLine {
         for (int i = 0; i < line.length(); i++) {
             char character = line.charAt(i);
 
-            if (character == ' ') {
+            if (character == ' ' || character == '\t') {
                 if (word.length() > 0) {
                     words.add(word.toString());
                     word = new StringBuilder();
