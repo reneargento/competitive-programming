@@ -3,6 +3,8 @@ package algorithms.math.number.theory;
 /**
  * Created by rene on 08/09/17.
  */
+// Computes:
+// bezoutCoefficient1 * x + bezoutCoefficient2 * y = gcd(x, y)
 public class ExtendedEuclid {
 
     public static void main(String[] args) {
@@ -13,20 +15,17 @@ public class ExtendedEuclid {
         System.out.println("GCD: " + gcd + " Expected: 1");
     }
 
-    // bezoutCoefficient1 * x + bezoutCoefficient2 * y = gcd(x, y)
-
     //Bezout identity
     private static int bezoutCoefficient1;
     private static int bezoutCoefficient2;
     private static int gcd;
 
-    private static  void extendedEuclid(int number1, int number2) {
+    private static void extendedEuclid(int number1, int number2) {
         //Base case
         if (number2 == 0) {
             bezoutCoefficient1 = 1;
             bezoutCoefficient2 = 0;
             gcd = number1;
-
             return;
         }
 
@@ -39,5 +38,4 @@ public class ExtendedEuclid {
         bezoutCoefficient1 = nextBezoutCoefficient1;
         bezoutCoefficient2 = nextBezoutCoefficient2;
     }
-
 }

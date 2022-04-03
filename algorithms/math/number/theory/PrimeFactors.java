@@ -30,7 +30,6 @@ public class PrimeFactors {
         if (number > 1) {
             primeFactors.add(number);
         }
-
         return primeFactors;
     }
 }

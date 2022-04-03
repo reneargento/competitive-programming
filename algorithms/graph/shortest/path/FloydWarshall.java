@@ -11,15 +11,12 @@ import java.util.Deque;
  * Created by rene on 29/04/17.
  */
 public class FloydWarshall {
-
     private static double[][] distances;     // length of shortest v->w path
     private static DirectedEdge[][] edgeTo;  // last edge on shortest v->w path
-
     private static boolean hasNegativeCycle;
 
     public FloydWarshall(double[][] edgeWeightedDigraph) {
         int vertices = edgeWeightedDigraph.length;
-
         distances = new double[vertices][vertices];
         edgeTo = new DirectedEdge[vertices][vertices];
 
@@ -33,9 +30,8 @@ public class FloydWarshall {
 
         // Initialize distances using edge-weighted digraph's
         for (int vertex1 = 0; vertex1 < vertices; vertex1++) {
-            for (int vertex2 = 0; vertex2 < distances.length; vertex2++) {
+            for (int vertex2 = 0; vertex2 < vertices; vertex2++) {
                 double distance = edgeWeightedDigraph[vertex1][vertex2];
-
                 distances[vertex1][vertex2] = distance;
                 edgeTo[vertex1][vertex2] = new DirectedEdge(vertex1, vertex2, distance);
             }
@@ -49,7 +45,6 @@ public class FloydWarshall {
 
         for (int vertex1 = 0; vertex1 < vertices; vertex1++) {
             for (int vertex2 = 0; vertex2 < vertices; vertex2++) {
-
                 if (edgeTo[vertex2][vertex1] == null) {
                     continue;  // optimization
                 }
@@ -67,14 +62,12 @@ public class FloydWarshall {
                 }
             }
         }
-
     }
 
     public static double distance(int source, int target) {
         if (hasNegativeCycle()) {
             throw new UnsupportedOperationException("Negative cost cycle exists");
         }
-
         return distances[source][target];
     }
 
@@ -90,7 +83,6 @@ public class FloydWarshall {
         for(DirectedEdge edge = edgeTo[source][target]; edge != null; edge = edgeTo[source][edge.from()]) {
             path.push(edge);
         }
-
         return path;
     }
 
@@ -104,7 +96,6 @@ public class FloydWarshall {
 
     public Iterable<DirectedEdge> negativeCycle() {
         for (int vertex = 0; vertex < distances.length; vertex++) {
-
             // Negative cycle in vertex's predecessor graph
             if (distances[vertex][vertex] < 0.0) {
                 int vertices = edgeTo.length;
@@ -115,13 +106,10 @@ public class FloydWarshall {
                         shortestPathTree.addEdge(edgeTo[vertex][otherVertex]);
                     }
                 }
-
                 EdgeWeightedDirectedCycle cycleFinder = new EdgeWeightedDirectedCycle(shortestPathTree);
                 return cycleFinder.cycle();
             }
         }
-
         return null;
     }
-
 }

@@ -81,8 +81,8 @@ public class IntervalBST<Value> {
         return (get(interval) != null);
     }
 
-    // return value associated with the given key
-    // if no such value, return null
+    // Return value associated with the given key
+    // If no such value, return null
     public Value get(Interval interval) {
         return get(root, interval);
     }
@@ -108,14 +108,14 @@ public class IntervalBST<Value> {
      ***************************************************************************/
     public void put(Interval interval, Value value) {
         if (contains(interval)) {
-            //remove duplicates
+            // Remove duplicates
             remove(interval);
         }
 
         root = randomizedInsert(root, interval, value);
     }
 
-    // make new node the root with uniform probability to keep the BST balanced
+    // Make new node the root with uniform probability to keep the BST balanced
     private Node randomizedInsert(Node node, Interval interval, Value value) {
         if (node == null) {
             return new Node(interval, value);
@@ -159,7 +159,7 @@ public class IntervalBST<Value> {
      ***************************************************************************/
 
     // Remove and return value associated with given interval;
-    // if no such interval exists return null
+    // If no such interval exists return null
     public Value remove(Interval interval) {
         Value value = get(interval);
         root = remove(root, interval);
@@ -207,14 +207,14 @@ public class IntervalBST<Value> {
      *  Interval searching
      ***************************************************************************/
 
-    // return an interval in the data structure that intersects the given interval;
-    // return null if no such interval exists
-    // running time is proportional to log N
+    // Return an interval in the data structure that intersects the given interval;
+    // Return null if no such interval exists
+    // Running time is proportional to log N
     public Interval getIntersection(Interval interval) {
         return getIntersection(root, interval);
     }
 
-    // look in subtree rooted at node
+    // Look in subtree rooted at node
     public Interval getIntersection(Node node, Interval interval) {
         while (node != null) {
             if (interval.intersects(node.interval)) {
@@ -231,15 +231,15 @@ public class IntervalBST<Value> {
         return null;
     }
 
-    // return *all* intervals in the data structure that intersect the given interval
-    // running time is proportional to R log N, where R is the number of intersections
+    // Return *all* intervals in the data structure that intersect the given interval
+    // Running time is proportional to R log N, where R is the number of intersections
     public List<Interval> getAllIntersections(Interval interval) {
         List<Interval> intersections = new ArrayList<>();
         getAllIntersections(root, interval, intersections);
         return intersections;
     }
 
-    // look in subtree rooted at node
+    // Look in subtree rooted at node
     public boolean getAllIntersections(Node node, Interval interval, List<Interval> intersections) {
         boolean foundCenter = false;
         boolean foundLeft = false;
@@ -269,7 +269,7 @@ public class IntervalBST<Value> {
      *  useful binary search tree functions
      ***************************************************************************/
 
-    // return number of nodes in subtree rooted at node
+    // Return number of nodes in subtree rooted at node
     public int size() {
         return size(root);
     }
@@ -282,7 +282,7 @@ public class IntervalBST<Value> {
         }
     }
 
-    // height of tree (empty tree height = 0)
+    // Height of tree (empty tree height = 0)
     public int height() {
         return height(root);
     }
@@ -299,7 +299,7 @@ public class IntervalBST<Value> {
      *  helper binary search tree functions
      ***************************************************************************/
 
-    // update tree information (subtree size and max fields)
+    // Update tree information (subtree size and max fields)
     private void updateSizeAndMax(Node node) {
         if (node == null) {
             return;
@@ -317,7 +317,7 @@ public class IntervalBST<Value> {
         return node.max;
     }
 
-    // precondition: intervalAMax is not null
+    // Precondition: intervalAMax is not null
     private double max3(double intervalAMax, double intervalBMax, double intervalCMax) {
         return Math.max(intervalAMax, Math.max(intervalBMax, intervalCMax));
     }
@@ -348,12 +348,12 @@ public class IntervalBST<Value> {
      *  Debugging functions that test the integrity of the interval tree
      ***************************************************************************/
 
-    // check integrity of subtree size and max fields
+    // Check integrity of subtree size and max fields
     public boolean checkIntegrity() {
         return checkSize() && checkMax();
     }
 
-    // check integrity of size fields
+    // Check integrity of size fields
     private boolean checkSize() {
         return checkSize(root);
     }
@@ -379,5 +379,4 @@ public class IntervalBST<Value> {
 
         return node.max == max3(node.interval.max, max(node.left), max(node.right));
     }
-
 }

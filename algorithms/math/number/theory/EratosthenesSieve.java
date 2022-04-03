@@ -22,13 +22,13 @@ public class EratosthenesSieve {
         boolean[] isPrime = new boolean[(int) number + 1];
 
         // 1- Mark all numbers as prime
-        for(int i = 2; i < isPrime.length; i++) {
+        for (int i = 2; i < isPrime.length; i++) {
             isPrime[i] = true;
         }
 
         // 2- Remove numbers multiple of the first element
         // 3- Repeat until we finish verifying the maxNumberToCheck
-        for(long i = 2; i <= maxNumberToCheck; i++) { //maxNumberToCheck is also equal to: i * i <= n
+        for (long i = 2; i <= maxNumberToCheck; i++) { //maxNumberToCheck is also equal to: i * i <= n
 
             if (isPrime[(int) i]) {
                 for (long j = i * i; j < isPrime.length; j += i) {
@@ -69,14 +69,13 @@ public class EratosthenesSieve {
         isPrime = new boolean[(int) number + 1];
 
         // 1- Mark all numbers as prime
-        for(int i = 2; i < isPrime.length; i++) {
+        for (int i = 2; i < isPrime.length; i++) {
             isPrime[i] = true;
         }
 
         // 2- Remove numbers multiple of the current element
         // 3- Repeat until we finish verifying the maxNumberToCheck
-        for(long i = 2; i <= number; i++) {
-
+        for (long i = 2; i <= number; i++) {
             if (isPrime[(int) i]) {
                 for (long j = i * i; j < isPrime.length; j += i) {
                     isPrime[(int) j] = false;

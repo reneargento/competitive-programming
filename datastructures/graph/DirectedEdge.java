@@ -29,5 +29,4 @@ public class DirectedEdge {
     public String toString() {
         return String.format("%d->%d %.2f", vertex1, vertex2, weight);
     }
-
 }

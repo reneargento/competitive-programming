@@ -310,6 +310,7 @@ public class DoublyLinkedListCircular<Item> implements Iterable<Item> {
         if (doubleNode == first && first == last) {
             first = null;
             last = null;
+            size--;
             return;
         }
 
