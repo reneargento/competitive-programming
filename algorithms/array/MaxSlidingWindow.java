@@ -1,4 +1,4 @@
-package algorithms.general;
+package algorithms.array;
 
 import java.util.LinkedList;
 
@@ -9,7 +9,6 @@ import java.util.LinkedList;
 public class MaxSlidingWindow {
 
     public static void main(String[] args) {
-
         int[] array1 = {1, 3, -1, -3, 5, 3, 6, 7};
         int windowSize = 3;
 
