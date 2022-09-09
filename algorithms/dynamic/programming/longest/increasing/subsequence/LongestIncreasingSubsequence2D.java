@@ -66,7 +66,7 @@ public class LongestIncreasingSubsequence2D {
                 endIndexes[length++] = i;
             } else {
                 // Case 3 - middle end element
-                int indexToReplace = ceilIndex(objects, endIndexes, -1, length - 1, objects.get(i));
+                int indexToReplace = ceilIndex(objects, endIndexes, 0, length - 1, objects.get(i));
 
                 Object2D objectToBeReplaced = objects.get(endIndexes[indexToReplace]);
                 if (objectToBeReplaced.compareDimension2(objects.get(i)) > 0) {
@@ -79,13 +79,13 @@ public class LongestIncreasingSubsequence2D {
     }
 
     private static int ceilIndex(List<Object2D> objects, int[] endIndexes, int low, int high, Object2D key) {
-        while (high - low > 1) {
+        while (high > low) {
             int middle = low + (high - low) / 2;
 
             if (objects.get(endIndexes[middle]).compareDimension2(key) >= 0) {
                 high = middle;
             } else {
-                low = middle;
+                low = middle + 1;
             }
         }
         return high;

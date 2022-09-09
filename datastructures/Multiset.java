@@ -14,6 +14,14 @@ public class Multiset<Key extends Comparable<Key>> {
         multiset = new TreeMap<>();
     }
 
+    public boolean isEmpty() {
+        return multiset.isEmpty();
+    }
+
+    public boolean containsKey(Key key) {
+        return multiset.containsKey(key);
+    }
+
     public void add(Key key) {
         int keyFrequency = multiset.getOrDefault(key, 0);
         multiset.put(key, keyFrequency + 1);

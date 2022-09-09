@@ -3,28 +3,24 @@ package algorithms.matrix;
 /**
  * Created by Rene Argento on 14/06/20.
  */
-// Finds the max sum submatrix in O(r^2 * c) runtime, where r is the number of rows in the matrix
+// Finds the max sum sub-matrix in O(r^2 * c) runtime, where r is the number of rows in the matrix
 // and c is the number of columns in the matrix
 // O(c) space
 public class MaxSumSubMatrix {
 
-    public static class Submatrix {
+    public static class SubMatrix {
         private int startRow;
         private int endRow;
         private int startColumn;
         private int endColumn;
         private int sum;
 
-        public Submatrix(int startRow, int endRow, int startColumn, int endColumn, int sum) {
+        public SubMatrix(int startRow, int endRow, int startColumn, int endColumn, int sum) {
             this.startRow = startRow;
             this.endRow = endRow;
             this.startColumn = startColumn;
             this.endColumn = endColumn;
             this.sum = sum;
-        }
-
-        public int getSum() {
-            return sum;
         }
 
         @Override
@@ -55,29 +51,29 @@ public class MaxSumSubMatrix {
 
     // O(r^2 * c) runtime, where r is the number of rows in the matrix and c is the number of columns in the matrix
     // O(c) space
-    public static Submatrix getMaxSubmatrix(int[][] matrix) {
+    public static SubMatrix getMaxSubMatrix(int[][] matrix) {
         int rowCount = matrix.length;
         int columnCount = matrix[0].length;
-        Submatrix maxSubmatrix = null;
+        SubMatrix maxSubMatrix = null;
 
         for (int startRow = 0; startRow < rowCount; startRow++) {
-            int[] partialSum = new int[columnCount];
+            int[] cumulativeColumnSum = new int[columnCount];
 
             for (int endRow = startRow; endRow < rowCount; endRow++) {
                 for (int column = 0; column < columnCount; column++) {
-                    partialSum[column] += matrix[endRow][column];
+                    cumulativeColumnSum[column] += matrix[endRow][column];
                 }
 
-                Subarray currentMaxSubarray = getMaxSumSubarray(partialSum);
-                if (maxSubmatrix == null || maxSubmatrix.getSum() < currentMaxSubarray.getSum()) {
+                Subarray currentMaxSubarray = getMaxSumSubarray(cumulativeColumnSum);
+                if (maxSubMatrix == null || maxSubMatrix.sum < currentMaxSubarray.getSum()) {
                     int startColumn = currentMaxSubarray.index1;
                     int endColumn = currentMaxSubarray.index2;
                     int sum = currentMaxSubarray.getSum();
-                    maxSubmatrix = new Submatrix(startRow, endRow, startColumn, endColumn, sum);
+                    maxSubMatrix = new SubMatrix(startRow, endRow, startColumn, endColumn, sum);
                 }
             }
         }
-        return maxSubmatrix;
+        return maxSubMatrix;
     }
 
     // Kadane's algorithm
@@ -109,8 +105,8 @@ public class MaxSumSubMatrix {
                 {-2, 5, 2, -1},
                 {1, -1, 2, 7}
         };
-        Submatrix submatrix1 = getMaxSubmatrix(matrix1);
-        System.out.println("Max submatrix: " + submatrix1);
+        SubMatrix subMatrix1 = getMaxSubMatrix(matrix1);
+        System.out.println("Max sub-matrix: " + subMatrix1);
         System.out.println("Expected: (2, 1) (2, 3) (3, 1) (3, 3) sum: 14");
 
         int[][] matrix2 = {
@@ -119,9 +115,8 @@ public class MaxSumSubMatrix {
                 {-2, -3, 2, -1},
                 {1, -1, 2, 7}
         };
-        Submatrix submatrix2 = getMaxSubmatrix(matrix2);
-        System.out.println("\nMax submatrix: " + submatrix2);
+        SubMatrix subMatrix2 = getMaxSubMatrix(matrix2);
+        System.out.println("\nMax sub-matrix: " + subMatrix2);
         System.out.println("Expected: (0, 2) (0, 3) (3, 2) (3, 3) sum: 15");
     }
-
 }

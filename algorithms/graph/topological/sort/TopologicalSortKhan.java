@@ -14,15 +14,15 @@ public class TopologicalSortKhan {
         int indegree[] = new int[vertices];
 
         // Traverse adjacency lists to fill indegrees of vertices. This step takes O(V+E) time
-        for(int i = 0; i < vertices; i++) {
-            for(int neighbor : adjacent[i]) {
+        for (int i = 0; i < vertices; i++) {
+            for (int neighbor : adjacent[i]) {
                 indegree[neighbor]++;
             }
         }
 
         // Create a queue and enqueue all vertices with indegree 0
         Queue<Integer> queue = new LinkedList<>();
-        for(int vertex = 0; vertex < vertices; vertex++) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
             if(indegree[vertex] == 0)
                 queue.add(vertex);
         }
@@ -33,16 +33,16 @@ public class TopologicalSortKhan {
         int[] topologicalOrder = new int[vertices];
         int topologicalOrderIndex = 0;
 
-        while(!queue.isEmpty()) {
+        while (!queue.isEmpty()) {
             int currentVertex = queue.poll();
             topologicalOrder[topologicalOrderIndex++] = currentVertex;
 
             // Iterate through all neighbouring nodes of the dequeued vertex and decrease their in-degree by 1
-            for(int neighbor : adjacent[currentVertex]) {
+            for (int neighbor : adjacent[currentVertex]) {
                 // If in-degree becomes zero, add it to queue
                 indegree[neighbor]--;
 
-                if(indegree[neighbor] == 0) {
+                if (indegree[neighbor] == 0) {
                     queue.add(neighbor);
                 }
             }
@@ -50,12 +50,10 @@ public class TopologicalSortKhan {
         }
 
         // Check if there was a cycle
-        if(count != vertices) {
+        if (count != vertices) {
             System.out.println("There exists a cycle in the graph");
             return null;
         }
-
         return topologicalOrder;
     }
-
 }

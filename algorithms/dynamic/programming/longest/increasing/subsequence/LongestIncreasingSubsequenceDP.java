@@ -44,17 +44,15 @@ public class LongestIncreasingSubsequenceDP {
         }
 
         LinkedList<Integer> sequence = new LinkedList<>();
-
         while (elementIndex != -1) {
             sequence.addFirst(array[elementIndex]);
             elementIndex = previous[elementIndex];
         }
-
         return sequence;
     }
 
     public static void main(String[] args) {
-        int array[] = { 10, 22, 9, 33, 21, 50, 41, 60 };
+        int[] array = { 10, 22, 9, 33, 21, 50, 41, 60 };
         List<Integer> longestIncreasingSubsequence = longestIncreasingSubsequence(array);
 
         System.out.print("LIS: ");
@@ -63,5 +61,4 @@ public class LongestIncreasingSubsequenceDP {
         }
         System.out.println("\nExpected: 10 22 33 50 60");
     }
-
 }

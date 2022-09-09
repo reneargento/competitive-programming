@@ -32,7 +32,7 @@ public class LongestIncreasingSubsequence {
                 endIndexes[length++] = i;
             } else {
                 // Case 3 - middle end element
-                int indexToReplace = ceilIndex(array, endIndexes, -1, length - 1, array[i]);
+                int indexToReplace = ceilIndex(array, endIndexes, 0, length - 1, array[i]);
                 previousIndices[i] = endIndexes[indexToReplace - 1];
                 endIndexes[indexToReplace] = i;
             }
@@ -43,13 +43,13 @@ public class LongestIncreasingSubsequence {
     }
 
     private static int ceilIndex(int[] array, int[] endIndexes, int low, int high, int key) {
-        while (high - low > 1) {
+        while (high > low) {
             int middle = low + (high - low) / 2;
 
             if (array[endIndexes[middle]] >= key) {
                 high = middle;
             } else {
-                low = middle;
+                low = middle + 1;
             }
         }
         return high;
