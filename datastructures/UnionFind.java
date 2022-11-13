@@ -30,7 +30,7 @@ public class UnionFind {
         return find(site1) == find(site2);
     }
 
-    // O(inverse Ackermann function)
+    // O(α(n)), where α is the inverse Ackermann function.
     public int find(int site) {
         if (site == leaders[site]) {
             return site;
@@ -38,7 +38,7 @@ public class UnionFind {
         return leaders[site] = find(leaders[site]);
     }
 
-    // O(inverse Ackermann function)
+    // O(α(n)), where α is the inverse Ackermann function.
     public void union(int site1, int site2) {
         int leader1 = find(site1);
         int leader2 = find(site2);

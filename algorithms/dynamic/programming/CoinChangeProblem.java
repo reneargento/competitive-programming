@@ -8,12 +8,12 @@ package algorithms.dynamic.programming;
 public class CoinChangeProblem {
 
     public static void main(String[] args) {
-        int[] coins1 = {1, 2, 3};
+        int[] coins1 = { 1, 2, 3 };
         int targetExchange1 = 4;
         long coinChangePossibilities1 = calculateCoinChangePossibilities(coins1, targetExchange1);
         System.out.println("Coin change possibilities 1: " + coinChangePossibilities1 + " Expected: 4");
 
-        int[] coins2 = {2, 5, 3, 6};
+        int[] coins2 = { 2, 5, 3, 6 };
         int targetExchange2 = 10;
         long coinChangePossibilities2 = calculateCoinChangePossibilities(coins2, targetExchange2);
         System.out.println("Coin change possibilities 2: " + coinChangePossibilities2 + " Expected: 5");
@@ -27,9 +27,9 @@ public class CoinChangeProblem {
         // Base case - for 0 exchange, there is 1 solution (no coins)
         dp[0] = 1;
 
-        for (int i = 0; i < coins.length; i++) {
-            for(int j = coins[i]; j <= targetExchange; j++) {
-                dp[j] += dp[j - coins[i]];
+        for (int coinValue : coins) {
+            for (int currentSum = coinValue; currentSum <= targetExchange; currentSum++) {
+                dp[currentSum] += dp[currentSum - coinValue];
             }
         }
         return dp[targetExchange];

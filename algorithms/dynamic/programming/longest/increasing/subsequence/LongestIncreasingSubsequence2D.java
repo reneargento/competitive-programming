@@ -23,9 +23,9 @@ public class LongestIncreasingSubsequence2D {
         @Override
         public int compareTo(Object2D otherObject) {
             if (this.dimension1 != otherObject.dimension1) {
-                return this.dimension1 - otherObject.dimension1;
+                return Integer.compare(this.dimension1, otherObject.dimension1);
             } else {
-                return this.dimension2 - otherObject.dimension2;
+                return Integer.compare(otherObject.dimension2, this.dimension2);
             }
         }
 
@@ -34,7 +34,7 @@ public class LongestIncreasingSubsequence2D {
         }
 
         public int compareDimension2(Object2D otherObject) {
-            return this.dimension2 - otherObject.dimension2;
+            return Integer.compare(this.dimension2, otherObject.dimension2);
         }
 
         @Override
@@ -43,7 +43,7 @@ public class LongestIncreasingSubsequence2D {
         }
     }
 
-    public static List<Object2D> longestIncreasingSubsequence(List<Object2D> objects) {
+    private static List<Object2D> longestIncreasingSubsequence(List<Object2D> objects) {
         if (objects == null || objects.isEmpty()) {
             return new ArrayList<>();
         }
@@ -58,7 +58,7 @@ public class LongestIncreasingSubsequence2D {
 
         for (int i = 1; i < objectsLength; i++) {
             // Case 1 - smallest end element
-            if (objects.get(i).compareDimension2(objects.get(endIndexes[0])) < 0) {
+            if (objects.get(i).compareDimension2(objects.get(endIndexes[0])) <= 0) {
                 endIndexes[0] = i;
             } else if (objects.get(endIndexes[length - 1]).isBefore(objects.get(i))) {
                 // Case 2 - highest end element - extends longest increasing subsequence
@@ -67,12 +67,8 @@ public class LongestIncreasingSubsequence2D {
             } else {
                 // Case 3 - middle end element
                 int indexToReplace = ceilIndex(objects, endIndexes, 0, length - 1, objects.get(i));
-
-                Object2D objectToBeReplaced = objects.get(endIndexes[indexToReplace]);
-                if (objectToBeReplaced.compareDimension2(objects.get(i)) > 0) {
-                    previousObject[i] = endIndexes[indexToReplace - 1];
-                    endIndexes[indexToReplace] = i;
-                }
+                previousObject[i] = endIndexes[indexToReplace - 1];
+                endIndexes[indexToReplace] = i;
             }
         }
         return getSequence(objects, endIndexes, previousObject, length);
@@ -124,11 +120,12 @@ public class LongestIncreasingSubsequence2D {
         objects3.add(new Object2D(60, 130));
         objects3.add(new Object2D(63, 115));
         objects3.add(new Object2D(63, 118));
+        objects3.add(new Object2D(64, 117));
         objects3.add(new Object2D(100, 99));
         objects3.add(new Object2D(100, 110));
         List<Object2D> sequence3 = longestIncreasingSubsequence(objects3);
         printSequence(sequence3);
-        System.out.println("Expected: (50, 100) (63, 115) (75, 120)");
+        System.out.println("Expected: (50, 100) (63, 115) (64, 117) (75, 120)");
     }
 
     private static void printSequence(List<Object2D> sequence) {
@@ -138,5 +135,4 @@ public class LongestIncreasingSubsequence2D {
         }
         System.out.println("Sequence: " + sequenceDescription.toString());
     }
-
 }

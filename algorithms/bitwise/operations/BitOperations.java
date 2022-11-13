@@ -113,4 +113,10 @@ public class BitOperations {
     public static int setLastConsecutiveUnsetBits(int number) {
         return number | (number - 1);
     }
+
+    // Example: number = 110110
+    // Result: 000010
+    private static int getSmallestPowerOf2(int number) {
+        return number & (-number);
+    }
 }
