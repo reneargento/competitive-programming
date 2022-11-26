@@ -29,7 +29,6 @@ public class EratosthenesSieve {
         // 2- Remove numbers multiple of the first element
         // 3- Repeat until we finish verifying the maxNumberToCheck
         for (long i = 2; i <= maxNumberToCheck; i++) { //maxNumberToCheck is also equal to: i * i <= n
-
             if (isPrime[(int) i]) {
                 for (long j = i * i; j < isPrime.length; j += i) {
                     isPrime[(int) j] = false;
@@ -56,7 +55,6 @@ public class EratosthenesSieve {
                     return false;
                 }
             }
-
             return true;
         }
     }

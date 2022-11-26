@@ -1,6 +1,6 @@
 package algorithms.dynamic.programming;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Created by Rene Argento on 09/09/22.
@@ -8,20 +8,35 @@ import java.util.Arrays;
 // Given n items, each with its value V and weight W and a maximum knapsack weight S, compute the maximum value
 // of the items that we can carry, if we can either ignore or take a particular item.
 // Based on https://www.geeksforgeeks.org/0-1-knapsack-problem-dp-10/
+// and https://www.geeksforgeeks.org/printing-items-01-knapsack/
 public class Knapsack {
 
     public static void main(String[] args) {
         int[] values1 = { 100, 70, 50, 10 };
         int[] weights1 = { 10, 4, 6, 12 };
         int maxWeight1 = 12;
-        long maximumValue1 = knapsack(values1, weights1, maxWeight1);
+        long maximumValue1 = knapsack3(values1, weights1, maxWeight1);
         System.out.println("Max value 1: " + maximumValue1 + " Expected: 120");
+
+        List<Integer> selectedItems1 = knapsack2(values1, weights1, maxWeight1);
+        System.out.print("Items:");
+        for (Integer item : selectedItems1) {
+            System.out.print(" " + item);
+        }
+        System.out.println(" Expected: 70 50");
 
         int[] values2 = { 60, 100, 120 };
         int[] weights2 = { 10, 20, 30 };
         int maxWeight2 = 50;
-        long maximumValue2 = knapsack(values2, weights2, maxWeight2);
-        System.out.println("Max value 2: " + maximumValue2 + " Expected: 220");
+        long maximumValue2 = knapsack3(values2, weights2, maxWeight2);
+        System.out.println("\nMax value 2: " + maximumValue2 + " Expected: 220");
+
+        List<Integer> selectedItems2 = knapsack2(values2, weights2, maxWeight2);
+        System.out.print("Items:");
+        for (Integer item : selectedItems2) {
+            System.out.print(" " + item);
+        }
+        System.out.println(" Expected: 100 120");
     }
 
     // O(n * S) runtime complexity and O(S) space
@@ -40,33 +55,77 @@ public class Knapsack {
         return dp[maxWeight];
     }
 
-    // O(n * S) runtime complexity and O(n * S) space
-    private static long knapsack2(int[] values, int[] weights, int maxWeight) {
+    // O(n * S) runtime complexity and O(n * S) space - Bottom-up approach
+    // Also reconstructs the solution
+    private static List<Integer> knapsack2(int[] values, int[] weights, int maxWeight) {
+        long[][] dp = new long[values.length + 1][maxWeight + 1];
+
+        for (int item = 1; item < dp.length; item++) {
+            for (int weightRemaining = 1; weightRemaining <= maxWeight; weightRemaining++) {
+                long valueWithoutItem = dp[item - 1][weightRemaining];
+                long valueWithItem = 0;
+                if (weightRemaining >= weights[item - 1]) {
+                    valueWithItem = dp[item - 1][weightRemaining - weights[item - 1]] + values[item - 1];
+                }
+                dp[item][weightRemaining] = Math.max(valueWithoutItem, valueWithItem);
+            }
+        }
+
+        // Knapsack solution = dp[values.length][maxWeight];
+        List<Integer> selectedItems = new ArrayList<>();
+        int weight = maxWeight;
+        for (int item = dp.length - 1; item > 0; item--) {
+            if (dp[item][weight] != dp[item - 1][weight]) {
+                selectedItems.add(values[item - 1]);
+                weight -= weights[item - 1];
+            }
+        }
+        Collections.reverse(selectedItems);
+        return selectedItems;
+    }
+
+    // O(n * S) runtime complexity and O(n * S) space - Top-down approach
+    private static long knapsack3(int[] values, int[] weights, int maxWeight) {
         long[][] dp = new long[values.length][maxWeight + 1];
         for (long[] rows : dp) {
             Arrays.fill(rows, -1);
         }
-        return knapsack2(values, weights, dp, 0, maxWeight);
+
+        return knapsack3(values, weights, dp, 0, maxWeight);
     }
 
-    private static long knapsack2(int[] values, int[] weights, long[][] dp, int itemIndex, int remainingWeight) {
-        if (itemIndex == values.length || remainingWeight == 0) {
+    private static long knapsack3(int[] values, int[] weights, long[][] dp, int itemIndex, int remainingWeight) {
+        if (itemIndex == dp.length || remainingWeight == 0) {
             return 0;
         }
         if (dp[itemIndex][remainingWeight] != -1) {
             return dp[itemIndex][remainingWeight];
         }
 
-        int weightWithItem = remainingWeight - weights[itemIndex];
-        if (weightWithItem < 0) {
-            dp[itemIndex][remainingWeight] = knapsack2(values, weights, dp, itemIndex + 1, remainingWeight);
-            return dp[itemIndex][remainingWeight];
-        }
+        long totalValueWithoutItem = knapsack3(values, weights, dp, itemIndex + 1, remainingWeight);
+        long totalValueWithItem = 0;
 
-        long totalValueWithItem = values[itemIndex] +
-                knapsack2(values, weights, dp, itemIndex + 1, weightWithItem);
-        long totalValueWithoutItem = knapsack2(values, weights, dp, itemIndex + 1, remainingWeight);
+        int weightWithItem = remainingWeight - weights[itemIndex];
+        if (weightWithItem >= 0) {
+            totalValueWithItem = values[itemIndex] + knapsack3(values, weights, dp, itemIndex + 1, weightWithItem);
+        }
         dp[itemIndex][remainingWeight] = Math.max(totalValueWithItem, totalValueWithoutItem);
         return dp[itemIndex][remainingWeight];
+    }
+
+    private static List<Integer> reconstructItems2(int[] values, int[] weights, int maxWeight, long[][] dp) {
+        List<Integer> items = new ArrayList<>();
+        int currentWeight = maxWeight;
+
+        for (int itemIndex = 0; itemIndex < dp.length - 1; itemIndex++) {
+            if (dp[itemIndex][currentWeight] != dp[itemIndex + 1][currentWeight]) {
+                items.add(values[itemIndex]);
+                currentWeight -= weights[itemIndex];
+            }
+        }
+        if (dp[dp.length - 1][currentWeight] != 0) {
+            items.add(values[dp.length - 1]);
+        }
+        return items;
     }
 }
