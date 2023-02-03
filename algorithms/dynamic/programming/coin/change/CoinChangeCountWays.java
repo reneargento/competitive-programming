@@ -1,4 +1,4 @@
-package algorithms.dynamic.programming;
+package algorithms.dynamic.programming.coin.change;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.List;
  */
 // Based on https://www.hackerrank.com/challenges/coin-change
 // How many different ways can you make change for an amount, given a list of coins?
-public class CoinChangeProblem {
+public class CoinChangeCountWays {
 
     public static void main(String[] args) {
         int[] coins1 = { 1, 2, 3 };
@@ -39,7 +39,7 @@ public class CoinChangeProblem {
     }
 
     // Based on https://www.geeksforgeeks.org/coin-change-dp-7/
-    // Using O(n * m) runtime complexity and O(n) space
+    // Using O(coinTypes * targetExchange) runtime complexity and O(targetExchange) space
     private static long[] calculateCoinChangePossibilities(int[] coins, int targetExchange) {
         long[] dp = new long[targetExchange + 1];
 
@@ -65,7 +65,7 @@ public class CoinChangeProblem {
         return coinsUsed;
     }
 
-    // O(n * m) runtime complexity and O(n m) space - Top-down approach
+    // O(coinTypes * targetExchange) runtime complexity and O(coinTypes * targetExchange) space - Top-down approach
     private static long[][] calculateCoinChangePossibilities2(int[] coins, int targetExchange) {
         // dp[i][c] = Number of ways to sum to cost with items >= i
         long[][] dp = new long[coins.length][targetExchange + 1];
@@ -104,7 +104,7 @@ public class CoinChangeProblem {
         }
     }
 
-    // O(n * m) runtime complexity and O(n m) space - Bottom-up approach
+    // O(coinTypes * targetExchange) runtime complexity and O(coinTypes * targetExchange) space - Bottom-up approach
     private static long calculateCoinChangePossibilities3(int[] coins, int targetExchange) {
         if (coins == null) {
             return 1;

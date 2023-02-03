@@ -79,7 +79,7 @@ public class LowestCommonAncestor {
     //         5
     //     3      7
     //   2  4   6  -4
-    // 1 8
+    // 1  8
     public static void main(String[] args) {
         TreeNode<Integer> node5 = new TreeNode<>(5);
         TreeNode<Integer> node3 = new TreeNode<>(3);

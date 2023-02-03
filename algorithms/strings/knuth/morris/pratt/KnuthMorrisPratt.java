@@ -13,8 +13,8 @@ import java.util.Queue;
 // Based on https://algs4.cs.princeton.edu/53substring/KMPplus.java.html
 public class KnuthMorrisPratt {
 
-    private String pattern;
-    private int[] next; // prefix
+    private final String pattern;
+    private final int[] next; // prefix
 
     public KnuthMorrisPratt(String pattern) {
         if (pattern == null || pattern.length() == 0) {
@@ -43,7 +43,6 @@ public class KnuthMorrisPratt {
             while (j >= 0 && pattern.charAt(patternIndex) != pattern.charAt(j)) {
                 j = next[j];
             }
-
             j++;
         }
     }

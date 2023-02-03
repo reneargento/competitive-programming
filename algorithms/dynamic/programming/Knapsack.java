@@ -85,13 +85,17 @@ public class Knapsack {
     }
 
     // O(n * S) runtime complexity and O(n * S) space - Top-down approach
+    // Also reconstructs the solution
     private static long knapsack3(int[] values, int[] weights, int maxWeight) {
         long[][] dp = new long[values.length][maxWeight + 1];
         for (long[] rows : dp) {
             Arrays.fill(rows, -1);
         }
 
-        return knapsack3(values, weights, dp, 0, maxWeight);
+        long maxValue = knapsack3(values, weights, dp, 0, maxWeight);
+        // Optional reconstruction
+        List<Integer> items = reconstructItems2(values, weights, maxWeight, dp);
+        return maxValue;
     }
 
     private static long knapsack3(int[] values, int[] weights, long[][] dp, int itemIndex, int remainingWeight) {
@@ -103,29 +107,40 @@ public class Knapsack {
         }
 
         long totalValueWithoutItem = knapsack3(values, weights, dp, itemIndex + 1, remainingWeight);
-        long totalValueWithItem = 0;
 
+        long totalValueWithItem = 0;
         int weightWithItem = remainingWeight - weights[itemIndex];
         if (weightWithItem >= 0) {
             totalValueWithItem = values[itemIndex] + knapsack3(values, weights, dp, itemIndex + 1, weightWithItem);
         }
+
         dp[itemIndex][remainingWeight] = Math.max(totalValueWithItem, totalValueWithoutItem);
         return dp[itemIndex][remainingWeight];
     }
 
     private static List<Integer> reconstructItems2(int[] values, int[] weights, int maxWeight, long[][] dp) {
         List<Integer> items = new ArrayList<>();
-        int currentWeight = maxWeight;
-
-        for (int itemIndex = 0; itemIndex < dp.length - 1; itemIndex++) {
-            if (dp[itemIndex][currentWeight] != dp[itemIndex + 1][currentWeight]) {
-                items.add(values[itemIndex]);
-                currentWeight -= weights[itemIndex];
-            }
-        }
-        if (dp[dp.length - 1][currentWeight] != 0) {
-            items.add(values[dp.length - 1]);
-        }
+        long currentValue = dp[0][maxWeight];
+        reconstructItems2(values, weights, dp, items, 0, maxWeight, currentValue);
         return items;
+    }
+
+    private static void reconstructItems2(int[] values, int[] weights, long[][] dp, List<Integer> items, int itemIndex,
+                                          int remainingWeight, long currentValue) {
+        if (itemIndex == values.length || currentValue == 0) {
+            return;
+        }
+        if (itemIndex == values.length - 1) {
+            items.add(values[itemIndex]);
+            return;
+        }
+
+        if (dp[itemIndex][remainingWeight] != dp[itemIndex + 1][remainingWeight]) {
+            items.add(values[itemIndex]);
+            reconstructItems2(values, weights, dp, items, itemIndex + 1,
+                    remainingWeight - weights[itemIndex], currentValue - values[itemIndex]);
+        } else {
+            reconstructItems2(values, weights, dp, items, itemIndex + 1, remainingWeight, currentValue);
+        }
     }
 }
