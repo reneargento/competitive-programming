@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rene on 29/12/17.
+ * Created by Rene Argento on 29/12/17.
  */
 public class RescaleWeights {
 
@@ -18,7 +18,7 @@ public class RescaleWeights {
         double minWeightOriginal = weights.get(0);
         double maxWeightOriginal = weights.get(0);
 
-        for(double weight : weights) {
+        for (double weight : weights) {
             if (weight < minWeightOriginal) {
                 minWeightOriginal = weight;
             }
@@ -29,7 +29,7 @@ public class RescaleWeights {
 
         List<Double> rescaledWeights = new ArrayList<>();
 
-        for(double weight : weights) {
+        for (double weight : weights) {
             double rescaledWeight = ((maxWeightInScale - minWeightInScale) * (weight - minWeightOriginal)
                     / (maxWeightOriginal - minWeightOriginal)) + minWeightInScale;
             rescaledWeights.add(rescaledWeight);

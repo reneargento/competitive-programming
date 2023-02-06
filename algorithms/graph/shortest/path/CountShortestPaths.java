@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * Created by rene on 21/09/17.
+ * Created by Rene Argento on 21/09/17.
  */
 public class CountShortestPaths {
 
@@ -23,7 +23,7 @@ public class CountShortestPaths {
         while (!queue.isEmpty()) {
             int currentVertex = queue.poll();
 
-            for(int neighbor : adjacent[currentVertex]) {
+            for (int neighbor : adjacent[currentVertex]) {
 
                 if (!visited[neighbor]) {
                     shortestPathValue[neighbor] = shortestPathValue[currentVertex] + 1;
@@ -35,13 +35,9 @@ public class CountShortestPaths {
                         shortestPaths[neighbor] += shortestPaths[currentVertex];
                     }
                 }
-
                 visited[neighbor] = true;
             }
-
         }
-
         return shortestPaths[destination];
     }
-
 }

@@ -3,24 +3,23 @@ package algorithms.graph.cycle.detection;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
 
 /**
- * Created by rene on 24/10/17.
+ * Created by Rene Argento on 24/10/17.
  */
-public class HasDirectedCycle {
+public class HasCycleDirectedGraph {
 
-    private boolean visited[];
-    private int[] edgeTo;
+    private final boolean[] visited;
+    private final int[] edgeTo;
     private Deque<Integer> cycle; // vertices on  a cycle (if one exists)
-    private boolean[] onStack; // vertices on recursive call stack
+    private final boolean[] onStack; // vertices on recursive call stack
 
-    public HasDirectedCycle(List<Integer>[] adjacent) {
+    public HasCycleDirectedGraph(List<Integer>[] adjacent) {
         onStack = new boolean[adjacent.length];
         edgeTo = new int[adjacent.length];
         visited = new boolean[adjacent.length];
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (!visited[vertex]) {
                 dfs(adjacent, vertex);
             }
@@ -31,7 +30,7 @@ public class HasDirectedCycle {
         onStack[vertex] = true;
         visited[vertex] = true;
 
-        for(int neighbor : adjacent[vertex]) {
+        for (int neighbor : adjacent[vertex]) {
             if (hasCycle()) {
                 return;
             } else if (!visited[neighbor]) {
@@ -40,7 +39,7 @@ public class HasDirectedCycle {
             } else if (onStack[neighbor]) {
                 cycle = new ArrayDeque<>();
 
-                for(int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
+                for (int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
                     cycle.push(currentVertex);
                 }
 
@@ -59,5 +58,4 @@ public class HasDirectedCycle {
     public Iterable<Integer> cycle() {
         return cycle;
     }
-
 }

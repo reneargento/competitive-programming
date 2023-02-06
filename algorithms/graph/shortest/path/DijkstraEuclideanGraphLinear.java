@@ -5,7 +5,7 @@ import datastructures.priority.queue.IndexMinPriorityQueue;
 import java.util.*;
 
 /**
- * Created by rene on 09/12/17.
+ * Created by Rene Argento on 09/12/17.
  */
 // Computes the shortest path between two vertices in O(V + E) due to the use of the Euclidean heuristic
 public class DijkstraEuclideanGraphLinear {
@@ -54,7 +54,7 @@ public class DijkstraEuclideanGraphLinear {
             allVertices = new Vertex[vertices];
             adjacent = (List<Edge>[]) new ArrayList[vertices];
 
-            for(int vertex = 0; vertex < vertices; vertex++) {
+            for (int vertex = 0; vertex < vertices; vertex++) {
                 adjacent[vertex] = new ArrayList<>();
             }
         }
@@ -91,7 +91,7 @@ public class DijkstraEuclideanGraphLinear {
         public Iterable<Edge> edges() {
             List<Edge> bag = new ArrayList<>();
 
-            for(int vertex = 0; vertex < vertices; vertex++) {
+            for (int vertex = 0; vertex < vertices; vertex++) {
                 bag.addAll(adjacent[vertex]);
             }
 
@@ -102,15 +102,14 @@ public class DijkstraEuclideanGraphLinear {
         public String toString() {
             StringBuilder stringBuilder = new StringBuilder();
 
-            for(int vertex = 0; vertex < vertices(); vertex++) {
+            for (int vertex = 0; vertex < vertices(); vertex++) {
                 stringBuilder.append(vertex).append(": ");
 
-                for(Edge neighbor : adjacent(vertex)) {
+                for (Edge neighbor : adjacent(vertex)) {
                     stringBuilder.append(neighbor).append(" ");
                 }
                 stringBuilder.append("\n");
             }
-
             return stringBuilder.toString();
         }
     }
@@ -136,11 +135,10 @@ public class DijkstraEuclideanGraphLinear {
 
         // O(V) due to the use of the Euclidean Heuristic
         private void computeSourceSinkShortestPath(int target) {
-
             edgeTo = new Edge[euclideanEdgeWeightedDigraph.vertices()];
 
             distTo = new double[euclideanEdgeWeightedDigraph.vertices()];
-            for(int vertex = 0; vertex < euclideanEdgeWeightedDigraph.vertices(); vertex++) {
+            for (int vertex = 0; vertex < euclideanEdgeWeightedDigraph.vertices(); vertex++) {
                 distTo[vertex] = Double.POSITIVE_INFINITY;
             }
 
@@ -158,16 +156,14 @@ public class DijkstraEuclideanGraphLinear {
 
                 relax(euclideanEdgeWeightedDigraph, vertexToRelax, target);
             }
-
             finalDistanceTo[target] = distTo[target];
         }
 
         // O(degree(V))
         private void relax(EuclideanEdgeWeightedDigraph euclideanEdgeWeightedDigraph, int vertex, int target) {
-
             double distanceFromVertexToTarget = getDistanceBetweenVertices(vertex, target);
 
-            for(Edge edge : euclideanEdgeWeightedDigraph.adjacent(vertex)) {
+            for (Edge edge : euclideanEdgeWeightedDigraph.adjacent(vertex)) {
                 int neighbor = edge.vertex2;
 
                 //Euclidean heuristic
@@ -229,10 +225,9 @@ public class DijkstraEuclideanGraphLinear {
             }
 
             Deque<Edge> path = new ArrayDeque<>();
-            for(Edge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.vertex1]) {
+            for (Edge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.vertex1]) {
                 path.push(edge);
             }
-
             return path;
         }
     }
@@ -286,7 +281,7 @@ public class DijkstraEuclideanGraphLinear {
         DijkstraEuclideanGraph dijkstraSPEuclideanGraph =
                 shortestPathsInEuclideanGraphs.new DijkstraEuclideanGraph(euclideanEdgeWeightedDigraph, 0);
 
-        for(int vertex = 0; vertex < euclideanEdgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < euclideanEdgeWeightedDigraph.vertices(); vertex++) {
             System.out.printf("Distance to vertex %d: %.2f\n", vertex, dijkstraSPEuclideanGraph.distTo(vertex));
         }
 
@@ -299,18 +294,17 @@ public class DijkstraEuclideanGraphLinear {
         System.out.println("Vertex 5: 4.33");
         System.out.println("Vertex 6: 7.53");
 
-        for(int vertex = 0; vertex < euclideanEdgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < euclideanEdgeWeightedDigraph.vertices(); vertex++) {
             System.out.print("\nPath from vertex 0 to vertex " + vertex + ": ");
 
             if (dijkstraSPEuclideanGraph.hasPathTo(vertex)) {
-                for(Edge edge : dijkstraSPEuclideanGraph.pathTo(vertex)) {
+                for (Edge edge : dijkstraSPEuclideanGraph.pathTo(vertex)) {
                     System.out.print(edge.vertex1 + "->" + edge.vertex2 + " ");
                 }
             } else {
                 System.out.print("There is no path to vertex " + vertex);
             }
         }
-
         System.out.println("\n\nExpected paths");
         System.out.println("Vertex 0: ");
         System.out.println("Vertex 1: 0->1");
@@ -320,5 +314,4 @@ public class DijkstraEuclideanGraphLinear {
         System.out.println("Vertex 5: 0->1 1->5");
         System.out.println("Vertex 6: 0->1 1->5 5->6");
     }
-
 }

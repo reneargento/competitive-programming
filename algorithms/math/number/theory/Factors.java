@@ -3,7 +3,7 @@ package algorithms.math.number.theory;
 import java.util.TreeSet;
 
 /**
- * Created by rene on 03/06/17.
+ * Created by Rene Argento on 03/06/17.
  */
 public class Factors {
 
@@ -11,7 +11,7 @@ public class Factors {
         TreeSet<Long> factors = new TreeSet<>();
         int upperLimit = (int) Math.sqrt(number);
 
-        for(int i = 1; i <= upperLimit; i++) {
+        for (int i = 1; i <= upperLimit; i++) {
             if (number % i == 0) {
                 factors.add((long) i);
 

@@ -5,7 +5,7 @@ import algorithms.geometry.IsPointLeftToLine;
 import java.awt.*;
 
 /**
- * Created by rene on 17/11/17.
+ * Created by Rene Argento on 17/11/17.
  */
 public class IsPointInPolygon {
 
@@ -41,5 +41,4 @@ public class IsPointInPolygon {
 
         return Math.abs(Math.abs(sum) - 2 * Math.PI) < EPSILON;
     }
-
 }

@@ -1,7 +1,7 @@
 package algorithms.general;
 
 /**
- * Created by rene on 09/09/17.
+ * Created by Rene Argento on 09/09/17.
  */
 public class FloydCycleFinding {
 
@@ -35,7 +35,6 @@ public class FloydCycleFinding {
 
     //Floyd's cycle detection algorithm
     public static Node detectCycle(Node a) {
-
         Node startNode = a;
 
         //If we want to remove the cycle it is better to start fast one position after slow
@@ -46,8 +45,7 @@ public class FloydCycleFinding {
 
         boolean hasCycle = false;
 
-        while(slow != null && fast != null && fast.next != null) {
-
+        while (slow != null && fast != null && fast.next != null) {
             slow = slow.next;
 
             fast = fast.next;
@@ -65,18 +63,17 @@ public class FloydCycleFinding {
 
         //removeCycle(startNode, fast);
 
-        while(a != fast) {
+        while (a != fast) {
             a = a.next;
             fast = fast.next;
         }
-
         return fast;
     }
 
     private static void removeCycle(Node startNode, Node cycleMeetingPoint) {
         Node start = startNode; //Save reference for printing later
 
-        while(cycleMeetingPoint.next != startNode) {
+        while (cycleMeetingPoint.next != startNode) {
             startNode = startNode.next;
             cycleMeetingPoint = cycleMeetingPoint.next;
         }
@@ -87,7 +84,7 @@ public class FloydCycleFinding {
     }
 
     private static void printList(Node node) {
-        while(node != null) {
+        while (node != null) {
             System.out.print(node.val + " ");
             node = node.next;
         }
@@ -101,10 +98,11 @@ public class FloydCycleFinding {
 
     /**
      * Floyd's cycle finding algorithm using a function instead of pointers
+     *
      * @param number0 first value in the series
      * @return an array with values:
-     *       mu -> the cycle initial position
-     *       lambda -> the cycle length
+     * mu -> the cycle initial position
+     * lambda -> the cycle length
      */
     private static int[] detectCycle(int number0) {
         // 1st part: finding k * mu
@@ -137,8 +135,6 @@ public class FloydCycleFinding {
             hare = anyFunction(hare);
             lambda++;
         }
-
-        return new int[] {mu, lambda};
+        return new int[]{mu, lambda};
     }
-
 }

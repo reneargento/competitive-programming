@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Created by rene on 24/10/17.
+ * Created by Rene Argento on 24/10/17.
  */
 @SuppressWarnings("unchecked")
 public class EulerPathDirectedGraph {
@@ -14,7 +14,7 @@ public class EulerPathDirectedGraph {
     public Stack<Integer> getDirectedEulerianPath(List<Integer>[] adjacent) {
         // A graph with no edges is considered to have an Eulerian path
         int edges = 0;
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 edges += adjacent[vertex].size();
             }
@@ -32,9 +32,9 @@ public class EulerPathDirectedGraph {
         int[] indegrees = new int[adjacent.length];
         int[] outdegrees = new int[adjacent.length];
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null) {
-                for(int neighbor : adjacent[vertex]) {
+                for (int neighbor : adjacent[vertex]) {
                     outdegrees[vertex]++;
                     indegrees[neighbor]++;
                 }
@@ -44,7 +44,7 @@ public class EulerPathDirectedGraph {
         int startVertex = -1;
         int endVertex = -1;
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (indegrees[vertex] != outdegrees[vertex]) {
                 if (outdegrees[vertex] == indegrees[vertex] + 1) {
                     if (startVertex == -1) {
@@ -71,7 +71,7 @@ public class EulerPathDirectedGraph {
 
         // Create local view of adjacency lists, to iterate one vertex at a time
         Iterator<Integer>[] adjacentCopy = (Iterator<Integer>[]) new Iterator[adjacent.length];
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null) {
                 adjacentCopy[vertex] = adjacent[vertex].iterator();
             }
@@ -116,7 +116,7 @@ public class EulerPathDirectedGraph {
     private int nonIsolatedVertex(List<Integer>[] adjacent) {
         int nonIsolatedVertex = -1;
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 nonIsolatedVertex = vertex;
                 break;
@@ -127,12 +127,12 @@ public class EulerPathDirectedGraph {
     }
 
 
-    //Tests
+    // Tests
     public static void main(String[] args) {
         EulerPathDirectedGraph directedEulerianPath = new EulerPathDirectedGraph();
 
         List<Integer>[] adjacent1 = (List<Integer>[]) new ArrayList[4];
-        for(int vertex = 0; vertex < adjacent1.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent1.length; vertex++) {
             adjacent1[vertex] = new ArrayList<>();
         }
 
@@ -153,7 +153,7 @@ public class EulerPathDirectedGraph {
 
         List<Integer>[] adjacent2 = (List<Integer>[]) new ArrayList[4];
 
-        for(int vertex = 0; vertex < adjacent2.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent2.length; vertex++) {
             adjacent2[vertex] = new ArrayList<>();
         }
 
@@ -174,7 +174,7 @@ public class EulerPathDirectedGraph {
         //Note that vertex 5 is an isolated vertex
         List<Integer>[] adjacent3 = (List<Integer>[]) new ArrayList[6];
 
-        for(int vertex = 0; vertex < adjacent3.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent3.length; vertex++) {
             adjacent3[vertex] = new ArrayList<>();
         }
 
@@ -198,7 +198,7 @@ public class EulerPathDirectedGraph {
 
         List<Integer>[] adjacent4 = (List<Integer>[]) new ArrayList[4];
 
-        for(int vertex = 0; vertex < adjacent4.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent4.length; vertex++) {
             adjacent4[vertex] = new ArrayList<>();
         }
 
@@ -234,5 +234,4 @@ public class EulerPathDirectedGraph {
         }
         System.out.println();
     }
-
 }

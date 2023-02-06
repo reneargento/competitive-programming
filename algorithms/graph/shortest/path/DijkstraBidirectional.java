@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Created by rene on 24/12/17.
+ * Created by Rene Argento on 24/12/17.
  */
 public class DijkstraBidirectional {
 
@@ -34,13 +34,13 @@ public class DijkstraBidirectional {
         // Reverse digraph will be used to create the shortest-path-tree from the target vertex
         EdgeWeightedDigraph reverseDigraph = new EdgeWeightedDigraph(edgeWeightedDigraph.vertices());
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+            for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
                 reverseDigraph.addEdge(new DirectedEdge(edge.to(), edge.from(), edge.weight()));
             }
         }
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             distToSource[vertex] = Double.POSITIVE_INFINITY;
             distToTarget[vertex] = Double.POSITIVE_INFINITY;
         }
@@ -82,14 +82,14 @@ public class DijkstraBidirectional {
         double shortestDistance = Double.POSITIVE_INFINITY;
         int intermediateVertex = -1;
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             if (distToSource[vertex] + distToTarget[vertex] < shortestDistance) {
                 shortestDistance = distToSource[vertex] + distToTarget[vertex];
                 intermediateVertex = vertex;
             }
         }
 
-        for(DirectedEdge edge = edgeToTarget[intermediateVertex]; edge != null; edge = edgeToTarget[edge.from()]) {
+        for (DirectedEdge edge = edgeToTarget[intermediateVertex]; edge != null; edge = edgeToTarget[edge.from()]) {
             distToSource[edge.from()] = distToSource[edge.to()] + edge.weight();
             edgeToSource[edge.from()] = new DirectedEdge(edge.to(), edge.from(), edge.weight());
         }
@@ -98,7 +98,7 @@ public class DijkstraBidirectional {
     private void relax(EdgeWeightedDigraph edgeWeightedDigraph, int vertex, IndexMinPriorityQueue<Double> priorityQueue,
                        double[] distTo, DirectedEdge[] edgeTo, boolean[] relaxed) {
 
-        for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+        for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
             if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
@@ -134,7 +134,7 @@ public class DijkstraBidirectional {
         }
 
         Deque<DirectedEdge> path = new ArrayDeque<>();
-        for(DirectedEdge edge = edgeToSource[vertex]; edge != null; edge = edgeToSource[edge.from()]) {
+        for (DirectedEdge edge = edgeToSource[vertex]; edge != null; edge = edgeToSource[edge.from()]) {
             path.push(edge);
         }
 
@@ -242,5 +242,4 @@ public class DijkstraBidirectional {
         System.out.println("Expected:");
         System.out.println("0 to 5 (6.00)  0->2 1.00   2->4 4.00   4->5 1.00");
     }
-
 }

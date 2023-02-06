@@ -3,12 +3,12 @@ package algorithms.graph.cycle.euler;
 import java.util.*;
 
 /**
- * Created by rene on 30/09/17.
+ * Created by Rene Argento on 30/09/17.
  */
 @SuppressWarnings("unchecked")
 public class EulerCycleUndirectedGraph {
 
-    private class Edge {
+    private static class Edge {
         int vertex1;
         int vertex2;
         boolean isUsed;
@@ -29,7 +29,6 @@ public class EulerCycleUndirectedGraph {
     }
 
     public Stack<Integer> getEulerCycle(List<Integer>[] adjacent) {
-
         // A graph with no edges is considered to have an Eulerian cycle
         int edges = 0;
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
@@ -126,7 +125,6 @@ public class EulerCycleUndirectedGraph {
                 break;
             }
         }
-
         return nonIsolatedVertex;
     }
 
@@ -139,7 +137,6 @@ public class EulerCycleUndirectedGraph {
         for(int vertex = 0; vertex < adjacent1.length; vertex++) {
             adjacent1[vertex] = new ArrayList<>();
         }
-
         adjacent1[0].add(1);
         adjacent1[1].add(0);
         adjacent1[1].add(2);
@@ -165,7 +162,6 @@ public class EulerCycleUndirectedGraph {
         for(int vertex = 0; vertex < adjacent2.length; vertex++) {
             adjacent2[vertex] = new ArrayList<>();
         }
-
         adjacent2[0].add(1);
         adjacent2[1].add(0);
         adjacent2[1].add(2);
@@ -190,7 +186,6 @@ public class EulerCycleUndirectedGraph {
         for(int vertex = 0; vertex < adjacent3.length; vertex++) {
             adjacent3[vertex] = new ArrayList<>();
         }
-
         adjacent3[0].add(9);
         adjacent3[9].add(0);
         adjacent3[0].add(3);
@@ -248,7 +243,6 @@ public class EulerCycleUndirectedGraph {
         for(int vertex = 0; vertex < adjacent4.length; vertex++) {
             adjacent4[vertex] = new ArrayList<>();
         }
-
         adjacent4[0].add(1);
         adjacent4[1].add(0);
         adjacent4[1].add(2);
@@ -286,5 +280,4 @@ public class EulerCycleUndirectedGraph {
         }
         System.out.println();
     }
-
 }

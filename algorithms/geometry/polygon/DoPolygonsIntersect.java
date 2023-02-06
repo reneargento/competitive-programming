@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.geom.Area;
 
 /**
- * Created by rene on 17/11/17.
+ * Created by Rene Argento on 17/11/17.
  */
 public class DoPolygonsIntersect {
 

@@ -3,21 +3,21 @@ package algorithms.graph.shortest.path;
 import java.util.*;
 
 /**
- * Created by rene on 01/12/17.
+ * Created by Rene Argento on 01/12/17.
  */
+// Computes the K shortest walks in O(K * V * lg P), where P is the number of paths in the graph
 public class KShortestWalks {
 
-    private class Edge {
+    private static class Edge {
         int vertexFrom;
         int vertexTo;
         double weight;
     }
 
-    public class Path implements Comparable<Path> {
-
+    public static class Path implements Comparable<Path> {
         private Path previousPath;
         private Edge edge;
-        private int lastVertexInPath;
+        private final int lastVertexInPath;
         private double weight;
 
         Path(int vertex) {
@@ -38,34 +38,23 @@ public class KShortestWalks {
 
         public Iterable<Edge> getPath() {
             LinkedList<Edge> path = new LinkedList<>();
-
             Path currentPreviousPath = previousPath;
 
             while (currentPreviousPath != null && currentPreviousPath.edge != null) {
                 path.addFirst(currentPreviousPath.edge);
-
                 currentPreviousPath = currentPreviousPath.previousPath;
             }
             path.add(edge);
-
             return path;
         }
 
         @Override
         public int compareTo(Path other) {
-            if (this.weight < other.weight) {
-                return -1;
-            } else if (this.weight > other.weight) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return Double.compare(this.weight, other.weight);
         }
     }
 
-    //O(K * V * lg P), where P is the number of paths in the graph
     public List<Path> getKShortestPaths(List<Edge>[] adjacent, int source, int target, int kPaths) {
-
         List<Path> paths = new ArrayList<>();
         Map<Integer, Integer> countMap = new HashMap<>();
         countMap.put(target, 0);
@@ -77,13 +66,7 @@ public class KShortestWalks {
             Path currentPath = priorityQueue.poll();
             int lastVertexInPath = currentPath.lastVertexInPath;
 
-            int pathsToCurrentVertex = 0;
-
-            if (countMap.get(lastVertexInPath) != null) {
-                pathsToCurrentVertex = countMap.get(lastVertexInPath);
-            }
-            pathsToCurrentVertex++;
-
+            int pathsToCurrentVertex = countMap.getOrDefault(lastVertexInPath, 0) + 1;
             countMap.put(lastVertexInPath, pathsToCurrentVertex);
 
             if (lastVertexInPath == target) {
@@ -97,8 +80,6 @@ public class KShortestWalks {
                 }
             }
         }
-
         return paths;
     }
-
 }

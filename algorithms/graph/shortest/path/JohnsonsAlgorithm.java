@@ -7,7 +7,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Created by rene on 09/12/17.
+ * Created by Rene Argento on 09/12/17.
  */
 // O(V * E lg V)
 public class JohnsonsAlgorithm {

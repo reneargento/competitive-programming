@@ -3,24 +3,23 @@ package algorithms.graph.ancestor;
 import java.util.*;
 
 /**
- * Created by rene on 24/10/17.
+ * Created by Rene Argento on 24/10/17.
  */
 @SuppressWarnings("unchecked")
 public class LCAInDAG {
 
-    private static class HasDirectedCycle {
-
-        private boolean visited[];
-        private int[] edgeTo;
+    private static class HasCycleDirectedGraph {
+        private final boolean[] visited;
+        private final int[] edgeTo;
         private Stack<Integer> cycle; // vertices on  a cycle (if one exists)
-        private boolean[] onStack; // vertices on recursive call stack
+        private final boolean[] onStack; // vertices on recursive call stack
 
-        public HasDirectedCycle(List<Integer>[] adjacent) {
+        public HasCycleDirectedGraph(List<Integer>[] adjacent) {
             onStack = new boolean[adjacent.length];
             edgeTo = new int[adjacent.length];
             visited = new boolean[adjacent.length];
 
-            for(int vertex = 0; vertex < adjacent.length; vertex++) {
+            for (int vertex = 0; vertex < adjacent.length; vertex++) {
                 if (!visited[vertex]) {
                     dfs(adjacent, vertex);
                 }
@@ -31,7 +30,7 @@ public class LCAInDAG {
             onStack[vertex] = true;
             visited[vertex] = true;
 
-            for(int neighbor : adjacent[vertex]) {
+            for (int neighbor : adjacent[vertex]) {
                 if (hasCycle()) {
                     return;
                 } else if (!visited[neighbor]) {
@@ -40,7 +39,7 @@ public class LCAInDAG {
                 } else if (onStack[neighbor]) {
                     cycle = new Stack<>();
 
-                    for(int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
+                    for (int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
                         cycle.push(currentVertex);
                     }
 
@@ -64,7 +63,7 @@ public class LCAInDAG {
     private List<Integer>[] adjacent;
     private int[] maxDistances;
 
-    //Preprocess to
+    // Preprocess to
     // 1- Find all sources in the digraph
     // 2- Compute the height of all vertices (max distance from any source)
     // O(S * (V + E)) where S is the number of sources = O(VE)
@@ -76,29 +75,26 @@ public class LCAInDAG {
         // 1- Find the sources in the graph
         int[] indegrees = new int[adjacent.length];
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            for(int neighbor : adjacent[vertex]) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
+            for (int neighbor : adjacent[vertex]) {
                 indegrees[neighbor]++;
             }
         }
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (indegrees[vertex] == 0) {
                 sources.add(vertex);
             }
         }
 
         // 2- Find the height of all vertices (the length of the longest distance from a source)
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             maxDistances[vertex] = -1;
         }
 
-        for(int source : sources) {
+        for (int source : sources) {
             int[] distanceFromCurrentSource = new int[adjacent.length];
-
-            for(int vertex = 0; vertex < distanceFromCurrentSource.length; vertex++) {
-                distanceFromCurrentSource[vertex] = Integer.MAX_VALUE;
-            }
+            Arrays.fill(distanceFromCurrentSource, Integer.MAX_VALUE);
 
             Queue<Integer> sourceDistanceQueue = new LinkedList<>();
             sourceDistanceQueue.offer(source);
@@ -111,7 +107,7 @@ public class LCAInDAG {
             while (!sourceDistanceQueue.isEmpty()) {
                 int currentVertex = sourceDistanceQueue.poll();
 
-                for(int neighbor : adjacent[currentVertex]) {
+                for (int neighbor : adjacent[currentVertex]) {
                     distanceFromCurrentSource[neighbor] = distanceFromCurrentSource[currentVertex] + 1;
                     sourceDistanceQueue.offer(neighbor);
 
@@ -123,24 +119,24 @@ public class LCAInDAG {
         }
     }
 
-    //O(V + E)
+    // O(V + E)
     public int getLCA(int vertex1, int vertex2) {
 
         // 0- Precondition: check if the graph is a DAG
-        HasDirectedCycle hasDirectedCycle = new HasDirectedCycle(adjacent);
-        if (hasDirectedCycle.hasCycle()) {
+        HasCycleDirectedGraph hasCycleDirectedGraph = new HasCycleDirectedGraph(adjacent);
+        if (hasCycleDirectedGraph.hasCycle()) {
             throw new IllegalArgumentException("Digraph is not a DAG");
         }
 
         // 1- Reverse graph
         List<Integer>[] reverseDigraph = (List<Integer>[]) new ArrayList[adjacent.length];
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             reverseDigraph[vertex] = new ArrayList<>();
         }
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            for(int neighbor : adjacent[vertex]) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
+            for (int neighbor : adjacent[vertex]) {
                 reverseDigraph[neighbor].add(vertex);
             }
         }
@@ -156,7 +152,7 @@ public class LCAInDAG {
 
             vertex1Ancestors.add(currentVertex);
 
-            for(int neighbor : reverseDigraph[currentVertex]) {
+            for (int neighbor : reverseDigraph[currentVertex]) {
                 queue.offer(neighbor);
             }
         }
@@ -173,7 +169,7 @@ public class LCAInDAG {
                 commonAncestors.add(currentVertex);
             }
 
-            for(int neighbor : reverseDigraph[currentVertex]) {
+            for (int neighbor : reverseDigraph[currentVertex]) {
                 queue.offer(neighbor);
             }
         }
@@ -183,7 +179,7 @@ public class LCAInDAG {
         int maxDistance = -1;
         int lowestCommonAncestor = -1;
 
-        for(int commonAncestor : commonAncestors) {
+        for (int commonAncestor : commonAncestors) {
             if (maxDistances[commonAncestor] > maxDistance) {
                 maxDistance = maxDistances[commonAncestor];
                 lowestCommonAncestor = commonAncestor;
@@ -196,7 +192,7 @@ public class LCAInDAG {
 
     public static void main(String[] args) {
         List<Integer>[] digraph1 = (List<Integer>[]) new ArrayList[5];
-        for(int vertex = 0; vertex < digraph1.length; vertex++) {
+        for (int vertex = 0; vertex < digraph1.length; vertex++) {
             digraph1[vertex] = new ArrayList<>();
         }
 
@@ -216,7 +212,7 @@ public class LCAInDAG {
 
 
         List<Integer>[] digraph2 = (List<Integer>[]) new ArrayList[5];
-        for(int vertex = 0; vertex < digraph2.length; vertex++) {
+        for (int vertex = 0; vertex < digraph2.length; vertex++) {
             digraph2[vertex] = new ArrayList<>();
         }
 
@@ -236,7 +232,7 @@ public class LCAInDAG {
 
 
         List<Integer>[] digraph3 = (List<Integer>[]) new ArrayList[9];
-        for(int vertex = 0; vertex < digraph3.length; vertex++) {
+        for (int vertex = 0; vertex < digraph3.length; vertex++) {
             digraph3[vertex] = new ArrayList<>();
         }
 
@@ -262,7 +258,7 @@ public class LCAInDAG {
 
 
         List<Integer>[] digraph4 = (List<Integer>[]) new ArrayList[9];
-        for(int vertex = 0; vertex < digraph4.length; vertex++) {
+        for (int vertex = 0; vertex < digraph4.length; vertex++) {
             digraph4[vertex] = new ArrayList<>();
         }
 
@@ -288,7 +284,7 @@ public class LCAInDAG {
 
 
         List<Integer>[] digraph5 = (List<Integer>[]) new ArrayList[4];
-        for(int vertex = 0; vertex < digraph5.length; vertex++) {
+        for (int vertex = 0; vertex < digraph5.length; vertex++) {
             digraph5[vertex] = new ArrayList<>();
         }
 
@@ -304,5 +300,4 @@ public class LCAInDAG {
         }
         System.out.println(" Expected: There is no LCA in this DAG");
     }
-
 }

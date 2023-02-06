@@ -1,7 +1,7 @@
 package datastructures.graph;
 
 /**
- * Created by rene on 09/12/17.
+ * Created by Rene Argento on 09/12/17.
  */
 public class DirectedEdge {
     private final int vertex1;

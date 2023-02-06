@@ -1,23 +1,18 @@
 package algorithms.strings;
 
 /**
- * Created by rene on 27/01/18.
+ * Created by Rene Argento on 27/01/18.
  */
+// Check if a string is 'n' times repetition of one of its substrings
 // Based on https://www.geeksforgeeks.org/find-given-string-can-represented-substring-iterating-substring-n-times/
 public class MinimalStringPeriod {
 
-    // Check if a string is 'n' times repetition of one of its substrings
-
     // Utility function to fill lps[] or compute prefix function used in KMP string matching algorithm.
-    private static void computeLPSArray(String str, int M, int lps[]) {
-        // lenght of the previous
-        // longest prefix suffix
+    private static void computeLPSArray(String str, int M, int[] lps) {
+        // Length of the previous longest prefix suffix
         int len = 0;
-
-        int i;
-
+        int i = 1;
         lps[0] = 0; // lps[0] is always 0
-        i = 1;
 
         // the loop calculates lps[i]
         // for i = 1 to M-1
@@ -46,7 +41,7 @@ public class MinimalStringPeriod {
         // Find length of string and create
         // an array to store lps values used in KMP
         int n = string.length();
-        int lps[] = new int[n];
+        int[] lps = new int[n];
 
         // Preprocess the pattern (calculate lps[] array)
         computeLPSArray(string, n, lps);
@@ -66,20 +61,17 @@ public class MinimalStringPeriod {
         } else {
             System.out.println(string);
         }
-
         return (len > 0 && n % (n - len) == 0);
     }
 
     // Driver program to test above function
     public static void main(String[] args) {
-        String txt[] = {"ABCABC", "ABABAB", "ABCDABCD",
+        String[] text = {"ABCABC", "ABABAB", "ABCDABCD",
                 "GEEKSFORGEEKS", "GEEKGEEK",
                 "AAAACAAAAC", "ABCDABC", "abcab", "aaaaaa"};
 
-        for (int i = 0; i < txt.length; i++) {
-            System.out.println(isRepeat(txt[i]));
+        for (String string : text) {
+            System.out.println(isRepeat(string));
         }
     }
-
-
 }

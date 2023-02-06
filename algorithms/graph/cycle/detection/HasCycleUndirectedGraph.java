@@ -3,17 +3,17 @@ package algorithms.graph.cycle.detection;
 import java.util.List;
 
 /**
- * Created by rene on 15/09/17.
+ * Created by Rene Argento on 15/09/17.
  */
-public class HasCycle {
+public class HasCycleUndirectedGraph {
 
-    private boolean[] visited;
+    private final boolean[] visited;
     private boolean hasCycle;
 
-    public HasCycle(List<Integer>[] adjacent) {
+    public HasCycleUndirectedGraph(List<Integer>[] adjacent) {
         visited = new boolean[adjacent.length];
 
-        for(int source = 0; source < adjacent.length; source++) {
+        for (int source = 0; source < adjacent.length; source++) {
             if (!visited[source]) {
                 dfs(adjacent, source, source);
             }
@@ -24,7 +24,7 @@ public class HasCycle {
         visited[vertex] = true;
 
         if (adjacent[vertex] != null) {
-            for(int neighbor : adjacent[vertex]) {
+            for (int neighbor : adjacent[vertex]) {
                 if (!visited[neighbor]) {
                     dfs(adjacent, neighbor, vertex);
                 } else if (neighbor != origin) {

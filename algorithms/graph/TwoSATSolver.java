@@ -3,13 +3,12 @@ package algorithms.graph;
 import java.util.*;
 
 /**
- * Created by rene on 26/10/17.
+ * Created by Rene Argento on 26/10/17.
  */
 @SuppressWarnings("unchecked")
 public class TwoSATSolver {
 
     private class StronglyConnectedComponents {
-
         private int[] sccId;
         private int sccCount;
         private int[] componentSizes;
@@ -24,7 +23,7 @@ public class TwoSATSolver {
             List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
             int[] topologicalOrder = topologicalSort(inverseEdges);
 
-            for(int vertex : topologicalOrder) {
+            for (int vertex : topologicalOrder) {
                 if (!visited[vertex]) {
                     depthFirstSearch(vertex, adjacent, null, visited, false);
                     sccCount++;
@@ -48,8 +47,8 @@ public class TwoSATSolver {
             boolean[] visited = new boolean[adjacent.length];
             Stack<Integer> finishTimes = new Stack<>();
 
-            //If the vertices are 0-index based, start i with value 0
-            for(int i = 0; i < visited.length; i++) {
+            // If the vertices are 0-index based, start i with value 0
+            for (int i = 0; i < visited.length; i++) {
                 if (!visited[i]) {
                     depthFirstSearch(i, adjacent, finishTimes, visited, true);
                 }
@@ -76,7 +75,7 @@ public class TwoSATSolver {
             }
 
             if (adjacent[sourceVertex] != null) {
-                for(int neighbor : adjacent[sourceVertex]) {
+                for (int neighbor : adjacent[sourceVertex]) {
                     if (!visited[neighbor]) {
                         depthFirstSearch(neighbor, adjacent, finishTimes, visited, getFinishTimes);
                     }
@@ -91,36 +90,34 @@ public class TwoSATSolver {
         private List<Integer>[] invertGraphEdges(List<Integer>[] adjacent) {
             List<Integer>[] inverseEdges = new ArrayList[adjacent.length];
 
-            for(int i = 0; i < inverseEdges.length; i++) {
+            for (int i = 0; i < inverseEdges.length; i++) {
                 inverseEdges[i] = new ArrayList<>();
             }
 
             //If the vertices are 0-index based, start i with value 0
-            for(int i = 0; i < adjacent.length; i++) {
+            for (int i = 0; i < adjacent.length; i++) {
                 List<Integer> neighbors = adjacent[i];
 
                 if (neighbors != null) {
-                    for(int neighbor : adjacent[i]) {
+                    for (int neighbor : adjacent[i]) {
                         inverseEdges[neighbor].add(i);
                     }
                 }
             }
-
             return inverseEdges;
         }
 
         private List<Integer>[] getSCCsInReverseTopologicalOrder() {
             List<Integer>[] stronglyConnectedComponents = (List<Integer>[]) new ArrayList[sccCount];
 
-            for(int scc = 0; scc < stronglyConnectedComponents.length; scc++) {
+            for (int scc = 0; scc < stronglyConnectedComponents.length; scc++) {
                 stronglyConnectedComponents[scc] = new ArrayList<>();
             }
 
-            for(int vertex = 0; vertex < vertices; vertex++) {
+            for (int vertex = 0; vertex < vertices; vertex++) {
                 int stronglyConnectedComponentId = sccId(vertex);
                 stronglyConnectedComponents[stronglyConnectedComponentId].add(vertex);
             }
-
             return stronglyConnectedComponents;
         }
 
@@ -130,20 +127,18 @@ public class TwoSATSolver {
             List<Integer>[] sccsInReverseTopologicalOrder = (List<Integer>[]) new ArrayList[sccCount];
             int currentSCCInReverseOrderIndex = 0;
 
-            for(int scc = sccsInTopologicalOrder.length - 1; scc >= 0 ; scc--) {
+            for (int scc = sccsInTopologicalOrder.length - 1; scc >= 0; scc--) {
                 sccsInReverseTopologicalOrder[currentSCCInReverseOrderIndex++] = sccsInTopologicalOrder[scc];
             }
-
             return sccsInReverseTopologicalOrder;
         }
     }
 
     public Map<Character, Boolean> solve2SAT(String formula) {
-
         // First pass to find the number of variables in the formula
         Set<Character> variables = new HashSet<>();
         char[] charsInFormula = formula.toCharArray();
-        for(int i = 0; i < charsInFormula.length; i++) {
+        for (int i = 0; i < charsInFormula.length; i++) {
             if (charsInFormula[i] != '('
                     && charsInFormula[i] != ')'
                     && charsInFormula[i] != 'V'
@@ -156,7 +151,7 @@ public class TwoSATSolver {
 
         List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[variables.size() * 2];
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             adjacent[vertex] = new ArrayList<>();
         }
 
@@ -166,7 +161,7 @@ public class TwoSATSolver {
         Map<Integer, String> idToVariableMap = new HashMap<>();
 
         // Second pass to get vertices
-        for(int i = 0; i < values.length; i += 2) {
+        for (int i = 0; i < values.length; i += 2) {
             boolean isVariable1Negation;
             boolean isVariable2Negation;
 
@@ -247,8 +242,8 @@ public class TwoSATSolver {
 
         Map<Character, Boolean> solution = new HashMap<>();
 
-        for(List<Integer> scc : sccsInTopologicalOrder) {
-            for(int vertexId : scc) {
+        for (List<Integer> scc : sccsInTopologicalOrder) {
+            for (int vertexId : scc) {
                 String vertexVariable = idToVariableMap.get(vertexId);
 
                 char variable;
@@ -282,12 +277,11 @@ public class TwoSATSolver {
     }
 
     private boolean isFormulaSatisfiable(List<Integer>[] adjacent, StronglyConnectedComponents stronglyConnectedComponents) {
-        for(int vertex = 0; vertex < adjacent.length; vertex += 2) {
+        for (int vertex = 0; vertex < adjacent.length; vertex += 2) {
             if (stronglyConnectedComponents.stronglyConnected(vertex, vertex + 1)) {
                 return false;
             }
         }
-
         return true;
     }
 
@@ -301,7 +295,7 @@ public class TwoSATSolver {
         if (solution1 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
-            for(char variable : solution1.keySet()) {
+            for (char variable : solution1.keySet()) {
                 System.out.print(variable + ": " + solution1.get(variable) + " ");
             }
         }
@@ -317,7 +311,7 @@ public class TwoSATSolver {
         if (solution2 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
-            for(char variable : solution2.keySet()) {
+            for (char variable : solution2.keySet()) {
                 System.out.print(variable + ": " + solution2.get(variable) + " ");
             }
         }
@@ -330,7 +324,7 @@ public class TwoSATSolver {
         if (solution3 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
-            for(char variable : solution3.keySet()) {
+            for (char variable : solution3.keySet()) {
                 System.out.print(variable + ": " + solution3.get(variable) + " ");
             }
         }
@@ -343,7 +337,7 @@ public class TwoSATSolver {
         if (solution4 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
-            for(char variable : solution4.keySet()) {
+            for (char variable : solution4.keySet()) {
                 System.out.print(variable + ": " + solution4.get(variable) + " ");
             }
         }
@@ -357,7 +351,7 @@ public class TwoSATSolver {
         if (solution5 == null) {
             System.out.print("The formula is not satisfiable");
         } else {
-            for(char variable : solution5.keySet()) {
+            for (char variable : solution5.keySet()) {
                 System.out.print(variable + ": " + solution5.get(variable) + " ");
             }
         }
@@ -365,5 +359,4 @@ public class TwoSATSolver {
         System.out.println("OR A: false B: true C: false D: true E: true F: false G: true H: false");
         System.out.println("OR A: false B: true C: false D: true E: true F: true G: true H: false");
     }
-
 }

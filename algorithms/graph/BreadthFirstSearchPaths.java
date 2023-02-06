@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.Stack;
 
 /**
- * Created by rene on 16/09/17.
+ * Created by Rene Argento on 16/09/17.
  */
 public class BreadthFirstSearchPaths {
 
@@ -24,13 +24,12 @@ public class BreadthFirstSearchPaths {
         distTo = new int[adjacent.length];
 
         distTo[source] = 0;
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (vertex == source) {
                 continue;
             }
             distTo[vertex] = Integer.MAX_VALUE;
         }
-
         bfs(adjacent, source);
     }
 
@@ -44,7 +43,7 @@ public class BreadthFirstSearchPaths {
             int currentVertex = queue.poll();
 
             if (adjacent[currentVertex] != null) {
-                for(int neighbor : adjacent[currentVertex]) {
+                for (int neighbor : adjacent[currentVertex]) {
                     if (!visited[neighbor]) {
                         visited[neighbor] = true;
 
@@ -71,15 +70,13 @@ public class BreadthFirstSearchPaths {
         if (!hasPathTo(vertex)) {
             return null;
         }
-
         Stack<Integer> path = new Stack<>();
 
-        for(int currentVertex = vertex; currentVertex != source; currentVertex = edgeTo[currentVertex]) {
+        for (int currentVertex = vertex; currentVertex != source; currentVertex = edgeTo[currentVertex]) {
             path.push(currentVertex);
         }
 
         path.push(source);
         return path;
     }
-
 }

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rene on 07/04/17.
+ * Created by Rene Argento on 07/04/17.
  */
 public class FileInputOutput {
 
@@ -26,17 +26,16 @@ public class FileInputOutput {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return valuesList;
     }
 
-    private static void writeDataOnFile(String file, List<String> data){
-        for(String line : data) {
+    private static void writeDataOnFile(String file, List<String> data) {
+        for (String line : data) {
             writeFileOutput(file, line + "\n");
         }
     }
 
-    private static void writeFileOutput(String file, String data){
+    private static void writeFileOutput(String file, String data) {
         byte[] dataBytes = data.getBytes();
 
         try {
@@ -45,5 +44,4 @@ public class FileInputOutput {
             e.printStackTrace();
         }
     }
-
 }

@@ -9,7 +9,7 @@ import datastructures.geometry.Point;
 import datastructures.geometry.Vector;
 
 /**
- * Created by rene on 18/08/17.
+ * Created by Rene Argento on 18/08/17.
  */
 public class DistanceFromPointToLine {
 
@@ -39,5 +39,4 @@ public class DistanceFromPointToLine {
 
         return numerator / denominator;
     }
-
 }

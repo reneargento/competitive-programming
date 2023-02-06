@@ -3,7 +3,7 @@ package algorithms.graph.cycle.detection;
 import java.util.*;
 
 /**
- * Created by rene on 28/10/17.
+ * Created by Rene Argento on 28/10/17.
  */
 @SuppressWarnings("unchecked")
 public class HasOddLengthDirectedCycle {
@@ -30,24 +30,23 @@ public class HasOddLengthDirectedCycle {
         StronglyConnectedComponents stronglyConnectedComponents = new StronglyConnectedComponents(adjacent);
 
         Set<Integer>[] strongComponents = (Set<Integer>[]) new HashSet[stronglyConnectedComponents.count()];
-
-        for(int scc = 0; scc < strongComponents.length; scc++) {
+        for (int scc = 0; scc < strongComponents.length; scc++) {
             strongComponents[scc] = new HashSet<>();
         }
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             int strongComponentId = stronglyConnectedComponents.sccId(vertex);
             strongComponents[strongComponentId].add(vertex);
         }
 
-        for(int scc = 0; scc < strongComponents.length; scc++) {
+        for (int scc = 0; scc < strongComponents.length; scc++) {
             List<Integer>[] subGraph = (List<Integer>[]) new ArrayList[adjacent.length];
 
-            for(int vertex : strongComponents[scc]) {
-                for(int neighbor : adjacent[vertex]) {
+            for (int vertex : strongComponents[scc]) {
+                for (int neighbor : adjacent[vertex]) {
                     if (strongComponents[scc].contains(neighbor)) {
 
-                        //Lazily initialize adjacency lists to keep algorithm O(V + E) instead of O(V^2)
+                        // Lazily initialize adjacency lists to keep algorithm O(V + E) instead of O(V^2)
                         if (subGraph[vertex] == null) {
                             subGraph[vertex] = new ArrayList<>();
                         }
@@ -66,7 +65,6 @@ public class HasOddLengthDirectedCycle {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -74,7 +72,7 @@ public class HasOddLengthDirectedCycle {
         HasOddLengthDirectedCycle oddLengthDirectedCycle = new HasOddLengthDirectedCycle();
 
         List<Integer>[] digraph1 = (List<Integer>[]) new ArrayList[4];
-        for(int i = 0; i < digraph1.length; i++) {
+        for (int i = 0; i < digraph1.length; i++) {
             digraph1[i] = new ArrayList<>();
         }
 
@@ -87,7 +85,7 @@ public class HasOddLengthDirectedCycle {
                 + " Expected: false");
 
         List<Integer>[] digraph2 = (List<Integer>[]) new ArrayList[5];
-        for(int i = 0; i < digraph2.length; i++) {
+        for (int i = 0; i < digraph2.length; i++) {
             digraph2[i] = new ArrayList<>();
         }
 
@@ -100,7 +98,7 @@ public class HasOddLengthDirectedCycle {
                 + " Expected: true");
 
         List<Integer>[] digraph3 = (List<Integer>[]) new ArrayList[10];
-        for(int i = 0; i < digraph3.length; i++) {
+        for (int i = 0; i < digraph3.length; i++) {
             digraph3[i] = new ArrayList<>();
         }
 
@@ -118,7 +116,7 @@ public class HasOddLengthDirectedCycle {
                 + " Expected: true");
 
         List<Integer>[] digraph4 = (List<Integer>[]) new ArrayList[5];
-        for(int i = 0; i < digraph4.length; i++) {
+        for (int i = 0; i < digraph4.length; i++) {
             digraph4[i] = new ArrayList<>();
         }
 
@@ -132,7 +130,6 @@ public class HasOddLengthDirectedCycle {
     }
 
     private static class StronglyConnectedComponents {
-
         private int[] sccId;
         private int sccCount;
         private int[] componentSizes;
@@ -145,7 +142,7 @@ public class HasOddLengthDirectedCycle {
             List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
             int[] topologicalOrder = topologicalSort(inverseEdges);
 
-            for(int vertex : topologicalOrder) {
+            for (int vertex : topologicalOrder) {
                 if (!visited[vertex]) {
                     depthFirstSearch(vertex, adjacent, null, visited, false);
                     sccCount++;
@@ -169,7 +166,7 @@ public class HasOddLengthDirectedCycle {
             boolean[] visited = new boolean[adjacent.length];
             Stack<Integer> finishTimes = new Stack<>();
 
-            for(int i = 0; i < visited.length; i++) {
+            for (int i = 0; i < visited.length; i++) {
                 if (!visited[i]) {
                     depthFirstSearch(i, adjacent, finishTimes, visited, true);
                 }
@@ -181,7 +178,6 @@ public class HasOddLengthDirectedCycle {
             while (!finishTimes.isEmpty()) {
                 topologicalSort[arrayIndex++] = finishTimes.pop();
             }
-
             return topologicalSort;
         }
 
@@ -196,7 +192,7 @@ public class HasOddLengthDirectedCycle {
             }
 
             if (adjacent[sourceVertex] != null) {
-                for(int neighbor : adjacent[sourceVertex]) {
+                for (int neighbor : adjacent[sourceVertex]) {
                     if (!visited[neighbor]) {
                         depthFirstSearch(neighbor, adjacent, finishTimes, visited, getFinishTimes);
                     }
@@ -211,26 +207,24 @@ public class HasOddLengthDirectedCycle {
         private List<Integer>[] invertGraphEdges(List<Integer>[] adjacent) {
             List<Integer>[] inverseEdges = new ArrayList[adjacent.length];
 
-            for(int i = 0; i < inverseEdges.length; i++) {
+            for (int i = 0; i < inverseEdges.length; i++) {
                 inverseEdges[i] = new ArrayList<>();
             }
 
-            for(int i = 0; i < adjacent.length; i++) {
+            for (int i = 0; i < adjacent.length; i++) {
                 List<Integer> neighbors = adjacent[i];
 
                 if (neighbors != null) {
-                    for(int neighbor : adjacent[i]) {
+                    for (int neighbor : adjacent[i]) {
                         inverseEdges[neighbor].add(i);
                     }
                 }
             }
-
             return inverseEdges;
         }
     }
 
     private static class IsBipartite {
-
         private boolean[] visited;
         private boolean[] color;
         private boolean isTwoColorable = true;
@@ -239,7 +233,7 @@ public class HasOddLengthDirectedCycle {
             visited = new boolean[adjacent.length];
             color = new boolean[adjacent.length];
 
-            for(int source = 0; source < adjacent.length; source++) {
+            for (int source = 0; source < adjacent.length; source++) {
                 if (!visited[source]) {
                     dfs(adjacent, source);
                 }
@@ -250,7 +244,7 @@ public class HasOddLengthDirectedCycle {
             visited[vertex] = true;
 
             if (adjacent[vertex] != null) {
-                for(int neighbor : adjacent[vertex]) {
+                for (int neighbor : adjacent[vertex]) {
                     if (!visited[neighbor]) {
                         color[neighbor] = !color[vertex];
                         dfs(adjacent, neighbor);
@@ -264,7 +258,5 @@ public class HasOddLengthDirectedCycle {
         public boolean isBipartite() {
             return isTwoColorable;
         }
-
     }
-
 }

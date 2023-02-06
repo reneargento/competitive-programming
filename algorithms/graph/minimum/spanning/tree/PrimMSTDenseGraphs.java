@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Queue;
 
 /**
- * Created by rene on 11/11/17.
+ * Created by Rene Argento on 11/11/17.
  */
 // This MST algorithm runs in O(V^2)
-    // It is faster for dense graphs because it does not depend on the number of edges
+// It is faster for dense graphs because it does not depend on the number of edges
 public class PrimMSTDenseGraphs {
 
     private static class Edge implements Comparable<Edge> {
-
         private final int vertex1;
         private final int vertex2;
         private final double weight;
@@ -63,7 +62,7 @@ public class PrimMSTDenseGraphs {
         distTo = new double[adjacent.length];
         marked = new boolean[adjacent.length];
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             distTo[vertex] = Double.POSITIVE_INFINITY;
         }
 
@@ -81,7 +80,7 @@ public class PrimMSTDenseGraphs {
         // Add vertex to the minimum spanning tree; update data structures
         marked[vertex] = true;
 
-        for(Edge edge : adjacent[vertex]) {
+        for (Edge edge : adjacent[vertex]) {
             int otherVertex = edge.other(vertex);
             if (marked[otherVertex]) {
                 continue; // vertex-otherVertex is ineligible
@@ -102,7 +101,7 @@ public class PrimMSTDenseGraphs {
         int nextVertexToVisit = -1;
         double minEdgeWeight = Double.POSITIVE_INFINITY;
 
-        for(int vertexToVisit = 0; vertexToVisit < adjacent.length; vertexToVisit++) {
+        for (int vertexToVisit = 0; vertexToVisit < adjacent.length; vertexToVisit++) {
             if (!marked[vertexToVisit] && distTo[vertexToVisit] < minEdgeWeight) {
                 nextVertexToVisit = vertexToVisit;
                 minEdgeWeight = distTo[vertexToVisit];
@@ -115,7 +114,7 @@ public class PrimMSTDenseGraphs {
     public static Iterable<Edge> edges() {
         Queue<Edge> minimumSpanningTree = new LinkedList<>();
 
-        for(int vertex = 1; vertex < edgeTo.length; vertex++) {
+        for (int vertex = 1; vertex < edgeTo.length; vertex++) {
             minimumSpanningTree.offer(edgeTo[vertex]);
         }
 

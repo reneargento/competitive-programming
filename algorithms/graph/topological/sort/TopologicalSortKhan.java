@@ -10,20 +10,20 @@ import java.util.Queue;
 // Based on https://www.geeksforgeeks.org/topological-sorting-indegree-based-solution/
 public class TopologicalSortKhan {
 
-    private static int[] khanTopologicalSort(List<Integer> adjacent[], int vertices) {
-        int indegree[] = new int[vertices];
+    private static int[] khanTopologicalSort(List<Integer>[] adjacent, int vertices) {
+        int[] inDegree = new int[vertices];
 
-        // Traverse adjacency lists to fill indegrees of vertices. This step takes O(V+E) time
+        // Traverse adjacency lists to fill in-degrees of vertices. This step takes O(V+E) time
         for (int i = 0; i < vertices; i++) {
             for (int neighbor : adjacent[i]) {
-                indegree[neighbor]++;
+                inDegree[neighbor]++;
             }
         }
 
-        // Create a queue and enqueue all vertices with indegree 0
+        // Create a queue and enqueue all vertices with inDegree 0
         Queue<Integer> queue = new LinkedList<>();
         for (int vertex = 0; vertex < vertices; vertex++) {
-            if(indegree[vertex] == 0)
+            if (inDegree[vertex] == 0)
                 queue.add(vertex);
         }
 
@@ -37,12 +37,12 @@ public class TopologicalSortKhan {
             int currentVertex = queue.poll();
             topologicalOrder[topologicalOrderIndex++] = currentVertex;
 
-            // Iterate through all neighbouring nodes of the dequeued vertex and decrease their in-degree by 1
+            // Iterate through all neighbour nodes of the dequeued vertex and decrease their in-degree by 1
             for (int neighbor : adjacent[currentVertex]) {
                 // If in-degree becomes zero, add it to queue
-                indegree[neighbor]--;
+                inDegree[neighbor]--;
 
-                if (indegree[neighbor] == 0) {
+                if (inDegree[neighbor] == 0) {
                     queue.add(neighbor);
                 }
             }

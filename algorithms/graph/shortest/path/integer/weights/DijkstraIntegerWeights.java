@@ -6,7 +6,7 @@ import datastructures.graph.EdgeWeightedDigraph;
 import java.util.*;
 
 /**
- * Created by rene on 25/12/17.
+ * Created by Rene Argento on 25/12/17.
  */
 @SuppressWarnings("unchecked")
 // O(E + K * V) = O(E + V), since K is a constant
@@ -15,27 +15,23 @@ import java.util.*;
 // and https://courses.csail.mit.edu/6.006/spring11/rec/rec16.pdf
 public class DijkstraIntegerWeights {
 
-    private DirectedEdge[] edgeTo;  // last edge on path to vertex
-    private long[] distTo;          // length of path to vertex
+    private final DirectedEdge[] edgeTo;  // last edge on path to vertex
+    private final long[] distTo;          // length of path to vertex
 
     // Circular array
     // The possible distances from the last computed shortest distance D to any vertex v at any time are
     // [D + 0, ..., D + maxWeight]
-    private ArrayList<Integer>[] distances;
+    private final ArrayList<Integer>[] distances;
 
     public DijkstraIntegerWeights(EdgeWeightedDigraph edgeWeightedDigraph, int source, int maxWeight) {
         edgeTo = new DirectedEdge[edgeWeightedDigraph.vertices()];
         distTo = new long[edgeWeightedDigraph.vertices()];
         distances = (ArrayList<Integer>[]) new ArrayList[maxWeight + 1];
 
-        for(int distance = 0; distance < distances.length; distance++) {
+        for (int distance = 0; distance < distances.length; distance++) {
             distances[distance] = new ArrayList<>();
         }
-
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            distTo[vertex] = Long.MAX_VALUE;
-        }
-
+        Arrays.fill(distTo, Long.MAX_VALUE);
         distTo[source] = 0;
         int nextVertexToRelax = source;
 
@@ -49,7 +45,7 @@ public class DijkstraIntegerWeights {
 
     // Total runtime in the entire algorithm of O(E)
     private void relax(EdgeWeightedDigraph edgeWeightedDigraph, int vertex) {
-        for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+        for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             Integer neighbor = edge.to();
 
             if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
@@ -82,7 +78,6 @@ public class DijkstraIntegerWeights {
 
         Integer vertexToRemove = distances[lastComputedShortestDistance].get(0);
         distances[lastComputedShortestDistance].remove(vertexToRemove);
-
         return vertexToRemove;
     }
 
@@ -104,10 +99,9 @@ public class DijkstraIntegerWeights {
         }
 
         Deque<DirectedEdge> path = new ArrayDeque<>();
-        for(DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
+        for (DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
             path.push(edge);
         }
-
         return path;
     }
 

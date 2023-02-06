@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Created by rene on 25/10/17.
+ * Created by Rene Argento on 25/10/17.
  */
 @SuppressWarnings("unchecked")
 public class DAGHasHamiltonianPath {

@@ -7,17 +7,16 @@ import datastructures.graph.EdgeWeightedDigraph;
 import java.util.*;
 
 /**
- * Created by rene on 28/11/17.
+ * Created by Rene Argento on 28/11/17.
  */
-@SuppressWarnings("unchecked")
-//This BellmanFord algorithm uses a queue optimization to finish the algorithm earlier if there are no more
+// This BellmanFord algorithm uses a queue optimization to finish the algorithm earlier if there are no more
 // vertices to be relaxed. This leads to O(E * V) but with a typical running time of E + V.
 public class BellmanFord {
 
-    private double[] distTo;         // length of path to vertex
-    private DirectedEdge[] edgeTo;           // last edge on path to vertex
-    private boolean[] onQueue;       // is this vertex on the queue?
-    private Queue<Integer> queue;    // vertices being relaxed
+    private final double[] distTo;         // length of path to vertex
+    private final DirectedEdge[] edgeTo;           // last edge on path to vertex
+    private final boolean[] onQueue;       // is this vertex on the queue?
+    private final Queue<Integer> queue;    // vertices being relaxed
     private int callsToRelax;        // number of calls to relax()
     private Iterable<DirectedEdge> cycle;    // if there is a negative cycle in edgeTo[], return it
 
@@ -28,7 +27,7 @@ public class BellmanFord {
         onQueue = new boolean[edgeWeightedDigraph.vertices()];
         queue = new LinkedList<>();
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             distTo[vertex] = Double.POSITIVE_INFINITY;
         }
 
@@ -46,8 +45,7 @@ public class BellmanFord {
     }
 
     private void relax(EdgeWeightedDigraph edgeWeightedDigraph, int vertex) {
-
-        for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+        for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
             if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
@@ -81,10 +79,9 @@ public class BellmanFord {
         }
 
         Deque<DirectedEdge> path = new ArrayDeque<>();
-        for(DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
+        for (DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
             path.push(edge);
         }
-
         return path;
     }
 
@@ -92,7 +89,7 @@ public class BellmanFord {
         int vertices = edgeTo.length;
         EdgeWeightedDigraph shortestPathsTree = new EdgeWeightedDigraph(vertices);
 
-        for(int vertex = 0; vertex < vertices; vertex++) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
             if (edgeTo[vertex] != null) {
                 shortestPathsTree.addEdge(edgeTo[vertex]);
             }
@@ -109,5 +106,4 @@ public class BellmanFord {
     public Iterable<DirectedEdge> negativeCycle() {
         return cycle;
     }
-
 }

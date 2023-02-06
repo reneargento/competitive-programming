@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * Created by rene on 23/10/17.
+ * Created by Rene Argento on 23/10/17.
  */
 @SuppressWarnings("unchecked")
 public class EulerCycleDirectedGraph {
@@ -14,7 +14,7 @@ public class EulerCycleDirectedGraph {
     public Stack<Integer> getDirectedEulerianCycle(List<Integer>[] adjacent) {
         // A graph with no edges is considered to have an Eulerian cycle
         int edges = 0;
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 edges += adjacent[vertex].size();
             }
@@ -29,16 +29,16 @@ public class EulerCycleDirectedGraph {
         int[] indegrees = new int[adjacent.length];
         int[] outdegrees = new int[adjacent.length];
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null) {
-                for(int neighbor : adjacent[vertex]) {
+                for (int neighbor : adjacent[vertex]) {
                     outdegrees[vertex]++;
                     indegrees[neighbor]++;
                 }
             }
         }
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (indegrees[vertex] != outdegrees[vertex]) {
                 return null;
             }
@@ -46,7 +46,7 @@ public class EulerCycleDirectedGraph {
 
         // Create local view of adjacency lists, to iterate one vertex at a time
         Iterator<Integer>[] adjacentCopy = (Iterator<Integer>[]) new Iterator[adjacent.length];
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null) {
                 adjacentCopy[vertex] = adjacent[vertex].iterator();
             }
@@ -82,26 +82,23 @@ public class EulerCycleDirectedGraph {
     private int nonIsolatedVertex(List<Integer>[] adjacent) {
         int nonIsolatedVertex = -1;
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 nonIsolatedVertex = vertex;
                 break;
             }
         }
-
         return nonIsolatedVertex;
     }
-
 
     //Tests
     public static void main(String[] args) {
         EulerCycleDirectedGraph directedEulerianCycle = new EulerCycleDirectedGraph();
 
         List<Integer>[] adjacent1 = (List<Integer>[]) new ArrayList[4];
-        for(int vertex = 0; vertex < adjacent1.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent1.length; vertex++) {
             adjacent1[vertex] = new ArrayList<>();
         }
-
         adjacent1[0].add(1);
         adjacent1[1].add(2);
         adjacent1[2].add(3);
@@ -119,10 +116,9 @@ public class EulerCycleDirectedGraph {
 
         List<Integer>[] adjacent2 = (List<Integer>[]) new ArrayList[4];
 
-        for(int vertex = 0; vertex < adjacent2.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent2.length; vertex++) {
             adjacent2[vertex] = new ArrayList<>();
         }
-
         adjacent2[0].add(1);
         adjacent2[1].add(2);
         adjacent2[2].add(3);
@@ -140,10 +136,9 @@ public class EulerCycleDirectedGraph {
         //Note that vertex 5 is an isolated vertex
         List<Integer>[] adjacent3 = (List<Integer>[]) new ArrayList[6];
 
-        for(int vertex = 0; vertex < adjacent3.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent3.length; vertex++) {
             adjacent3[vertex] = new ArrayList<>();
         }
-
         adjacent3[0].add(1);
         adjacent3[1].add(2);
         adjacent3[2].add(0);
@@ -164,10 +159,9 @@ public class EulerCycleDirectedGraph {
 
         List<Integer>[] adjacent4 = (List<Integer>[]) new ArrayList[4];
 
-        for(int vertex = 0; vertex < adjacent4.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent4.length; vertex++) {
             adjacent4[vertex] = new ArrayList<>();
         }
-
         adjacent4[0].add(1);
         adjacent4[1].add(2);
         adjacent4[2].add(3);
@@ -200,5 +194,4 @@ public class EulerCycleDirectedGraph {
         }
         System.out.println();
     }
-
 }

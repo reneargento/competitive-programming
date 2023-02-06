@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rene on 07/10/17.
+ * Created by Rene Argento on 07/10/17.
  */
 public class Bridges {
 
@@ -29,12 +29,12 @@ public class Bridges {
 
         List<Edge> bridges = new ArrayList<>();
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             low[vertex] = -1;
             time[vertex] = -1;
         }
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (time[vertex] == -1) {
                 dfs(adjacent, vertex, vertex, bridges);
             }
@@ -48,7 +48,7 @@ public class Bridges {
         low[currentVertex] = count;
         count++;
 
-        for(int neighbor : adjacent[currentVertex]) {
+        for (int neighbor : adjacent[currentVertex]) {
             if (time[neighbor] == -1) {
                 dfs(adjacent, neighbor, currentVertex, bridges);
 
@@ -63,5 +63,4 @@ public class Bridges {
             }
         }
     }
-
 }

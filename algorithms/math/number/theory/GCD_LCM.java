@@ -1,7 +1,7 @@
 package algorithms.math.number.theory;
 
 /**
- * Created by rene on 16/04/17.
+ * Created by Rene Argento on 16/04/17.
  */
 public class GCD_LCM {
 
@@ -25,5 +25,4 @@ public class GCD_LCM {
 
         return newDividend + "/" + newDivisor;
     }
-
 }

@@ -3,7 +3,7 @@ package algorithms.array;
 import java.util.TreeMap;
 
 /**
- * Created by rene on 26/05/17.
+ * Created by Rene Argento on 26/05/17.
  */
 public class SlidingWindowMedian {
 
@@ -23,7 +23,7 @@ public class SlidingWindowMedian {
         int bigSize = 0;
 
         for (int i = 0; i < array.length; i++){
-            //Remove old element
+            // Remove old element
             if (smallSize + bigSize == k){
                 if (array[i-k] <= small.firstKey()){
                     remove(small, array[i-k]);
@@ -34,7 +34,7 @@ public class SlidingWindowMedian {
                 }
             }
 
-            //Add new element
+            // Add new element
             if (smallSize <= bigSize){
                 add(small, array[i]);
                 smallSize++;
@@ -43,7 +43,7 @@ public class SlidingWindowMedian {
                 bigSize++;
             }
 
-            //Make sure elements are in the correct position
+            // Make sure elements are in the correct position
             if (bigSize > 0) {
                 while(small.firstKey() > big.firstKey()){
                     add(big, remove(small, small.firstKey()));
@@ -51,7 +51,7 @@ public class SlidingWindowMedian {
                 }
             }
 
-            //Get median
+            // Get median
             if (smallSize + bigSize == k){
                 if (useBothValues) {
                     median = (small.firstKey() + big.firstKey()) / 2;
@@ -89,5 +89,4 @@ public class SlidingWindowMedian {
             map.put(valueToAdd, map.get(valueToAdd) + 1);
         }
     }
-
 }

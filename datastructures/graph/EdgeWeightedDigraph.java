@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rene on 09/12/17.
+ * Created by Rene Argento on 09/12/17.
  */
 @SuppressWarnings("unchecked")
 public class EdgeWeightedDigraph {
@@ -17,7 +17,7 @@ public class EdgeWeightedDigraph {
         edges = 0;
         adjacent = (List<DirectedEdge>[]) new ArrayList[vertices];
 
-        for(int vertex = 0; vertex < vertices; vertex++) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
             adjacent[vertex] = new ArrayList<>();
         }
     }
@@ -46,7 +46,7 @@ public class EdgeWeightedDigraph {
     public Iterable<DirectedEdge> edges() {
         List<DirectedEdge> bag = new ArrayList<>();
 
-        for(int vertex = 0; vertex < vertices; vertex++) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
             bag.addAll(adjacent[vertex]);
         }
 
@@ -56,8 +56,8 @@ public class EdgeWeightedDigraph {
     public EdgeWeightedDigraph reverse() {
         EdgeWeightedDigraph reverse = new EdgeWeightedDigraph(vertices);
 
-        for(int vertex = 0; vertex < vertices; vertex++) {
-            for(DirectedEdge edge : adjacent(vertex)) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
+            for (DirectedEdge edge : adjacent(vertex)) {
                 int neighbor = edge.to();
                 reverse.addEdge(new DirectedEdge(neighbor, vertex, edge.weight()));
             }
@@ -70,10 +70,10 @@ public class EdgeWeightedDigraph {
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(int vertex = 0; vertex < vertices(); vertex++) {
+        for (int vertex = 0; vertex < vertices(); vertex++) {
             stringBuilder.append(vertex).append(": ");
 
-            for(DirectedEdge neighbor : adjacent(vertex)) {
+            for (DirectedEdge neighbor : adjacent(vertex)) {
                 stringBuilder.append(neighbor).append(" ");
             }
             stringBuilder.append("\n");
@@ -81,5 +81,4 @@ public class EdgeWeightedDigraph {
 
         return stringBuilder.toString();
     }
-
 }

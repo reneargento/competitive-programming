@@ -1,10 +1,10 @@
 package datastructures.priority.queue;
 
 /**
- * Created by rene on 16/04/17.
+ * Created by Rene Argento on 16/04/17.
  */
 @SuppressWarnings("unchecked")
-public class PriorityQueue<Key extends Comparable<Key>>{
+public class PriorityQueue<Key extends Comparable<Key>> {
 
     public enum Orientation {
         MAX, MIN;
@@ -12,7 +12,7 @@ public class PriorityQueue<Key extends Comparable<Key>>{
 
     private Key[] priorityQueue;
     private int size = 0; // in priorityQueue[1..n] with pq[0] unused
-    private Orientation orientation;
+    private final Orientation orientation;
 
     public PriorityQueue(Orientation orientation) {
         priorityQueue = (Key[]) new Comparable[2];
@@ -32,11 +32,9 @@ public class PriorityQueue<Key extends Comparable<Key>>{
     }
 
     public void insert(Key key) {
-
         if (size == priorityQueue.length - 1) {
             resize(priorityQueue.length * 2);
         }
-
         size++;
         priorityQueue[size] = key;
 
@@ -44,13 +42,10 @@ public class PriorityQueue<Key extends Comparable<Key>>{
     }
 
     public Key deleteTop() {
-
         if (size == 0) {
             throw new RuntimeException("Priority queue underflow");
         }
-
         size--;
-
         Key top = priorityQueue[1];
 
         ArrayUtil.exchange(priorityQueue, 1, size + 1);
@@ -61,12 +56,11 @@ public class PriorityQueue<Key extends Comparable<Key>>{
         if (size == priorityQueue.length / 4) {
             resize(priorityQueue.length / 2);
         }
-
         return top;
     }
 
     private void swim(int index) {
-        while(index / 2 >= 1) {
+        while (index / 2 >= 1) {
             if ((orientation == Orientation.MAX && ArrayUtil.less(priorityQueue[index / 2], priorityQueue[index]))
                     || (orientation == Orientation.MIN && ArrayUtil.more(priorityQueue[index / 2], priorityQueue[index]))) {
                 ArrayUtil.exchange(priorityQueue, index / 2, index);
@@ -87,7 +81,7 @@ public class PriorityQueue<Key extends Comparable<Key>>{
                             (orientation == Orientation.MAX && ArrayUtil.less(priorityQueue[index * 2], priorityQueue[index * 2 + 1]))
                                     || (orientation == Orientation.MIN && ArrayUtil.more(priorityQueue[index * 2], priorityQueue[index * 2 + 1]))
                     )
-                    ){
+            ) {
                 selectedChildIndex = index * 2 + 1;
             }
 
@@ -97,7 +91,6 @@ public class PriorityQueue<Key extends Comparable<Key>>{
             } else {
                 break;
             }
-
             index = selectedChildIndex;
         }
     }
@@ -132,5 +125,4 @@ public class PriorityQueue<Key extends Comparable<Key>>{
             array[position2] = temp;
         }
     }
-
 }

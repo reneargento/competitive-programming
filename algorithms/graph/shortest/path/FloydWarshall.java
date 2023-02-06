@@ -8,7 +8,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Created by rene on 29/04/17.
+ * Created by Rene Argento on 29/04/17.
  */
 public class FloydWarshall {
     private static double[][] distances;     // length of shortest v->w path
@@ -80,7 +80,7 @@ public class FloydWarshall {
         }
 
         Deque<DirectedEdge> path = new ArrayDeque<>();
-        for(DirectedEdge edge = edgeTo[source][target]; edge != null; edge = edgeTo[source][edge.from()]) {
+        for (DirectedEdge edge = edgeTo[source][target]; edge != null; edge = edgeTo[source][edge.from()]) {
             path.push(edge);
         }
         return path;

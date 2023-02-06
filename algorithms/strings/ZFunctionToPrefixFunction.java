@@ -1,7 +1,7 @@
 package algorithms.strings;
 
 /**
- * Created by rene on 27/01/18.
+ * Created by Rene Argento on 27/01/18.
  */
 // Based on https://codereview.stackexchange.com/questions/87349/prefix-and-z-functions-in-c-string-algorithms
 public class ZFunctionToPrefixFunction {
@@ -18,5 +18,4 @@ public class ZFunctionToPrefixFunction {
 
         return prefixFunction;
     }
-
 }

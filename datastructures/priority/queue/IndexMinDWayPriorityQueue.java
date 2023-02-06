@@ -1,30 +1,27 @@
 package datastructures.priority.queue;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 /**
- * Created by rene on 31/12/17.
+ * Created by Rene Argento on 31/12/17.
  */
 public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
 
-    private Key[] keys;
-    private int[] pq; // Holds the indices of the keys
-    private int[] qp; // Inverse of pq -> qp[i] gives the position of i in pq[] (the index j such that pq[j] is i).
-                      // qp[pq[i]] = pq[qp[i]] = i
+    private final Key[] keys;
+    private final int[] pq; // Holds the indices of the keys
+    private final int[] qp; // Inverse of pq -> qp[i] gives the position of i in pq[] (the index j such that pq[j] is i).
+                            // qp[pq[i]] = pq[qp[i]] = i
     private int size = 0;
 
-    private int numberOfChildrenPerNode;
+    private final int numberOfChildrenPerNode;
 
     @SuppressWarnings("unchecked")
     public IndexMinDWayPriorityQueue(int size, int numberOfChildrenPerNode) {
         keys = (Key[]) new Comparable[size + 1];
         pq = new int[size + 1];
         qp = new int[size + 1];
-
-        for(int index = 0; index < qp.length; index++) {
-            qp[index] = -1;
-        }
-
+        Arrays.fill(qp, -1);
         this.numberOfChildrenPerNode = numberOfChildrenPerNode;
     }
 
@@ -40,7 +37,7 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
         return qp[index] != -1;
     }
 
-    //Return key associated with index
+    // Return key associated with index
     public Key keyOf(int index) {
         if (!contains(index)) {
             throw new NoSuchElementException("Index is not in the priority queue");
@@ -86,7 +83,6 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
         if (!contains(i)) {
             throw new NoSuchElementException("Index is not in the priority queue");
         }
-
         int index = qp[i];
 
         exchange(index, size);
@@ -104,7 +100,6 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
         if (!contains(index)) {
             throw new NoSuchElementException("Index is not in the priority queue");
         }
-
         keys[index] = key;
 
         swim(qp[index]);
@@ -118,7 +113,6 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
         if (key.compareTo(keys[index]) >= 0) {
             throw new IllegalArgumentException("Calling decreaseKey() with given argument would not strictly decrease the key");
         }
-
         keys[index] = key;
         swim(qp[index]);
     }
@@ -139,7 +133,6 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
         if (size == 0) {
             throw new NoSuchElementException("Priority queue underflow");
         }
-
         return keys[pq[1]];
     }
 
@@ -147,7 +140,6 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
         if (size == 0) {
             throw new NoSuchElementException("Priority queue underflow");
         }
-
         return pq[1];
     }
 
@@ -172,7 +164,7 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
 
             int selectedChildIndex = childSmallestIndex;
 
-            for(int childIndex = childSmallestIndex + 1; childIndex <= childHighestIndex; childIndex++) {
+            for (int childIndex = childSmallestIndex + 1; childIndex <= childHighestIndex; childIndex++) {
                 if (childIndex <= size && more(selectedChildIndex, childIndex)) {
                     selectedChildIndex = childIndex;
                 }
@@ -206,5 +198,4 @@ public class IndexMinDWayPriorityQueue<Key extends Comparable<Key>> {
         qp[pq[keyIndex1]] = keyIndex1;
         qp[pq[keyIndex2]] = keyIndex2;
     }
-
 }

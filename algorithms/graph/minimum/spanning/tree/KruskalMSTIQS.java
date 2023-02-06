@@ -6,7 +6,7 @@ import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
- * Created by rene on 14/11/17.
+ * Created by Rene Argento on 14/11/17.
  */
 // Kruskal's MST algorithm using incremental quick select (IQS) instead of a priority queue.
 // O(E + V lg^2 V) average time
@@ -33,9 +33,8 @@ public class KruskalMSTIQS {
     }
 
     private static class UnionFind {
-
-        private int[] leaders;
-        private int[] ranks;
+        private final int[] leaders;
+        private final int[] ranks;
 
         private int components;
 
@@ -58,7 +57,7 @@ public class KruskalMSTIQS {
             return find(site1) == find(site2);
         }
 
-        //O(inverse Ackermann function)
+        // O(inverse Ackermann function)
         public int find(int site) {
             if (site == leaders[site]) {
                 return site;
@@ -67,9 +66,8 @@ public class KruskalMSTIQS {
             return leaders[site] = find(leaders[site]);
         }
 
-        //O(inverse Ackermann function)
+        // O(inverse Ackermann function)
         public void union(int site1, int site2) {
-
             int leader1 = find(site1);
             int leader2 = find(site2);
 
@@ -85,7 +83,6 @@ public class KruskalMSTIQS {
                 leaders[leader1] = leader2;
                 ranks[leader2]++;
             }
-
             components--;
         }
     }
@@ -199,5 +196,4 @@ public class KruskalMSTIQS {
             return false;
         }
     }
-
 }

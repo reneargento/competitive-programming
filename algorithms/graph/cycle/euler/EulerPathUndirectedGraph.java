@@ -3,12 +3,12 @@ package algorithms.graph.cycle.euler;
 import java.util.*;
 
 /**
- * Created by rene on 30/09/17.
+ * Created by Rene Argento on 30/09/17.
  */
 @SuppressWarnings("unchecked")
 public class EulerPathUndirectedGraph {
 
-    private class Edge {
+    private static class Edge {
         int vertex1;
         int vertex2;
         boolean isUsed;
@@ -32,12 +32,11 @@ public class EulerPathUndirectedGraph {
 
         // A graph with no edges is considered to have an Eulerian path
         int edges = 0;
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 edges += adjacent[vertex].size();
             }
         }
-
         edges /= 2;
 
         if (edges == 0) {
@@ -51,7 +50,7 @@ public class EulerPathUndirectedGraph {
 
         int vertexWithOddDegree = -1;
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() % 2 != 0) {
                 verticesWithOddDegree++;
 
@@ -67,15 +66,15 @@ public class EulerPathUndirectedGraph {
 
         // Create local view of adjacency lists, to iterate one vertex at a time
         Queue<Edge>[] adjacentCopy = (Queue<Edge>[]) new Queue[adjacent.length];
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             adjacentCopy[vertex] = new LinkedList<>();
         }
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             int selfLoops = 0;
 
             if (adjacent[vertex] != null) {
-                for(int neighbor : adjacent[vertex]) {
+                for (int neighbor : adjacent[vertex]) {
                     //Careful with self-loops
                     if (vertex == neighbor) {
                         if (selfLoops % 2 == 0) {
@@ -142,13 +141,12 @@ public class EulerPathUndirectedGraph {
     private int nonIsolatedVertex(List<Integer>[] adjacent) {
         int nonIsolatedVertex = -1;
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
                 nonIsolatedVertex = vertex;
                 break;
             }
         }
-
         return nonIsolatedVertex;
     }
 
@@ -158,10 +156,9 @@ public class EulerPathUndirectedGraph {
         EulerPathUndirectedGraph eulerPath = new EulerPathUndirectedGraph();
 
         List<Integer>[] adjacent1 = (List<Integer>[]) new ArrayList[4];
-        for(int vertex = 0; vertex < adjacent1.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent1.length; vertex++) {
             adjacent1[vertex] = new ArrayList<>();
         }
-
         adjacent1[0].add(1);
         adjacent1[1].add(0);
         adjacent1[1].add(2);
@@ -184,10 +181,9 @@ public class EulerPathUndirectedGraph {
 
         List<Integer>[] adjacent2 = (List<Integer>[]) new ArrayList[4];
 
-        for(int vertex = 0; vertex < adjacent2.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent2.length; vertex++) {
             adjacent2[vertex] = new ArrayList<>();
         }
-
         adjacent2[0].add(1);
         adjacent2[1].add(0);
         adjacent2[1].add(2);
@@ -206,13 +202,12 @@ public class EulerPathUndirectedGraph {
         }
         System.out.println("Expected: 0-1 1-2 2-3 3-0\n");
 
-        //Note that vertex 12 is an isolated vertex
+        // Note that vertex 12 is an isolated vertex
         List<Integer>[] adjacent3 = (List<Integer>[]) new ArrayList[13];
 
-        for(int vertex = 0; vertex < adjacent3.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent3.length; vertex++) {
             adjacent3[vertex] = new ArrayList<>();
         }
-
         adjacent3[0].add(9);
         adjacent3[9].add(0);
         adjacent3[0].add(3);
@@ -267,10 +262,9 @@ public class EulerPathUndirectedGraph {
 
         List<Integer>[] adjacent4 = (List<Integer>[]) new ArrayList[4];
 
-        for(int vertex = 0; vertex < adjacent4.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent4.length; vertex++) {
             adjacent4[vertex] = new ArrayList<>();
         }
-
         adjacent4[0].add(1);
         adjacent4[1].add(0);
         adjacent4[1].add(2);
@@ -308,5 +302,4 @@ public class EulerPathUndirectedGraph {
         }
         System.out.println();
     }
-
 }

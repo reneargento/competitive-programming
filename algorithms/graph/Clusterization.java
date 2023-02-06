@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 /**
- * Created by rene on 25/09/17.
+ * Created by Rene Argento on 25/09/17.
  */
 public class Clusterization {
 
@@ -21,7 +21,6 @@ public class Clusterization {
     }
 
     private static class UnionFind {
-
         private int[] leaders;
         private int[] ranks;
 
@@ -46,7 +45,7 @@ public class Clusterization {
             return find(site1) == find(site2);
         }
 
-        //O(inverse Ackermann function)
+        // O(inverse Ackermann function)
         public int find(int site) {
             if (site == leaders[site]) {
                 return site;
@@ -55,7 +54,7 @@ public class Clusterization {
             return leaders[site] = find(leaders[site]);
         }
 
-        //O(inverse Ackermann function)
+        // O(inverse Ackermann function)
         public void union(int site1, int site2) {
 
             int leader1 = find(site1);
@@ -96,11 +95,8 @@ public class Clusterization {
                 cost += edges[currentEdge].cost;
                 unionFind.union(edges[currentEdge].vertex1, edges[currentEdge].vertex2);
             }
-
             currentEdge++;
         }
-
         return cost;
     }
-
 }

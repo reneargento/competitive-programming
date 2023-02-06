@@ -6,7 +6,7 @@ import datastructures.graph.EdgeWeightedDigraph;
 import java.util.*;
 
 /**
- * Created by rene on 25/12/17.
+ * Created by Rene Argento on 25/12/17.
  */
 // O(E + K * V) = O(E + V), since K is a constant, where K = max possible path length = maxWeight * (V - 1)
 // Since there may be negative edge weights, a constant number of linear scans in the distances[] array may happen
@@ -15,8 +15,8 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class BellmanFordIntegerWeights {
 
-    private int[] distTo;                  // length of path to vertex
-    private DirectedEdge[] edgeTo;         // last edge on path to vertex
+    private final int[] distTo;                  // length of path to vertex
+    private final DirectedEdge[] edgeTo;         // last edge on path to vertex
     private int callsToRelax;              // number of calls to relax()
     private Iterable<DirectedEdge> cycle;  // if there is a negative cycle in edgeTo[], return it
 
@@ -24,9 +24,9 @@ public class BellmanFordIntegerWeights {
     // because the maximum number of edges in any path is V - 1.
     // We cannot use negative indexes in an array, so we add maxWeight * (V - 1) to each index,
     // to be able to index all the distances.
-    private ArrayList<Integer>[] distances; // Theoretically, an array of HashSets would be faster, but in practice
-                                            // an array of ArrayLists has proven to be faster in this case
-    private int maxPathDistance;
+    private final ArrayList<Integer>[] distances; // Theoretically, an array of HashSets would be faster, but in practice
+    // an array of ArrayLists has proven to be faster in this case
+    private final int maxPathDistance;
 
     @SuppressWarnings("PointlessArithmeticExpression")
     public BellmanFordIntegerWeights(EdgeWeightedDigraph edgeWeightedDigraph, int source, int maxWeight) {
@@ -36,11 +36,11 @@ public class BellmanFordIntegerWeights {
         maxPathDistance = maxWeight * (edgeWeightedDigraph.vertices() - 1);
         distances = (ArrayList<Integer>[]) new ArrayList[maxPathDistance * 2 + 1];
 
-        for(int distance = 0; distance < distances.length; distance++) {
+        for (int distance = 0; distance < distances.length; distance++) {
             distances[distance] = new ArrayList<>();
         }
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             distTo[vertex] = Integer.MAX_VALUE;
         }
 
@@ -66,7 +66,6 @@ public class BellmanFordIntegerWeights {
     // Does a linear scan to find the next closest vertex, but keeps track of the position of the last vertex found
     // to do a constant number of scans in the distances[] array during the entire algorithm
     private int getShortestDistanceVertex(int lastComputedShortestDistance) {
-
         while (distances[lastComputedShortestDistance].isEmpty()) {
             lastComputedShortestDistance++;
 
@@ -77,7 +76,6 @@ public class BellmanFordIntegerWeights {
 
         Integer vertexToRemove = distances[lastComputedShortestDistance].get(0);
         distances[lastComputedShortestDistance].remove(vertexToRemove);
-
         return vertexToRemove;
     }
 
@@ -87,7 +85,7 @@ public class BellmanFordIntegerWeights {
     private int relax(EdgeWeightedDigraph edgeWeightedDigraph, int vertex) {
         int lastComputedShortestDistance = distTo[vertex] + maxPathDistance;
 
-        for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+        for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             Integer neighbor = edge.to();
 
             if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
@@ -111,7 +109,6 @@ public class BellmanFordIntegerWeights {
                 findNegativeCycle();
             }
         }
-
         return lastComputedShortestDistance;
     }
 
@@ -129,10 +126,9 @@ public class BellmanFordIntegerWeights {
         }
 
         Deque<DirectedEdge> path = new ArrayDeque<>();
-        for(DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
+        for (DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
             path.push(edge);
         }
-
         return path;
     }
 
@@ -140,17 +136,16 @@ public class BellmanFordIntegerWeights {
         int vertices = edgeTo.length;
         List<DirectedEdge>[] shortestPathsTree = (List<DirectedEdge>[]) new ArrayList[vertices];
 
-        for(int vertex = 0; vertex < vertices; vertex++) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
             shortestPathsTree[vertex] = new ArrayList<>();
         }
 
-        for(int vertex = 0; vertex < vertices; vertex++) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
             if (edgeTo[vertex] != null) {
                 DirectedEdge edge = edgeTo[vertex];
                 shortestPathsTree[edge.from()].add(edge);
             }
         }
-
         new HasDirectedWeightedCycle(shortestPathsTree);
         cycle = HasDirectedWeightedCycle.cycle();
     }
@@ -164,7 +159,6 @@ public class BellmanFordIntegerWeights {
     }
 
     public static class HasDirectedWeightedCycle {
-
         private static boolean visited[];
         private static DirectedEdge[] edgeTo;
         private static Deque<DirectedEdge> cycle;    // vertices on  a cycle (if one exists)
@@ -175,7 +169,7 @@ public class BellmanFordIntegerWeights {
             edgeTo = new DirectedEdge[adjacent.length];
             visited = new boolean[adjacent.length];
 
-            for(int vertex = 0; vertex < adjacent.length; vertex++) {
+            for (int vertex = 0; vertex < adjacent.length; vertex++) {
                 if (!visited[vertex]) {
                     dfs(adjacent, vertex);
                 }
@@ -186,7 +180,7 @@ public class BellmanFordIntegerWeights {
             onStack[vertex] = true;
             visited[vertex] = true;
 
-            for(DirectedEdge edge : adjacent[vertex]) {
+            for (DirectedEdge edge : adjacent[vertex]) {
                 int neighbor = edge.to();
 
                 if (hasCycle()) {
@@ -199,15 +193,13 @@ public class BellmanFordIntegerWeights {
 
                     cycle.push(edge);
 
-                    for(DirectedEdge edgeInCycle = edgeTo[vertex]; edgeInCycle != null && edgeInCycle.from() != vertex;
-                        edgeInCycle = edgeTo[edgeInCycle.from()]) {
+                    for (DirectedEdge edgeInCycle = edgeTo[vertex]; edgeInCycle != null && edgeInCycle.from() != vertex;
+                         edgeInCycle = edgeTo[edgeInCycle.from()]) {
                         cycle.push(edgeInCycle);
                     }
-
                     cycle.push(edge);
                 }
             }
-
             onStack[vertex] = false;
         }
 
@@ -311,5 +303,4 @@ public class BellmanFordIntegerWeights {
             }
         }
     }
-
 }

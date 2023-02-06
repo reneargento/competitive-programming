@@ -8,20 +8,20 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
- * Created by rene on 09/12/17.
+ * Created by Rene Argento on 09/12/17.
  */
 public class Dijkstra {
 
-    private DirectedEdge[] edgeTo;  // last edge on path to vertex
-    private double[] distTo;        // length of path to vertex
-    private IndexMinPriorityQueue<Double> priorityQueue;
+    private final DirectedEdge[] edgeTo;  // last edge on path to vertex
+    private final double[] distTo;        // length of path to vertex
+    private final IndexMinPriorityQueue<Double> priorityQueue;
 
     public Dijkstra(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
         edgeTo = new DirectedEdge[edgeWeightedDigraph.vertices()];
         distTo = new double[edgeWeightedDigraph.vertices()];
         priorityQueue = new IndexMinPriorityQueue<>(edgeWeightedDigraph.vertices());
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             distTo[vertex] = Double.POSITIVE_INFINITY;
         }
         distTo[source] = 0;
@@ -34,7 +34,7 @@ public class Dijkstra {
     }
 
     private void relax(EdgeWeightedDigraph edgeWeightedDigraph, int vertex) {
-        for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+        for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
             if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
@@ -68,11 +68,10 @@ public class Dijkstra {
         }
 
         Deque<DirectedEdge> path = new ArrayDeque<>();
-        for(DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
+        for (DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
             path.push(edge);
         }
 
         return path;
     }
-
 }

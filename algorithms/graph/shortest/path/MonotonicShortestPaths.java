@@ -6,16 +6,15 @@ import datastructures.graph.EdgeWeightedDigraph;
 import java.util.*;
 
 /**
- * Created by rene on 10/12/17.
+ * Created by Rene Argento on 10/12/17.
  */
-@SuppressWarnings("unchecked")
 // O(E lg E)
-// If negative edge weights are present, still works but become O(2^V)
+// If negative edge weights are present, still works but becomes O(2^V)
 public class MonotonicShortestPaths {
 
-    public class Path {
-        private double weight;
-        private DirectedEdge lastEdge;
+    public static class Path {
+        private final double weight;
+        private final DirectedEdge lastEdge;
 
         Path(double weight, DirectedEdge lastEdge) {
             this.weight = weight;
@@ -31,8 +30,7 @@ public class MonotonicShortestPaths {
         }
     }
 
-    public class VertexInformation {
-
+    public static class VertexInformation {
         private DirectedEdge[] edges;
         private int currentEdgeIteratorPosition;
 
@@ -54,16 +52,15 @@ public class MonotonicShortestPaths {
         }
     }
 
-    public class DijkstraMonotonicSP {
+    public static class DijkstraMonotonicSP {
+        private final double[] distTo;                            // length of path to vertex
+        private final DirectedEdge[] edgeTo;                      // last edge on path to vertex
 
-        private double[] distTo;                            // length of path to vertex
-        private DirectedEdge[] edgeTo;                      // last edge on path to vertex
+        private final double[] distToMonotonicAscending;          // length of monotonic ascending path to vertex
+        private final DirectedEdge[] edgeToMonotonicAscending;    // last edge on monotonic ascending path to vertex
 
-        private double[] distToMonotonicAscending;          // length of monotonic ascending path to vertex
-        private DirectedEdge[] edgeToMonotonicAscending;    // last edge on monotonic ascending path to vertex
-
-        private double[] distToMonotonicDescending;         // length of monotonic descending path to vertex
-        private DirectedEdge[] edgeToMonotonicDescending;   // last edge on monotonic descending path to vertex
+        private final double[] distToMonotonicDescending;         // length of monotonic descending path to vertex
+        private final DirectedEdge[] edgeToMonotonicDescending;   // last edge on monotonic descending path to vertex
 
         // O(E lg E)
         public DijkstraMonotonicSP(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
@@ -75,7 +72,7 @@ public class MonotonicShortestPaths {
             edgeToMonotonicDescending = new DirectedEdge[edgeWeightedDigraph.vertices()];
             edgeTo = new DirectedEdge[edgeWeightedDigraph.vertices()];
 
-            for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+            for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
                 distTo[vertex] = Double.POSITIVE_INFINITY;
                 distToMonotonicAscending[vertex] = Double.POSITIVE_INFINITY;
                 distToMonotonicDescending[vertex] = Double.POSITIVE_INFINITY;
@@ -122,14 +119,13 @@ public class MonotonicShortestPaths {
         private void relaxAllEdgesInSpecificOrder(EdgeWeightedDigraph edgeWeightedDigraph, int source,
                                                   Comparator<DirectedEdge> edgesComparator, double[] distToVertex,
                                                   DirectedEdge[] edgeToVertex, boolean isAscendingOrder) {
-
             // Create a map with vertices as keys and sorted outgoing edges as values
             Map<Integer, VertexInformation> verticesInformation = new HashMap<>();
-            for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+            for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
                 DirectedEdge[] edges = new DirectedEdge[edgeWeightedDigraph.outdegree(vertex)];
 
                 int edgeIndex = 0;
-                for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+                for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
                     edges[edgeIndex++] = edge;
                 }
 
@@ -198,7 +194,7 @@ public class MonotonicShortestPaths {
         }
 
         private void compareMonotonicPathsAndComputeShortest() {
-            for(int vertex = 0; vertex < edgeTo.length; vertex++) {
+            for (int vertex = 0; vertex < edgeTo.length; vertex++) {
                 if (distToMonotonicAscending[vertex] <= distToMonotonicDescending[vertex]) {
                     distTo[vertex] = distToMonotonicAscending[vertex];
                     edgeTo[vertex] = edgeToMonotonicAscending[vertex];
@@ -224,7 +220,7 @@ public class MonotonicShortestPaths {
             }
 
             Deque<DirectedEdge> path = new ArrayDeque<>();
-            for(DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
+            for (DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
                 path.push(edge);
             }
 
@@ -246,10 +242,9 @@ public class MonotonicShortestPaths {
             }
 
             Deque<DirectedEdge> path = new ArrayDeque<>();
-            for(DirectedEdge edge = edgeToMonotonicAscending[vertex]; edge != null; edge = edgeToMonotonicAscending[edge.from()]) {
+            for (DirectedEdge edge = edgeToMonotonicAscending[vertex]; edge != null; edge = edgeToMonotonicAscending[edge.from()]) {
                 path.push(edge);
             }
-
             return path;
         }
 
@@ -268,10 +263,9 @@ public class MonotonicShortestPaths {
             }
 
             Deque<DirectedEdge> path = new ArrayDeque<>();
-            for(DirectedEdge edge = edgeToMonotonicDescending[vertex]; edge != null; edge = edgeToMonotonicDescending[edge.from()]) {
+            for (DirectedEdge edge = edgeToMonotonicDescending[vertex]; edge != null; edge = edgeToMonotonicDescending[edge.from()]) {
                 path.push(edge);
             }
-
             return path;
         }
     }
@@ -291,15 +285,15 @@ public class MonotonicShortestPaths {
         edgeWeightedDigraph.addEdge(new DirectedEdge(2, 7, 1));
 
         MonotonicShortestPaths.DijkstraMonotonicSP dijkstraMonotonicSP =
-                new MonotonicShortestPaths().new DijkstraMonotonicSP(edgeWeightedDigraph, 0);
+                new DijkstraMonotonicSP(edgeWeightedDigraph, 0);
 
         System.out.print("Monotonic shortest paths: ");
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             System.out.print("\nPath from vertex 0 to vertex " + vertex + ": ");
 
             if (dijkstraMonotonicSP.hasPathTo(vertex)) {
-                for(DirectedEdge edge : dijkstraMonotonicSP.pathTo(vertex)) {
+                for (DirectedEdge edge : dijkstraMonotonicSP.pathTo(vertex)) {
                     System.out.print(edge.from() + "->" + edge.to() + " (" + edge.weight() + ") ");
                 }
             } else {
@@ -317,5 +311,4 @@ public class MonotonicShortestPaths {
         System.out.println("Vertex 6: There is no monotonic path to vertex 6"); // There is a path but it is not monotonic
         System.out.println("Vertex 7: There is no monotonic path to vertex 7"); // There is a path but it is not monotonic
     }
-
 }

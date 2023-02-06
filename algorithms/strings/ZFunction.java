@@ -1,7 +1,7 @@
 package algorithms.strings;
 
 /**
- * Created by rene on 27/01/18.
+ * Created by Rene Argento on 27/01/18.
  */
 public class ZFunction {
 
@@ -12,7 +12,7 @@ public class ZFunction {
         int left = 0;
         int right = 0;
 
-        for(int i = 1; i < characters.length; i++) {
+        for (int i = 1; i < characters.length; i++) {
             if (i > right) {
                 right = i;
                 left = i;
@@ -28,8 +28,7 @@ public class ZFunction {
                 int k = i - left;
                 if (zFunction[k] < right - i + 1) {
                     zFunction[i] = zFunction[k];
-                }
-                else {
+                } else {
                     left = i;
                     while (right < characters.length
                             && characters[right - left] == characters[right]) {
@@ -40,8 +39,6 @@ public class ZFunction {
                 }
             }
         }
-
         return zFunction;
     }
-
 }

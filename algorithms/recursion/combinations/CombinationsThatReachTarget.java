@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by rene on 20/10/17.
+ * Created by Rene Argento on 20/10/17.
  */
 public class CombinationsThatReachTarget {
 
     public static void main(String args[]) {
-        Integer[] numbers = {3,9,8,4,5,7,10};
+        Integer[] numbers = { 3, 9, 8, 4, 5, 7, 10 };
         int target = 15;
 
-        sum(new ArrayList<>(Arrays.asList(numbers)),target);
+        sum(new ArrayList<>(Arrays.asList(numbers)), target);
     }
 
     private static void sum(ArrayList<Integer> numbers, int target) {
@@ -27,14 +27,14 @@ public class CombinationsThatReachTarget {
         }
 
         if (sum == target) {
-            System.out.println("sum("+ Arrays.toString(partial.toArray())+") = " + target);
+            System.out.println("sum(" + Arrays.toString(partial.toArray()) + ") = " + target);
         }
 
         if (sum >= target) {
             return;
         }
 
-        for(int i = 0; i < numbers.size(); i++) {
+        for (int i = 0; i < numbers.size(); i++) {
             ArrayList<Integer> remaining = new ArrayList<>();
             int currentNumber = numbers.get(i);
 
@@ -47,5 +47,4 @@ public class CombinationsThatReachTarget {
             getSums(remaining, target, partialSum);
         }
     }
-
 }

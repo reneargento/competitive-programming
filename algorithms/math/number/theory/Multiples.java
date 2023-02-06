@@ -1,7 +1,7 @@
 package algorithms.math.number.theory;
 
 /**
- * Created by rene on 11/06/17.
+ * Created by Rene Argento on 11/06/17.
  */
 public class Multiples {
 

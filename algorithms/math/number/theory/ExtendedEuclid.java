@@ -1,7 +1,7 @@
 package algorithms.math.number.theory;
 
 /**
- * Created by rene on 08/09/17.
+ * Created by Rene Argento on 08/09/17.
  */
 // Computes:
 // bezoutCoefficient1 * x + bezoutCoefficient2 * y = gcd(x, y)
@@ -15,13 +15,13 @@ public class ExtendedEuclid {
         System.out.println("GCD: " + gcd + " Expected: 1");
     }
 
-    //Bezout identity
+    // Bezout identity
     private static int bezoutCoefficient1;
     private static int bezoutCoefficient2;
     private static int gcd;
 
     private static void extendedEuclid(int number1, int number2) {
-        //Base case
+        // Base case
         if (number2 == 0) {
             bezoutCoefficient1 = 1;
             bezoutCoefficient2 = 0;
@@ -29,7 +29,7 @@ public class ExtendedEuclid {
             return;
         }
 
-        //Just like euclid()
+        // Just like euclid()
         extendedEuclid(number2, number1 % number2);
 
         int nextBezoutCoefficient1 = bezoutCoefficient2;

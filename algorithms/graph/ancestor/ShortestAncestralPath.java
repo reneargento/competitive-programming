@@ -3,24 +3,24 @@ package algorithms.graph.ancestor;
 import java.util.*;
 
 /**
- * Created by rene on 24/10/17.
+ * Created by Rene Argento on 24/10/17.
  */
 // Computes the shortest ancestral path between 2 vertices in O(V + E)
 @SuppressWarnings("unchecked")
 public class ShortestAncestralPath {
 
     private static class HasDirectedCycle {
-        private boolean visited[];
-        private int[] edgeTo;
+        private final boolean[] visited;
+        private final int[] edgeTo;
         private Stack<Integer> cycle; // vertices on  a cycle (if one exists)
-        private boolean[] onStack; // vertices on recursive call stack
+        private final boolean[] onStack; // vertices on recursive call stack
 
         public HasDirectedCycle(List<Integer>[] adjacent) {
             onStack = new boolean[adjacent.length];
             edgeTo = new int[adjacent.length];
             visited = new boolean[adjacent.length];
 
-            for(int vertex = 0; vertex < adjacent.length; vertex++) {
+            for (int vertex = 0; vertex < adjacent.length; vertex++) {
                 if (!visited[vertex]) {
                     dfs(adjacent, vertex);
                 }
@@ -31,7 +31,7 @@ public class ShortestAncestralPath {
             onStack[vertex] = true;
             visited[vertex] = true;
 
-            for(int neighbor : adjacent[vertex]) {
+            for (int neighbor : adjacent[vertex]) {
                 if (hasCycle()) {
                     return;
                 } else if (!visited[neighbor]) {
@@ -40,7 +40,7 @@ public class ShortestAncestralPath {
                 } else if (onStack[neighbor]) {
                     cycle = new Stack<>();
 
-                    for(int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
+                    for (int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
                         cycle.push(currentVertex);
                     }
 
@@ -48,7 +48,6 @@ public class ShortestAncestralPath {
                     cycle.push(vertex);
                 }
             }
-
             onStack[vertex] = false;
         }
 
@@ -61,32 +60,30 @@ public class ShortestAncestralPath {
         }
     }
 
-    private class ShortestAncestralPathResult {
-        private int commonAncestor;
-        private String shortestPathFromVertex1ToAncestor;
-        private String shortestPathFromVertex2ToAncestor;
+    private static class ShortestAncestralPathResult {
+        private final int commonAncestor;
+        private final String shortestPathFromVertex1ToAncestor;
+        private final String shortestPathFromVertex2ToAncestor;
 
         ShortestAncestralPathResult(int commonAncestor, String shortestPathFromVertex1ToAncestor,
-                              String shortestPathFromVertex2ToAncestor) {
+                                    String shortestPathFromVertex2ToAncestor) {
             this.commonAncestor = commonAncestor;
             this.shortestPathFromVertex1ToAncestor = shortestPathFromVertex1ToAncestor;
             this.shortestPathFromVertex2ToAncestor = shortestPathFromVertex2ToAncestor;
         }
     }
 
-    private class BreadthFirstSearchToGetIntersection {
-        private List<Integer>[] adjacent;
-        private int[] edgeTo;
-        private Queue<Integer> pendingVertices;
+    private static class BreadthFirstSearchToGetIntersection {
+        private final List<Integer>[] adjacent;
+        private final int[] edgeTo;
+        private final Queue<Integer> pendingVertices;
 
         BreadthFirstSearchToGetIntersection(List<Integer>[] adjacent, int source) {
             this.adjacent = adjacent;
             edgeTo = new int[adjacent.length];
-
-            for (int i = 0; i < edgeTo.length; i++) {
-                edgeTo[i] = -1;
-            }
+            Arrays.fill(edgeTo, -1);
             edgeTo[source] = source;
+
             pendingVertices = new LinkedList<>();
             pendingVertices.offer(source);
         }
@@ -150,13 +147,12 @@ public class ShortestAncestralPath {
 
         // 1- Reverse graph
         List<Integer>[] reverseDigraph = (List<Integer>[]) new ArrayList[adjacent.length];
-
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
             reverseDigraph[vertex] = new ArrayList<>();
         }
 
-        for(int vertex = 0; vertex < adjacent.length; vertex++) {
-            for(int neighbor : adjacent[vertex]) {
+        for (int vertex = 0; vertex < adjacent.length; vertex++) {
+            for (int neighbor : adjacent[vertex]) {
                 reverseDigraph[neighbor].add(vertex);
             }
         }
@@ -166,7 +162,7 @@ public class ShortestAncestralPath {
         BreadthFirstSearchToGetIntersection bfs2 = new BreadthFirstSearchToGetIntersection(reverseDigraph, vertex2);
 
         int ancestor = -1;
-        while (ancestor == - 1 && (!bfs1.isCompleted() || !bfs2.isCompleted())) {
+        while (ancestor == -1 && (!bfs1.isCompleted() || !bfs2.isCompleted())) {
             ancestor = bfs1.runStep(bfs2);
             if (ancestor == -1) {
                 ancestor = bfs2.runStep(bfs1);
@@ -180,7 +176,6 @@ public class ShortestAncestralPath {
         // 3- Get the paths from each vertex to the ancestor
         Stack<Integer> shortestPathFromVertex1ToAncestor = bfs1.pathTo(ancestor);
         Stack<Integer> shortestPathFromVertex2ToAncestor = bfs2.pathTo(ancestor);
-
         return new ShortestAncestralPathResult(ancestor, pathToString(shortestPathFromVertex1ToAncestor),
                 pathToString(shortestPathFromVertex2ToAncestor));
     }
@@ -189,10 +184,9 @@ public class ShortestAncestralPath {
         ShortestAncestralPath shortestAncestralPath = new ShortestAncestralPath();
 
         List<Integer>[] digraph1 = (List<Integer>[]) new ArrayList[5];
-        for(int vertex = 0; vertex < digraph1.length; vertex++) {
+        for (int vertex = 0; vertex < digraph1.length; vertex++) {
             digraph1[vertex] = new ArrayList<>();
         }
-
         digraph1[0].add(1);
         digraph1[1].add(2);
         digraph1[0].add(3);
@@ -212,10 +206,9 @@ public class ShortestAncestralPath {
 
 
         List<Integer>[] digraph2 = (List<Integer>[]) new ArrayList[5];
-        for(int vertex = 0; vertex < digraph2.length; vertex++) {
+        for (int vertex = 0; vertex < digraph2.length; vertex++) {
             digraph2[vertex] = new ArrayList<>();
         }
-
         digraph2[0].add(1);
         digraph2[0].add(2);
         digraph2[2].add(3);
@@ -235,10 +228,9 @@ public class ShortestAncestralPath {
 
 
         List<Integer>[] digraph3 = (List<Integer>[]) new ArrayList[9];
-        for(int vertex = 0; vertex < digraph3.length; vertex++) {
+        for (int vertex = 0; vertex < digraph3.length; vertex++) {
             digraph3[vertex] = new ArrayList<>();
         }
-
         digraph3[0].add(1);
         digraph3[1].add(2);
         digraph3[1].add(3);
@@ -264,10 +256,9 @@ public class ShortestAncestralPath {
 
 
         List<Integer>[] digraph4 = (List<Integer>[]) new ArrayList[9];
-        for(int vertex = 0; vertex < digraph4.length; vertex++) {
+        for (int vertex = 0; vertex < digraph4.length; vertex++) {
             digraph4[vertex] = new ArrayList<>();
         }
-
         digraph4[0].add(1);
         digraph4[1].add(3);
         digraph4[1].add(4);
@@ -293,10 +284,9 @@ public class ShortestAncestralPath {
 
 
         List<Integer>[] digraph5 = (List<Integer>[]) new ArrayList[4];
-        for(int vertex = 0; vertex < digraph5.length; vertex++) {
+        for (int vertex = 0; vertex < digraph5.length; vertex++) {
             digraph5[vertex] = new ArrayList<>();
         }
-
         digraph5[0].add(1);
         digraph5[1].add(2);
 
@@ -310,5 +300,4 @@ public class ShortestAncestralPath {
         }
         System.out.println("Expected: Common ancestor not found");
     }
-
 }

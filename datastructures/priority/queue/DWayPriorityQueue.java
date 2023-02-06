@@ -1,7 +1,7 @@
 package datastructures.priority.queue;
 
 /**
- * Created by rene on 31/12/17.
+ * Created by Rene Argento on 31/12/17.
  */
 @SuppressWarnings("unchecked")
 public class DWayPriorityQueue<Key extends Comparable<Key>> {
@@ -12,8 +12,8 @@ public class DWayPriorityQueue<Key extends Comparable<Key>> {
 
     private Key[] priorityQueue;
     private int size = 0; // in priorityQueue[1..n] with pq[0] unused
-    private Orientation orientation;
-    private int numberOfChildrenPerNode;
+    private final Orientation orientation;
+    private final int numberOfChildrenPerNode;
 
     public DWayPriorityQueue(Orientation orientation, int numberOfChildrenPerNode) {
         priorityQueue = (Key[]) new Comparable[2];
@@ -34,11 +34,9 @@ public class DWayPriorityQueue<Key extends Comparable<Key>> {
     }
 
     public void insert(Key key) {
-
         if (size == priorityQueue.length - 1) {
             resize(priorityQueue.length * 2);
         }
-
         size++;
         priorityQueue[size] = key;
 
@@ -46,13 +44,10 @@ public class DWayPriorityQueue<Key extends Comparable<Key>> {
     }
 
     public Key deleteTop() {
-
         if (size == 0) {
             throw new RuntimeException("Priority queue underflow");
         }
-
         size--;
-
         Key top = priorityQueue[1];
 
         ArrayUtil.exchange(priorityQueue, 1, size + 1);
@@ -63,7 +58,6 @@ public class DWayPriorityQueue<Key extends Comparable<Key>> {
         if (size == priorityQueue.length / 4) {
             resize(priorityQueue.length / 2);
         }
-
         return top;
     }
 
@@ -90,16 +84,15 @@ public class DWayPriorityQueue<Key extends Comparable<Key>> {
         int childHighestIndex = (index * numberOfChildrenPerNode + 1);
 
         while (childSmallestIndex <= size) {
-
             int selectedChildIndex = childSmallestIndex;
 
-            for(int childIndex = childSmallestIndex + 1; childIndex <= childHighestIndex; childIndex++) {
+            for (int childIndex = childSmallestIndex + 1; childIndex <= childHighestIndex; childIndex++) {
                 if (childIndex <= size &&
                         (
                                 (orientation == Orientation.MAX && ArrayUtil.less(priorityQueue[selectedChildIndex], priorityQueue[childIndex]))
                                         || (orientation == Orientation.MIN && ArrayUtil.more(priorityQueue[selectedChildIndex], priorityQueue[childIndex]))
                         )
-                        ) {
+                ) {
                     selectedChildIndex = childIndex;
                 }
             }
@@ -147,5 +140,4 @@ public class DWayPriorityQueue<Key extends Comparable<Key>> {
             array[position2] = temp;
         }
     }
-
 }

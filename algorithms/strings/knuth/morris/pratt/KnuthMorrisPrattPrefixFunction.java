@@ -1,13 +1,12 @@
 package algorithms.strings.knuth.morris.pratt;
 
 /**
- * Created by rene on 27/01/18.
+ * Created by Rene Argento on 27/01/18.
  */
 public class KnuthMorrisPrattPrefixFunction {
 
     private static int[] getKMPPrefix(String pattern) {
         int[] prefix = new int[pattern.length()];
-
         int j = 0;
 
         for (int i = 1; i < pattern.length(); i++) {
@@ -21,8 +20,6 @@ public class KnuthMorrisPrattPrefixFunction {
 
             prefix[i] = j;
         }
-
         return prefix;
     }
-
 }

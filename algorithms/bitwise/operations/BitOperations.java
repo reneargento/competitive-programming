@@ -1,7 +1,7 @@
 package algorithms.bitwise.operations;
 
 /**
- * Created by rene on 15/07/17.
+ * Created by Rene Argento on 15/07/17.
  */
 public class BitOperations {
 

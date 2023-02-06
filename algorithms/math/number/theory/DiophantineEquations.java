@@ -1,15 +1,15 @@
 package algorithms.math.number.theory;
 
 /**
- * Created by rene on 08/09/17.
+ * Created by Rene Argento on 08/09/17.
  */
-//Solves a equation in the form of:
+// Solves a equation in the form of:
 // a * x + b * y = c
 public class DiophantineEquations {
 
     public static void main(String[] args) {
         int[] solution = diophantineEquation(25, 18, 839);
-        //int[] solution = diophantineEquation(18, 25, 839);
+        // int[] solution = diophantineEquation(18, 25, 839);
 
         if (solution[0] == 0) {
             System.out.println(solution[1] + ", " + solution[2]);
@@ -93,7 +93,7 @@ public class DiophantineEquations {
 
     // bezoutCoefficient1 * x + bezoutCoefficient2 * y = gcd(x, y)
 
-    //Bezout identity
+    // Bezout identity
     private static int bezoutCoefficient1;
     private static int bezoutCoefficient2;
     private static int gcd;
@@ -117,5 +117,4 @@ public class DiophantineEquations {
         bezoutCoefficient1 = nextBezoutCoefficient1;
         bezoutCoefficient2 = nextBezoutCoefficient2;
     }
-
 }

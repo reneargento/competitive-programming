@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rene on 13/10/17.
+ * Created by Rene Argento on 13/10/17.
  */
 // Interval binary search tree that uses randomization to maintain balance
 public class IntervalBST<Value> {
 
-    public class Interval implements Comparable<Interval> {
+    public static class Interval implements Comparable<Interval> {
         double min;
         double max;
 
@@ -31,12 +31,8 @@ public class IntervalBST<Value> {
                 return -1;
             } else if (this.min > that.min) {
                 return 1;
-            } else if (this.max < that.max) {
-                return -1;
-            } else if (this.max > that.max) {
-                return 1;
             } else {
-                return 0;
+                return Double.compare(this.max, that.max);
             }
         }
 
@@ -45,7 +41,6 @@ public class IntervalBST<Value> {
             if (!(other instanceof IntervalBST.Interval)) {
                 return false;
             }
-
             IntervalBST.Interval otherInterval = (IntervalBST.Interval) other;
             return this.min == otherInterval.min && this.max == otherInterval.max;
         }
@@ -150,7 +145,6 @@ public class IntervalBST<Value> {
             node.right = rootInsert(node.right, interval, value);
             node = rotateLeft(node);
         }
-
         return node;
     }
 
@@ -179,7 +173,6 @@ public class IntervalBST<Value> {
         } else {
             node = joinLeftAndRightNodes(node.left, node.right);
         }
-
         updateSizeAndMax(node);
         return node;
     }
@@ -261,7 +254,6 @@ public class IntervalBST<Value> {
         if (foundLeft || node.left == null || node.left.max < interval.min) {
             foundRight = getAllIntersections(node.right, interval, intersections);
         }
-
         return foundCenter || foundLeft || foundRight;
     }
 
@@ -313,7 +305,6 @@ public class IntervalBST<Value> {
         if (node == null) {
             return Double.MIN_VALUE;
         }
-
         return node.max;
     }
 
@@ -376,7 +367,6 @@ public class IntervalBST<Value> {
         if (node == null) {
             return true;
         }
-
         return node.max == max3(node.interval.max, max(node.left), max(node.right));
     }
 }

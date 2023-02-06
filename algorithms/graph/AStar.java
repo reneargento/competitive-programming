@@ -3,11 +3,11 @@ package algorithms.graph;
 import java.util.*;
 
 /**
- * Created by rene on 18/04/17.
+ * Created by Rene Argento on 18/04/17.
  */
 public class AStar {
 
-    private class Node implements Comparable<Node>{
+    private class Node implements Comparable<Node> {
         private String state;
         private int fScore;
         private int gScore;
@@ -65,17 +65,14 @@ public class AStar {
         Node current = openSet.poll();
 
         while (current != null && !current.state.equals(END_STATE)) {
-
             totalStatesEvaluated++;
 
             closedSet.add(current);
 
-            for(Node neighbor : getNeighbors(current)) {
-
+            for (Node neighbor : getNeighbors(current)) {
                 if (closedSet.contains(neighbor)) {
                     continue;
                 }
-
                 neighbor.parent = current;
 
                 // The distance (number of moves) from start to the neighbor
@@ -85,7 +82,6 @@ public class AStar {
 
                 openSet.add(neighbor);
             }
-
             current = openSet.poll();
         }
 
@@ -101,12 +97,11 @@ public class AStar {
     private String getState(int[][] grid) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[0].length; j++) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
                 stringBuilder.append(grid[i][j]);
             }
         }
-
         return stringBuilder.toString();
     }
 
@@ -127,8 +122,8 @@ public class AStar {
         int[][] grid = new int[3][3];
         int stateStringIndex = 0;
 
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[0].length; j++) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
                 grid[i][j] = state.charAt(stateStringIndex++) - '0';
             }
         }
@@ -140,10 +135,11 @@ public class AStar {
         //else
         //  correct position row = number / 3 - 1
         //  correct position column = 2
-        for(int i = 0; i < grid.length; i++) {
-            for(int j = 0; j < grid[0].length; j++) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
                 if (grid[i][j] == 0) {
-                    manhattanDistance += Math.abs(2 - i) + Math.abs(2 - j);;
+                    manhattanDistance += Math.abs(2 - i) + Math.abs(2 - j);
+                    ;
                     continue;
                 }
 
@@ -162,7 +158,6 @@ public class AStar {
                 manhattanDistance += distance;
             }
         }
-
         return manhattanDistance;
     }
 
@@ -176,19 +171,18 @@ public class AStar {
 
         List<String> orderedSolution = new ArrayList<>();
 
-        for(int i = solution.size() - 1; i >= 0; i--) {
+        for (int i = solution.size() - 1; i >= 0; i--) {
             orderedSolution.add(solution.get(i));
         }
-
         return orderedSolution;
     }
 
     private void printSolution(List<String> states) {
-        for(String state : states) {
+        for (String state : states) {
             int index = 0;
 
-            for(int i = 0; i < 3; i++) {
-                for(int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
                     System.out.print(state.charAt(index++));
                 }
                 System.out.println();
@@ -203,5 +197,4 @@ public class AStar {
             }
         }
     }
-
 }

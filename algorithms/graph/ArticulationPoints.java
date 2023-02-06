@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by rene on 23/09/17.
+ * Created by Rene Argento on 23/09/17.
  */
 //Based on http://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/
 public class ArticulationPoints {
@@ -25,18 +25,17 @@ public class ArticulationPoints {
         articulationPoints = new HashSet<>();
 
         //1-index based
-        for(int vertex = 1; vertex <= vertices; vertex++) {
+        for (int vertex = 1; vertex <= vertices; vertex++) {
             time[vertex] = -1;
             low[vertex] = -1;
             parent[vertex] = -1;
         }
 
-        for(int vertex = 1; vertex <= vertices; vertex++) {
+        for (int vertex = 1; vertex <= vertices; vertex++) {
             if (time[vertex] == -1) {
                 dfs(adjacent, vertex);
             }
         }
-
     }
 
     private static void dfs(List<Integer>[] adjacent, int vertex) {
@@ -47,7 +46,6 @@ public class ArticulationPoints {
         int children = 0;
 
         for (int neighbor : adjacent[vertex]) {
-
             if (time[neighbor] == -1) {
                 parent[neighbor] = vertex;
                 children++;
@@ -65,5 +63,4 @@ public class ArticulationPoints {
             }
         }
     }
-
 }

@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by rene on 30/12/17.
+ * Created by Rene Argento on 30/12/17.
  */
 public class DepthFirstOrderDirectedWeighted {
 
@@ -25,7 +25,7 @@ public class DepthFirstOrderDirectedWeighted {
         reversePostOrder = new ArrayDeque<>();
         visited = new boolean[edgeWeightedDigraph.vertices()];
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             if (!visited[vertex]) {
                 dfs(edgeWeightedDigraph, vertex);
             }
@@ -37,7 +37,7 @@ public class DepthFirstOrderDirectedWeighted {
 
         visited[vertex] = true;
 
-        for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+        for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
             int neighbor = edge.to();
 
             if (!visited[neighbor]) {
@@ -60,5 +60,4 @@ public class DepthFirstOrderDirectedWeighted {
     public Iterable<Integer> reversePostOrder() {
         return reversePostOrder;
     }
-
 }

@@ -1,7 +1,7 @@
 package datastructures.tree.fenwick;
 
 /**
- * Created by rene on 23/09/17.
+ * Created by Rene Argento on 23/09/17.
  */
 public class FenwickTree2DRangeSum {
     private final long[][] fenwickTree;

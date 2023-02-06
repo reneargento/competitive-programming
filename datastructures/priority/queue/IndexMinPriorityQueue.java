@@ -1,17 +1,17 @@
 package datastructures.priority.queue;
 
-/**
- * Created by rene on 07/11/17.
- */
-
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
+/**
+ * Created by Rene Argento on 07/11/17.
+ */
 public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
 
-    private Key[] keys;
-    private int[] pq; // Holds the indices of the keys
-    private int[] qp; // Inverse of pq -> qp[i] gives the position of i in pq[] (the index j such that pq[j] is i).
-                      // qp[pq[i]] = pq[qp[i]] = i
+    private final Key[] keys;
+    private final int[] pq; // Holds the indices of the keys
+    private final int[] qp; // Inverse of pq -> qp[i] gives the position of i in pq[] (the index j such that pq[j] is i).
+    // qp[pq[i]] = pq[qp[i]] = i
     private int size = 0;
 
     @SuppressWarnings("unchecked")
@@ -19,10 +19,7 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         keys = (Key[]) new Comparable[size + 1];
         pq = new int[size + 1];
         qp = new int[size + 1];
-
-        for(int index = 0; index < qp.length; index++) {
-            qp[index] = -1;
-        }
+        Arrays.fill(qp, -1);
     }
 
     public boolean isEmpty() {
@@ -42,7 +39,6 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         if (!contains(index)) {
             throw new NoSuchElementException("Index is not in the priority queue");
         }
-
         return keys[index];
     }
 
@@ -75,7 +71,6 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
 
         keys[pq[size + 1]] = null;
         qp[pq[size + 1]] = -1;
-
         return minElementIndex;
     }
 
@@ -101,7 +96,6 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         if (!contains(index)) {
             throw new NoSuchElementException("Index is not in the priority queue");
         }
-
         keys[index] = key;
 
         swim(qp[index]);
@@ -136,7 +130,6 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         if (size == 0) {
             throw new NoSuchElementException("Priority queue underflow");
         }
-
         return keys[pq[1]];
     }
 
@@ -144,12 +137,11 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         if (size == 0) {
             throw new NoSuchElementException("Priority queue underflow");
         }
-
         return pq[1];
     }
 
     private void swim(int index) {
-        while(index / 2 >= 1 && more(index / 2, index)) {
+        while (index / 2 >= 1 && more(index / 2, index)) {
             exchange(index / 2, index);
             index = index / 2;
         }
@@ -159,7 +151,7 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         while (index * 2 <= size) {
             int selectedChildIndex = index * 2;
 
-            if (index * 2 + 1 <= size && more(index * 2, index * 2 + 1)){
+            if (index * 2 + 1 <= size && more(index * 2, index * 2 + 1)) {
                 selectedChildIndex = index * 2 + 1;
             }
 
@@ -168,7 +160,6 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
             } else {
                 break;
             }
-
             index = selectedChildIndex;
         }
     }
@@ -189,5 +180,4 @@ public class IndexMinPriorityQueue<Key extends Comparable<Key>> {
         qp[pq[keyIndex1]] = keyIndex1;
         qp[pq[keyIndex2]] = keyIndex2;
     }
-
 }

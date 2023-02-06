@@ -1,7 +1,7 @@
 package algorithms.geometry;
 
 /**
- * Created by rene on 26/12/17.
+ * Created by Rene Argento on 26/12/17.
  */
 public class IntegerCoordinatesInLine {
 
@@ -44,5 +44,4 @@ public class IntegerCoordinatesInLine {
         }
         return number1;
     }
-
 }

@@ -7,42 +7,10 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Created by rene on 01/09/17.
+ * Created by Rene Argento on 01/09/17.
  */
 @SuppressWarnings("unchecked")
 public class StronglyConnectedComponents {
-
-    private static class FastReader {
-
-        private static BufferedReader reader;
-        private static StringTokenizer tokenizer;
-
-        /** Call this method to initialize reader for InputStream */
-        static void init(InputStream input) {
-            reader = new BufferedReader(new InputStreamReader(input));
-            tokenizer = new StringTokenizer("");
-        }
-
-        /** Get next word */
-        private static String next() throws IOException {
-            while (!tokenizer.hasMoreTokens() ) {
-                tokenizer = new StringTokenizer(reader.readLine());
-            }
-            return tokenizer.nextToken();
-        }
-
-        private static int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
-
-        private static double nextDouble() throws IOException {
-            return Double.parseDouble(next());
-        }
-
-        private static long nextLong() throws IOException {
-            return Long.parseLong(next());
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         FastReader.init(System.in);
@@ -50,29 +18,26 @@ public class StronglyConnectedComponents {
         int vertices = FastReader.nextInt();
         int edges = FastReader.nextInt();
 
-        //If the vertices are 0-index based, use
+        // If the vertices are 0-index based, use
         //     new ArrayList[vertices];
         List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[vertices + 1];
-
-        for(int i = 0; i < adjacent.length; i++) {
+        for (int i = 0; i < adjacent.length; i++) {
             adjacent[i] = new ArrayList<>();
         }
 
-        for(int i = 0; i < edges; i++) {
+        for (int i = 0; i < edges; i++) {
             int vertex1 = FastReader.nextInt();
             int vertex2 = FastReader.nextInt();
-
             adjacent[vertex1].add(vertex2);
         }
-
         StronglyConnectedComponents stronglyConnectedComponents = new StronglyConnectedComponents(adjacent);
         System.out.println(stronglyConnectedComponents.sccCount + " components\n");
     }
 
-    private int[] sccId;
+    private final int[] sccId;
     private int sccCount;
-    private int[] componentSizes;
-    private int vertices;
+    private final int[] componentSizes;
+    private final int vertices;
 
     public StronglyConnectedComponents(List<Integer>[] adjacent) {
         boolean[] visited = new boolean[adjacent.length];
@@ -83,7 +48,7 @@ public class StronglyConnectedComponents {
         List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
         int[] topologicalOrder = topologicalSort(inverseEdges);
 
-        for(int vertex : topologicalOrder) {
+        for (int vertex : topologicalOrder) {
             if (!visited[vertex]) {
                 depthFirstSearch(vertex, adjacent, null, visited, false);
                 sccCount++;
@@ -107,8 +72,8 @@ public class StronglyConnectedComponents {
         boolean[] visited = new boolean[adjacent.length];
         Stack<Integer> finishTimes = new Stack<>();
 
-        //If the vertices are 0-index based, start i with value 0
-        for(int i = 1; i < visited.length; i++) {
+        // If the vertices are 0-index based, start i with value 0
+        for (int i = 1; i < visited.length; i++) {
             if (!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited, true);
             }
@@ -120,13 +85,12 @@ public class StronglyConnectedComponents {
         while (!finishTimes.isEmpty()) {
             topologicalSort[arrayIndex++] = finishTimes.pop();
         }
-
         return topologicalSort;
     }
 
     // Fast, but recursive
     private void depthFirstSearch(int sourceVertex, List<Integer>[] adjacent, Stack<Integer> finishTimes,
-                                         boolean[] visited, boolean getFinishTimes) {
+                                  boolean[] visited, boolean getFinishTimes) {
         visited[sourceVertex] = true;
 
         if (!getFinishTimes) {
@@ -135,7 +99,7 @@ public class StronglyConnectedComponents {
         }
 
         if (adjacent[sourceVertex] != null) {
-            for(int neighbor : adjacent[sourceVertex]) {
+            for (int neighbor : adjacent[sourceVertex]) {
                 if (!visited[neighbor]) {
                     depthFirstSearch(neighbor, adjacent, finishTimes, visited, getFinishTimes);
                 }
@@ -150,7 +114,7 @@ public class StronglyConnectedComponents {
     // Trade-off between time and memory
     // Takes longer because it has to create the iterators, but avoid stack overflows
     private void depthFirstSearchIterative(int sourceVertex, List<Integer>[] adjacent, Stack<Integer> finishTimes,
-                                                  boolean[] visited, boolean getFinishTimes) {
+                                           boolean[] visited, boolean getFinishTimes) {
         Stack<Integer> stack = new Stack<>();
         stack.push(sourceVertex);
         visited[sourceVertex] = true;
@@ -193,72 +157,91 @@ public class StronglyConnectedComponents {
     private List<Integer>[] invertGraphEdges(List<Integer>[] adjacent) {
         List<Integer>[] inverseEdges = new ArrayList[adjacent.length];
 
-        for(int i = 0; i < inverseEdges.length; i++) {
+        for (int i = 0; i < inverseEdges.length; i++) {
             inverseEdges[i] = new ArrayList<>();
         }
 
         //If the vertices are 0-index based, start i with value 0
-        for(int i = 1; i < adjacent.length; i++) {
+        for (int i = 1; i < adjacent.length; i++) {
             List<Integer> neighbors = adjacent[i];
 
             if (neighbors != null) {
-                for(int neighbor : adjacent[i]) {
+                for (int neighbor : adjacent[i]) {
                     inverseEdges[neighbor].add(i);
                 }
             }
         }
-
         return inverseEdges;
     }
 
     private List<Integer>[] getSCCsInReverseTopologicalOrder() {
         List<Integer>[] stronglyConnectedComponents = (List<Integer>[]) new ArrayList[sccCount];
-
-        for(int scc = 0; scc < stronglyConnectedComponents.length; scc++) {
+        for (int scc = 0; scc < stronglyConnectedComponents.length; scc++) {
             stronglyConnectedComponents[scc] = new ArrayList<>();
         }
 
-        for(int vertex = 0; vertex < vertices; vertex++) {
+        for (int vertex = 0; vertex < vertices; vertex++) {
             int stronglyConnectedComponentId = sccId(vertex);
             stronglyConnectedComponents[stronglyConnectedComponentId].add(vertex);
         }
-
         return stronglyConnectedComponents;
     }
 
     public List<Integer>[] getSCCsInTopologicalOrder() {
         List<Integer>[] sccsInTopologicalOrder = getSCCsInReverseTopologicalOrder();
-
         List<Integer>[] sccsInReverseTopologicalOrder = (List<Integer>[]) new ArrayList[sccCount];
         int currentSCCInReverseOrderIndex = 0;
 
-        for(int scc = sccsInTopologicalOrder.length - 1; scc >= 0 ; scc--) {
+        for (int scc = sccsInTopologicalOrder.length - 1; scc >= 0; scc--) {
             sccsInReverseTopologicalOrder[currentSCCInReverseOrderIndex++] = sccsInTopologicalOrder[scc];
         }
-
         return sccsInReverseTopologicalOrder;
     }
 
     // Generate the kernel DAG, the condensation graph where each SCC is a vertex
-    private Set<Integer>[] getKernelDAG(List<Integer> adjacent[]) {
-
+    private Set<Integer>[] getKernelDAG(List<Integer>[] adjacent) {
         Set<Integer>[] adjacentComponents = (HashSet<Integer>[]) new HashSet[sccCount];
-        for(int i = 0; i < adjacentComponents.length; i++) {
+        for (int i = 0; i < adjacentComponents.length; i++) {
             adjacentComponents[i] = new HashSet<>();
         }
 
-        //If the vertices are 0-index based, start vertexId with value 0
-        for(int vertexId = 1; vertexId < adjacent.length; vertexId++) {
+        // If the vertices are 0-index based, start vertexId with value 0
+        for (int vertexId = 1; vertexId < adjacent.length; vertexId++) {
             int currentComponent = sccId[vertexId];
 
-            for(int neighbor : adjacent[vertexId]) {
+            for (int neighbor : adjacent[vertexId]) {
                 if (currentComponent != sccId[neighbor]) {
                     adjacentComponents[currentComponent].add(sccId[neighbor]);
                 }
             }
         }
-
         return adjacentComponents;
     }
 
+    private static class FastReader {
+        private static BufferedReader reader;
+        private static StringTokenizer tokenizer;
+
+        /**
+         * Call this method to initialize reader for InputStream
+         */
+        static void init(InputStream input) {
+            reader = new BufferedReader(new InputStreamReader(input));
+            tokenizer = new StringTokenizer("");
+        }
+
+        /**
+         * Get next word
+         */
+        private static String next() throws IOException {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+            return tokenizer.nextToken();
+        }
+
+        private static int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+    }
 }

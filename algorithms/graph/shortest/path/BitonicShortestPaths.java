@@ -6,7 +6,7 @@ import datastructures.graph.EdgeWeightedDigraph;
 import java.util.*;
 
 /**
- * Created by rene on 17/12/17.
+ * Created by Rene Argento on 17/12/17.
  */
 // Bitonic shortest-path: a shortest-path from s to t in which there is an intermediate vertex v
 // such that the weights of the edges on the path s to v are strictly increasing and
@@ -72,19 +72,12 @@ public class BitonicShortestPaths {
 
         @Override
         public int compareTo(Path other) {
-            if (this.weight < other.weight) {
-                return -1;
-            } else if (this.weight > other.weight) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return Double.compare(this.weight, other.weight);
         }
     }
 
-    public class VertexInformation {
-
-        private DirectedEdge[] edges;
+    public static class VertexInformation {
+        private final DirectedEdge[] edges;
         private int edgeIteratorPosition;
 
         VertexInformation(DirectedEdge[] edges) {
@@ -106,14 +99,12 @@ public class BitonicShortestPaths {
     }
 
     public class BitonicSP {
-
-        private Path[] bitonicPathTo;  // bitonic path to vertex
+        private final Path[] bitonicPathTo;  // bitonic path to vertex
 
         // O(P lg P), where P is the number of paths in the digraph
         // Includes optimization to prune paths that are not bitonic, ie. ascending + descending + ascending
         // or descending + ascending
         public BitonicSP(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
-
             bitonicPathTo = new Path[edgeWeightedDigraph.vertices()];
 
             // 1- Relax edges in ascending order to get a monotonic increasing shortest path
@@ -132,7 +123,7 @@ public class BitonicShortestPaths {
 
             List<Path> allCurrentPaths = new ArrayList<>();
 
-            relaxAllEdgesInSpecificOrder(edgeWeightedDigraph, source, edgesComparator, allCurrentPaths,true);
+            relaxAllEdgesInSpecificOrder(edgeWeightedDigraph, source, edgesComparator, allCurrentPaths, true);
 
             // 2- Relax edges in descending order to get a monotonic decreasing shortest path
             edgesComparator = new Comparator<DirectedEdge>() {
@@ -157,11 +148,11 @@ public class BitonicShortestPaths {
 
             // Create a map with vertices as keys and sorted outgoing edges as values
             Map<Integer, VertexInformation> verticesInformation = new HashMap<>();
-            for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+            for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
                 DirectedEdge[] edges = new DirectedEdge[edgeWeightedDigraph.outdegree(vertex)];
 
                 int edgeIndex = 0;
-                for(DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
+                for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
                     edges[edgeIndex++] = edge;
                 }
 
@@ -188,7 +179,7 @@ public class BitonicShortestPaths {
 
             // If we are relaxing edges for the second time, add all existing ascending paths to the priority queue
             if (!allCurrentPaths.isEmpty()) {
-                for(Path currentPath : allCurrentPaths) {
+                for (Path currentPath : allCurrentPaths) {
                     priorityQueue.offer(currentPath);
                 }
             }
@@ -302,11 +293,11 @@ public class BitonicShortestPaths {
 
         System.out.println("Bitonic shortest paths: ");
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             System.out.print("\nPath from vertex 0 to vertex " + vertex + ": ");
 
             if (bitonicSP.hasBitonicPathTo(vertex)) {
-                for(DirectedEdge edge : bitonicSP.bitonicPathTo(vertex)) {
+                for (DirectedEdge edge : bitonicSP.bitonicPathTo(vertex)) {
                     System.out.print(edge.from() + "->" + edge.to() + " (" + edge.weight() + ") ");
                 }
             } else {
@@ -335,10 +326,9 @@ public class BitonicShortestPaths {
                 6, Double.POSITIVE_INFINITY
         };
 
-        for(int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
+        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
             System.out.print("\nDistance to vertex " + vertex + ": " + bitonicSP.bitonicPathDistTo(vertex)
                     + " Expected: " + expectedDistances[vertex]);
         }
     }
-
 }

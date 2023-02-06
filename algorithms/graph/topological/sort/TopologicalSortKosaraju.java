@@ -7,42 +7,10 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /**
- * Created by rene on 01/09/17.
+ * Created by Rene Argento on 01/09/17.
  */
 @SuppressWarnings("unchecked")
 public class TopologicalSortKosaraju {
-
-    private static class FastReader {
-
-        private static BufferedReader reader;
-        private static StringTokenizer tokenizer;
-
-        /** Call this method to initialize reader for InputStream */
-        static void init(InputStream input) {
-            reader = new BufferedReader(new InputStreamReader(input));
-            tokenizer = new StringTokenizer("");
-        }
-
-        /** Get next word */
-        private static String next() throws IOException {
-            while (!tokenizer.hasMoreTokens() ) {
-                tokenizer = new StringTokenizer(reader.readLine());
-            }
-            return tokenizer.nextToken();
-        }
-
-        private static int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
-
-        private static double nextDouble() throws IOException {
-            return Double.parseDouble(next());
-        }
-
-        private static long nextLong() throws IOException {
-            return Long.parseLong(next());
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         FastReader.init(System.in);
@@ -50,37 +18,34 @@ public class TopologicalSortKosaraju {
         int vertices = FastReader.nextInt();
         int edges = FastReader.nextInt();
 
-        //If the vertices are 0-index based, use
+        // If the vertices are 0-index based, use
         //     new ArrayList[vertices];
         List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[vertices + 1];
 
-        for(int i = 0; i < adjacent.length; i++) {
+        for (int i = 0; i < adjacent.length; i++) {
             adjacent[i] = new ArrayList<>();
         }
 
-        for(int i = 0; i < edges; i++) {
+        for (int i = 0; i < edges; i++) {
             int vertex1 = FastReader.nextInt();
             int vertex2 = FastReader.nextInt();
-
             adjacent[vertex1].add(vertex2);
         }
 
         int[] topologicalSort = topologicalSort(adjacent);
-        for(int vertex : topologicalSort) {
+        for (int vertex : topologicalSort) {
             System.out.println(vertex);
         }
     }
 
     private static int[] topologicalSort(List<Integer>[] adjacent) {
         Stack<Integer> finishTimes = getFinishTimes(adjacent);
-
         int[] topologicalSort = new int[finishTimes.size()];
         int arrayIndex = 0;
 
         while (!finishTimes.isEmpty()) {
             topologicalSort[arrayIndex++] = finishTimes.pop();
         }
-
         return topologicalSort;
     }
 
@@ -88,13 +53,12 @@ public class TopologicalSortKosaraju {
         boolean[] visited = new boolean[adjacent.length];
         Stack<Integer> finishTimes = new Stack<>();
 
-        //If the vertices are 0-index based, start i with value 0
-        for(int i = 1; i < adjacent.length; i++) {
+        // If the vertices are 0-index based, start i with value 0
+        for (int i = 1; i < adjacent.length; i++) {
             if (!visited[i]) {
                 depthFirstSearch(i, adjacent, finishTimes, visited);
             }
         }
-
         return finishTimes;
     }
 
@@ -102,12 +66,11 @@ public class TopologicalSortKosaraju {
     private static void depthFirstSearch(int sourceVertex, List<Integer>[] adj, Stack<Integer> finishTimes, boolean[] visited) {
         visited[sourceVertex] = true;
 
-        for(int neighbor : adj[sourceVertex]) {
+        for (int neighbor : adj[sourceVertex]) {
             if (!visited[neighbor]) {
                 depthFirstSearch(neighbor, adj, finishTimes, visited);
             }
         }
-
         finishTimes.push(sourceVertex);
     }
 
@@ -147,4 +110,24 @@ public class TopologicalSortKosaraju {
         }
     }
 
+    private static class FastReader {
+        private static BufferedReader reader;
+        private static StringTokenizer tokenizer;
+
+        static void init(InputStream input) {
+            reader = new BufferedReader(new InputStreamReader(input));
+            tokenizer = new StringTokenizer("");
+        }
+
+        private static String next() throws IOException {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+            return tokenizer.nextToken();
+        }
+
+        private static int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+    }
 }

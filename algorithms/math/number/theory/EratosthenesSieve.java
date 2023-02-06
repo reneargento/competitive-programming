@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by rene on 08/09/17.
+ * Created by Rene Argento on 08/09/17.
  */
 public class EratosthenesSieve {
 
@@ -40,7 +40,7 @@ public class EratosthenesSieve {
 
     private static List<Integer> primeNumbers;
     private static boolean[] isPrime;
-    private static int MAX_VALUE = 10000000;
+    private static final int MAX_VALUE = 10000000;
 
     private static boolean isPrime(long number) {
         if (number <= MAX_VALUE) {

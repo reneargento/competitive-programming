@@ -4,15 +4,15 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Created by rene on 16/12/17.
+ * Created by Rene Argento on 16/12/17.
  */
 // Runs in O(N * M), but the typical running time is N / M
 // Extra space: R
 // Requires backup in the input text
 public class BoyerMoore {
 
-    private int[] right;
-    private String pattern;
+    private final int[] right;
+    private final String pattern;
 
     public BoyerMoore(String pattern) {
         if (pattern == null) {
@@ -126,5 +126,4 @@ public class BoyerMoore {
         }
         System.out.println(pattern);
     }
-
 }
