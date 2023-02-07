@@ -3,6 +3,9 @@ package algorithms.graph.shortest.path.integer.weights;
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -106,79 +109,69 @@ public class DijkstraIntegerWeights {
     }
 
     // Can be tested in https://www.hackerrank.com/challenges/dijkstrashortreach/problem
-//    private static class FastReader {
-//
-//        private static BufferedReader reader;
-//        private static StringTokenizer tokenizer;
-//
-//        /** Call this method to initialize reader for InputStream */
-//        static void init(InputStream input) {
-//            reader = new BufferedReader(new InputStreamReader(input));
-//            tokenizer = new StringTokenizer("");
-//        }
-//
-//        /** Get next word */
-//        private static String next() throws IOException {
-//            while (!tokenizer.hasMoreTokens() ) {
-//                tokenizer = new StringTokenizer(reader.readLine());
-//            }
-//            return tokenizer.nextToken();
-//        }
-//
-//        private static int nextInt() throws IOException {
-//            return Integer.parseInt( next() );
-//        }
-//
-//        private static double nextDouble() throws IOException {
-//            return Double.parseDouble( next() );
-//        }
-//    }
-//
-//    public static void main(String[] args) throws IOException {
-//        FastReader.init(System.in);
-//
-//        int tests = FastReader.nextInt();
-//
-//        for(int test = 0; test < tests; test++) {
-//            int vertices = FastReader.nextInt();
-//            int totalEdges = FastReader.nextInt();
-//
-//            EdgeWeightedDigraph edgeWeightedDigraph = new EdgeWeightedDigraph(vertices + 1);
-//
-//            for(int i = 0; i < totalEdges; i++) {
-//                int vertex1 = FastReader.nextInt();
-//                int vertex2 = FastReader.nextInt();
-//                int length = FastReader.nextInt();
-//
-//                DirectedEdge edge1 = new DirectedEdge(vertex1, vertex2, length);
-//                DirectedEdge edge2 = new DirectedEdge(vertex2, vertex1, length);
-//
-//                edgeWeightedDigraph.addEdge(edge1);
-//                edgeWeightedDigraph.addEdge(edge2);
-//            }
-//
-//            int source = FastReader.nextInt();
-//            int maxWeight = 100000;
-//
-//            DijkstraIntegerWeights dijkstraIntegerWeights =
-//                    new DijkstraIntegerWeights(edgeWeightedDigraph, source, maxWeight);
-//
-//            for(int vertex = 1; vertex <= vertices; vertex++) {
-//                if (vertex != source) {
-//                    long distance = dijkstraIntegerWeights.distTo(i);
-//
-//                    if (distance == Long.MAX_VALUE) {
-//                        distance = -1;
-//                    }
-//
-//                    System.out.print(distance);
-//
-//                    if (vertex != vertices) {
-//                        System.out.print(" ");
-//                    }
-//                }
-//            }
-//            System.out.println();
-//        }
-//    }
+    public static void main(String[] args) throws IOException {
+        FastReader.init();
+        int tests = FastReader.nextInt();
+
+        for (int test = 0; test < tests; test++) {
+            int vertices = FastReader.nextInt();
+            int totalEdges = FastReader.nextInt();
+
+            EdgeWeightedDigraph edgeWeightedDigraph = new EdgeWeightedDigraph(vertices + 1);
+
+            for (int i = 0; i < totalEdges; i++) {
+                int vertex1 = FastReader.nextInt();
+                int vertex2 = FastReader.nextInt();
+                int length = FastReader.nextInt();
+
+                DirectedEdge edge1 = new DirectedEdge(vertex1, vertex2, length);
+                DirectedEdge edge2 = new DirectedEdge(vertex2, vertex1, length);
+
+                edgeWeightedDigraph.addEdge(edge1);
+                edgeWeightedDigraph.addEdge(edge2);
+            }
+
+            int source = FastReader.nextInt();
+            int maxWeight = 100000;
+
+            DijkstraIntegerWeights dijkstraIntegerWeights =
+                    new DijkstraIntegerWeights(edgeWeightedDigraph, source, maxWeight);
+
+            for (int vertex = 1; vertex <= vertices; vertex++) {
+                if (vertex != source) {
+                    long distance = dijkstraIntegerWeights.distTo(vertex);
+                    if (distance == Long.MAX_VALUE) {
+                        distance = -1;
+                    }
+                    System.out.print(distance);
+
+                    if (vertex != vertices) {
+                        System.out.print(" ");
+                    }
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    private static class FastReader {
+        private static BufferedReader reader;
+        private static StringTokenizer tokenizer;
+
+        static void init() {
+            reader = new BufferedReader(new InputStreamReader(System.in));
+            tokenizer = new StringTokenizer("");
+        }
+
+        private static String next() throws IOException {
+            while (!tokenizer.hasMoreTokens()) {
+                tokenizer = new StringTokenizer(reader.readLine());
+            }
+            return tokenizer.nextToken();
+        }
+
+        private static int nextInt() throws IOException {
+            return Integer.parseInt(next());
+        }
+    }
 }

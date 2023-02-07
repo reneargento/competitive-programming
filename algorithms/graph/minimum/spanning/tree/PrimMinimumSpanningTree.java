@@ -12,7 +12,7 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class PrimMinimumSpanningTree {
 
-    //Graph
+    // Graph
     private static class Vertex {
         int id;
         boolean processed;
@@ -161,7 +161,7 @@ public class PrimMinimumSpanningTree {
             int vertex2Id = FastReader.nextInt();
             int cost = FastReader.nextInt();
 
-            //Add vertices
+            // Add vertices
             Vertex vertex1 = new Vertex(vertex1Id);
             vertices[vertex1Id] = vertex1;
             Vertex vertex2 = new Vertex(vertex2Id);
