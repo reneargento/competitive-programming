@@ -1,77 +1,91 @@
 package algorithms.graph.shortest.path;
 
-import datastructures.graph.DirectedEdge;
-import datastructures.graph.EdgeWeightedDigraph;
-import datastructures.priority.queue.IndexMinPriorityQueue;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.PriorityQueue;
 
 /**
- * Created by Rene Argento on 09/12/17.
+ * Created by Rene Argento on 15/04/23.
  */
+// Dijkstra algorithm optimized for reusability on contests.
 public class Dijkstra {
 
-    private final DirectedEdge[] edgeTo;  // last edge on path to vertex
-    private final double[] distTo;        // length of path to vertex
-    private final IndexMinPriorityQueue<Double> priorityQueue;
+    private static class Vertex implements Comparable<Vertex> {
+        int id;
+        long distance;
 
-    public Dijkstra(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
-        edgeTo = new DirectedEdge[edgeWeightedDigraph.vertices()];
-        distTo = new double[edgeWeightedDigraph.vertices()];
-        priorityQueue = new IndexMinPriorityQueue<>(edgeWeightedDigraph.vertices());
+        public Vertex(int id, long distance) {
+            this.id = id;
+            this.distance = distance;
+        }
 
-        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            distTo[vertex] = Double.POSITIVE_INFINITY;
+        @Override
+        public int compareTo(Vertex other) {
+            return Long.compare(distance, other.distance);
+        }
+    }
+
+    private static class Edge {
+        private final int vertex1;
+        private final int vertex2;
+        private final long distance;
+
+        public Edge(int vertex1, int vertex2, long distance) {
+            this.vertex1 = vertex1;
+            this.vertex2 = vertex2;
+            this.distance = distance;
+        }
+    }
+
+    private final Edge[] edgeTo;  // last edge on path to vertex
+    private final long[] distTo;  // length of path to vertex
+    private final PriorityQueue<Vertex> priorityQueue;
+    private final long MAX_VALUE = 10000000000000000L;
+
+    public Dijkstra(List<Edge>[] adjacencyList, int source) {
+        edgeTo = new Edge[adjacencyList.length];
+        distTo = new long[adjacencyList.length];
+        priorityQueue = new PriorityQueue<>(adjacencyList.length);
+
+        for (int vertex = 0; vertex < adjacencyList.length; vertex++) {
+            distTo[vertex] = MAX_VALUE;
         }
         distTo[source] = 0;
-        priorityQueue.insert(source, 0.0);
+        priorityQueue.offer(new Vertex(source, 0));
 
         while (!priorityQueue.isEmpty()) {
-            relax(edgeWeightedDigraph, priorityQueue.deleteMin());
+            relax(adjacencyList, priorityQueue.poll());
             // In a source-sink problem, break the loop if the sink was relaxed
         }
     }
 
-    private void relax(EdgeWeightedDigraph edgeWeightedDigraph, int vertex) {
-        for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
-            int neighbor = edge.to();
+    private void relax(List<Edge>[] adjacencyList, Vertex vertex) {
+        for (Edge edge : adjacencyList[vertex.id]) {
+            int neighbor = edge.vertex2;
 
-            if (distTo[neighbor] > distTo[vertex] + edge.weight()) {
-                distTo[neighbor] = distTo[vertex] + edge.weight();
+            if (distTo[neighbor] > distTo[vertex.id] + edge.distance) {
+                distTo[neighbor] = distTo[vertex.id] + edge.distance;
                 edgeTo[neighbor] = edge;
-
-                if (priorityQueue.contains(neighbor)) {
-                    priorityQueue.decreaseKey(neighbor, distTo[neighbor]);
-                } else {
-                    priorityQueue.insert(neighbor, distTo[neighbor]);
-                }
+                priorityQueue.offer(new Vertex(neighbor, distTo[neighbor]));
             }
         }
     }
 
-    public double distTo(int vertex) {
-        return distTo[vertex];
-    }
-
-    public DirectedEdge edgeTo(int vertex) {
-        return edgeTo[vertex];
-    }
-
     public boolean hasPathTo(int vertex) {
-        return distTo[vertex] < Double.POSITIVE_INFINITY;
+        return distTo[vertex] != MAX_VALUE;
     }
 
-    public Iterable<DirectedEdge> pathTo(int vertex) {
+    public List<Edge> pathTo(int vertex) {
         if (!hasPathTo(vertex)) {
             return null;
         }
 
-        Deque<DirectedEdge> path = new ArrayDeque<>();
-        for (DirectedEdge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.from()]) {
-            path.push(edge);
+        List<Edge> path = new ArrayList<>();
+        for (Edge edge = edgeTo[vertex]; edge != null; edge = edgeTo[edge.vertex1]) {
+            path.add(edge);
         }
-
+        Collections.reverse(path);
         return path;
     }
 }

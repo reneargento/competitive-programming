@@ -140,9 +140,9 @@ public class HasOddLengthDirectedCycle {
             componentSizes = new int[adjacent.length];
 
             List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
-            int[] topologicalOrder = topologicalSort(inverseEdges);
+            int[] decreasingFinishingTimes = computeDecreasingFinishingTimes(inverseEdges);
 
-            for (int vertex : topologicalOrder) {
+            for (int vertex : decreasingFinishingTimes) {
                 if (!visited[vertex]) {
                     depthFirstSearch(vertex, adjacent, null, visited, false);
                     sccCount++;
@@ -162,7 +162,7 @@ public class HasOddLengthDirectedCycle {
             return sccCount;
         }
 
-        private int[] topologicalSort(List<Integer>[] adjacent) {
+        private int[] computeDecreasingFinishingTimes(List<Integer>[] adjacent) {
             boolean[] visited = new boolean[adjacent.length];
             Stack<Integer> finishTimes = new Stack<>();
 
@@ -172,16 +172,15 @@ public class HasOddLengthDirectedCycle {
                 }
             }
 
-            int[] topologicalSort = new int[finishTimes.size()];
+            int[] decreasingFinishingTimes = new int[finishTimes.size()];
             int arrayIndex = 0;
 
             while (!finishTimes.isEmpty()) {
-                topologicalSort[arrayIndex++] = finishTimes.pop();
+                decreasingFinishingTimes[arrayIndex++] = finishTimes.pop();
             }
-            return topologicalSort;
+            return decreasingFinishingTimes;
         }
 
-        // Fast, but recursive
         private void depthFirstSearch(int sourceVertex, List<Integer>[] adjacent, Stack<Integer> finishTimes,
                                       boolean[] visited, boolean getFinishTimes) {
             visited[sourceVertex] = true;

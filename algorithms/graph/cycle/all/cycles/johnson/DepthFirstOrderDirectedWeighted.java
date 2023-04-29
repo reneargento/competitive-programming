@@ -1,4 +1,4 @@
-package algorithms.graph.cycle.johnson.all.cycles;
+package algorithms.graph.cycle.all.cycles.johnson;
 
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;

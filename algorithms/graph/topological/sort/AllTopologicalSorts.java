@@ -29,7 +29,6 @@ public class AllTopologicalSorts {
         List<List<Integer>> topologicalSorts = computeAllTopologicalSorts(adjacencyList);
         System.out.println("Number of topological sorts: " + topologicalSorts.size() + " Expected: 6");
         for (List<Integer> topologicalSort : topologicalSorts) {
-            Collections.reverse(topologicalSort);
             System.out.print(topologicalSort.get(0));
             for (int i = 1; i < topologicalSort.size(); i++) {
                 System.out.print(" - " + topologicalSort.get(i));
@@ -81,6 +80,7 @@ public class AllTopologicalSorts {
 
         if (stack.size() == adjacencyList.length) {
             List<Integer> topologicalSort = new ArrayList<>(stack);
+            Collections.reverse(topologicalSort);
             topologicalSorts.add(topologicalSort);
         }
     }

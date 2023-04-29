@@ -6,7 +6,6 @@ import java.util.List;
  * Created by Rene Argento on 15/09/17.
  */
 public class HasCycleUndirectedGraph {
-
     private final boolean[] visited;
     private boolean hasCycle;
 
@@ -37,5 +36,4 @@ public class HasCycleUndirectedGraph {
     public boolean hasCycle() {
         return hasCycle;
     }
-
 }

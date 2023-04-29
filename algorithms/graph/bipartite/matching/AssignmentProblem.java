@@ -1,6 +1,6 @@
 package algorithms.graph.bipartite.matching;
 
-import algorithms.graph.shortest.path.Dijkstra;
+import algorithms.graph.shortest.path.DijkstraOptimized;
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
 
@@ -106,7 +106,7 @@ public class AssignmentProblem {
         }
 
         // Compute shortest path from source to every other vertex
-        Dijkstra shortestPaths = new Dijkstra(residualGraph, source);
+        DijkstraOptimized shortestPaths = new DijkstraOptimized(residualGraph, source);
 
         // Augment along alternating path
         for (DirectedEdge edge : shortestPaths.pathTo(target)) {

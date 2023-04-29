@@ -1,6 +1,6 @@
 package algorithms.graph.shortest.path;
 
-import algorithms.graph.cycle.johnson.all.cycles.JohnsonAllCycles;
+import algorithms.graph.cycle.all.cycles.johnson.JohnsonAllCycles;
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
 

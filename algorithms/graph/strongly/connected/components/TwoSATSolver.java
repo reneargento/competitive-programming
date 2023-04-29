@@ -1,4 +1,4 @@
-package algorithms.graph;
+package algorithms.graph.strongly.connected.components;
 
 import java.util.*;
 
@@ -8,11 +8,11 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class TwoSATSolver {
 
-    private class StronglyConnectedComponents {
-        private int[] sccId;
+    private static class StronglyConnectedComponents {
+        private final int[] sccId;
         private int sccCount;
-        private int[] componentSizes;
-        private int vertices;
+        private final int[] componentSizes;
+        private final int vertices;
 
         public StronglyConnectedComponents(List<Integer>[] adjacent) {
             boolean[] visited = new boolean[adjacent.length];
@@ -21,9 +21,9 @@ public class TwoSATSolver {
             vertices = adjacent.length;
 
             List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
-            int[] topologicalOrder = topologicalSort(inverseEdges);
+            int[] decreasingFinishingTimes = computeDecreasingFinishingTimes(inverseEdges);
 
-            for (int vertex : topologicalOrder) {
+            for (int vertex : decreasingFinishingTimes) {
                 if (!visited[vertex]) {
                     depthFirstSearch(vertex, adjacent, null, visited, false);
                     sccCount++;
@@ -43,28 +43,25 @@ public class TwoSATSolver {
             return sccCount;
         }
 
-        private int[] topologicalSort(List<Integer>[] adjacent) {
+        private int[] computeDecreasingFinishingTimes(List<Integer>[] adjacent) {
             boolean[] visited = new boolean[adjacent.length];
-            Stack<Integer> finishTimes = new Stack<>();
 
-            // If the vertices are 0-index based, start i with value 0
+            Stack<Integer> finishTimes = new Stack<>();
             for (int i = 0; i < visited.length; i++) {
                 if (!visited[i]) {
                     depthFirstSearch(i, adjacent, finishTimes, visited, true);
                 }
             }
 
-            int[] topologicalSort = new int[finishTimes.size()];
+            int[] decreasingFinishingTimes = new int[finishTimes.size()];
             int arrayIndex = 0;
 
             while (!finishTimes.isEmpty()) {
-                topologicalSort[arrayIndex++] = finishTimes.pop();
+                decreasingFinishingTimes[arrayIndex++] = finishTimes.pop();
             }
-
-            return topologicalSort;
+            return decreasingFinishingTimes;
         }
 
-        // Fast, but recursive
         private void depthFirstSearch(int sourceVertex, List<Integer>[] adjacent, Stack<Integer> finishTimes,
                                       boolean[] visited, boolean getFinishTimes) {
             visited[sourceVertex] = true;
@@ -89,12 +86,10 @@ public class TwoSATSolver {
 
         private List<Integer>[] invertGraphEdges(List<Integer>[] adjacent) {
             List<Integer>[] inverseEdges = new ArrayList[adjacent.length];
-
             for (int i = 0; i < inverseEdges.length; i++) {
                 inverseEdges[i] = new ArrayList<>();
             }
 
-            //If the vertices are 0-index based, start i with value 0
             for (int i = 0; i < adjacent.length; i++) {
                 List<Integer> neighbors = adjacent[i];
 
@@ -150,13 +145,11 @@ public class TwoSATSolver {
         }
 
         List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[variables.size() * 2];
-
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
             adjacent[vertex] = new ArrayList<>();
         }
 
         String[] values = formula.split(" ");
-
         Map<String, Integer> variableToIdMap = new HashMap<>();
         Map<Integer, String> idToVariableMap = new HashMap<>();
 
@@ -241,7 +234,6 @@ public class TwoSATSolver {
         List<Integer>[] sccsInTopologicalOrder = stronglyConnectedComponents.getSCCsInTopologicalOrder();
 
         Map<Character, Boolean> solution = new HashMap<>();
-
         for (List<Integer> scc : sccsInTopologicalOrder) {
             for (int vertexId : scc) {
                 String vertexVariable = idToVariableMap.get(vertexId);
@@ -264,14 +256,12 @@ public class TwoSATSolver {
                 }
             }
         }
-
         return solution;
     }
 
     private void addVariableToMappings(String variable, Map<String, Integer> variableToIdMap,
                                        Map<Integer, String> idToVariableMap) {
         int variableId = variableToIdMap.size();
-
         variableToIdMap.put(variable, variableId);
         idToVariableMap.put(variableId, variable);
     }

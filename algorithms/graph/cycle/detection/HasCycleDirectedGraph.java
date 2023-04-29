@@ -8,11 +8,10 @@ import java.util.List;
  * Created by Rene Argento on 24/10/17.
  */
 public class HasCycleDirectedGraph {
-
     private final boolean[] visited;
     private final int[] edgeTo;
-    private Deque<Integer> cycle; // vertices on  a cycle (if one exists)
-    private final boolean[] onStack; // vertices on recursive call stack
+    private Deque<Integer> cycle;
+    private final boolean[] onStack;
 
     public HasCycleDirectedGraph(List<Integer>[] adjacent) {
         onStack = new boolean[adjacent.length];
@@ -42,12 +41,10 @@ public class HasCycleDirectedGraph {
                 for (int currentVertex = vertex; currentVertex != neighbor; currentVertex = edgeTo[currentVertex]) {
                     cycle.push(currentVertex);
                 }
-
                 cycle.push(neighbor);
                 cycle.push(vertex);
             }
         }
-
         onStack[vertex] = false;
     }
 

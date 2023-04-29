@@ -10,14 +10,13 @@ import java.util.Set;
  */
 //Based on http://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/
 public class ArticulationPoints {
-
     private static int[] time; // time[v] = order in which dfs examines v
     private static int[] low;  // low[v] = lowest preorder of any vertex connected to v
     private static int[] parent;
     private static int count;
-    private static Set<Integer> articulationPoints;
+    public static Set<Integer> articulationPoints;
 
-    private static void computeArticulationPoints(List<Integer>[] adjacencyList) {
+    public static void computeArticulationPoints(List<Integer>[] adjacencyList) {
         time = new int[adjacencyList.length];
         low = new int[adjacencyList.length];
         parent = new int[adjacencyList.length];

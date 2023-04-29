@@ -1,34 +1,23 @@
-package algorithms.graph;
+package algorithms.graph.strongly.connected.components;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
  * Created by Rene Argento on 01/09/17.
  */
 @SuppressWarnings("unchecked")
-public class StronglyConnectedComponents {
-    private final int[] sccId;
-    private int sccCount;
+public class StronglyConnectedComponentsKosaraju {
+    private final int[] sccIds;
     private final int[] componentSizes;
+    private int sccCount;
 
     public boolean stronglyConnected(int vertex1, int vertex2) {
-        return sccId[vertex1] == sccId[vertex2];
+        return sccIds[vertex1] == sccIds[vertex2];
     }
 
-    public int sccId(int vertex) {
-        return sccId[vertex];
-    }
-
-    public int count() {
-        return sccCount;
-    }
-
-    public StronglyConnectedComponents(List<Integer>[] adjacent) {
+    public StronglyConnectedComponentsKosaraju(List<Integer>[] adjacent) {
         boolean[] visited = new boolean[adjacent.length];
-        sccId = new int[adjacent.length];
+        sccIds = new int[adjacent.length];
         componentSizes = new int[adjacent.length];
 
         List<Integer>[] inverseEdges = invertGraphEdges(adjacent);
@@ -36,7 +25,7 @@ public class StronglyConnectedComponents {
 
         for (int vertex : decreasingFinishingTimes) {
             if (!visited[vertex]) {
-                depthFirstSearch(vertex, adjacent, null, visited, false);
+                depthFirstSearch(adjacent, visited, null, false, vertex);
                 sccCount++;
             }
         }
@@ -48,7 +37,7 @@ public class StronglyConnectedComponents {
 
         for (int i = 0; i < visited.length; i++) {
             if (!visited[i]) {
-                depthFirstSearch(i, adjacent, finishTimes, visited, true);
+                depthFirstSearch(adjacent, visited, finishTimes, true, i);
             }
         }
 
@@ -60,20 +49,19 @@ public class StronglyConnectedComponents {
         return decreasingFinishingTimes;
     }
 
-    // Fast, but recursive
-    private void depthFirstSearch(int sourceVertex, List<Integer>[] adjacent, Stack<Integer> finishTimes,
-                                  boolean[] visited, boolean getFinishTimes) {
+    private void depthFirstSearch(List<Integer>[] adjacent, boolean[] visited, Stack<Integer> finishTimes,
+                                  boolean getFinishTimes, int sourceVertex) {
         visited[sourceVertex] = true;
 
         if (!getFinishTimes) {
-            sccId[sourceVertex] = sccCount;
+            sccIds[sourceVertex] = sccCount;
             componentSizes[sccCount]++;
         }
 
         if (adjacent[sourceVertex] != null) {
             for (int neighbor : adjacent[sourceVertex]) {
                 if (!visited[neighbor]) {
-                    depthFirstSearch(neighbor, adjacent, finishTimes, visited, getFinishTimes);
+                    depthFirstSearch(adjacent, visited, finishTimes, getFinishTimes, neighbor);
                 }
             }
         }
@@ -81,6 +69,24 @@ public class StronglyConnectedComponents {
         if (getFinishTimes) {
             finishTimes.push(sourceVertex);
         }
+    }
+
+    private List<Integer>[] invertGraphEdges(List<Integer>[] adjacent) {
+        List<Integer>[] inverseEdges = new ArrayList[adjacent.length];
+        for (int i = 0; i < inverseEdges.length; i++) {
+            inverseEdges[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < adjacent.length; i++) {
+            List<Integer> neighbors = adjacent[i];
+
+            if (neighbors != null) {
+                for (int neighbor : adjacent[i]) {
+                    inverseEdges[neighbor].add(i);
+                }
+            }
+        }
+        return inverseEdges;
     }
 
     // Trade-off between time and memory
@@ -92,7 +98,7 @@ public class StronglyConnectedComponents {
         visited[sourceVertex] = true;
 
         if (!getFinishTimes) {
-            sccId[sourceVertex] = sccCount;
+            sccIds[sourceVertex] = sccCount;
         }
 
         // Used to be able to iterate over each adjacency list, keeping track of which
@@ -124,32 +130,14 @@ public class StronglyConnectedComponents {
         }
     }
 
-    private List<Integer>[] invertGraphEdges(List<Integer>[] adjacent) {
-        List<Integer>[] inverseEdges = new ArrayList[adjacent.length];
-        for (int i = 0; i < inverseEdges.length; i++) {
-            inverseEdges[i] = new ArrayList<>();
-        }
-
-        for (int i = 0; i < adjacent.length; i++) {
-            List<Integer> neighbors = adjacent[i];
-
-            if (neighbors != null) {
-                for (int neighbor : adjacent[i]) {
-                    inverseEdges[neighbor].add(i);
-                }
-            }
-        }
-        return inverseEdges;
-    }
-
     private List<Integer>[] getSCCsInDecreasingFinishingOrder() {
         List<Integer>[] stronglyConnectedComponents = (List<Integer>[]) new ArrayList[sccCount];
         for (int scc = 0; scc < stronglyConnectedComponents.length; scc++) {
             stronglyConnectedComponents[scc] = new ArrayList<>();
         }
 
-        for (int vertex = 0; vertex < sccId.length; vertex++) {
-            int stronglyConnectedComponentId = sccId(vertex);
+        for (int vertex = 0; vertex < sccIds.length; vertex++) {
+            int stronglyConnectedComponentId = sccIds[vertex];
             stronglyConnectedComponents[stronglyConnectedComponentId].add(vertex);
         }
         return stronglyConnectedComponents;
@@ -174,55 +162,14 @@ public class StronglyConnectedComponents {
         }
 
         for (int vertexId = 0; vertexId < adjacent.length; vertexId++) {
-            int currentComponent = sccId[vertexId];
+            int currentComponent = sccIds[vertexId];
 
             for (int neighbor : adjacent[vertexId]) {
-                if (currentComponent != sccId[neighbor]) {
-                    adjacentComponents[currentComponent].add(sccId[neighbor]);
+                if (currentComponent != sccIds[neighbor]) {
+                    adjacentComponents[currentComponent].add(sccIds[neighbor]);
                 }
             }
         }
         return adjacentComponents;
-    }
-
-    // Test code
-    public static void main(String[] args) throws IOException {
-        FastReader.init();
-        int vertices = FastReader.nextInt();
-        int edges = FastReader.nextInt();
-
-        List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[vertices];
-        for (int i = 0; i < adjacent.length; i++) {
-            adjacent[i] = new ArrayList<>();
-        }
-
-        for (int i = 0; i < edges; i++) {
-            int vertex1 = FastReader.nextInt();
-            int vertex2 = FastReader.nextInt();
-            adjacent[vertex1].add(vertex2);
-        }
-        StronglyConnectedComponents stronglyConnectedComponents = new StronglyConnectedComponents(adjacent);
-        System.out.println(stronglyConnectedComponents.sccCount + " components\n");
-    }
-
-    private static class FastReader {
-        private static BufferedReader reader;
-        private static StringTokenizer tokenizer;
-
-        static void init() {
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            tokenizer = new StringTokenizer("");
-        }
-
-        private static String next() throws IOException {
-            while (!tokenizer.hasMoreTokens()) {
-                tokenizer = new StringTokenizer(reader.readLine());
-            }
-            return tokenizer.nextToken();
-        }
-
-        private static int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
     }
 }

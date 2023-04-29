@@ -71,7 +71,7 @@ public class JohnsonsAlgorithm {
         // Also compute the real all-pairs-shortest-path distances by adjusting the new weights
         // O(V * E lg V) + O(V^2) = O(V * E lg V)
         for(int source = 0; source < edgeWeightedDigraph.vertices(); source++) {
-            Dijkstra dijkstra = new Dijkstra(edgeWeightedDigraphWithNewWeights, source);
+            DijkstraOptimized dijkstra = new DijkstraOptimized(edgeWeightedDigraphWithNewWeights, source);
 
             for(int target = 0; target < edgeWeightedDigraph.vertices(); target++) {
                 double realShortestPathDistance = dijkstra.distTo(target) - newWeight[source] + newWeight[target];

@@ -8,7 +8,6 @@ import java.util.List;
  * Created by Rene Argento on 07/10/17.
  */
 public class Bridges {
-
     private static class Edge {
         int vertex1;
         int vertex2;

@@ -57,7 +57,7 @@ public class BreadthFirstSearchPaths {
         }
     }
 
-    //O(1)
+    // O(1)
     public int distTo(int vertex) {
         return distTo[vertex];
     }

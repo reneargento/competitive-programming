@@ -1,4 +1,4 @@
-package algorithms.graph.cycle.johnson.all.cycles;
+package algorithms.graph.cycle.all.cycles.johnson;
 
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
@@ -244,7 +244,6 @@ public class JohnsonAllCycles {
 
         allCycles.forEach(cycle -> {
             StringJoiner joiner = new StringJoiner("->");
-
             cycle.forEach(vertex -> joiner.add(String.valueOf(vertex)));
             System.out.println(joiner);
         });
@@ -263,7 +262,6 @@ public class JohnsonAllCycles {
 
         allCyclesByEdges.forEach(cycle -> {
             StringJoiner joiner = new StringJoiner(" ");
-
             cycle.forEach(edge -> joiner.add(String.valueOf(edge)));
             System.out.println(joiner);
         });

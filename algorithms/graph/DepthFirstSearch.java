@@ -1,8 +1,5 @@
 package algorithms.graph;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -64,46 +61,6 @@ public class DepthFirstSearch {
             } else {
                 stack.pop();
             }
-        }
-    }
-
-    // Test
-    public static void main(String[] args) throws IOException {
-        FastReader.init();
-        int vertices = FastReader.nextInt();
-        int edges = FastReader.nextInt();
-
-        List<Integer>[] adjacent = (List<Integer>[]) new ArrayList[vertices];
-        for (int i = 0; i < adjacent.length; i++) {
-            adjacent[i] = new ArrayList<>();
-        }
-
-        for (int i = 0; i < edges; i++) {
-            int vertex1 = FastReader.nextInt();
-            int vertex2 = FastReader.nextInt();
-            adjacent[vertex1].add(vertex2);
-        }
-        depthFirstSearch(adjacent);
-    }
-
-    private static class FastReader {
-        private static BufferedReader reader;
-        private static StringTokenizer tokenizer;
-
-        static void init() {
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            tokenizer = new StringTokenizer("");
-        }
-
-        private static String next() throws IOException {
-            while (!tokenizer.hasMoreTokens()) {
-                tokenizer = new StringTokenizer(reader.readLine());
-            }
-            return tokenizer.nextToken();
-        }
-
-        private static int nextInt() throws IOException {
-            return Integer.parseInt(next());
         }
     }
 }
