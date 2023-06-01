@@ -1,55 +1,42 @@
 package algorithms.graph.shortest.path;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Created by Rene Argento on 12/09/17.
  */
 public class AcyclicLongestPathUnweighted {
 
-    private static long longestPath(List<Integer>[] adjacent, int verticesCount) {
-        long longestPath = 0;
+    private static int computeLongestPathLength(List<Integer>[] adjacencyList, int[] inDegrees) {
+        int longestPathLength = 0;
+        int[] pathLengths = new int[adjacencyList.length];
 
-        int[] pathSizes = new int[verticesCount];
-        List<Integer> reverseTopologicalSort = getReverseTopologicalSort(adjacent, verticesCount);
-
-        for (int currentVertex : reverseTopologicalSort) {
-            int maxNeighborSize = 0;
-
-            for (int neighbor : adjacent[currentVertex]) {
-                maxNeighborSize = Math.max(maxNeighborSize, pathSizes[neighbor]);
-            }
-            int pathLength = maxNeighborSize + 1;
-            pathSizes[currentVertex] = pathLength;
-
-            longestPath = Math.max(longestPath, pathLength);
-        }
-        return longestPath;
-    }
-
-    private static List<Integer> getReverseTopologicalSort(List<Integer>[] adjacent, int verticesCount) {
-        // If the vertices are 0-index based, no need to add 1
-        boolean[] visited = new boolean[verticesCount + 1];
-        List<Integer> finishTimes = new ArrayList<>();
-
-        for (int i = 0; i < visited.length; i++) {
-            if (!visited[i]) {
-                depthFirstSearchToGetFinishTimes(i, adjacent, finishTimes, visited);
+        Queue<Integer> queue = new LinkedList<>();
+        for (int nodeID = 0; nodeID < adjacencyList.length; nodeID++) {
+            if (inDegrees[nodeID] == 0) {
+                queue.add(nodeID);
+                pathLengths[nodeID] = 1;
+                longestPathLength = 1;
             }
         }
-        return finishTimes;
-    }
 
-    private static void depthFirstSearchToGetFinishTimes(int sourceVertex, List<Integer>[] adj,
-                                                         List<Integer> finishTimes, boolean[] visited) {
-        visited[sourceVertex] = true;
+        while (!queue.isEmpty()) {
+            int currentVertex = queue.poll();
 
-        for (int neighbor : adj[sourceVertex]) {
-            if (!visited[neighbor]) {
-                depthFirstSearchToGetFinishTimes(neighbor, adj, finishTimes, visited);
+            for (int neighborID : adjacencyList[currentVertex]) {
+                inDegrees[neighborID]--;
+
+                if (inDegrees[neighborID] == 0) {
+                    int newPathLength = pathLengths[currentVertex] + 1;
+                    pathLengths[neighborID] = newPathLength;
+                    longestPathLength = Math.max(longestPathLength, newPathLength);
+
+                    queue.add(neighborID);
+                }
             }
         }
-        finishTimes.add(sourceVertex);
+        return longestPathLength;
     }
 }

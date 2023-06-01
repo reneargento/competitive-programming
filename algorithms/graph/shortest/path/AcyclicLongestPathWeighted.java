@@ -8,9 +8,9 @@ import java.util.Stack;
 /**
  * Created by Rene Argento on 28/11/17.
  */
-// Computes longest paths in O(E + V) when the graph is acyclic
+// Computes longest paths in O(E + V) given a source vertex, when the graph is acyclic
 @SuppressWarnings("unchecked")
-public class AcyclicLongestPath {
+public class AcyclicLongestPathWeighted {
 
     private static class Edge {
         int vertex1;
@@ -42,8 +42,7 @@ public class AcyclicLongestPath {
             boolean[] visited = new boolean[adjacent.length];
             Stack<Integer> finishTimes = new Stack<>();
 
-            //If the vertices are 0-index based, start i with value 0
-            for (int i = 1; i < adjacent.length; i++) {
+            for (int i = 0; i < adjacent.length; i++) {
                 if (!visited[i]) {
                     depthFirstSearch(i, adjacent, finishTimes, visited);
                 }
@@ -69,7 +68,7 @@ public class AcyclicLongestPath {
     private static Edge[] edgeTo;
     private static double[] distTo;
 
-    public AcyclicLongestPath(List<Edge>[] adjacent, int source) {
+    public AcyclicLongestPathWeighted(List<Edge>[] adjacent, int source) {
         // To compute the longest paths, negate all edge weights in the graph and then compute the shortest paths
         List<Edge>[] graphWithNegatedWeights = (List<Edge>[]) new ArrayList[adjacent.length];
 
