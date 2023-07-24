@@ -11,7 +11,7 @@ import java.util.*;
 @SuppressWarnings("unchecked")
 public class KruskalMinimumSpanningTree {
 
-    private static class Edge {
+    private static class Edge implements Comparable<Edge> {
         int vertex1;
         int vertex2;
         int cost;
@@ -20,6 +20,11 @@ public class KruskalMinimumSpanningTree {
             this.vertex1 = vertex1;
             this.vertex2 = vertex2;
             this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Edge other) {
+            return Integer.compare(cost, other.cost);
         }
     }
 
@@ -78,17 +83,11 @@ public class KruskalMinimumSpanningTree {
     private static List<Edge>[] getMinimumSpanningTree(Edge[] edges, int totalVertices) {
         List<Edge>[] minimumSpanningTree = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
-        Arrays.sort(edges, new Comparator<Edge>() {
-            @Override
-            public int compare(Edge edge1, Edge edge2) {
-                return Integer.compare(edge1.cost, edge2.cost);
-            }
-        });
-
+        Arrays.sort(edges);
         UnionFind unionFind = new UnionFind(totalVertices + 1);
 
         for (Edge edge : edges) {
-            if (unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+            if (!unionFind.connected(edge.vertex1, edge.vertex2)) {
                 unionFind.union(edge.vertex1, edge.vertex2);
 
                 if (minimumSpanningTree[edge.vertex1] == null) {
@@ -111,17 +110,11 @@ public class KruskalMinimumSpanningTree {
     private static List<Edge> getMinimumSpanningTreeEdges(Edge[] edges, int totalVertices) {
         List<Edge> edgesInSpanningTree = new ArrayList<>();
 
-        Arrays.sort(edges, new Comparator<Edge>() {
-            @Override
-            public int compare(Edge edge1, Edge edge2) {
-                return Integer.compare(edge1.cost, edge2.cost);
-            }
-        });
-
+        Arrays.sort(edges);
         UnionFind unionFind = new UnionFind(totalVertices + 1);
 
         for (Edge edge : edges) {
-            if (unionFind.find(edge.vertex1) != unionFind.find(edge.vertex2)) {
+            if (!unionFind.connected(edge.vertex1, edge.vertex2)) {
                 unionFind.union(edge.vertex1, edge.vertex2);
                 edgesInSpanningTree.add(edge);
             }
