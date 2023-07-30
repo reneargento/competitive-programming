@@ -84,7 +84,7 @@ public class KruskalMinimumSpanningTree {
         List<Edge>[] minimumSpanningTree = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
         Arrays.sort(edges);
-        UnionFind unionFind = new UnionFind(totalVertices + 1);
+        UnionFind unionFind = new UnionFind(totalVertices);
 
         for (Edge edge : edges) {
             if (!unionFind.connected(edge.vertex1, edge.vertex2)) {
@@ -111,7 +111,7 @@ public class KruskalMinimumSpanningTree {
         List<Edge> edgesInSpanningTree = new ArrayList<>();
 
         Arrays.sort(edges);
-        UnionFind unionFind = new UnionFind(totalVertices + 1);
+        UnionFind unionFind = new UnionFind(totalVertices);
 
         for (Edge edge : edges) {
             if (!unionFind.connected(edge.vertex1, edge.vertex2)) {
