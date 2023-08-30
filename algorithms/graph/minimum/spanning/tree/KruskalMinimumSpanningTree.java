@@ -80,10 +80,10 @@ public class KruskalMinimumSpanningTree {
         }
     }
 
-    private static List<Edge>[] getMinimumSpanningTree(Edge[] edges, int totalVertices) {
+    private static List<Edge>[] getMinimumSpanningTree(List<Edge> edges, int totalVertices) {
         List<Edge>[] minimumSpanningTree = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
-        Arrays.sort(edges);
+        Collections.sort(edges);
         UnionFind unionFind = new UnionFind(totalVertices);
 
         for (Edge edge : edges) {
@@ -107,10 +107,10 @@ public class KruskalMinimumSpanningTree {
         return minimumSpanningTree;
     }
 
-    private static List<Edge> getMinimumSpanningTreeEdges(Edge[] edges, int totalVertices) {
+    private static List<Edge> getMinimumSpanningTreeEdges(List<Edge> edges, int totalVertices) {
         List<Edge> edgesInSpanningTree = new ArrayList<>();
 
-        Arrays.sort(edges);
+        Collections.sort(edges);
         UnionFind unionFind = new UnionFind(totalVertices);
 
         for (Edge edge : edges) {
@@ -140,7 +140,7 @@ public class KruskalMinimumSpanningTree {
         int totalVertices = FastReader.nextInt();
         int totalEdges = FastReader.nextInt();
 
-        Edge[] edges = new Edge[totalEdges];
+        List<Edge> edges = new ArrayList<>();
         for (int i = 0; i < totalEdges; i++) {
             int vertex1Id = FastReader.nextInt();
             int vertex2Id = FastReader.nextInt();
@@ -148,7 +148,7 @@ public class KruskalMinimumSpanningTree {
 
             //Add edge
             Edge edge = new Edge(vertex1Id, vertex2Id, cost);
-            edges[i] = edge;
+            edges.add(edge);
         }
 
         List<Edge> edgesInSpanningTree = getMinimumSpanningTreeEdges(edges, totalVertices);
