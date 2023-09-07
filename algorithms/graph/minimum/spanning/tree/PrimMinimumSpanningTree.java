@@ -13,7 +13,7 @@ import java.util.*;
 public class PrimMinimumSpanningTree {
 
     // Graph
-    private static class Vertex {
+    private static class Vertex implements Comparable<Vertex> {
         int id;
         boolean processed;
 
@@ -25,6 +25,17 @@ public class PrimMinimumSpanningTree {
             heapKey = Integer.MAX_VALUE;
             processed = false;
             isInHeap = false;
+        }
+
+        @Override
+        public int compareTo(Vertex other) {
+            if (heapKey < 0 && other.heapKey > 0) {
+                return -1;
+            } else if (other.heapKey < 0 && heapKey > 0) {
+                return 1;
+            } else {
+                return heapKey - other.heapKey;
+            }
         }
     }
 
@@ -42,7 +53,7 @@ public class PrimMinimumSpanningTree {
 
     // O(E log(V)) <-- Overall complexity
     // We are considering that the graph is connected
-    private static List<Edge> getMinimumSpanningTree(List<Edge>[] adjacent, Vertex[] vertices, int sourceVertex) {
+    public static List<Edge> getMinimumSpanningTree(List<Edge>[] adjacent, Vertex[] vertices, int sourceVertex) {
         List<Edge> edgesInSpanningTree = new ArrayList<>();
 
         // Add vertex to start (any vertex works)
@@ -50,18 +61,7 @@ public class PrimMinimumSpanningTree {
         int verticesSpannedSoFar = 1;
         firstVertexInserted.processed = true;
 
-        PriorityQueue<Vertex> heap = new PriorityQueue<>(new Comparator<Vertex>() {
-            @Override
-            public int compare(Vertex node1, Vertex node2) {
-                if (node1.heapKey < 0 && node2.heapKey > 0) {
-                    return -1;
-                } else if (node2.heapKey < 0 && node1.heapKey > 0) {
-                    return 1;
-                } else {
-                    return node1.heapKey - node2.heapKey;
-                }
-            }
-        });
+        PriorityQueue<Vertex> heap = new PriorityQueue<>();
 
         // O(V)
         initHeap(heap, vertices, adjacent, firstVertexInserted);
