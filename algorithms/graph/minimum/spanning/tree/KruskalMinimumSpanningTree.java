@@ -1,8 +1,5 @@
 package algorithms.graph.minimum.spanning.tree;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -79,6 +76,25 @@ public class KruskalMinimumSpanningTree {
         }
     }
 
+    private static List<Edge> getMinimumSpanningTreeEdges(List<Edge> edges, int totalVertices) {
+        List<Edge> edgesInSpanningTree = new ArrayList<>();
+
+        Collections.sort(edges);
+        UnionFind unionFind = new UnionFind(totalVertices);
+
+        for (Edge edge : edges) {
+            if (!unionFind.connected(edge.vertex1, edge.vertex2)) {
+                unionFind.union(edge.vertex1, edge.vertex2);
+                edgesInSpanningTree.add(edge);
+            }
+
+            if (unionFind.components == 1) {
+                break;
+            }
+        }
+        return edgesInSpanningTree;
+    }
+
     private static List<Edge>[] getMinimumSpanningTree(List<Edge> edges, int totalVertices) {
         List<Edge>[] minimumSpanningTree = (List<Edge>[]) new ArrayList[totalVertices + 1];
 
@@ -106,73 +122,11 @@ public class KruskalMinimumSpanningTree {
         return minimumSpanningTree;
     }
 
-    private static List<Edge> getMinimumSpanningTreeEdges(List<Edge> edges, int totalVertices) {
-        List<Edge> edgesInSpanningTree = new ArrayList<>();
-
-        Collections.sort(edges);
-        UnionFind unionFind = new UnionFind(totalVertices);
-
-        for (Edge edge : edges) {
-            if (!unionFind.connected(edge.vertex1, edge.vertex2)) {
-                unionFind.union(edge.vertex1, edge.vertex2);
-                edgesInSpanningTree.add(edge);
-            }
-
-            if (unionFind.components == 1) {
-                break;
-            }
-        }
-        return edgesInSpanningTree;
-    }
-
     private static long getCostOfMinimumSpanningTree(List<Edge> edgesInSpanningTree) {
         long costOfMinimumSpanningTree = 0;
         for (Edge edge : edgesInSpanningTree) {
             costOfMinimumSpanningTree += edge.cost;
         }
         return costOfMinimumSpanningTree;
-    }
-
-    // Test
-    public static void main(String[] args) throws IOException {
-        FastReader.init();
-        int totalVertices = FastReader.nextInt();
-        int totalEdges = FastReader.nextInt();
-
-        List<Edge> edges = new ArrayList<>();
-        for (int i = 0; i < totalEdges; i++) {
-            int vertex1Id = FastReader.nextInt();
-            int vertex2Id = FastReader.nextInt();
-            int cost = FastReader.nextInt();
-
-            //Add edge
-            Edge edge = new Edge(vertex1Id, vertex2Id, cost);
-            edges.add(edge);
-        }
-
-        List<Edge> edgesInSpanningTree = getMinimumSpanningTreeEdges(edges, totalVertices);
-        long minimumSpanningTreeCost = getCostOfMinimumSpanningTree(edgesInSpanningTree);
-        System.out.println("Cost of the minimum spanning tree: " + minimumSpanningTreeCost);
-    }
-
-    private static class FastReader {
-        private static BufferedReader reader;
-        private static StringTokenizer tokenizer;
-
-        static void init() {
-            reader = new BufferedReader(new InputStreamReader(System.in));
-            tokenizer = new StringTokenizer("");
-        }
-
-        private static String next() throws IOException {
-            while (!tokenizer.hasMoreTokens()) {
-                tokenizer = new StringTokenizer(reader.readLine());
-            }
-            return tokenizer.nextToken();
-        }
-
-        private static int nextInt() throws IOException {
-            return Integer.parseInt(next());
-        }
     }
 }
