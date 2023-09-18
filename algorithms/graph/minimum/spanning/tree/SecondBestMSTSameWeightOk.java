@@ -9,9 +9,10 @@ import java.util.List;
  * Created by Rene Argento on 28/06/23.
  */
 // Computes the second best MST in O(E lg V)
-// Based on https://cp-algorithms.com/graph/second_best_mst.html#modeling-into-a-lowest-common-ancestor-lca-problem
+// In this variant, the second best MST may have the same weight as the MST, as long as they have one different edge.
+// Adapted from https://cp-algorithms.com/graph/second_best_mst.html#modeling-into-a-lowest-common-ancestor-lca-problem
 @SuppressWarnings("unchecked")
-public class SecondBestMST {
+public class SecondBestMSTSameWeightOk {
 
     private static class Edge implements Comparable<Edge> {
         int id;
@@ -29,16 +30,6 @@ public class SecondBestMST {
         @Override
         public int compareTo(Edge other) {
             return Integer.compare(weight, other.weight);
-        }
-    }
-
-    private static class Pair {
-        int first;
-        int second;
-
-        public Pair(int first, int second) {
-            this.first = first;
-            this.second = second;
         }
     }
 
@@ -97,16 +88,16 @@ public class SecondBestMST {
     private static final int MAX_PATH = 21;
     private static List<Edge>[] adjacencyList;
     private static List<Edge> edges;
-    private static Pair[][] dpMaxWeights;
+    private static int[][] dpMaxWeights;
     private static int[][] vertexIDsAbove;
     private static int[] distances;
     private static int verticesNumber;
 
-    public SecondBestMST(List<Edge>[] originalAdjacencyList) {
+    public SecondBestMSTSameWeightOk(List<Edge>[] originalAdjacencyList) {
         verticesNumber = originalAdjacencyList.length + 1;
         adjacencyList = new List[verticesNumber];
 
-        dpMaxWeights = new Pair[verticesNumber][MAX_PATH];
+        dpMaxWeights = new int[verticesNumber][MAX_PATH];
         vertexIDsAbove = new int[verticesNumber][MAX_PATH];
         distances = new int[verticesNumber];
 
@@ -115,12 +106,12 @@ public class SecondBestMST {
             Arrays.fill(vertexIDsAbove[vertexID], -1);
 
             for (int distance = 0; distance < MAX_PATH; distance++) {
-                dpMaxWeights[vertexID][distance] = new Pair(0, 0);
+                dpMaxWeights[vertexID][distance] = 0;
             }
         }
 
         for (int distance = 0; distance < MAX_PATH; distance++) {
-            dpMaxWeights[0][distance] = new Pair(0, 0);
+            dpMaxWeights[0][distance] = 0;
         }
         computeEdges(originalAdjacencyList);
     }
@@ -156,8 +147,7 @@ public class SecondBestMST {
                     int vertexIDAbove = vertexIDsAbove[vertexID][distance - 1];
                     vertexIDsAbove[vertexID][distance] = vertexIDsAbove[vertexIDAbove][distance - 1];
                     dpMaxWeights[vertexID][distance] =
-                            getHighestWeightsFromPairs(dpMaxWeights[vertexID][distance - 1],
-                                    dpMaxWeights[vertexIDAbove][distance - 1]);
+                            Math.max(dpMaxWeights[vertexID][distance - 1], dpMaxWeights[vertexIDAbove][distance - 1]);
                 }
             }
         }
@@ -165,15 +155,10 @@ public class SecondBestMST {
         // Try to add each edge not in the MST
         for (Edge edge : edges) {
             if (!edgeIDIsInMST[edge.id]) {
-                Pair highestWeightsInAncestorPath = lca(edge.vertex1, edge.vertex2);
-                if (highestWeightsInAncestorPath.first != edge.weight) {
-                    if (secondMSTWeight > mstWeight + edge.weight - highestWeightsInAncestorPath.first) {
-                        secondMSTWeight = mstWeight + edge.weight - highestWeightsInAncestorPath.first;
-                    }
-                } else if (highestWeightsInAncestorPath.second != -1) {
-                    if (secondMSTWeight > mstWeight + edge.weight - highestWeightsInAncestorPath.second) {
-                        secondMSTWeight = mstWeight + edge.weight - highestWeightsInAncestorPath.second;
-                    }
+                int highestWeightInAncestorPath = lca(edge.vertex1, edge.vertex2);
+
+                if (secondMSTWeight > mstWeight + edge.weight - highestWeightInAncestorPath) {
+                    secondMSTWeight = mstWeight + edge.weight - highestWeightInAncestorPath;
                 }
             }
         }
@@ -192,26 +177,10 @@ public class SecondBestMST {
         }
     }
 
-    private static Pair getHighestWeightsFromPairs(Pair pair1, Pair pair2) {
-        int[] values = { pair1.first, pair1.second, pair2.first, pair2.second };
-        int highestValue = -2;
-        int secondHighestValue = -3;
-
-        for (int value : values) {
-            if (value > highestValue) {
-                secondHighestValue = highestValue;
-                highestValue = value;
-            } else if (value > secondHighestValue && value < highestValue) {
-                secondHighestValue = value;
-            }
-        }
-        return new Pair(highestValue, secondHighestValue);
-    }
-
     private static void depthFirstSearch(int vertexID, int parentID, int weight) {
         distances[vertexID] = distances[parentID] + 1;
         vertexIDsAbove[vertexID][0] = parentID;
-        dpMaxWeights[vertexID][0] = new Pair(weight, -1);
+        dpMaxWeights[vertexID][0] = weight;
 
         for (Edge edge : adjacencyList[vertexID]) {
             if (edge.vertex2 != parentID) {
@@ -221,8 +190,8 @@ public class SecondBestMST {
     }
 
     // Computes the highest edge weights on the paths from vertexID1 and vertexID2 to their LCA
-    private static Pair lca(int vertexID1, int vertexID2) {
-        Pair highestWeightsInAncestorPath = new Pair(-2, -3);
+    private static int lca(int vertexID1, int vertexID2) {
+        int highestWeightInAncestorPath = -2;
         if (distances[vertexID1] < distances[vertexID2]) {
             int aux = vertexID2;
             vertexID2 = vertexID1;
@@ -231,50 +200,48 @@ public class SecondBestMST {
 
         for (int i = MAX_PATH - 1; i >= 0; i--) {
             if (distances[vertexID1] - distances[vertexID2] >= (1 << i)) {
-                highestWeightsInAncestorPath =
-                        getHighestWeightsFromPairs(highestWeightsInAncestorPath, dpMaxWeights[vertexID1][i]);
+                highestWeightInAncestorPath =
+                        Math.max(highestWeightInAncestorPath, dpMaxWeights[vertexID1][i]);
                 vertexID1 = vertexIDsAbove[vertexID1][i];
             }
         }
 
         if (vertexID1 == vertexID2) {
-            return highestWeightsInAncestorPath;
+            return highestWeightInAncestorPath;
         }
 
         for (int i = MAX_PATH - 1; i >= 0; i--) {
             if (vertexIDsAbove[vertexID1][i] != -1
                     && vertexIDsAbove[vertexID2][i] != -1
                     && vertexIDsAbove[vertexID1][i] != vertexIDsAbove[vertexID2][i]) {
-                Pair weightsCombination = getHighestWeightsFromPairs(dpMaxWeights[vertexID1][i],
-                        dpMaxWeights[vertexID2][i]);
-                highestWeightsInAncestorPath =
-                        getHighestWeightsFromPairs(highestWeightsInAncestorPath, weightsCombination);
+                int highestWeightDP = Math.max(dpMaxWeights[vertexID1][i], dpMaxWeights[vertexID2][i]);
+                highestWeightInAncestorPath = Math.max(highestWeightInAncestorPath, highestWeightDP);
                 vertexID1 = vertexIDsAbove[vertexID1][i];
                 vertexID2 = vertexIDsAbove[vertexID2][i];
             }
         }
-        Pair rootWeights = getHighestWeightsFromPairs(dpMaxWeights[vertexID1][0], dpMaxWeights[vertexID2][0]);
-        return getHighestWeightsFromPairs(highestWeightsInAncestorPath, rootWeights);
+        int highestRootWeight = Math.max(dpMaxWeights[vertexID1][0], dpMaxWeights[vertexID2][0]);
+        return Math.max(highestWeightInAncestorPath, highestRootWeight);
     }
 
     public static void main(String[] args) {
-        List<SecondBestMST.Edge>[] adjacencyList = new List[6];
+        List<SecondBestMSTSameWeightOk.Edge>[] adjacencyList = new List[6];
         for (int vertexID = 0; vertexID < adjacencyList.length; vertexID++) {
             adjacencyList[vertexID] = new ArrayList<>();
         }
-        adjacencyList[0].add(new Edge(0, 0, 1, 13));
-        adjacencyList[0].add(new Edge(1, 0, 2, 28));
-        adjacencyList[0].add(new Edge(2, 0, 3, 7));
-        adjacencyList[1].add(new Edge(3, 1, 2, 27));
-        adjacencyList[1].add(new Edge(4, 1, 4, 39));
-        adjacencyList[2].add(new Edge(5, 2, 3, 2));
-        adjacencyList[2].add(new Edge(6, 2, 4, 34));
-        adjacencyList[2].add(new Edge(7, 2, 5, 14));
-        adjacencyList[3].add(new Edge(8, 3, 5, 7));
-        adjacencyList[4].add(new Edge(9, 4, 5, 36));
+        adjacencyList[0].add(new SecondBestMSTSameWeightOk.Edge(0, 0, 1, 13));
+        adjacencyList[0].add(new SecondBestMSTSameWeightOk.Edge(1, 0, 2, 28));
+        adjacencyList[0].add(new SecondBestMSTSameWeightOk.Edge(2, 0, 3, 7));
+        adjacencyList[1].add(new SecondBestMSTSameWeightOk.Edge(3, 1, 2, 27));
+        adjacencyList[1].add(new SecondBestMSTSameWeightOk.Edge(4, 1, 4, 39));
+        adjacencyList[2].add(new SecondBestMSTSameWeightOk.Edge(5, 2, 3, 2));
+        adjacencyList[2].add(new SecondBestMSTSameWeightOk.Edge(6, 2, 4, 34));
+        adjacencyList[2].add(new SecondBestMSTSameWeightOk.Edge(7, 2, 5, 14));
+        adjacencyList[3].add(new SecondBestMSTSameWeightOk.Edge(8, 3, 5, 7));
+        adjacencyList[4].add(new SecondBestMSTSameWeightOk.Edge(9, 4, 5, 36));
 
-        new SecondBestMST(adjacencyList);
-        long secondBestMSTWeight = SecondBestMST.computeSecondBestMST();
+        new SecondBestMSTSameWeightOk(adjacencyList);
+        long secondBestMSTWeight = SecondBestMSTSameWeightOk.computeSecondBestMST();
         System.out.println("Second best MST weight: " + secondBestMSTWeight);
         System.out.println("Expected: 65");
     }
