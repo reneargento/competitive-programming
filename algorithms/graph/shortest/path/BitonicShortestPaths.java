@@ -16,10 +16,10 @@ import java.util.*;
 // in descending order from s to all other vertices
 public class BitonicShortestPaths {
 
-    public class Path implements Comparable<Path> {
+    public static class Path implements Comparable<Path> {
 
         private Path previousPath;
-        private DirectedEdge directedEdge;
+        private final DirectedEdge directedEdge;
         private double weight;
         private boolean isDescending;
         private int numberOfEdges;
@@ -27,7 +27,6 @@ public class BitonicShortestPaths {
         Path(DirectedEdge directedEdge) {
             this.directedEdge = directedEdge;
             weight = directedEdge.weight();
-
             numberOfEdges = 1;
         }
 
@@ -38,7 +37,7 @@ public class BitonicShortestPaths {
             weight += previousPath.weight();
             numberOfEdges += previousPath.numberOfEdges;
 
-            if (previousPath != null && previousPath.directedEdge.weight() > directedEdge.weight()) {
+            if (previousPath.directedEdge.weight() > directedEdge.weight()) {
                 isDescending = true;
             }
         }
@@ -57,16 +56,13 @@ public class BitonicShortestPaths {
 
         public Iterable<DirectedEdge> getPath() {
             LinkedList<DirectedEdge> path = new LinkedList<>();
-
             Path iterator = previousPath;
 
             while (iterator != null && iterator.directedEdge != null) {
                 path.addFirst(iterator.directedEdge);
-
                 iterator = iterator.previousPath;
             }
             path.add(directedEdge);
-
             return path;
         }
 
@@ -98,7 +94,7 @@ public class BitonicShortestPaths {
         }
     }
 
-    public class BitonicSP {
+    public static class BitonicSP {
         private final Path[] bitonicPathTo;  // bitonic path to vertex
 
         // O(P lg P), where P is the number of paths in the digraph
@@ -111,13 +107,7 @@ public class BitonicShortestPaths {
             Comparator<DirectedEdge> edgesComparator = new Comparator<DirectedEdge>() {
                 @Override
                 public int compare(DirectedEdge edge1, DirectedEdge edge2) {
-                    if (edge1.weight() > edge2.weight()) {
-                        return -1;
-                    } else if (edge1.weight() < edge2.weight()) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
+                    return Double.compare(edge2.weight(), edge1.weight());
                 }
             };
 
@@ -129,13 +119,7 @@ public class BitonicShortestPaths {
             edgesComparator = new Comparator<DirectedEdge>() {
                 @Override
                 public int compare(DirectedEdge edge1, DirectedEdge edge2) {
-                    if (edge1.weight() < edge2.weight()) {
-                        return -1;
-                    } else if (edge1.weight() > edge2.weight()) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
+                    return Double.compare(edge1.weight(), edge2.weight());
                 }
             };
 
@@ -150,14 +134,12 @@ public class BitonicShortestPaths {
             Map<Integer, VertexInformation> verticesInformation = new HashMap<>();
             for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
                 DirectedEdge[] edges = new DirectedEdge[edgeWeightedDigraph.outdegree(vertex)];
-
                 int edgeIndex = 0;
                 for (DirectedEdge edge : edgeWeightedDigraph.adjacent(vertex)) {
                     edges[edgeIndex++] = edge;
                 }
 
                 Arrays.sort(edges, edgesComparator);
-
                 verticesInformation.put(vertex, new VertexInformation(edges));
             }
 
@@ -186,7 +168,6 @@ public class BitonicShortestPaths {
 
             while (!priorityQueue.isEmpty()) {
                 Path currentShortestPath = priorityQueue.poll();
-
                 DirectedEdge currentEdge = currentShortestPath.directedEdge;
 
                 int nextVertexInPath = currentEdge.to();
@@ -203,7 +184,7 @@ public class BitonicShortestPaths {
 
                 if ((currentShortestPath.isDescending() || isEdgeCase)
                         && (currentShortestPath.weight() < bitonicPathDistTo(nextVertexInPath)
-                        || bitonicPathTo[nextVertexInPath] == null)) {
+                            || bitonicPathTo[nextVertexInPath] == null)) {
                     bitonicPathTo[nextVertexInPath] = currentShortestPath;
                 }
 
@@ -248,11 +229,9 @@ public class BitonicShortestPaths {
         }
 
         public Iterable<DirectedEdge> bitonicPathTo(int vertex) {
-
             if (!hasBitonicPathTo(vertex)) {
                 return null;
             }
-
             return bitonicPathTo[vertex].getPath();
         }
     }
@@ -289,7 +268,7 @@ public class BitonicShortestPaths {
         // Should not be in the final solution
         edgeWeightedDigraph.addEdge(new DirectedEdge(11, 12, 3));
 
-        BitonicSP bitonicSP = new BitonicShortestPaths().new BitonicSP(edgeWeightedDigraph, 0);
+        BitonicSP bitonicSP = new BitonicSP(edgeWeightedDigraph, 0);
 
         System.out.println("Bitonic shortest paths: ");
 

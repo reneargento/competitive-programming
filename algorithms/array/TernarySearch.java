@@ -12,7 +12,7 @@ public class TernarySearch {
         int high = values.length - 1;
         int result = Integer.MAX_VALUE;
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 100; i++) {
             double delta = (high - low) / 3.0;
             int middle1 = (int) Math.round(low + delta);
             int middle2 = (int) Math.round(high - delta);

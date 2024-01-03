@@ -150,7 +150,7 @@ public class SecondBestMST {
         // Pre-computation
         depthFirstSearch(1, 0, 0);
 
-        for (int distance = 1; distance <= MAX_PATH - 1; distance++) {
+        for (int distance = 1; distance < MAX_PATH; distance++) {
             for (int vertexID = 1; vertexID < verticesNumber; vertexID++) {
                 if (vertexIDsAbove[vertexID][distance - 1] != -1) {
                     int vertexIDAbove = vertexIDsAbove[vertexID][distance - 1];
