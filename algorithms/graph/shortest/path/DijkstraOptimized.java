@@ -5,6 +5,7 @@ import datastructures.graph.EdgeWeightedDigraph;
 import datastructures.priority.queue.IndexMinPriorityQueue;
 
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 /**
@@ -20,9 +21,7 @@ public class DijkstraOptimized {
         distTo = new double[edgeWeightedDigraph.vertices()];
         priorityQueue = new IndexMinPriorityQueue<>(edgeWeightedDigraph.vertices());
 
-        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            distTo[vertex] = Double.POSITIVE_INFINITY;
-        }
+        Arrays.fill(distTo, Double.POSITIVE_INFINITY);
         distTo[source] = 0;
         priorityQueue.insert(source, 0.0);
 

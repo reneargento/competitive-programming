@@ -12,13 +12,12 @@ import java.util.*;
 // This BellmanFord algorithm uses a queue optimization to finish the algorithm earlier if there are no more
 // vertices to be relaxed. This leads to O(E * V) but with a typical running time of E + V.
 public class BellmanFord {
-
     private final double[] distTo;         // length of path to vertex
-    private final DirectedEdge[] edgeTo;           // last edge on path to vertex
+    private final DirectedEdge[] edgeTo;   // last edge on path to vertex
     private final boolean[] onQueue;       // is this vertex on the queue?
     private final Queue<Integer> queue;    // vertices being relaxed
-    private int callsToRelax;        // number of calls to relax()
-    private Iterable<DirectedEdge> cycle;    // if there is a negative cycle in edgeTo[], return it
+    private int callsToRelax;              // number of calls to relax()
+    private Iterable<DirectedEdge> cycle;  // if there is a negative cycle in edgeTo[], return it
 
     //O(E * V), but typically runs in (E + V)
     public BellmanFord(EdgeWeightedDigraph edgeWeightedDigraph, int source) {

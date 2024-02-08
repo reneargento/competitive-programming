@@ -1,14 +1,12 @@
 package algorithms.graph.shortest.path;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 
 /**
  * Created by Rene Argento on 15/04/23.
  */
 // Dijkstra algorithm optimized for reusability on contests.
+// O((E + V) lg E)
 public class Dijkstra {
 
     private static class Vertex implements Comparable<Vertex> {
@@ -48,9 +46,7 @@ public class Dijkstra {
         distTo = new long[adjacencyList.length];
         priorityQueue = new PriorityQueue<>(adjacencyList.length);
 
-        for (int vertex = 0; vertex < adjacencyList.length; vertex++) {
-            distTo[vertex] = MAX_VALUE;
-        }
+        Arrays.fill(distTo, MAX_VALUE);
         distTo[source] = 0;
         priorityQueue.offer(new Vertex(source, 0));
 
@@ -61,6 +57,11 @@ public class Dijkstra {
     }
 
     private void relax(List<Edge>[] adjacencyList, Vertex vertex) {
+        // Optional optimization
+        if (distTo[vertex.id] < vertex.distance) {
+            return;
+        }
+
         for (Edge edge : adjacencyList[vertex.id]) {
             int neighbor = edge.vertex2;
 

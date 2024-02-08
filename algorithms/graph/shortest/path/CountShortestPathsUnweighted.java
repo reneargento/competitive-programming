@@ -7,7 +7,7 @@ import java.util.Queue;
 /**
  * Created by Rene Argento on 21/09/17.
  */
-public class CountShortestPaths {
+public class CountShortestPathsUnweighted {
 
     private static long countNumberOfShortestPaths(List<Integer>[] adjacent, int vertexCount, int source, int destination) {
         boolean[] visited = new boolean[vertexCount];

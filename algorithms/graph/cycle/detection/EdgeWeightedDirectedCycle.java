@@ -10,11 +10,10 @@ import java.util.Deque;
  * Created by Rene Argento on 28/11/17.
  */
 public class EdgeWeightedDirectedCycle {
-
-    private boolean visited[];
-    private DirectedEdge[] edgeTo;
-    private Deque<DirectedEdge> cycle; // vertices on a cycle (if one exists)
-    private boolean[] onStack;         // vertices on recursive call stack
+    private final boolean[] visited;
+    private final DirectedEdge[] edgeTo;
+    private Deque<DirectedEdge> cycle;   // vertices on a cycle (if one exists)
+    private final boolean[] onStack;     // vertices on recursive call stack
 
     public EdgeWeightedDirectedCycle(EdgeWeightedDigraph edgeWeightedDigraph) {
         onStack = new boolean[edgeWeightedDigraph.vertices()];
@@ -49,12 +48,10 @@ public class EdgeWeightedDirectedCycle {
                     cycle.push(edgeInCycle);
                     edgeInCycle = edgeTo[edgeInCycle.from()];
                 }
-
                 cycle.push(edgeInCycle);
                 return;
             }
         }
-
         onStack[vertex] = false;
     }
 
