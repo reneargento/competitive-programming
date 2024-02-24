@@ -1,6 +1,6 @@
 package algorithms.graph.bipartite.matching;
 
-import algorithms.graph.shortest.path.DijkstraOptimized;
+import algorithms.graph.shortest.path.dijkstra.DijkstraOptimized;
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
 

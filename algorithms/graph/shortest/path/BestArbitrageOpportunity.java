@@ -1,6 +1,7 @@
 package algorithms.graph.shortest.path;
 
 import algorithms.graph.cycle.all.cycles.johnson.JohnsonAllCycles;
+import algorithms.graph.shortest.path.bellman.ford.BellmanFord;
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
 
@@ -14,9 +15,9 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class BestArbitrageOpportunity {
 
-    private class ArbitrageProblem {
-        private double[][] conversionRates;
-        private String[] currencyNames;
+    private static class ArbitrageProblem {
+        private final double[][] conversionRates;
+        private final String[] currencyNames;
 
         ArbitrageProblem(double[][] conversionRates, String[] currencyNames) {
             this.conversionRates = conversionRates;
@@ -37,7 +38,6 @@ public class BestArbitrageOpportunity {
 
     public ArbitrageProblem generateArbitrageProblem(int numberOfCurrencies, int currencyNamesLength,
                                                      double minConversionRate, double maxConversionRate) {
-
         double[][] conversionRates = new double[numberOfCurrencies][numberOfCurrencies];
         String[] currencyNames = new String[numberOfCurrencies];
 
@@ -111,28 +111,22 @@ public class BestArbitrageOpportunity {
 
     public List<DirectedEdge> findAnArbitrageOpportunity(ArbitrageProblem arbitrageProblem) {
         double[][] conversionRates = arbitrageProblem.getConversionRates();
-
         EdgeWeightedDigraph edgeWeightedDigraph = getDigraphFromConversionRatesTable(conversionRates);
 
         BellmanFord bellmanFord = new BellmanFord(edgeWeightedDigraph, 0);
-
         if (!bellmanFord.hasNegativeCycle()) {
             return null;
         }
 
         List<DirectedEdge> arbitrageOpportunity = new ArrayList<>();
-
         for(DirectedEdge edge : bellmanFord.negativeCycle()) {
             arbitrageOpportunity.add(edge);
         }
-
         return arbitrageOpportunity;
     }
 
     public List<DirectedEdge> findTheBestArbitrageOpportunity(ArbitrageProblem arbitrageProblem) {
-
         double[][] conversionRates = arbitrageProblem.getConversionRates();
-
         EdgeWeightedDigraph edgeWeightedDigraph = getDigraphFromConversionRatesTable(conversionRates);
 
         JohnsonAllCycles johnsonAllCycles = new JohnsonAllCycles();
@@ -145,11 +139,9 @@ public class BestArbitrageOpportunity {
 
         for(List<DirectedEdge> cycle : allCyclesInDigraph) {
             double totalWeight = 0;
-
             for(DirectedEdge edge : cycle) {
                 totalWeight += edge.weight();
             }
-
             if (totalWeight < smallestWeightInAnyCycle) {
                 smallestWeightInAnyCycle = totalWeight;
                 bestArbitrageOpportunity = cycle;
@@ -166,7 +158,6 @@ public class BestArbitrageOpportunity {
         EdgeWeightedDigraph edgeWeightedDigraph = new EdgeWeightedDigraph(conversionRates.length);
 
         for(int currency1 = 0; currency1 < conversionRates.length; currency1++) {
-
             for(int currency2 = 0; currency2 < conversionRates.length; currency2++) {
                 double conversionRate = conversionRates[currency1][currency2];
 
@@ -180,13 +171,11 @@ public class BestArbitrageOpportunity {
                 edgeWeightedDigraph.addEdge(edge);
             }
         }
-
         return edgeWeightedDigraph;
     }
 
     public static void main(String[] args) {
         BestArbitrageOpportunity arbitrageModel = new BestArbitrageOpportunity();
-
         int numberOfCurrencies = 10;
         int currencyNamesLength = 4;
         double minConversionRate = 0.001;
@@ -242,5 +231,4 @@ public class BestArbitrageOpportunity {
     private double roundValuePrecisionDigits(double value) {
         return (double) Math.round(value * INTEGER_VALUE_TO_MULTIPLY) / INTEGER_VALUE_TO_MULTIPLY;
     }
-
 }

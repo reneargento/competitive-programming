@@ -1,4 +1,4 @@
-package algorithms.graph.shortest.path;
+package algorithms.graph.shortest.path.bellman.ford;
 
 import algorithms.graph.cycle.detection.EdgeWeightedDirectedCycle;
 import datastructures.graph.DirectedEdge;
@@ -19,17 +19,14 @@ public class BellmanFord {
     private int callsToRelax;              // number of calls to relax()
     private Iterable<DirectedEdge> cycle;  // if there is a negative cycle in edgeTo[], return it
 
-    //O(E * V), but typically runs in (E + V)
+    // O(E * V), but typically runs in (E + V)
     public BellmanFord(EdgeWeightedDigraph edgeWeightedDigraph, int source) {
         distTo = new double[edgeWeightedDigraph.vertices()];
         edgeTo = new DirectedEdge[edgeWeightedDigraph.vertices()];
         onQueue = new boolean[edgeWeightedDigraph.vertices()];
         queue = new LinkedList<>();
 
-        for (int vertex = 0; vertex < edgeWeightedDigraph.vertices(); vertex++) {
-            distTo[vertex] = Double.POSITIVE_INFINITY;
-        }
-
+        Arrays.fill(distTo, Double.POSITIVE_INFINITY);
         distTo[source] = 0;
         queue.offer(source);
         onQueue[source] = true;

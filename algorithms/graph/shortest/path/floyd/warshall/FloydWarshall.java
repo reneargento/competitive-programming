@@ -1,4 +1,4 @@
-package algorithms.graph.shortest.path;
+package algorithms.graph.shortest.path.floyd.warshall;
 
 import algorithms.graph.cycle.detection.EdgeWeightedDirectedCycle;
 import datastructures.graph.DirectedEdge;
@@ -19,14 +19,6 @@ public class FloydWarshall {
         int vertices = edgeWeightedDigraph.length;
         distances = new double[vertices][vertices];
         edgeTo = new DirectedEdge[vertices][vertices];
-
-        for (int vertex1 = 0; vertex1 < distances.length; vertex1++) {
-            for (int vertex2 = 0; vertex2 < distances.length; vertex2++) {
-                if (vertex1 != vertex2) {
-                    distances[vertex1][vertex2] = Double.POSITIVE_INFINITY;
-                }
-            }
-        }
 
         // Initialize distances using edge-weighted digraph's
         for (int vertex1 = 0; vertex1 < vertices; vertex1++) {

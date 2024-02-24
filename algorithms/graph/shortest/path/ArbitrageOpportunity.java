@@ -1,5 +1,6 @@
 package algorithms.graph.shortest.path;
 
+import algorithms.graph.shortest.path.bellman.ford.BellmanFord;
 import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
 
