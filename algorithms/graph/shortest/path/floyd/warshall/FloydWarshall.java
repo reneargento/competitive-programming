@@ -5,27 +5,33 @@ import datastructures.graph.DirectedEdge;
 import datastructures.graph.EdgeWeightedDigraph;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
+import java.util.List;
 
 /**
  * Created by Rene Argento on 29/04/17.
  */
 public class FloydWarshall {
-    private static double[][] distances;     // length of shortest v->w path
-    private static DirectedEdge[][] edgeTo;  // last edge on shortest v->w path
-    private static boolean hasNegativeCycle;
+    private final double[][] distances;     // length of shortest v->w path
+    private final DirectedEdge[][] edgeTo;  // last edge on shortest v->w path
+    private final List<DirectedEdge> edges;
+    private boolean hasNegativeCycle;
 
     public FloydWarshall(double[][] edgeWeightedDigraph) {
         int vertices = edgeWeightedDigraph.length;
         distances = new double[vertices][vertices];
         edgeTo = new DirectedEdge[vertices][vertices];
+        edges = new ArrayList<>();
 
         // Initialize distances using edge-weighted digraph's
         for (int vertex1 = 0; vertex1 < vertices; vertex1++) {
             for (int vertex2 = 0; vertex2 < vertices; vertex2++) {
                 double distance = edgeWeightedDigraph[vertex1][vertex2];
                 distances[vertex1][vertex2] = distance;
-                edgeTo[vertex1][vertex2] = new DirectedEdge(vertex1, vertex2, distance);
+                DirectedEdge edge = new DirectedEdge(vertex1, vertex2, distance);
+                edgeTo[vertex1][vertex2] = edge;
+                edges.add(edge);
             }
 
             // In case of self-loops
@@ -56,14 +62,14 @@ public class FloydWarshall {
         }
     }
 
-    public static double distance(int source, int target) {
+    public double distance(int source, int target) {
         if (hasNegativeCycle()) {
             throw new UnsupportedOperationException("Negative cost cycle exists");
         }
         return distances[source][target];
     }
 
-    public Iterable<DirectedEdge> path(int source, int target) {
+    public List<Integer> path(int source, int target) {
         if (hasNegativeCycle()) {
             throw new UnsupportedOperationException("Negative cost cycle exists");
         }
@@ -71,18 +77,40 @@ public class FloydWarshall {
             return null;
         }
 
-        Deque<DirectedEdge> path = new ArrayDeque<>();
+        Deque<Integer> pathStack = new ArrayDeque<>();
         for (DirectedEdge edge = edgeTo[source][target]; edge != null; edge = edgeTo[source][edge.from()]) {
-            path.push(edge);
+            pathStack.push(edge.to());
+            // If a cycle exists, break when edge.from == source
+        }
+        pathStack.push(source);
+
+        List<Integer> path = new ArrayList<>();
+        while (!pathStack.isEmpty()) {
+            path.add(pathStack.poll());
         }
         return path;
     }
 
-    public static boolean hasPath(int source, int target) {
+    private List<DirectedEdge> getEdgesInAllShortestPaths(int source, int target) {
+        if (hasNegativeCycle()) {
+            throw new UnsupportedOperationException("Negative cost cycle exists");
+        }
+        List<DirectedEdge> edgesInAllShortestPaths = new ArrayList<>();
+
+        for (DirectedEdge edge : edges) {
+            double distanceThroughEdge = distances[source][edge.from()] + edge.weight() + distances[edge.to()][target];
+            if (distanceThroughEdge == distances[source][target]) {
+                edgesInAllShortestPaths.add(edge);
+            }
+        }
+        return edgesInAllShortestPaths;
+    }
+
+    public boolean hasPath(int source, int target) {
         return distances[source][target] != Double.POSITIVE_INFINITY;
     }
 
-    public static boolean hasNegativeCycle() {
+    public boolean hasNegativeCycle() {
         return hasNegativeCycle;
     }
 

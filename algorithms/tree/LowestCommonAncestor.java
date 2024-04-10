@@ -5,6 +5,9 @@ import datastructures.tree.TreeNode;
 /**
  * Created by Rene Argento on 23/05/19.
  */
+// Computes the LCA of two vertices in a tree
+// O(n) runtime, where n is the number of nodes
+// O(n) space
 public class LowestCommonAncestor {
 
     private static class Result {
@@ -17,8 +20,6 @@ public class LowestCommonAncestor {
         }
     }
 
-    // O(n) runtime, where n is the number of nodes
-    // O(n) space
     // 1- If both nodes are in the subtree: return ancestor
     // 2- If only one is in the subtree: return the node found
     // 3- If none is in the subtree: return null

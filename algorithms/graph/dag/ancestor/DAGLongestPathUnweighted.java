@@ -1,4 +1,4 @@
-package algorithms.graph.shortest.path;
+package algorithms.graph.dag.ancestor;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -7,7 +7,7 @@ import java.util.Queue;
 /**
  * Created by Rene Argento on 12/09/17.
  */
-public class AcyclicLongestPathUnweighted {
+public class DAGLongestPathUnweighted {
 
     private static int computeLongestPathLength(List<Integer>[] adjacencyList, int[] inDegrees) {
         int longestPathLength = 0;

@@ -1,4 +1,4 @@
-package algorithms.graph.shortest.path;
+package algorithms.graph.dag.ancestor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.Stack;
 /**
  * Created by Rene Argento on 27/11/17.
  */
-// Computes shortest paths in O(E + V) when the graph is acyclic
-public class AcyclicShortestPath {
+// Computes shortest paths in O(E + V) when the graph is a DAG
+public class DAGShortestPath {
 
     private static class Edge {
         int vertex1;
@@ -66,7 +66,7 @@ public class AcyclicShortestPath {
     private static Edge[] edgeTo;
     private static double[] distTo;
 
-    public AcyclicShortestPath(List<Edge> adjacent[], int source) {
+    public DAGShortestPath(List<Edge> adjacent[], int source) {
         edgeTo = new Edge[adjacent.length];
         distTo = new double[adjacent.length];
         Arrays.fill(distTo, Double.POSITIVE_INFINITY);

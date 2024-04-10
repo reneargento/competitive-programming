@@ -40,9 +40,9 @@ public class TopologicalSortKhan {
 
             // Iterate through all neighbour nodes of the dequeued vertex and decrease their in-degree by 1
             for (int neighbor : adjacencyList[currentVertex]) {
-                // If in-degree becomes zero, add it to queue
                 inDegrees[neighbor]--;
 
+                // If in-degree becomes zero, add it to queue
                 if (inDegrees[neighbor] == 0) {
                     queue.add(neighbor);
                 }

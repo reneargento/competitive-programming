@@ -1,13 +1,13 @@
-package algorithms.graph.ancestor;
+package algorithms.graph.dag.ancestor;
 
 import java.util.*;
 
 /**
  * Created by Rene Argento on 24/10/17.
  */
-// Computes the shortest ancestral path between 2 vertices in O(V + E)
+// Computes the shortest ancestral path between 2 vertices in a DAG in O(V + E)
 @SuppressWarnings("unchecked")
-public class ShortestAncestralPath {
+public class ShortestAncestralPathInDAG {
 
     private static class HasDirectedCycle {
         private final boolean[] visited;
@@ -181,7 +181,7 @@ public class ShortestAncestralPath {
     }
 
     public static void main(String[] args) {
-        ShortestAncestralPath shortestAncestralPath = new ShortestAncestralPath();
+        ShortestAncestralPathInDAG shortestAncestralPath = new ShortestAncestralPathInDAG();
 
         List<Integer>[] digraph1 = (List<Integer>[]) new ArrayList[5];
         for (int vertex = 0; vertex < digraph1.length; vertex++) {

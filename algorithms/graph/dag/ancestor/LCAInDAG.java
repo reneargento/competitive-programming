@@ -1,4 +1,4 @@
-package algorithms.graph.ancestor;
+package algorithms.graph.dag.ancestor;
 
 import java.util.*;
 

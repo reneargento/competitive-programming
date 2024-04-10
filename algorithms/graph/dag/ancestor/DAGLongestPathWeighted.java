@@ -1,4 +1,4 @@
-package algorithms.graph.shortest.path;
+package algorithms.graph.dag.ancestor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,9 +8,9 @@ import java.util.Stack;
 /**
  * Created by Rene Argento on 28/11/17.
  */
-// Computes longest paths in O(E + V) given a source vertex, when the graph is acyclic
+// Computes longest paths in O(E + V) given a source vertex, when the graph is a DAG
 @SuppressWarnings("unchecked")
-public class AcyclicLongestPathWeighted {
+public class DAGLongestPathWeighted {
 
     private static class Edge {
         int vertex1;
@@ -68,7 +68,7 @@ public class AcyclicLongestPathWeighted {
     private static Edge[] edgeTo;
     private static double[] distTo;
 
-    public AcyclicLongestPathWeighted(List<Edge>[] adjacent, int source) {
+    public DAGLongestPathWeighted(List<Edge>[] adjacent, int source) {
         // To compute the longest paths, negate all edge weights in the graph and then compute the shortest paths
         List<Edge>[] graphWithNegatedWeights = (List<Edge>[]) new ArrayList[adjacent.length];
 
