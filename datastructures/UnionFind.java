@@ -17,7 +17,6 @@ public class UnionFind {
 
         for(int i = 0; i < size; i++) {
             leaders[i]  = i;
-            ranks[i] = 0;
             sizes[i] = 1;
         }
     }

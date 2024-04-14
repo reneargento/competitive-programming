@@ -23,17 +23,17 @@ public class LowestCommonAncestor {
     // 1- If both nodes are in the subtree: return ancestor
     // 2- If only one is in the subtree: return the node found
     // 3- If none is in the subtree: return null
-    public static TreeNode<Integer> getFirstCommonAncestor(TreeNode<Integer> root, TreeNode<Integer> node1,
-                                                           TreeNode<Integer> node2) {
-        Result result = getFirstCommonAncestorHelper(root, node1, node2);
+    public static TreeNode<Integer> getLowestCommonAncestor(TreeNode<Integer> root, TreeNode<Integer> node1,
+                                                            TreeNode<Integer> node2) {
+        Result result = getLowestCommonAncestorHelper(root, node1, node2);
         if (result.found) {
             return result.node;
         }
         return null;
     }
 
-    public static Result getFirstCommonAncestorHelper(TreeNode<Integer> root, TreeNode<Integer> node1,
-                                                      TreeNode<Integer> node2) {
+    public static Result getLowestCommonAncestorHelper(TreeNode<Integer> root, TreeNode<Integer> node1,
+                                                       TreeNode<Integer> node2) {
         if (root == null) {
             return new Result(null, false);
         }
@@ -42,8 +42,8 @@ public class LowestCommonAncestor {
             return new Result(root, true);
         }
 
-        Result leftSubtree = getFirstCommonAncestorHelper(root.left, node1, node2);
-        Result rightSubtree = getFirstCommonAncestorHelper(root.right, node1, node2);
+        Result leftSubtree = getLowestCommonAncestorHelper(root.left, node1, node2);
+        Result rightSubtree = getLowestCommonAncestorHelper(root.right, node1, node2);
 
         // Base cases
         if (root == node1 || root == node2) {
@@ -101,32 +101,32 @@ public class LowestCommonAncestor {
         node7.left = node6;
         node7.right = nodeMinus4;
 
-        TreeNode firstCommonAncestor1 = getFirstCommonAncestor(node5, node1, node8);
-        System.out.println("First common ancestor 1 and 8: " +
+        TreeNode<Integer> firstCommonAncestor1 = getLowestCommonAncestor(node5, node1, node8);
+        System.out.println("Lowest common ancestor 1 and 8: " +
                 (firstCommonAncestor1 != null ? firstCommonAncestor1.value : null) + " Expected: 2");
 
-        TreeNode firstCommonAncestor2 = getFirstCommonAncestor(node5, node1, node4);
-        System.out.println("First common ancestor 1 and 4: " +
+        TreeNode<Integer> firstCommonAncestor2 = getLowestCommonAncestor(node5, node1, node4);
+        System.out.println("Lowest common ancestor 1 and 4: " +
                 (firstCommonAncestor2 != null ? firstCommonAncestor2.value : null) + " Expected: 3");
 
-        TreeNode firstCommonAncestor3 = getFirstCommonAncestor(node5, node8, nodeMinus4);
-        System.out.println("First common ancestor 8 and -4: " +
+        TreeNode<Integer> firstCommonAncestor3 = getLowestCommonAncestor(node5, node8, nodeMinus4);
+        System.out.println("Lowest common ancestor 8 and -4: " +
                 (firstCommonAncestor3 != null ? firstCommonAncestor3.value : null) + " Expected: 5");
 
-        TreeNode firstCommonAncestor4 = getFirstCommonAncestor(node5, node6, nodeMinus4);
-        System.out.println("First common ancestor 6 and -4: " +
+        TreeNode<Integer> firstCommonAncestor4 = getLowestCommonAncestor(node5, node6, nodeMinus4);
+        System.out.println("Lowest common ancestor 6 and -4: " +
                 (firstCommonAncestor4 != null ? firstCommonAncestor4.value : null) + " Expected: 7");
 
-        TreeNode firstCommonAncestor5 = getFirstCommonAncestor(node5, node3, node4);
-        System.out.println("First common ancestor 3 and 4: " +
+        TreeNode<Integer> firstCommonAncestor5 = getLowestCommonAncestor(node5, node3, node4);
+        System.out.println("Lowest common ancestor 3 and 4: " +
                 (firstCommonAncestor5 != null ? firstCommonAncestor5.value : null) + " Expected: 3");
 
-        TreeNode firstCommonAncestor6 = getFirstCommonAncestor(node5, node6, node6);
-        System.out.println("First common ancestor 6 and 6: " +
+        TreeNode<Integer> firstCommonAncestor6 = getLowestCommonAncestor(node5, node6, node6);
+        System.out.println("Lowest common ancestor 6 and 6: " +
                 (firstCommonAncestor6 != null ? firstCommonAncestor6.value : null) + " Expected: 6");
 
-        TreeNode firstCommonAncestor7 = getFirstCommonAncestor(node5, node2, new TreeNode<>(10));
-        System.out.println("First common ancestor 2 and 10: " +
+        TreeNode<Integer> firstCommonAncestor7 = getLowestCommonAncestor(node5, node2, new TreeNode<>(10));
+        System.out.println("Lowest common ancestor 2 and 10: " +
                 (firstCommonAncestor7 != null ? firstCommonAncestor7.value : null) + " Expected: null");
     }
 
