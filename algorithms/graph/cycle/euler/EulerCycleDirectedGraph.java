@@ -8,34 +8,33 @@ import java.util.Stack;
 /**
  * Created by Rene Argento on 23/10/17.
  */
+// An Eulerian cycle is a a cycle that starts in a vertex v, visits every edge of the graph, and returns to v,
+// with not repeated edges (repeated vertices are allowed).
 @SuppressWarnings("unchecked")
 public class EulerCycleDirectedGraph {
 
     public Stack<Integer> getDirectedEulerianCycle(List<Integer>[] adjacent) {
-        // A graph with no edges is considered to have an Eulerian cycle
         int edges = 0;
-        for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
-                edges += adjacent[vertex].size();
-            }
-        }
 
-        if (edges == 0) {
-            return new Stack<>();
-        }
-
-        // Check if all vertices have indegree equal to their outdegree
-        // If any vertex does not, the algorithm may return an Eulerian path instead
+        // Check if all vertices have in-degree equal to their out-degree
+        // If any vertex does not, there may exist an Eulerian path, but not an Eulerian cycle
         int[] indegrees = new int[adjacent.length];
         int[] outdegrees = new int[adjacent.length];
 
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null) {
+                edges += adjacent[vertex].size();
+
                 for (int neighbor : adjacent[vertex]) {
                     outdegrees[vertex]++;
                     indegrees[neighbor]++;
                 }
             }
+        }
+
+        // A graph with no edges is considered to have an Eulerian cycle
+        if (edges == 0) {
+            return new Stack<>();
         }
 
         for (int vertex = 0; vertex < adjacent.length; vertex++) {

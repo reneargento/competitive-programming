@@ -1,4 +1,4 @@
-package algorithms.tree;
+package algorithms.tree.lca;
 
 import java.util.ArrayList;
 import java.util.List;

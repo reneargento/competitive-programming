@@ -1,4 +1,4 @@
-package algorithms.graph.dag.ancestor;
+package algorithms.graph.dag;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

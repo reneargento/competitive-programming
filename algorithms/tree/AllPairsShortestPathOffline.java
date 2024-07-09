@@ -14,7 +14,7 @@ import java.util.List;
 // The algorithm can be modified to not query all N^2 node pair combinations if not all distances are needed,
 // which would reduce its time complexity.
 // O(n) space
-public class AllPairsShortestPath {
+public class AllPairsShortestPathOffline {
 
     private static class Edge {
         Node nextNode;

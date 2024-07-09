@@ -1,4 +1,4 @@
-package algorithms.tree;
+package algorithms.tree.diameter;
 
 import datastructures.graph.DirectedEdge;
 
@@ -15,32 +15,32 @@ import java.util.Queue;
 public class WeightedTreeDiameter {
 
     private static class VertexData {
-        int vertexID;
+        int vertexId;
         double distance;
 
-        public VertexData(int vertexID, double distance) {
-            this.vertexID = vertexID;
+        public VertexData(int vertexId, double distance) {
+            this.vertexId = vertexId;
             this.distance = distance;
         }
     }
 
     public static double computeTreeDiameter(List<DirectedEdge>[] adjacencyList) {
         VertexData furthestVertex = getFurthestVertex(adjacencyList, 0);
-        VertexData furthestVertexFromFurthest = getFurthestVertex(adjacencyList, furthestVertex.vertexID);
+        VertexData furthestVertexFromFurthest = getFurthestVertex(adjacencyList, furthestVertex.vertexId);
         return furthestVertexFromFurthest.distance;
     }
 
-    private static VertexData getFurthestVertex(List<DirectedEdge>[] adjacencyList, int sourceVertexID) {
+    private static VertexData getFurthestVertex(List<DirectedEdge>[] adjacencyList, int sourceVertexId) {
         Queue<VertexData> queue = new LinkedList<>();
         boolean[] visited = new boolean[adjacencyList.length];
-        VertexData source = new VertexData(sourceVertexID, 0);
+        VertexData source = new VertexData(sourceVertexId, 0);
         queue.offer(source);
-        visited[sourceVertexID] = true;
+        visited[sourceVertexId] = true;
 
         while (!queue.isEmpty()) {
             VertexData vertexData = queue.poll();
 
-            for (DirectedEdge edge : adjacencyList[vertexData.vertexID]) {
+            for (DirectedEdge edge : adjacencyList[vertexData.vertexId]) {
                 if (!visited[edge.to()]) {
                     visited[edge.to()] = true;
                     queue.offer(new VertexData(edge.to(), vertexData.distance + edge.weight()));
@@ -56,7 +56,7 @@ public class WeightedTreeDiameter {
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args) {
-        List<DirectedEdge>[] adjacencyList = new List[9];
+        List<DirectedEdge>[] adjacencyList = new List[6];
         for (int i = 0; i < adjacencyList.length; i++) {
             adjacencyList[i] = new ArrayList<>();
         }

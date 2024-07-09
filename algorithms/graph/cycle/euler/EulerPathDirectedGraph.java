@@ -24,11 +24,11 @@ public class EulerPathDirectedGraph {
             return new Stack<>();
         }
 
-        // Check if all vertices have indegree equal to their outdegree (Eulerian path AND cycle)
+        // Check if all vertices have in-degree equal to their out-degree (Eulerian path AND cycle)
         // OR
-        // if all vertices have indegree equal to their outdegree, except 2,
-        // where one of these vertices has one more outdegree than indegree (this is the start vertex)
-        // and the other vertex has one more indegree than outdegree (this is the end vertex) (Eulerian path)
+        // if all vertices have in-degree equal to their out-degree, except 2,
+        // where one of these vertices has one more out-degree than in-degree (this is the start vertex)
+        // and the other vertex has one more in-degree than out-degree (this is the end vertex) (Eulerian path)
         int[] indegrees = new int[adjacent.length];
         int[] outdegrees = new int[adjacent.length];
 
@@ -77,7 +77,7 @@ public class EulerPathDirectedGraph {
             }
         }
 
-        // If there are 2 vertices with indegree != outdegree, start the cycle with the start vertex
+        // If there are 2 vertices with in-degree != out-degree, start the cycle with the start vertex
         // Otherwise, start the cycle with a non-isolated vertex
         int sourceVertex;
         if (startVertex != -1) {
@@ -105,7 +105,7 @@ public class EulerPathDirectedGraph {
 
         // For each edge visited, we visited a vertex.
         // Add 1 because the first and last vertices are the same (in the case of an Euler circuit)
-        // or because the vertex with one more indegree than outdegree is visited twice (in the case of an Euler path)
+        // or because the vertex with one more in-degree than out-degree is visited twice (in the case of an Euler path)
         if (eulerPath.size() == edges + 1) {
             return eulerPath;
         } else {
@@ -122,7 +122,6 @@ public class EulerPathDirectedGraph {
                 break;
             }
         }
-
         return nonIsolatedVertex;
     }
 

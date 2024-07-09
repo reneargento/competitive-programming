@@ -36,16 +36,14 @@ public class EulerCycleUndirectedGraph {
                 edges += adjacent[vertex].size();
             }
         }
-
         edges /= 2;
-
         if (edges == 0) {
             return new Stack<>();
         }
 
         // Necessary condition: all vertices have even degree
         // (this test is needed or it might find an Eulerian path instead of an Eulerian cycle)
-        // An Eulerian path have exactly 2 vertices with even degrees
+        // An Eulerian path has exactly 2 vertices with odd degrees
         for(int vertex = 0; vertex < adjacent.length; vertex++) {
             if (adjacent[vertex] != null && adjacent[vertex].size() % 2 != 0) {
                 return null;
@@ -63,7 +61,7 @@ public class EulerCycleUndirectedGraph {
 
             if (adjacent[vertex] != null) {
                 for(int neighbor : adjacent[vertex]) {
-                    //Careful with self-loops
+                    // Handle self-loops
                     if (vertex == neighbor) {
                         if (selfLoops % 2 == 0) {
                             Edge edge = new Edge(vertex, neighbor);
@@ -83,7 +81,7 @@ public class EulerCycleUndirectedGraph {
             }
         }
 
-        //Start the cycle with a non-isolated vertex
+        // Start the cycle with a non-isolated vertex
         int nonIsolatedVertex = nonIsolatedVertex(adjacent);
         Stack<Integer> dfsStack = new Stack<>();
         dfsStack.push(nonIsolatedVertex);
@@ -127,7 +125,6 @@ public class EulerCycleUndirectedGraph {
         }
         return nonIsolatedVertex;
     }
-
 
     //Tests
     public static void main(String[] args) {

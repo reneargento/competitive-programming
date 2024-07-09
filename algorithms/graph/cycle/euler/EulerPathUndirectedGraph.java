@@ -45,9 +45,8 @@ public class EulerPathUndirectedGraph {
 
         // Necessary condition: all vertices have even degree (Eulerian path AND cycle)
         // or
-        // exactly 2 vertices have even degrees (Eulerian path)
+        // exactly 2 vertices have odd degrees (Eulerian path)
         int verticesWithOddDegree = 0;
-
         int vertexWithOddDegree = -1;
 
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
@@ -75,7 +74,7 @@ public class EulerPathUndirectedGraph {
 
             if (adjacent[vertex] != null) {
                 for (int neighbor : adjacent[vertex]) {
-                    //Careful with self-loops
+                    // Handle self-loops
                     if (vertex == neighbor) {
                         if (selfLoops % 2 == 0) {
                             Edge edge = new Edge(vertex, neighbor);
@@ -130,7 +129,7 @@ public class EulerPathUndirectedGraph {
 
         // For each edge visited, we visited a vertex.
         // Add 1 because the first and last vertices are the same (in the case of an Euler circuit)
-        // or because the vertex with one more indegree than outdegree is visited twice (in the case of an Euler path)
+        // or because the vertex with one more in-degree than out-degree is visited twice (in the case of an Euler path)
         if (eulerPath.size() == edges + 1) {
             return eulerPath;
         } else {

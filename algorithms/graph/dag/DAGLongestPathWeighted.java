@@ -1,9 +1,6 @@
-package algorithms.graph.dag.ancestor;
+package algorithms.graph.dag;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Rene Argento on 28/11/17.
@@ -24,49 +21,8 @@ public class DAGLongestPathWeighted {
         }
     }
 
-    public static class TopologicalSort {
-
-        private static int[] topologicalSort(List<Edge>[] adjacent) {
-            Stack<Integer> finishTimes = getFinishTimes(adjacent);
-
-            int[] topologicalSort = new int[finishTimes.size()];
-            int arrayIndex = 0;
-
-            while (!finishTimes.isEmpty()) {
-                topologicalSort[arrayIndex++] = finishTimes.pop();
-            }
-            return topologicalSort;
-        }
-
-        private static Stack<Integer> getFinishTimes(List<Edge>[] adjacent) {
-            boolean[] visited = new boolean[adjacent.length];
-            Stack<Integer> finishTimes = new Stack<>();
-
-            for (int i = 0; i < adjacent.length; i++) {
-                if (!visited[i]) {
-                    depthFirstSearch(i, adjacent, finishTimes, visited);
-                }
-            }
-            return finishTimes;
-        }
-
-        private static void depthFirstSearch(int sourceVertex, List<Edge>[] adj, Stack<Integer> finishTimes,
-                                             boolean[] visited) {
-            visited[sourceVertex] = true;
-
-            for (Edge edge : adj[sourceVertex]) {
-                int neighbor = edge.vertex2;
-
-                if (!visited[neighbor]) {
-                    depthFirstSearch(neighbor, adj, finishTimes, visited);
-                }
-            }
-            finishTimes.push(sourceVertex);
-        }
-    }
-
-    private static Edge[] edgeTo;
     private static double[] distTo;
+    private static Edge[] edgeTo;
 
     public DAGLongestPathWeighted(List<Edge>[] adjacent, int source) {
         // To compute the longest paths, negate all edge weights in the graph and then compute the shortest paths
@@ -81,18 +37,18 @@ public class DAGLongestPathWeighted {
             }
         }
 
-        edgeTo = new Edge[graphWithNegatedWeights.length];
         distTo = new double[graphWithNegatedWeights.length];
+        edgeTo = new Edge[graphWithNegatedWeights.length];
         Arrays.fill(distTo, Double.POSITIVE_INFINITY);
         distTo[source] = 0;
 
-        int[] topological = TopologicalSort.topologicalSort(graphWithNegatedWeights);
+        int[] topological = topologicalSort(graphWithNegatedWeights);
         for (int vertex : topological) {
             relax(graphWithNegatedWeights, vertex);
         }
     }
 
-    private void relax(List<Edge> adjacent[], int vertex) {
+    private void relax(List<Edge>[] adjacent, int vertex) {
         for (Edge edge : adjacent[vertex]) {
             int neighbor = edge.vertex2;
 
@@ -103,15 +59,15 @@ public class DAGLongestPathWeighted {
         }
     }
 
-    public static double distTo(int vertex) {
+    public double distTo(int vertex) {
         return distTo[vertex];
     }
 
-    public static boolean hasPathTo(int vertex) {
+    public boolean hasPathTo(int vertex) {
         return distTo[vertex] < Double.POSITIVE_INFINITY;
     }
 
-    public static Iterable<Edge> pathTo(int vertex) {
+    public Iterable<Edge> pathTo(int vertex) {
         if (!hasPathTo(vertex)) {
             return null;
         }
@@ -123,16 +79,71 @@ public class DAGLongestPathWeighted {
         return path;
     }
 
+    public double getLongestDistance() {
+        double longestDistance = Double.NEGATIVE_INFINITY;
+
+        for (int vertex = 0; vertex < distTo.length; vertex++) {
+            if (-distTo(vertex) > longestDistance) {
+                longestDistance = -distTo(vertex);
+            }
+        }
+        return longestDistance;
+    }
+
     public Iterable<Edge> getLongestPath() {
         int furthestVertex = -1;
         double longestDistance = Double.NEGATIVE_INFINITY;
 
-        for (int vertex = 0; vertex < edgeTo.length; vertex++) {
-            if (distTo(vertex) > longestDistance) {
-                longestDistance = distTo(vertex);
+        for (int vertex = 0; vertex < distTo.length; vertex++) {
+            if (-distTo(vertex) > longestDistance) {
+                longestDistance = -distTo(vertex);
                 furthestVertex = vertex;
             }
         }
         return pathTo(furthestVertex);
+    }
+
+    private int[] topologicalSort(List<Edge>[] adjacencyList) {
+        int[] inDegrees = new int[adjacencyList.length];
+
+        for (int i = 0; i < adjacencyList.length; i++) {
+            for (Edge edge : adjacencyList[i]) {
+                inDegrees[edge.vertex2]++;
+            }
+        }
+
+        Queue<Integer> queue = new LinkedList<>();
+        for (int vertexID = 0; vertexID < adjacencyList.length; vertexID++) {
+            if (inDegrees[vertexID] == 0) {
+                queue.add(vertexID);
+            }
+        }
+
+        int count = 0;
+
+        int[] topologicalOrder = new int[adjacencyList.length];
+        int topologicalOrderIndex = 0;
+
+        while (!queue.isEmpty()) {
+            int currentVertex = queue.poll();
+            topologicalOrder[topologicalOrderIndex++] = currentVertex;
+
+            for (Edge edge : adjacencyList[currentVertex]) {
+                int neighbor = edge.vertex2;
+                inDegrees[neighbor]--;
+
+                if (inDegrees[neighbor] == 0) {
+                    queue.add(neighbor);
+                }
+            }
+            count++;
+        }
+
+        // Check if there was a cycle
+        if (count != adjacencyList.length) {
+            System.out.println("There exists a cycle in the graph");
+            return null;
+        }
+        return topologicalOrder;
     }
 }

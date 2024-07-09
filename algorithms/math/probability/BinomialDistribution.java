@@ -27,7 +27,7 @@ public class BinomialDistribution {
 
         for (int i = 1; i <= n; i++) {
             for (int j = 1; j <= k; j++) {
-                binomial[i][j] = p * binomial[i-1][j-1] + (1.0 - p) * binomial[i-1][j];
+                binomial[i][j] = p * binomial[i - 1][j - 1] + (1.0 - p) * binomial[i - 1][j];
             }
         }
         return binomial[n][k];
