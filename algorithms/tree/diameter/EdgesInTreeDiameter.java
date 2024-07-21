@@ -27,6 +27,11 @@ public class EdgesInTreeDiameter {
         visited[sourceVertexId] = true;
         edgeTo[sourceVertexId] = null;
 
+        double[] distances = new double[adjacencyList.length];
+        Arrays.fill(distances, -1);
+        distances[sourceVertexId] = 0;
+        int furthestVertex = sourceVertexId;
+
         while (!queue.isEmpty()) {
             int vertexId = queue.poll();
 
@@ -37,14 +42,15 @@ public class EdgesInTreeDiameter {
                     visited[neighbor] = true;
                     edgeTo[neighbor] = edge;
                     queue.offer(neighbor);
+
+                    distances[neighbor] = distances[vertexId] + edge.weight();
+                    if (distances[neighbor] > distances[furthestVertex]) {
+                        furthestVertex = neighbor;
+                    }
                 }
             }
-
-            if (queue.isEmpty()) {
-                return vertexId;
-            }
         }
-        return sourceVertexId;
+        return furthestVertex;
     }
 
     private static List<DirectedEdge> getEdgesInDiameter(DirectedEdge[] edgeTo, int vertexIdOrigin) {

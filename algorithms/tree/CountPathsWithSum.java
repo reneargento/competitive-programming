@@ -10,7 +10,7 @@ import java.util.Map;
  */
 // Counts the number of paths with the target sum in the tree.
 // Paths may start anywhere and end anywhere, but must go from parent nodes to child nodes.
-public class PathsWithSum {
+public class CountPathsWithSum {
 
     // O(n) runtime, where n is the number of nodes in the tree
     // O(n) space

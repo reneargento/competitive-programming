@@ -38,15 +38,17 @@ public class TreeDiameterCenter {
     }
 
     private static int getFurthestVertex(List<Edge>[] adjacencyList, int[] parent, int[] distances,
-                                                int sourceVertexID) {
+                                         int sourceVertexId) {
         Queue<Integer> queue = new LinkedList<>();
         boolean[] visited = new boolean[adjacencyList.length];
-        queue.offer(sourceVertexID);
-        visited[sourceVertexID] = true;
+        queue.offer(sourceVertexId);
+        visited[sourceVertexId] = true;
 
         Arrays.fill(distances, -1);
-        distances[sourceVertexID] = 0;
-        parent[sourceVertexID] = -1;
+        distances[sourceVertexId] = 0;
+        parent[sourceVertexId] = -1;
+
+        int furthestVertex = sourceVertexId;
 
         while (!queue.isEmpty()) {
             int vertexId = queue.poll();
@@ -59,14 +61,14 @@ public class TreeDiameterCenter {
                     distances[neighbor] = distances[vertexId] + 1;
                     parent[neighbor] = vertexId;
                     queue.offer(neighbor);
+
+                    if (distances[neighbor] > distances[furthestVertex]) {
+                        furthestVertex = neighbor;
+                    }
                 }
             }
-
-            if (queue.isEmpty()) {
-                return vertexId;
-            }
         }
-        return sourceVertexID;
+        return furthestVertex;
     }
 
     // Tree:

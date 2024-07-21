@@ -37,21 +37,24 @@ public class WeightedTreeDiameter {
         queue.offer(source);
         visited[sourceVertexId] = true;
 
+        VertexData furthestVertex = new VertexData(sourceVertexId, 0);
+
         while (!queue.isEmpty()) {
             VertexData vertexData = queue.poll();
 
             for (DirectedEdge edge : adjacencyList[vertexData.vertexId]) {
                 if (!visited[edge.to()]) {
                     visited[edge.to()] = true;
-                    queue.offer(new VertexData(edge.to(), vertexData.distance + edge.weight()));
+                    double newDistance = vertexData.distance + edge.weight();
+                    queue.offer(new VertexData(edge.to(), newDistance));
+
+                    if (newDistance > furthestVertex.distance) {
+                        furthestVertex = new VertexData(edge.to(), newDistance);
+                    }
                 }
             }
-
-            if (queue.isEmpty()) {
-                return vertexData;
-            }
         }
-        return source;
+        return furthestVertex;
     }
 
     @SuppressWarnings("unchecked")
@@ -73,6 +76,6 @@ public class WeightedTreeDiameter {
 
         double treeDiameter = computeTreeDiameter(adjacencyList);
         System.out.println("Tree diameter: " + treeDiameter);
-        System.out.println("Expected: 16.0");
+        System.out.println("Expected: 20.0");
     }
 }
