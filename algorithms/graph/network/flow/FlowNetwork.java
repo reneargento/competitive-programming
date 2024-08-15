@@ -18,7 +18,6 @@ public class FlowNetwork {
         if (vertices < 0) {
             throw new IllegalArgumentException("Number of vertices must be nonnegative");
         }
-
         this.vertices = vertices;
         edges = 0;
         adjacent = new HashSet[vertices];
@@ -59,7 +58,6 @@ public class FlowNetwork {
                 }
             }
         }
-
         return edges;
     }
 
@@ -77,8 +75,6 @@ public class FlowNetwork {
             }
             stringBuilder.append(neighbors.toString()).append("\n");
         }
-
         return stringBuilder.toString();
     }
-
 }

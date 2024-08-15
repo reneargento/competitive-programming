@@ -21,5 +21,4 @@ public class AngleBetween3Points {
 
         return Math.acos(dotProduct / Math.sqrt(normalizedSquareVector1 * normalizedSquareVector2));
     }
-
 }

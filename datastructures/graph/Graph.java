@@ -10,8 +10,8 @@ import java.util.List;
 public class Graph {
 
     private final int vertices;
+    private final List<Integer>[] adjacent;
     private int edges;
-    private List<Integer>[] adjacent;
 
     public Graph(int vertices) {
         this.vertices = vertices;

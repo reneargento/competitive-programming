@@ -12,7 +12,6 @@ import java.util.Queue;
  * Runtime O(V * E^2) time
  */
 public class EdmondsKarp {
-
     private boolean[] visited;  // Is s -> v path in residual graph?
     private FlowEdge[] edgeTo;  // Last edge on shortest s -> v path
     private double maxFlowValue;
@@ -31,7 +30,6 @@ public class EdmondsKarp {
             for (int vertex = target; vertex != source; vertex = edgeTo[vertex].other(vertex)) {
                 edgeTo[vertex].addResidualFlowTo(vertex, bottleneck);
             }
-
             maxFlowValue += bottleneck;
         }
     }
@@ -58,7 +56,6 @@ public class EdmondsKarp {
                 }
             }
         }
-
         return visited[target];
     }
 
@@ -70,5 +67,4 @@ public class EdmondsKarp {
     public boolean inCut(int vertex) {
         return visited[vertex];
     }
-
 }

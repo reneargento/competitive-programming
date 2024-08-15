@@ -9,6 +9,7 @@ import java.awt.*;
  */
 public class IsPointInPolygon {
 
+    // Note: coordinates should be in clockwise order, starting from (minX, minY)
     private static boolean isPointInPolygon(int[] xCoordinates, int[] yCoordinates, Point point) {
         Polygon polygon = new Polygon(xCoordinates, yCoordinates, xCoordinates.length);
         return polygon.contains(point);
@@ -24,7 +25,6 @@ public class IsPointInPolygon {
         if (points.length == 0) {
             return false;
         }
-
         double sum = 0;
 
         for (int i = 0; i < points.length - 1; i++) {
@@ -38,7 +38,6 @@ public class IsPointInPolygon {
                 sum -= angle;
             }
         }
-
         return Math.abs(Math.abs(sum) - 2 * Math.PI) < EPSILON;
     }
 }

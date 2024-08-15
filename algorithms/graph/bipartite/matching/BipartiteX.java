@@ -128,5 +128,4 @@ public class BipartiteX {
             throw new IllegalArgumentException("vertex " + vertex + " is not between 0 and " + (vertices-1));
         }
     }
-
 }

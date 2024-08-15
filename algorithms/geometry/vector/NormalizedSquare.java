@@ -10,5 +10,4 @@ public class NormalizedSquare {
     public static double normalizedSquare(Vector vector) {
         return vector.x * vector.x + vector.y * vector.y;
     }
-
 }

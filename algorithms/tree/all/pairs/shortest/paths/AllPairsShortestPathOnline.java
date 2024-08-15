@@ -1,4 +1,4 @@
-package algorithms.tree;
+package algorithms.tree.all.pairs.shortest.paths;
 
 import java.io.IOException;
 import java.util.ArrayList;

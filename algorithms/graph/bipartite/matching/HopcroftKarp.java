@@ -15,14 +15,14 @@ import java.util.*;
 public class HopcroftKarp {
     private static final int UNMATCHED = -1;
 
-    private final int vertices;          // number of vertices in the graph
-    private BipartiteX bipartition;      // the bipartition
-    private int cardinality;             // cardinality of current matching
-    private int[] mate;                  // mate[v] =  w if v-w is an edge in current matching
-                                         //         = -1 if v is not in current matching
-    private boolean[] inMinVertexCover;  // inMinVertexCover[v] = true iff v is in min vertex cover
-    private boolean[] marked;            // marked[v] = true iff v is reachable via alternating path
-    private int[] distTo;                // distTo[v] = number of edges on shortest path to v
+    private final int vertices;                // number of vertices in the graph
+    private final BipartiteX bipartition;      // the bipartition
+    private int cardinality;                   // cardinality of current matching
+    private final int[] mate;                  // mate[v] =  w if v-w is an edge in current matching
+                                               //         = -1 if v is not in current matching
+    private final boolean[] inMinVertexCover;  // inMinVertexCover[v] = true iff v is in min vertex cover
+    private boolean[] marked;                  // marked[v] = true iff v is reachable via alternating path
+    private int[] distTo;                      // distTo[v] = number of edges on shortest path to v
 
     /**
      * Determines a maximum matching (and a minimum vertex cover) in a bipartite graph.
@@ -39,9 +39,7 @@ public class HopcroftKarp {
         // Initialize empty matching
         this.vertices = graph.vertices();
         mate = new int[vertices];
-        for (int vertex = 0; vertex < vertices; vertex++) {
-            mate[vertex] = UNMATCHED;
-        }
+        Arrays.fill(mate, UNMATCHED);
 
         // The call to hasAugmentingPath() provides enough information to reconstruct level graph
         while (hasAugmentingPath(graph)) {
@@ -60,7 +58,7 @@ public class HopcroftKarp {
                 }
 
                 // Find augmenting path from source using nonrecursive DFS
-                Deque<Integer> path = new ArrayDeque<Integer>();
+                Deque<Integer> path = new ArrayDeque<>();
                 path.push(source);
                 while (!path.isEmpty()) {
                     int vertex = path.peek();
@@ -80,7 +78,7 @@ public class HopcroftKarp {
 
                         // Augmenting path found: update the matching
                         if (!isMatched(w)) {
-                            // StdOut.println("augmenting path: " + toString(path));
+                            // System.out.println("augmenting path: " + toString(path));
 
                             while (!path.isEmpty()) {
                                 int x = path.pop();
@@ -151,9 +149,7 @@ public class HopcroftKarp {
         // Shortest path distances
         marked = new boolean[vertices];
         distTo = new int[vertices];
-        for (int vertex = 0; vertex < vertices; vertex++) {
-            distTo[vertex] = Integer.MAX_VALUE;
-        }
+        Arrays.fill(distTo, Integer.MAX_VALUE);
 
         // Breadth-first search (starting from all unmatched vertices on one side of bipartition)
         Queue<Integer> queue = new LinkedList<>();
@@ -191,7 +187,6 @@ public class HopcroftKarp {
                 }
             }
         }
-
         return hasAugmentingPath;
     }
 

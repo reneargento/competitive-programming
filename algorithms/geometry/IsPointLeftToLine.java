@@ -16,5 +16,4 @@ public class IsPointLeftToLine {
         Vector pointToLinePoint2Vector = new Vector(point, linePoint2);
         return CrossProduct.crossProduct(pointToLinePoint1Vector, pointToLinePoint2Vector) > 0;
     }
-
 }

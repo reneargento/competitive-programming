@@ -11,13 +11,13 @@ import java.util.List;
 // Simpler code than HopcroftKarp, but with a higher time complexity
 public class MaximumCardinalityBipartiteMatching {
 
-    // Receives as parameter the graph and the vertex IDs of the left partition
-    public static int computeMaximumCardinality(List<Integer>[] adjacencyList, int[] leftPartitionVertexIDs) {
+    // Receives as parameter the graph and the max vertex ID of the left partition
+    private static int computeMaximumCardinality(List<Integer>[] adjacencyList, int leftPartitionVertexMaxId) {
         int maximumMatches = 0;
         int[] match = new int[adjacencyList.length];
         Arrays.fill(match, -1);
 
-        for (int vertexID : leftPartitionVertexIDs) {
+        for (int vertexID = 0; vertexID < leftPartitionVertexMaxId; vertexID++) {
             boolean[] visited = new boolean[adjacencyList.length];
             maximumMatches += tryToMatch(adjacencyList, match, visited, vertexID);
         }
