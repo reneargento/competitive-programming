@@ -28,19 +28,19 @@ public class EulerPathUndirectedGraph {
         }
     }
 
-    public Stack<Integer> getEulerPath(List<Integer>[] adjacent) {
+    private static Deque<Integer> getEulerPath(List<Integer>[] adjacent) {
 
         // A graph with no edges is considered to have an Eulerian path
         int edges = 0;
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (adjacent[vertex].size() > 0) {
                 edges += adjacent[vertex].size();
             }
         }
         edges /= 2;
 
         if (edges == 0) {
-            return new Stack<>();
+            return new ArrayDeque<>();
         }
 
         // Necessary condition: all vertices have even degree (Eulerian path AND cycle)
@@ -50,7 +50,7 @@ public class EulerPathUndirectedGraph {
         int vertexWithOddDegree = -1;
 
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null && adjacent[vertex].size() % 2 != 0) {
+            if (adjacent[vertex].size() % 2 != 0) {
                 verticesWithOddDegree++;
 
                 if (vertexWithOddDegree == -1) {
@@ -72,23 +72,21 @@ public class EulerPathUndirectedGraph {
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
             int selfLoops = 0;
 
-            if (adjacent[vertex] != null) {
-                for (int neighbor : adjacent[vertex]) {
-                    // Handle self-loops
-                    if (vertex == neighbor) {
-                        if (selfLoops % 2 == 0) {
-                            Edge edge = new Edge(vertex, neighbor);
-                            adjacentCopy[vertex].offer(edge);
-                            adjacentCopy[neighbor].offer(edge);
-                        }
+            for (int neighbor : adjacent[vertex]) {
+                // Handle self-loops
+                if (vertex == neighbor) {
+                    if (selfLoops % 2 == 0) {
+                        Edge edge = new Edge(vertex, neighbor);
+                        adjacentCopy[vertex].offer(edge);
+                        adjacentCopy[neighbor].offer(edge);
+                    }
 
-                        selfLoops++;
-                    } else {
-                        if (vertex < neighbor) {
-                            Edge edge = new Edge(vertex, neighbor);
-                            adjacentCopy[vertex].offer(edge);
-                            adjacentCopy[neighbor].offer(edge);
-                        }
+                    selfLoops++;
+                } else {
+                    if (vertex < neighbor) {
+                        Edge edge = new Edge(vertex, neighbor);
+                        adjacentCopy[vertex].offer(edge);
+                        adjacentCopy[neighbor].offer(edge);
                     }
                 }
             }
@@ -104,10 +102,10 @@ public class EulerPathUndirectedGraph {
             sourceVertex = nonIsolatedVertex(adjacent);
         }
 
-        Stack<Integer> dfsStack = new Stack<>();
+        Deque<Integer> dfsStack = new ArrayDeque<>();
         dfsStack.push(sourceVertex);
 
-        Stack<Integer> eulerPath = new Stack<>();
+        Deque<Integer> eulerPath = new ArrayDeque<>();
 
         while (!dfsStack.isEmpty()) {
             int vertex = dfsStack.pop();
@@ -137,11 +135,11 @@ public class EulerPathUndirectedGraph {
         }
     }
 
-    private int nonIsolatedVertex(List<Integer>[] adjacent) {
+    private static int nonIsolatedVertex(List<Integer>[] adjacent) {
         int nonIsolatedVertex = -1;
 
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
+            if (!adjacent[vertex].isEmpty()) {
                 nonIsolatedVertex = vertex;
                 break;
             }
@@ -152,8 +150,6 @@ public class EulerPathUndirectedGraph {
 
     //Tests
     public static void main(String[] args) {
-        EulerPathUndirectedGraph eulerPath = new EulerPathUndirectedGraph();
-
         List<Integer>[] adjacent1 = (List<Integer>[]) new ArrayList[4];
         for (int vertex = 0; vertex < adjacent1.length; vertex++) {
             adjacent1[vertex] = new ArrayList<>();
@@ -169,14 +165,14 @@ public class EulerPathUndirectedGraph {
         adjacent1[3].add(2);
         adjacent1[2].add(3);
 
-        Stack<Integer> eulerPath1 = eulerPath.getEulerPath(adjacent1);
+        Deque<Integer> eulerPath1 = EulerPathUndirectedGraph.getEulerPath(adjacent1);
 
         if (eulerPath1 != null) {
             printPath(eulerPath1);
         } else {
             System.out.println("There is no Eulerian path");
         }
-        System.out.println("Expected: 2-1 1-0 0-3 3-2 2-3\n");
+        System.out.println("Expected:   2-1 1-0 0-3 3-2 2-3\n");
 
         List<Integer>[] adjacent2 = (List<Integer>[]) new ArrayList[4];
 
@@ -192,14 +188,14 @@ public class EulerPathUndirectedGraph {
         adjacent2[3].add(0);
         adjacent2[0].add(3);
 
-        Stack<Integer> eulerPath2 = eulerPath.getEulerPath(adjacent2);
+        Deque<Integer> eulerPath2 = EulerPathUndirectedGraph.getEulerPath(adjacent2);
 
         if (eulerPath2 != null) {
             printPath(eulerPath2);
         } else {
             System.out.println("There is no Eulerian path");
         }
-        System.out.println("Expected: 0-1 1-2 2-3 3-0\n");
+        System.out.println("Expected:   0-1 1-2 2-3 3-0\n");
 
         // Note that vertex 12 is an isolated vertex
         List<Integer>[] adjacent3 = (List<Integer>[]) new ArrayList[13];
@@ -250,14 +246,14 @@ public class EulerPathUndirectedGraph {
         adjacent3[1].add(7);
         adjacent3[7].add(1);
 
-        Stack<Integer> eulerPath3 = eulerPath.getEulerPath(adjacent3);
+        Deque<Integer> eulerPath3 = EulerPathUndirectedGraph.getEulerPath(adjacent3);
 
         if (eulerPath3 != null) {
             printPath(eulerPath3);
         } else {
             System.out.println("There is no Eulerian path");
         }
-        System.out.println("Expected: 0-9 9-3 3-2 2-1 1-7 7-8 8-2 2-4 4-3 3-10 10-9 9-6 6-2 2-5 5-8 8-9 9-11 11-8 8-6 6-3 3-0\n");
+        System.out.println("Expected:   0-9 9-3 3-2 2-1 1-7 7-8 8-2 2-4 4-3 3-10 10-9 9-6 6-2 2-5 5-8 8-9 9-11 11-8 8-6 6-3 3-0\n");
 
         List<Integer>[] adjacent4 = (List<Integer>[]) new ArrayList[4];
 
@@ -275,18 +271,18 @@ public class EulerPathUndirectedGraph {
         adjacent4[3].add(1);
         adjacent4[1].add(3);
 
-        Stack<Integer> eulerPath4 = eulerPath.getEulerPath(adjacent4);
+        Deque<Integer> eulerPath4 = EulerPathUndirectedGraph.getEulerPath(adjacent4);
 
         if (eulerPath4 != null) {
             printPath(eulerPath4);
         } else {
             System.out.println("There is no Eulerian path");
         }
-        System.out.println("Expected: 1-0 0-3 3-1 1-2 2-3");
+        System.out.println("Expected:   1-0 0-3 3-1 1-2 2-3");
     }
 
-    private static void printPath(Stack<Integer> eulerPath) {
-        System.out.println("Euler path:");
+    private static void printPath(Deque<Integer> eulerPath) {
+        System.out.print("Euler path: ");
 
         while (!eulerPath.isEmpty()) {
             int vertex = eulerPath.pop();

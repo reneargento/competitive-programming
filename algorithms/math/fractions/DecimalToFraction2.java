@@ -1,11 +1,11 @@
-package algorithms.math.number.theory;
+package algorithms.math.fractions;
 
 /**
  * Created by Rene Argento on 21/01/22.
  */
 // Converts a double number into a fraction.
 // Example: 2.6 -> 13 / 5
-public class DecimalToFraction {
+public class DecimalToFraction2 {
 
     private static class Fraction {
         long nominator;

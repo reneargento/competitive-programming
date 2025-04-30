@@ -21,22 +21,22 @@ public class NChooseK {
         System.out.println("Expected: 555687036928510235891585199545206017600");
     }
 
-    private static BigInteger binomialCoefficient(int totalLength, int numbersToChoose) {
+    private static BigInteger binomialCoefficient(int totalNumbers, int numbersToChoose) {
         BigInteger result = BigInteger.ONE;
 
         for (int i = 0; i < numbersToChoose; i++) {
-            result = result.multiply(BigInteger.valueOf(totalLength - i))
+            result = result.multiply(BigInteger.valueOf(totalNumbers - i))
                     .divide(BigInteger.valueOf(i + 1));
         }
         return result;
     }
 
     // Can be used for numbers that don't need a BigInteger
-    private static long binomialCoefficientLong(int totalLength, int numbersToChoose) {
+    private static long binomialCoefficientLong(int totalNumbers, int numbersToChoose) {
         long result = 1;
 
         for (int i = 0; i < numbersToChoose; i++) {
-            result = result * (totalLength - i) / (i + 1);
+            result = result * (totalNumbers - i) / (i + 1);
         }
         return result;
     }

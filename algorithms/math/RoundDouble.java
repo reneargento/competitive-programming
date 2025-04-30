@@ -10,5 +10,4 @@ public class RoundDouble {
         long valueToMultiply = (long) Math.pow(10, digits);
         return (double) Math.round(value * valueToMultiply) / valueToMultiply;
     }
-
 }

@@ -8,7 +8,7 @@ public class FastExponentiation {
     // Fast exponentiation in mod 10^9 + 7
     private static final long MOD = 1000000007;
 
-    private static long fastExponentiation(long base, int exponent) {
+    private static long fastExponentiation(long base, long exponent) {
         if (exponent == 0) {
             return 1;
         }

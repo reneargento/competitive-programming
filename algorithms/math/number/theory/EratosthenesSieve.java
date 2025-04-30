@@ -47,7 +47,7 @@ public class EratosthenesSieve {
             eratosthenesSieveGetOnlyPrimes(number);
             return isPrime[(int) number];
         } else {
-            //Only works if number <= (last prime in primeNumbers)^2
+            // Only works if number <= (last prime in primeNumbers)^2
             eratosthenesSieveGetOnlyPrimes(MAX_VALUE);
 
             for (int primeNumber : primeNumbers) {

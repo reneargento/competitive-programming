@@ -1,9 +1,6 @@
 package algorithms.graph.cycle.euler;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Rene Argento on 24/10/17.
@@ -11,100 +8,81 @@ import java.util.Stack;
 @SuppressWarnings("unchecked")
 public class EulerPathDirectedGraph {
 
-    public Stack<Integer> getDirectedEulerianPath(List<Integer>[] adjacent) {
-        // A graph with no edges is considered to have an Eulerian path
+    private static Deque<Integer> getDirectedEulerPath(List<Integer>[] adjacent) {
         int edges = 0;
-        for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
-                edges += adjacent[vertex].size();
-            }
-        }
-
-        if (edges == 0) {
-            return new Stack<>();
-        }
 
         // Check if all vertices have in-degree equal to their out-degree (Eulerian path AND cycle)
         // OR
         // if all vertices have in-degree equal to their out-degree, except 2,
         // where one of these vertices has one more out-degree than in-degree (this is the start vertex)
         // and the other vertex has one more in-degree than out-degree (this is the end vertex) (Eulerian path)
-        int[] indegrees = new int[adjacent.length];
-        int[] outdegrees = new int[adjacent.length];
+        int[] inDegrees = new int[adjacent.length];
+        int[] outDegrees = new int[adjacent.length];
 
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null) {
-                for (int neighbor : adjacent[vertex]) {
-                    outdegrees[vertex]++;
-                    indegrees[neighbor]++;
-                }
+            edges += adjacent[vertex].size();
+
+            for (int neighbor : adjacent[vertex]) {
+                outDegrees[vertex]++;
+                inDegrees[neighbor]++;
             }
         }
 
+        // A graph with no edges is considered to have an Eulerian path
+        if (edges == 0) {
+            return new ArrayDeque<>();
+        }
+
+        int startVertexCandidates = 0;
+        int endVertexCandidates = 0;
         int startVertex = -1;
-        int endVertex = -1;
 
         for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (indegrees[vertex] != outdegrees[vertex]) {
-                if (outdegrees[vertex] == indegrees[vertex] + 1) {
-                    if (startVertex == -1) {
-                        startVertex = vertex;
-                    } else {
-                        return null;
-                    }
-                } else if (indegrees[vertex] == outdegrees[vertex] + 1) {
-                    if (endVertex == -1) {
-                        endVertex = vertex;
-                    } else {
-                        return null;
-                    }
+            if (inDegrees[vertex] == outDegrees[vertex]) {
+                if (inDegrees[vertex] > 0 && startVertex == -1) {
+                    startVertex = vertex;
+                }
+            } else {
+                if (inDegrees[vertex] - 1 == outDegrees[vertex]) {
+                    endVertexCandidates++;
+                } else if (inDegrees[vertex] + 1 == outDegrees[vertex]) {
+                    startVertexCandidates++;
+                    startVertex = vertex;
                 } else {
                     return null;
                 }
             }
         }
 
-        if ((startVertex == -1 && endVertex != -1)
-                || (startVertex != -1 && endVertex == -1)) {
+        boolean hasEulerCycle = startVertexCandidates == 0 && endVertexCandidates == 0;
+        boolean hasEulerPath = startVertexCandidates == 1 && endVertexCandidates == 1;
+        if (!hasEulerCycle && !hasEulerPath) {
             return null;
         }
 
-        // Create local view of adjacency lists, to iterate one vertex at a time
-        Iterator<Integer>[] adjacentCopy = (Iterator<Integer>[]) new Iterator[adjacent.length];
-        for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null) {
-                adjacentCopy[vertex] = adjacent[vertex].iterator();
-            }
-        }
+        Deque<Integer> dfsStack = new ArrayDeque<>();
+        dfsStack.push(startVertex);
 
-        // If there are 2 vertices with in-degree != out-degree, start the cycle with the start vertex
-        // Otherwise, start the cycle with a non-isolated vertex
-        int sourceVertex;
-        if (startVertex != -1) {
-            sourceVertex = startVertex;
-        } else {
-            sourceVertex = nonIsolatedVertex(adjacent);
-        }
-
-        Stack<Integer> dfsStack = new Stack<>();
-        dfsStack.push(sourceVertex);
-
-        Stack<Integer> eulerPath = new Stack<>();
+        Deque<Integer> eulerPath = new ArrayDeque<>();
+        int[] index = new int[adjacent.length];
 
         while (!dfsStack.isEmpty()) {
-            int vertex = dfsStack.pop();
+            int vertex = dfsStack.peek();
+            int indexValue = index[vertex];
 
-            while (adjacentCopy[vertex].hasNext()) {
-                dfsStack.push(vertex);
-                vertex = adjacentCopy[vertex].next();
+            if (indexValue < adjacent[vertex].size()) {
+                int neighborVertex = adjacent[vertex].get(indexValue);
+                dfsStack.push(neighborVertex);
+                index[vertex]++;
+            } else {
+                // Push vertex with no more leaving edges to the Euler path
+                eulerPath.push(vertex);
+                dfsStack.pop();
             }
-
-            // Push vertex with no more leaving edges to the Euler path
-            eulerPath.push(vertex);
         }
 
         // For each edge visited, we visited a vertex.
-        // Add 1 because the first and last vertices are the same (in the case of an Euler circuit)
+        // Add 1 because the first and last vertices are the same (in the case of an Euler cycle)
         // or because the vertex with one more in-degree than out-degree is visited twice (in the case of an Euler path)
         if (eulerPath.size() == edges + 1) {
             return eulerPath;
@@ -113,23 +91,8 @@ public class EulerPathDirectedGraph {
         }
     }
 
-    private int nonIsolatedVertex(List<Integer>[] adjacent) {
-        int nonIsolatedVertex = -1;
-
-        for (int vertex = 0; vertex < adjacent.length; vertex++) {
-            if (adjacent[vertex] != null && adjacent[vertex].size() > 0) {
-                nonIsolatedVertex = vertex;
-                break;
-            }
-        }
-        return nonIsolatedVertex;
-    }
-
-
     // Tests
     public static void main(String[] args) {
-        EulerPathDirectedGraph directedEulerianPath = new EulerPathDirectedGraph();
-
         List<Integer>[] adjacent1 = (List<Integer>[]) new ArrayList[4];
         for (int vertex = 0; vertex < adjacent1.length; vertex++) {
             adjacent1[vertex] = new ArrayList<>();
@@ -141,14 +104,14 @@ public class EulerPathDirectedGraph {
         adjacent1[3].add(0);
         adjacent1[3].add(2);
 
-        Stack<Integer> eulerCycle1 = directedEulerianPath.getDirectedEulerianPath(adjacent1);
+        Deque<Integer> eulerCycle1 = EulerPathDirectedGraph.getDirectedEulerPath(adjacent1);
 
         if (eulerCycle1 != null) {
-            directedEulerianPath.printCycle(eulerCycle1);
+            EulerPathDirectedGraph.printCycle(eulerCycle1);
         } else {
             System.out.println("There is no directed Eulerian path");
         }
-        System.out.println("Expected: 3->0 0->1 1->2 2->3 3->2\n");
+        System.out.println("Expected:   3->0 0->1 1->2 2->3 3->2\n");
 
         List<Integer>[] adjacent2 = (List<Integer>[]) new ArrayList[4];
 
@@ -161,14 +124,14 @@ public class EulerPathDirectedGraph {
         adjacent2[2].add(3);
         adjacent2[3].add(0);
 
-        Stack<Integer> eulerCycle2 = directedEulerianPath.getDirectedEulerianPath(adjacent2);
+        Deque<Integer> eulerCycle2 = EulerPathDirectedGraph.getDirectedEulerPath(adjacent2);
 
         if (eulerCycle2 != null) {
-            directedEulerianPath.printCycle(eulerCycle2);
+            EulerPathDirectedGraph.printCycle(eulerCycle2);
         } else {
             System.out.println("There is no directed Eulerian path");
         }
-        System.out.println("Expected: 0->1 1->2 2->3 3->0\n");
+        System.out.println("Expected:   0->1 1->2 2->3 3->0\n");
 
         //Note that vertex 5 is an isolated vertex
         List<Integer>[] adjacent3 = (List<Integer>[]) new ArrayList[6];
@@ -186,14 +149,14 @@ public class EulerPathDirectedGraph {
         adjacent3[2].add(4);
         adjacent3[4].add(3);
 
-        Stack<Integer> eulerCycle3 = directedEulerianPath.getDirectedEulerianPath(adjacent3);
+        Deque<Integer> eulerCycle3 = EulerPathDirectedGraph.getDirectedEulerPath(adjacent3);
 
         if (eulerCycle3 != null) {
-            directedEulerianPath.printCycle(eulerCycle3);
+            EulerPathDirectedGraph.printCycle(eulerCycle3);
         } else {
             System.out.println("There is no directed Eulerian path");
         }
-        System.out.println("Expected: 0->1 1->2 2->4 4->3 3->1 1->3 3->2 2->0\n");
+        System.out.println("Expected:   0->1 1->2 2->4 4->3 3->1 1->3 3->2 2->0\n");
 
         List<Integer>[] adjacent4 = (List<Integer>[]) new ArrayList[4];
 
@@ -207,18 +170,18 @@ public class EulerPathDirectedGraph {
         adjacent4[3].add(0);
         adjacent4[3].add(1);
 
-        Stack<Integer> eulerCycle4 = directedEulerianPath.getDirectedEulerianPath(adjacent4);
+        Deque<Integer> eulerCycle4 = EulerPathDirectedGraph.getDirectedEulerPath(adjacent4);
 
         if (eulerCycle4 != null) {
-            directedEulerianPath.printCycle(eulerCycle4);
+            EulerPathDirectedGraph.printCycle(eulerCycle4);
         } else {
             System.out.println("There is no directed Eulerian path");
         }
-        System.out.println("Expected: 3->0 0->1 1->2 2->3 3->1");
+        System.out.println("Expected:   3->0 0->1 1->2 2->3 3->1");
     }
 
-    private void printCycle(Stack<Integer> eulerPath) {
-        System.out.println("Euler path:");
+    private static void printCycle(Deque<Integer> eulerPath) {
+        System.out.print("Euler path: ");
 
         while (!eulerPath.isEmpty()) {
             int vertex = eulerPath.pop();
