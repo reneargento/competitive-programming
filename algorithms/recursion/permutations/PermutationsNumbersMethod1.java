@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Rene Argento on 16/08/21.
  */
 // Based on https://github.com/stevenhalim/cpbook-code/blob/master/ch3/cs/UVa11742.java
-// Generates all the permutations of an array of numbers.
+// Generates all the permutations of an array of numbers of 0 up to N - 1.
 // O(n * n!) runtime, where n is the number of elements.
 // O(n!) space
 public class PermutationsNumbersMethod1 {

@@ -12,8 +12,6 @@ import java.util.List;
 public class PermutationsString {
 
     public static List<String> permutations(String string) {
-        if (string == null) return null;
-
         List<String> permutations = new ArrayList<>();
         permutations("", string, permutations);
         return permutations;

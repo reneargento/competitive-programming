@@ -12,7 +12,7 @@ public class ModWrappingValues {
         return modResult < 0 ? maxValue + modResult : modResult;
     }
 
-    // One liner but uses mod operation twice
+    // One-liner but uses mod operation twice
     private static int wrapIndex2(int index, int maxValue) {
         return ((index % maxValue) + maxValue) % maxValue;
     }

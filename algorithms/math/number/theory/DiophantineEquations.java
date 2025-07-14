@@ -3,7 +3,7 @@ package algorithms.math.number.theory;
 /**
  * Created by Rene Argento on 08/09/17.
  */
-// Solves a equation in the form of:
+// Solves an equation in the form of:
 // a * x + b * y = c
 public class DiophantineEquations {
 
@@ -32,12 +32,12 @@ public class DiophantineEquations {
 
         extendedEuclid(a, b);
 
-        //The equation only has integer solutions if gcd(a, b) divides c
+        // The equation only has integer solutions if gcd(a, b) divides c
         if (c % gcd != 0) {
             return solution;
         }
 
-        //First solutions are given by
+        // First solutions are given by
         // x0 = bezoutCoefficient1 * (c / gcd)
         // y0 = bezoutCoefficient2 * (c / gcd)
 
@@ -50,12 +50,10 @@ public class DiophantineEquations {
             return solution;
         }
 
-        //Make sure there are no negative values
+        // Make sure there are no negative values
         if (x < 0 || y < 0) {
             boolean isXNegative = x < 0;
-
             int factorToGetAPositiveSolution;
-
             double equalOrHigherThan;
             double equalOrLowerThan;
 
@@ -87,7 +85,6 @@ public class DiophantineEquations {
         solution[0] = 0;
         solution[1] = x;
         solution[2] = y;
-
         return solution;
     }
 
@@ -98,13 +95,12 @@ public class DiophantineEquations {
     private static int bezoutCoefficient2;
     private static int gcd;
 
-    private static  void extendedEuclid(int number1, int number2) {
-        //Base case
+    private static void extendedEuclid(int number1, int number2) {
+        // Base case
         if (number2 == 0) {
             bezoutCoefficient1 = 1;
             bezoutCoefficient2 = 0;
             gcd = number1;
-
             return;
         }
 

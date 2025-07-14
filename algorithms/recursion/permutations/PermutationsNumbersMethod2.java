@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Rene Argento on 16/08/21.
  */
 // Based on https://introcs.cs.princeton.edu/java/23recursion/Permutations.java.html
-// Generates all the permutations (not in order) of an array of numbers.
+// Generates all the permutations (not in order) of an array numbers of 0 up to N - 1.
 // O(n * n!) runtime, where n is the number of elements.
 // O(n!) space
 public class PermutationsNumbersMethod2 {

@@ -32,7 +32,6 @@ public class EulerPhi {
             while (number % currentPrime == 0) {
                 number /= currentPrime;
             }
-
             currentPrime = primesIterator.next();
         }
 
@@ -45,21 +44,15 @@ public class EulerPhi {
     private static List<Integer> eratosthenesSieve(long number) {
         List<Integer> primeNumbers = new ArrayList<>();
         boolean[] isPrime = new boolean[(int) number + 1];
-
-        // 1- Mark all numbers as prime
         for (int i = 2; i < isPrime.length; i++) {
             isPrime[i] = true;
         }
 
-        // 2- Remove numbers multiple of the current element
-        // 3- Repeat until we finish verifying the maxNumberToCheck
-
-        for (long i = 2; i <= number; i++) {
+        for (long i = 2; i < isPrime.length; i++) {
             if (isPrime[(int) i]) {
                 for (long j = i * i; j < isPrime.length; j += i) {
                     isPrime[(int) j] = false;
                 }
-
                 primeNumbers.add((int) i);
             }
         }
