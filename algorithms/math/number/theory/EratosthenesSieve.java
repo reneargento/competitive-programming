@@ -62,7 +62,7 @@ public class EratosthenesSieve {
     // Returns a list containing only the primes up to number.
     // Slightly slower to verify, but still O(n), and returns a list with only the necessary numbers
     // Can be used to verify the primality of numbers <= 10^7
-    static Integer[] eratosthenesSievePrimeList(long number) {
+    public static Integer[] eratosthenesSievePrimeList(long number) {
         List<Integer> primeNumbers = new ArrayList<>();
         isPrime = new boolean[(int) number + 1];
         for (int i = 2; i < isPrime.length; i++) {

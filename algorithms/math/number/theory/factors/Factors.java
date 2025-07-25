@@ -1,4 +1,4 @@
-package algorithms.math.number.theory;
+package algorithms.math.number.theory.factors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +10,8 @@ import java.util.List;
 // Algorithm to get the factors of a number.
 // This algorithm can also be used to count the factors of a number, but a faster version exists:
 // check the class CountFactors
+// This algorithm can also be used to sum the factors of a number, but a faster version exists:
+// check the class SumFactors
 public class Factors {
 
     private static List<Long> getFactors(long number) {

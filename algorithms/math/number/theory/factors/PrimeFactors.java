@@ -1,4 +1,4 @@
-package algorithms.math.number.theory;
+package algorithms.math.number.theory.factors;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,20 +6,21 @@ import java.util.List;
 /**
  * Created by Rene Argento on 29/04/17.
  */
+// O(sqrt(n) / ln(sqrt(n)))
 public class PrimeFactors {
 
     public static void main(String[] args) {
         // Test
-        List<Integer> primeFactors = primeFactors(10);
-        for(int primeFactor : primeFactors) {
+        List<Long> primeFactors = primeFactors(10);
+        for(long primeFactor : primeFactors) {
             System.out.print(primeFactor + " ");
         }
     }
 
-    private static List<Integer> primeFactors(int number) {
-        List<Integer> primeFactors = new ArrayList<>();
+    private static List<Long> primeFactors(long number) {
+        List<Long> primeFactors = new ArrayList<>();
 
-        for (int i = 2; i * i <= number; i++) {
+        for (long i = 2; i * i <= number; i++) {
             while (number % i == 0) {
                 primeFactors.add(i);
                 number /= i;

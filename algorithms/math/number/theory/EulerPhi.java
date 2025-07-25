@@ -1,7 +1,6 @@
 package algorithms.math.number.theory;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -11,28 +10,30 @@ import java.util.List;
 // Example:
 // 36 -> 12
 // { 1, 5, 7, 11, 13, 17, 19, 23, 25, 29, 31, 35 }
+// O(sqrt(n) / ln(sqrt(n)))
 public class EulerPhi {
 
     public static void main(String[] args) {
-        System.out.println(eulerPhi(36) + " Expected: 12");
+        System.out.println("Result: " + eulerPhi(36));
+        System.out.println("Expected: 12");
     }
 
     private static long eulerPhi(long number) {
-        List<Integer> primes = eratosthenesSieve(number);
-        Iterator<Integer> primesIterator = primes.iterator();
-
-        long currentPrime = primesIterator.next();
+        Integer[] primes = eratosthenesSieve(number);
         long eulerPhi = number;
 
-        while (number != 1 && currentPrime * currentPrime <= number) {
-            if (number % currentPrime == 0) {
-                eulerPhi -= eulerPhi / currentPrime;
+        for (long prime : primes) {
+            if (prime * prime > number) {
+                break;
             }
 
-            while (number % currentPrime == 0) {
-                number /= currentPrime;
+            if (number % prime == 0) {
+                eulerPhi -= eulerPhi / prime;
             }
-            currentPrime = primesIterator.next();
+
+            while (number % prime == 0) {
+                number /= prime;
+            }
         }
 
         if (number != 1) {
@@ -41,7 +42,7 @@ public class EulerPhi {
         return eulerPhi;
     }
 
-    private static List<Integer> eratosthenesSieve(long number) {
+    private static Integer[] eratosthenesSieve(long number) {
         List<Integer> primeNumbers = new ArrayList<>();
         boolean[] isPrime = new boolean[(int) number + 1];
         for (int i = 2; i < isPrime.length; i++) {
@@ -56,6 +57,6 @@ public class EulerPhi {
                 primeNumbers.add((int) i);
             }
         }
-        return primeNumbers;
+        return primeNumbers.toArray(new Integer[0]);
     }
 }

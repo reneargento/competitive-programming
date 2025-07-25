@@ -1,4 +1,6 @@
-package algorithms.math.number.theory;
+package algorithms.math.number.theory.factors;
+
+import algorithms.math.number.theory.EratosthenesSieve;
 
 /**
  * Created by Rene Argento on 14/07/25.
@@ -26,12 +28,12 @@ public class CountFactors {
                 break;
             }
 
-            int power = 1;
+            int exponent = 1;
             while (number % primeNumber == 0) {
-                power++;
+                exponent++;
                 number /= primeNumber;
             }
-            factors *= power;
+            factors *= exponent;
         }
 
         // Special case where number is a prime number
