@@ -17,15 +17,15 @@ public class AllCombinations {
         }
     }
 
-    private static void printCombination(int[] arr, int numbersLength, int combinationSize) {
+    private static void printCombination(int[] array, int numbersLength, int combinationSize) {
         // A temporary array to store all combinations one by one
         int[] data = new int[combinationSize];
 
         // Print all combinations using temporary array 'data[]'
-        combinationUtil(arr, data, 0, numbersLength - 1, 0, combinationSize);
+        combinationUtil(array, data, 0, numbersLength - 1, 0, combinationSize);
     }
 
-    private static void combinationUtil(int[] arr, int[] data, int start, int end, int index,
+    private static void combinationUtil(int[] array, int[] data, int start, int end, int index,
                                         int combinationSize) {
         // Current combination is ready to be printed, print it
         if (index == combinationSize) {
@@ -40,8 +40,8 @@ public class AllCombinations {
         // "end - i + 1 >= combinationSize - index" makes sure that including one element
         // at index will make a combination with remaining elements at remaining positions
         for (int i = start; i <= end && end - i + 1 >= combinationSize - index; i++) {
-            data[index] = arr[i];
-            combinationUtil(arr, data, i + 1, end, index + 1, combinationSize);
+            data[index] = array[i];
+            combinationUtil(array, data, i + 1, end, index + 1, combinationSize);
         }
     }
 }

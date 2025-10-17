@@ -1,7 +1,5 @@
 package algorithms.math.number.theory.factors;
 
-import java.util.Arrays;
-
 /**
  * Created by Rene Argento on 25/07/25.
  */
@@ -23,22 +21,9 @@ public class CountFactorsMultiples {
 
     private static int[] eratosthenesSieveCountFactors(int maxNumber) {
         int[] factorsCount = new int[maxNumber];
-        Arrays.fill(factorsCount, 1);
-        int[] currentNumber = new int[maxNumber];
-        for (int i = 0; i < currentNumber.length; i++) {
-            currentNumber[i] = i;
-        }
-
-        for (int i = 2; i < factorsCount.length; i++) {
-            if (factorsCount[i] == 1) {
-                for (int j = i; j < factorsCount.length; j += i) {
-                    int power = 0;
-                    while (currentNumber[j] % i == 0) {
-                        currentNumber[j] /= i;
-                        power++;
-                    }
-                    factorsCount[j] *= power + 1;
-                }
+        for (int i = 1; i < factorsCount.length; i++) {
+            for (int j = i; j < factorsCount.length; j += i){
+                factorsCount[j] += 1;
             }
         }
         return factorsCount;

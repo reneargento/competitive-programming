@@ -28,7 +28,7 @@ public class DiophantineEquations {
      *  2: y, the solution to the second unknown
      */
     private static int[] diophantineEquation(int a, int b, int c) {
-        int[] solution = {1, -1, -1};
+        int[] solution = { 1, -1, -1 };
 
         extendedEuclid(a, b);
 

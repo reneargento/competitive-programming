@@ -18,7 +18,7 @@ public class GCD_LCM {
     }
 
     public static long lcm(long number1, long number2) {
-        return number1 * (number2 / gcd(number1, number2));
+        return number1 * number2 / gcd(number1, number2);
     }
 
     private static String reduceFraction(long numerator, long denominator) {

@@ -16,7 +16,7 @@ public class CountUniquePrimeFactorsMultiples {
     }
 
     private static int[] eratosthenesSieveCountUniquePFs(int maxNumber) {
-        int[] uniquePFs = new int[maxNumber + 1];
+        int[] uniquePFs = new int[maxNumber];
 
         for (int i = 2; i < uniquePFs.length; i++) {
             if (uniquePFs[i] == 0) {
