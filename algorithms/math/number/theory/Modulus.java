@@ -9,16 +9,16 @@ package algorithms.math.number.theory;
 public class Modulus {
 
     public static void main(String[] args) {
-        int mod1 = mod(-4, 3);
+        long mod1 = mod(-4, 3);
         System.out.println("Mod: " + mod1);
         System.out.println("Expected: 2");
 
-        int mod2 = mod(-5, 3);
+        long mod2 = mod(-5, 3);
         System.out.println("\nMod: " + mod2);
         System.out.println("Expected: 1");
     }
 
-    private static int mod(int number, int mod) {
+    private static long mod(long number, long mod) {
         return ((number % mod) + mod) % mod;
     }
 }

@@ -1,5 +1,6 @@
 package algorithms.general;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -10,5 +11,9 @@ public class ListToArray {
 
     private static Integer[] listToArray(List<Integer> list) {
         return list.toArray(new Integer[0]);
+    }
+
+    private static List<Integer> arrayToList(Integer[] array) {
+        return Arrays.asList(array);
     }
 }

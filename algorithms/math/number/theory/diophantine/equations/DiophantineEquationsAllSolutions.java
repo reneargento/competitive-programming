@@ -1,4 +1,4 @@
-package algorithms.math.number.theory;
+package algorithms.math.number.theory.diophantine.equations;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Rene Argento on 17/10/25.
  */
-// Solves an equation in the form of:
+// Given a, b and c, solves an equation in the form of:
 // a * x + b * y = c
 // Returns all solutions
 public class DiophantineEquationsAllSolutions {
@@ -28,6 +28,8 @@ public class DiophantineEquationsAllSolutions {
             for (Solution solution : diophantineEquations) {
                 System.out.println(solution.x + " " + solution.y);
             }
+        } else {
+            System.out.println("No solution");
         }
 
         System.out.println("\nExpected:" );

@@ -1,10 +1,11 @@
-package algorithms.math.number.theory;
+package algorithms.math.number.theory.diophantine.equations;
 
 /**
  * Created by Rene Argento on 08/09/17.
  */
-// Solves an equation in the form of:
+// Given a, b and c, solves an equation in the form of:
 // a * x + b * y = c
+// There may be multiple solutions, this algorithm gives one of them
 public class DiophantineEquations {
 
     public static void main(String[] args) {
