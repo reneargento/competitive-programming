@@ -14,7 +14,6 @@ public class DecimalToBinary {
         while (decimalValue > 0) {
             long remaining = decimalValue % 2;
             binaryString.insert(0, remaining);
-
             decimalValue /= 2;
         }
         return binaryString.toString();
