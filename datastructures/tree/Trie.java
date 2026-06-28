@@ -54,7 +54,6 @@ public class Trie {
         if (contains(key)) {
             return;
         }
-
         root = add(root, key, 0);
         size++;
     }
@@ -237,8 +236,6 @@ public class Trie {
         for(String key : keys()) {
             keys.add(key);
         }
-
         return "{ " + keys.toString() + " }";
     }
-
 }
