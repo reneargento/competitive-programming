@@ -36,7 +36,6 @@ public class SuffixArray {
             if (this == that) {
                 return 0;
             }
-
             int minLength = Math.min(this.length(), that.length());
 
             for (int i = 0; i < minLength; i++) {
@@ -47,7 +46,6 @@ public class SuffixArray {
                     return 1;
                 }
             }
-
             return this.length() - that.length();
         }
     }
@@ -86,7 +84,6 @@ public class SuffixArray {
         if (i < 1 || i >= suffixes.length) {
             throw new IllegalArgumentException("Index must be between 1 and " + (suffixes.length - 1));
         }
-
         return longestCommonPrefix(suffixes[i], suffixes[i - 1]);
     }
 
@@ -98,7 +95,6 @@ public class SuffixArray {
                 return i;
             }
         }
-
         return minLength;
     }
 
@@ -119,7 +115,6 @@ public class SuffixArray {
                 return middle;
             }
         }
-
         return low;
     }
 
@@ -134,7 +129,6 @@ public class SuffixArray {
                 return 1;
             }
         }
-
         return key.length() - suffix.length();
     }
 
@@ -144,7 +138,6 @@ public class SuffixArray {
         for (int i = 0; i < suffixes.length; i++) {
             suffixesArray[i] = suffixes[i].index;
         }
-
         return suffixesArray;
     }
 
@@ -155,8 +148,6 @@ public class SuffixArray {
         if (suffixIndex < 0 || suffixIndex >= suffixes.length) {
             throw new IllegalArgumentException("Suffix index must be between 0 and " + (suffixes.length - 1));
         }
-
         return suffixes[suffixIndex].charAt(charIndex);
     }
-
 }
