@@ -22,6 +22,7 @@ import java.util.*;
  LCS for input Sequences “ABCDGH” and “AEDFHR” is “ADH” of length 3.
  LCS for input Sequences “AGGTAB” and “GXTXAYB” is “GTAB” of length 4.
  */
+// Time complexity: O(s1 * s2), where s1 is the length of sequence1 and s2 is the length of sequence2
 public class LongestCommonSubsequence {
 
     private static int dp[][];
@@ -43,7 +44,6 @@ public class LongestCommonSubsequence {
                 }
             }
         }
-
         return dp[sequence1.length()][sequence2.length()];
     }
 

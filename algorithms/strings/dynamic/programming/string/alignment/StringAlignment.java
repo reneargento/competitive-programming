@@ -1,4 +1,4 @@
-package algorithms.strings.dynamic.programming;
+package algorithms.strings.dynamic.programming.string.alignment;
 
 // Also known as the edit distance or the Levenshtein distance problem between 2 strings.
 // Runtime O(s1 * s2), where s1 is the first string length and s2 is the second string length
@@ -72,10 +72,10 @@ public class StringAlignment {
         int[][] dp = new int[string1.length() + 1][string2.length() + 1];
 
         // Base cases
-        for (int i = 1; i <= string1.length(); i++) {
+        for (int i = 1; i < dp.length; i++) {
             dp[i][0] = i * -1;
         }
-        for (int j = 1; j <= string2.length(); j++) {
+        for (int j = 1; j < dp[0].length; j++) {
             dp[0][j] = j * -1;
         }
 
