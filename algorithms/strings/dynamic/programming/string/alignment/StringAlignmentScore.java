@@ -12,7 +12,6 @@ public class StringAlignmentScore {
         if (string1 == null || string2 == null) {
             return 0;
         }
-
         int[][] dp = new int[string1.length() + 1][string2.length() + 1];
 
         // Base cases

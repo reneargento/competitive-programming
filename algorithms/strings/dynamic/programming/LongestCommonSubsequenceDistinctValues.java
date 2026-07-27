@@ -2,18 +2,18 @@ package algorithms.strings.dynamic.programming;
 
 import java.util.*;
 
-// Computes the LCS between two strings when each string contains distinct characters.
+// Computes the LCS between two sequences when each sequence contains distinct values.
 // In this scenario, the LCS problem can be reduced to a LIS problem.
-// Time complexity: O(s * log(s)), where s is the minimum of (sequence1 length, sequence2 length)
-public class LongestCommonSubsequenceDistinctChars {
+// Time complexity: O(l * log(l)), where l is the minimum of (sequence1 length, sequence2 length)
+public class LongestCommonSubsequenceDistinctValues {
 
-    private static String computeLCSDistinctChars(String string1, String string2) {
-        Map<Character, Integer> characterToIndexMap = computeCharacterToIndexMap(string2);
+    private static List<Integer> computeLCSDistinctValues(int[] sequence1, int[] sequence2) {
+        Map<Integer, Integer> valueToIndexMap = computeValueToIndexMap(sequence2);
         List<Integer> indexes = new ArrayList<>();
 
-        for (int i = 0; i < string1.length(); i++) {
-            char character = string1.charAt(i);
-            Integer string2Index = characterToIndexMap.get(character);
+        for (int i = 0; i < sequence1.length; i++) {
+            int value = sequence1[i];
+            Integer string2Index = valueToIndexMap.get(value);
             if (string2Index != null) {
                 indexes.add(string2Index);
             }
@@ -21,20 +21,20 @@ public class LongestCommonSubsequenceDistinctChars {
 
         Integer[] indexesArray = indexes.toArray(new Integer[0]);
         List<Integer> longestIncreasingSubsequence = longestIncreasingSubsequence(indexesArray);
-        StringBuilder longestCommonSubsequence = new StringBuilder();
+        List<Integer> longestCommonSubsequence = new ArrayList<>();
         for (int index : longestIncreasingSubsequence) {
-            longestCommonSubsequence.append(string2.charAt(index));
+            longestCommonSubsequence.add(sequence2[index]);
         }
-        return longestCommonSubsequence.toString();
+        return longestCommonSubsequence;
     }
 
-    private static Map<Character, Integer> computeCharacterToIndexMap(String string) {
-        Map<Character, Integer> characterToIndexMap = new HashMap<>();
-        for (int i = 0; i < string.length(); i++) {
-            char character = string.charAt(i);
-            characterToIndexMap.put(character, i);
+    private static Map<Integer, Integer> computeValueToIndexMap(int[] sequence) {
+        Map<Integer, Integer> valueToIndexMap = new HashMap<>();
+        for (int i = 0; i < sequence.length; i++) {
+            int value = sequence[i];
+            valueToIndexMap.put(value, i);
         }
-        return characterToIndexMap;
+        return valueToIndexMap;
     }
 
     private static List<Integer> longestIncreasingSubsequence(Integer[] array) {
@@ -89,11 +89,11 @@ public class LongestCommonSubsequenceDistinctChars {
     }
 
     public static void main() {
-        String string1 = "ABCDEFG";
-        String string2 = "ADKJFRZ@.CB";
+        int[] sequence1 = { 1, 2, 3, 4, 5, 6, 7 };
+        int[] sequence2 = { 2, 1, 4, 5, 3, 7, 6 };
 
-        String longestCommonSubsequence = computeLCSDistinctChars(string1, string2);
+        List<Integer> longestCommonSubsequence = computeLCSDistinctValues(sequence1, sequence2);
         System.out.println("LCS: " + longestCommonSubsequence);
-        System.out.println("Expected: ADF");
+        System.out.println("Expected: [2, 4, 5, 7]");
     }
 }

@@ -28,14 +28,13 @@ public class LongestCommonSubsequence {
     private static int dp[][];
 
     private static int longestCommonSubsequenceLength(String sequence1, String sequence2) {
-        if(sequence1 == null || sequence2 == null) {
+        if (sequence1 == null || sequence2 == null) {
             return 0;
         }
-
         // int[][] dp = new int[sequence1.length() + 1][sequence2.length() + 1];
         dp = new int[sequence1.length() + 1][sequence2.length() + 1];
 
-        for(int i = 1; i < dp.length; i++) {
+        for (int i = 1; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
                 if (sequence1.charAt(i - 1) == sequence2.charAt(j - 1)) {
                     dp[i][j] = dp[i - 1][j - 1] + 1;
@@ -150,7 +149,7 @@ public class LongestCommonSubsequence {
         Set<String> allLongestSubsequences = getAllLCS(sequence5, sequence6);
 
         System.out.println("All longest subsequences:");
-        for(String lcs : allLongestSubsequences) {
+        for (String lcs : allLongestSubsequences) {
             System.out.println(lcs);
         }
 
