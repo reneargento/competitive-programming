@@ -1,7 +1,7 @@
 package algorithms.strings.knuth.morris.pratt;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Rene Argento on 10/03/18.
@@ -12,7 +12,6 @@ import java.util.Queue;
 
 // Based on https://algs4.cs.princeton.edu/53substring/KMPplus.java.html
 public class KnuthMorrisPratt {
-
     private final String pattern;
     private final int[] next; // prefix
 
@@ -24,14 +23,11 @@ public class KnuthMorrisPratt {
         // Build NFA from pattern
         this.pattern = pattern;
         int patternLength = pattern.length();
-
         next = new int[patternLength];
 
         int j = -1;
-
         for (int patternIndex = 0; patternIndex < patternLength; patternIndex++) {
             // Compute next[patternIndex]
-
             if (patternIndex == 0) {
                 next[patternIndex] = -1;
             } else if (pattern.charAt(patternIndex) != pattern.charAt(j)) {
@@ -49,7 +45,7 @@ public class KnuthMorrisPratt {
 
     // Search for pattern in text.
     // Returns the index of the first occurrence of the pattern in the text or textLength if no such match.
-    public int search(String text) {
+    private int search(String text) {
         int textIndex;
         int patternIndex;
         int textLength = text.length();
@@ -70,30 +66,26 @@ public class KnuthMorrisPratt {
     }
 
     // Count the occurrences of pattern in the text
-    public int count(String text) {
+    private int count(String text) {
         int count = 0;
 
         int occurrenceIndex = searchFromIndex(text, 0);
-
         while (occurrenceIndex != text.length()) {
             count++;
             occurrenceIndex = searchFromIndex(text, occurrenceIndex + 1);
         }
-
         return count;
     }
 
     // Finds all the occurrences of pattern in the text
-    public Iterable<Integer> findAll(String text) {
-        Queue<Integer> offsets = new LinkedList<>();
-
+    private List<Integer> findAll(String text) {
+        List<Integer> offsets = new ArrayList<>();
         int occurrenceIndex = searchFromIndex(text, 0);
 
         while (occurrenceIndex != text.length()) {
-            offsets.offer(occurrenceIndex);
+            offsets.add(occurrenceIndex);
             occurrenceIndex = searchFromIndex(text, occurrenceIndex + 1);
         }
-
         return offsets;
     }
 
@@ -133,5 +125,4 @@ public class KnuthMorrisPratt {
         }
         System.out.println(pattern);
     }
-
 }

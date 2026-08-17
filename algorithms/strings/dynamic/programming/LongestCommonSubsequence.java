@@ -25,7 +25,7 @@ import java.util.*;
 // Time complexity: O(s1 * s2), where s1 is the length of sequence1 and s2 is the length of sequence2
 public class LongestCommonSubsequence {
 
-    private static int dp[][];
+    private static int[][] dp;
 
     private static int longestCommonSubsequenceLength(String sequence1, String sequence2) {
         if (sequence1 == null || sequence2 == null) {

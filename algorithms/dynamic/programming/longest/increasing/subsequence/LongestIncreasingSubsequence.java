@@ -6,7 +6,7 @@ import java.util.*;
  * Created by Rene Argento on 28/12/16.
  */
 
-// Computes the longest increasing subsequence in O(N lg N)
+// Computes the longest increasing subsequence in O(N lg K), where N is the number of elements and k is the size of the LIS
 // Based on https://www.geeksforgeeks.org/longest-monotonically-increasing-subsequence-size-n-log-n/
 // and https://www.geeksforgeeks.org/construction-of-longest-monotonically-increasing-subsequence-n-log-n/
 public class LongestIncreasingSubsequence {
