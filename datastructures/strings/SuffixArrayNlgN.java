@@ -3,18 +3,11 @@ package datastructures.strings;
 // Builds a suffix array in O(N lg N)
 // Based on https://github.com/stevenhalim/cpbook-code/blob/master/ch6/sa_lcp.java
 public class SuffixArrayNlgN {
-    private static final int MAX_N = 100010;
+    private int[] suffixArray;
+    private int[] lcp;  // lcp[i] stores the LCP between previous suffix "T + SA[i-1]" and current suffix "T + SA[i]"
+
     private char[] string;
     private int stringLength;
-
-    private final int[] ranks = new int[MAX_N];
-    private final int[] tempRanks = new int[MAX_N];
-    private final Integer[] suffixArray = new Integer[MAX_N];
-    private final Integer[] tempSuffixArray = new Integer[MAX_N];
-
-    private final int[] phi = new int[MAX_N];   // for computing longest common prefix
-    private final int[] plcp = new int[MAX_N];
-    private final int[] lcp = new int[MAX_N];    // LCP[i] stores the LCP between previous suffix "T + SA[i-1]" and current suffix "T + SA[i]"
 
     SuffixArrayNlgN(String string) {
         this.string = string.toCharArray();
@@ -23,17 +16,19 @@ public class SuffixArrayNlgN {
         computeLcp();           // O(N)
     }
 
-    private void countingSort(int k) {
-        int sum = 0, maxi = Math.max(300, stringLength);       // up to 255 ASCII chars or length of n
+    private void countingSort(int[] ranks, int k) {
+        int sum = 0;
+        int[] tempSuffixArray = new int[stringLength];
+        int maxi = Math.max(300, stringLength);                // up to 255 ASCII chars or length of n
         // for counting/radix sort
-        int[] count = new int[MAX_N];
+        int[] count = new int[maxi];
         for (int i = 0; i < stringLength; i++) {               // count the frequency of each rank
             count[i + k < stringLength ? ranks[i + k] : 0]++;
         }
         for (int i = 0; i < maxi; i++) {
-            int t = count[i];
+            int aux = count[i];
             count[i] = sum;
-            sum += t;
+            sum += aux;
         }
         for (int i = 0; i < stringLength; i++) {
             tempSuffixArray[count[suffixArray[i] + k < stringLength ? ranks[suffixArray[i] + k] : 0]++] = suffixArray[i];
@@ -44,6 +39,10 @@ public class SuffixArrayNlgN {
     }
 
     private void constructSuffixArray() {            // this version can go up to 100000 characters
+        suffixArray = new int[stringLength];
+        int[] ranks = new int[stringLength];
+        int[] tempRanks = new int[stringLength];
+
         for (int i = 0; i < stringLength; i++) {     // initial rankings
             ranks[i] = string[i];
         }
@@ -51,8 +50,8 @@ public class SuffixArrayNlgN {
             suffixArray[i] = i;
         }
         for (int k = 1; k < stringLength; k <<= 1) {     // repeat sorting process log n times
-            countingSort(k);                             // actually radix sort: sort based on the second item
-            countingSort(0);                          // then (stable) sort based on the first item
+            countingSort(ranks, k);                      // actually radix sort: sort based on the second item
+            countingSort(ranks, 0);                   // then (stable) sort based on the first item
 
             int rank = 0;
             tempRanks[suffixArray[0]] = rank;            // re-ranking; start from rank = 0
@@ -63,29 +62,33 @@ public class SuffixArrayNlgN {
             for (int i = 0; i < stringLength; i++) {
                 ranks[i] = tempRanks[i];
             }
-        } }
+        }
+    }
 
     private void computeLcp() {
-        int length;
-        phi[suffixArray[0]] = -1;                               // default value
+        int length = 0;
+        lcp = new int[stringLength];
+        int[] plcp = new int[stringLength];
+        int[] phi = new int[stringLength];
+        phi[suffixArray[0]] = -1;                      // default value
         for (int i = 1; i < stringLength; i++) {
-            phi[suffixArray[i]] = suffixArray[i - 1];           // remember which suffix is previous to this suffix
+            phi[suffixArray[i]] = suffixArray[i - 1];  // remember which suffix is previous to this suffix
         }
-        for (int i = length = 0; i < stringLength; i++) {       // compute permuted lcp in O(n)
-            if (phi[i] == -1) {                                 // special case
+        for (int i = 0; i < stringLength; i++) {       // compute permuted lcp in O(n)
+            if (phi[i] == -1) {                        // special case
                 plcp[i] = 0;
                 continue;
             }
             while (i + length < string.length
                     && phi[i] + length < string.length
                     && string[i + length] == string[phi[i] + length]) {
-                length++;                                        // length will be increased at maximum n times
+                length++;                               // length will be increased at maximum n times
             }
             plcp[i] = length;
-            length = Math.max(length - 1, 0);                    // length will be decreased at maximum n times
+            length = Math.max(length - 1, 0);           // length will be decreased at maximum n times
         }
         for (int i = 1; i < stringLength; i++) {
-            lcp[i] = plcp[suffixArray[i]];                       // put the permuted LCP back to the correct position
+            lcp[i] = plcp[suffixArray[i]];              // put the permuted LCP back to the correct position
         }
     }
 
