@@ -16,7 +16,6 @@ public class RabinKarp2D {
     private long[] rm;  // rm[i] = alphabetSize^i % largePrimeNumber
 
     public RabinKarp2D(String[] pattern) {
-
         if (pattern == null || pattern.length == 0) {
             throw new IllegalArgumentException("Invalid pattern");
         }
@@ -256,5 +255,4 @@ public class RabinKarp2D {
         int[] result10 = rabinKarp2D10.search(text6);
         System.out.println("Result 10: " + result10[0] + ", " + result10[1] + " Expected: 0, 0");
     }
-
 }
