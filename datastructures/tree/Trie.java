@@ -7,8 +7,8 @@ import java.util.*;
  */
 public class Trie {
 
-    private class Node {
-        private Map<Character, Node> next = new HashMap<>();
+    private static class Node {
+        private final Map<Character, Node> next = new HashMap<>();
         private boolean isKey;
         private int size;
     }
@@ -25,10 +25,6 @@ public class Trie {
     }
 
     public boolean contains(String key) {
-        if (key == null) {
-            throw new IllegalArgumentException("Key cannot be null");
-        }
-
         Node node = getNode(root, key, 0);
         return node != null && node.isKey;
     }
@@ -47,10 +43,6 @@ public class Trie {
     }
 
     public void add(String key) {
-        if (key == null) {
-            throw new IllegalArgumentException("Key cannot be null");
-        }
-
         if (contains(key)) {
             return;
         }
@@ -78,10 +70,6 @@ public class Trie {
     }
 
     public void delete(String key) {
-        if (key == null) {
-            throw new IllegalArgumentException("Key cannot be null");
-        }
-
         if (!contains(key)) {
             return;
         }
@@ -91,7 +79,6 @@ public class Trie {
     }
 
     private Node delete(Node node, String key, int digit) {
-
         node.size--;
 
         if (digit == key.length()) {
@@ -110,17 +97,14 @@ public class Trie {
         if (node.isKey || node.next.size() > 0) {
             return node;
         }
-
         return null;
     }
 
     public int countKeysWithPrefix(String prefix) {
         Node node = getNode(root, prefix, 0);
-
         if (node == null) {
             return 0;
         }
-
         return node.size;
     }
 
@@ -131,15 +115,10 @@ public class Trie {
         collectKeys(root, new StringBuilder(), keys);
 
         Collections.sort(keys);
-
         return keys;
     }
 
     public Iterable<String> keysWithPrefix(String prefix) {
-        if (prefix == null) {
-            throw new IllegalArgumentException("Prefix cannot be null");
-        }
-
         List<String> keysWithPrefix = new ArrayList<>();
         Node nodeWithPrefix = getNode(root, prefix, 0);
         collectKeys(nodeWithPrefix, new StringBuilder(prefix), keysWithPrefix);
@@ -166,10 +145,6 @@ public class Trie {
     }
 
     public Iterable<String> keysThatMatch(String pattern) {
-        if (pattern == null) {
-            throw new IllegalArgumentException("Pattern cannot be null");
-        }
-
         List<String> keysThatMatch = new ArrayList<>();
         collectKeys(root, new StringBuilder(), pattern, keysThatMatch);
 
@@ -204,10 +179,6 @@ public class Trie {
     }
 
     public String longestPrefixOf(String query) {
-        if (query == null) {
-            throw new IllegalArgumentException("Query cannot be null");
-        }
-
         int length = search(root, query, 0, 0);
         return query.substring(0, length);
     }

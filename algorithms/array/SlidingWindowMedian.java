@@ -65,7 +65,6 @@ public class SlidingWindowMedian {
                 bestMedian = median;
             }
         }
-
         return bestMedian;
     }
 
@@ -77,7 +76,6 @@ public class SlidingWindowMedian {
         if (map.get(valueToRemove) == 0) {
             map.remove(valueToRemove);
         }
-
         return valueToRemove;
     }
 

@@ -16,7 +16,7 @@ public class StringMatching {
         int low = 0;
         int high = stringLength - 1;
         int middle;
-        while (low < high) {                                 // find lower bound
+        while (low < high) {             // find lower bound
             middle = (low + high) / 2;
             int compareResult = stringCompare(stringChars, suffixArray.suffixArray[middle], pattern, 0);  // try to find pattern in suffix 'middle'
             if (compareResult >= 0) {
@@ -32,7 +32,7 @@ public class StringMatching {
         int[] result = new int[]{ low, 0 } ;
         low = 0;
         high = stringLength - 1;
-        while (low < high) {                 // if lower bound is found, find upper bound
+        while (low < high) {             // if lower bound is found, find upper bound
             middle = (low + high) / 2;
             int compareResult = stringCompare(stringChars, suffixArray.suffixArray[middle], pattern,0);
             if (compareResult > 0) {

@@ -6,10 +6,11 @@ public class SuffixArrayNlgN {
     public int[] suffixArray;
     public int[] lcp;  // lcp[i] stores the LCP between previous suffix "T + SA[i-1]" and current suffix "T + SA[i]"
 
-    private char[] string;
-    private int stringLength;
+    private final char[] string;
+    private final int stringLength;
 
     public SuffixArrayNlgN(String string) {
+        string = string + "$";
         this.string = string.toCharArray();
         stringLength = this.string.length;
         constructSuffixArray(); // O(N lg N)
@@ -92,11 +93,11 @@ public class SuffixArrayNlgN {
     }
 
     public static void main(String[] args){
-        String string = "COMPETITIVE$";
+        String string = "COMPETITIVE";
         SuffixArrayNlgN suffixArray = new SuffixArrayNlgN(string);
 
         System.out.printf("The Suffix Array of string T = '%s' is shown below (O(n log n) version):\n", string);
-        System.out.println("i\tSA[i]\tSuffix\n");
+        System.out.println("i\tSA[i]\tSuffix");
         for (int i = 0; i < suffixArray.stringLength; i++) {
             System.out.printf("%2d\t%5d\t%s\n", i, suffixArray.suffixArray[i],
                     new String(suffixArray.string, suffixArray.suffixArray[i],

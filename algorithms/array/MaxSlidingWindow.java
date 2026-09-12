@@ -1,5 +1,7 @@
 package algorithms.array;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.LinkedList;
 
 /**
@@ -24,25 +26,22 @@ public class MaxSlidingWindow {
 
     // O(n)
     private static int[] getMaxSlidingWindow(int[] array, int windowSize) {
-
         if (windowSize == 0) {
             return new int[0];
         }
 
         int arraySize = array.length - windowSize + 1;
-
         int[] maxWindowArray = new int[arraySize];
-
-        LinkedList<Integer> deque = new LinkedList<>();
+        Deque<Integer> deque = new ArrayDeque<>();
 
         for(int i = 0; i < array.length; i++) {
             // Element in deque is no longer in window
-            if (deque.size() > 0 && deque.peekFirst() < i - windowSize + 1) {
+            if (!deque.isEmpty() && deque.peekFirst() < i - windowSize + 1) {
                 deque.pollFirst();
             }
 
             // If elements in deque are less or equal to the current element, we don't need them
-            while (deque.size() > 0 && array[i] > array[deque.peekLast()]) {
+            while (!deque.isEmpty() && array[i] >= array[deque.peekLast()]) {
                 deque.pollLast();
             }
 
@@ -52,7 +51,6 @@ public class MaxSlidingWindow {
                 maxWindowArray[i - windowSize + 1] = array[deque.peekFirst()];
             }
         }
-
         return maxWindowArray;
     }
 }
