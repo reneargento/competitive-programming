@@ -6,11 +6,12 @@ public class SuffixArrayNlgN {
     public int[] suffixArray;
     public int[] lcp;  // lcp[i] stores the LCP between previous suffix "T + SA[i-1]" and current suffix "T + SA[i]"
 
-    private final char[] string;
+    public final char[] string;
     private final int stringLength;
 
     public SuffixArrayNlgN(String string) {
-        string = string + "$";
+        char lastChar = (char) 0;
+        string = string + lastChar;
         this.string = string.toCharArray();
         stringLength = this.string.length;
         constructSuffixArray(); // O(N lg N)

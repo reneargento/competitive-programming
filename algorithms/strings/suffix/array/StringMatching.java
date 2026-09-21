@@ -9,12 +9,11 @@ import datastructures.strings.SuffixArrayNlgN;
 // Time complexity: O(M lg N), where m is the length of the pattern string and n is the length of the string
 public class StringMatching {
 
-    private static int[] stringMatching(SuffixArrayNlgN suffixArray, String string, String patternString) {
-        int stringLength = string.length();
-        char[] stringChars = string.toCharArray();
+    private static int[] stringMatching(SuffixArrayNlgN suffixArray, String patternString) {
+        char[] stringChars = suffixArray.string;
         char[] pattern = patternString.toCharArray();
         int low = 0;
-        int high = stringLength - 1;
+        int high = suffixArray.suffixArray.length - 1;
         int middle;
         while (low < high) {             // find lower bound
             middle = (low + high) / 2;
@@ -31,7 +30,7 @@ public class StringMatching {
 
         int[] result = new int[]{ low, 0 } ;
         low = 0;
-        high = stringLength - 1;
+        high = suffixArray.suffixArray.length - 1;
         while (low < high) {             // if lower bound is found, find upper bound
             middle = (low + high) / 2;
             int compareResult = stringCompare(stringChars, suffixArray.suffixArray[middle], pattern,0);
@@ -49,19 +48,25 @@ public class StringMatching {
     } // return lower/upper bound as the first/second item of the pair, respectively
 
     private static int stringCompare(char[] string1, int index1, char[] string2, int index2) {
+        int compares = 0;
         for (int i = 0; index1 + i < string1.length && index2 + i < string2.length; i++){
             if (string1[index1 + i] != string2[index2 + i]) {
                 return string1[index1 + i] - string2[index2 + i];
             }
+            compares++;
+        }
+
+        if (compares < string2.length) {
+            return -1;
         }
         return 0;
     }
 
     public static void main() {
-        String string = "RENETESTNE$";
+        String string = "RENETESTNE";
         String pattern = "NE";
         SuffixArrayNlgN suffixArray = new SuffixArrayNlgN(string);
-        int[] positions = stringMatching(suffixArray, string, pattern);
+        int[] positions = stringMatching(suffixArray, pattern);
 
         if (positions[0] != -1 && positions[1] != -1) {
             System.out.printf("%s is found at SA [%d .. %d] of %s\n", pattern, positions[0], positions[1], string);

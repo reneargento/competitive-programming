@@ -16,10 +16,6 @@ public class RabinKarp2D {
     private long[] rm;  // rm[i] = alphabetSize^i % largePrimeNumber
 
     public RabinKarp2D(String[] pattern) {
-        if (pattern == null || pattern.length == 0) {
-            throw new IllegalArgumentException("Invalid pattern");
-        }
-
         this.pattern = pattern;
         patternRowLength = pattern.length;
         patternColumnLength = pattern[0].length(); // Since the pattern is a rectangle of characters,
@@ -31,25 +27,20 @@ public class RabinKarp2D {
             // Compute alphabetSize^patternIndex % largePrimeNumber for use in removing leading digits.
             rm[patternIndex] = (rm[patternIndex - 1] * alphabetSize) % largePrimeNumber;
         }
-
         patternHash = hash(pattern);
     }
 
     private boolean check(String[] text, int textRow, int textColumn) {
-
         for (int row = 0; row < patternRowLength; row++) {
             for (int patternIndex = 0; patternIndex < patternColumnLength; patternIndex++) {
-
                 if (text.length <= textRow + row || text[textRow + row].length() <= textColumn + patternIndex) {
                     return false;
                 }
-
                 if (pattern[row].charAt(patternIndex) != text[textRow + row].charAt(textColumn + patternIndex)) {
                     return false;
                 }
             }
         }
-
         return true;
     }
 
@@ -65,15 +56,12 @@ public class RabinKarp2D {
 
         for (int patternRowIndex = 0; patternRowIndex < patternRowLength; patternRowIndex++) {
             currentHash = 0;
-
             for (int patternColumnIndex = 0; patternColumnIndex < patternColumnLength; patternColumnIndex++) {
                 currentHash = (currentHash * alphabetSize + key[patternRowIndex].charAt(patternColumnIndex))
                         % largePrimeNumber;
             }
-
             hash += currentHash;
         }
-
         return hash;
     }
 
@@ -81,11 +69,6 @@ public class RabinKarp2D {
     // Returns the index of the first occurrence of the pattern in the text or [-1, -1]
     // if no such match.
     public int[] search(String[] text) {
-
-        if (text == null || text.length == 0) {
-            throw new IllegalArgumentException("Invalid text");
-        }
-
         int textRowLength = text.length;
         int textColumnLength = text[0].length();
         int[] notFoundResult = {-1, -1};
@@ -121,7 +104,6 @@ public class RabinKarp2D {
             if (textHash == patternHash && check(text, textRow, 0)) {
                 result[0] = textRow;
                 result[1] = 0;
-
                 return result;  // match
             }
 
@@ -150,24 +132,20 @@ public class RabinKarp2D {
                 if (textHash == patternHash && check(text, textRow, columnOffset)) {
                     result[0] = textRow;
                     result[1] = columnOffset;
-
                     return result;  // match
                 }
             }
         }
-
         return notFoundResult;     // no match
     }
 
     public static void main(String[] args) {
         String[] pattern1 = {"RE",
                              "NE"};
-
         String[] text1 = {"ABCD",
                           "RERE",
                           "DRNE",
                           "XPQZ"};
-
         RabinKarp2D rabinKarp2D1 = new RabinKarp2D(pattern1);
         int[] result1 = rabinKarp2D1.search(text1);
         System.out.println("Result 1: " + result1[0] + ", " + result1[1] + " Expected: 1, 2");
@@ -177,7 +155,6 @@ public class RabinKarp2D {
                           "NEREB",
                           "DRNEC",
                           "XPQZD"};
-
         RabinKarp2D rabinKarp2D2 = new RabinKarp2D(pattern1);
         int[] result2 = rabinKarp2D2.search(text2);
         System.out.println("Result 2: " + result2[0] + ", " + result2[1] + " Expected: 0, 0");
@@ -187,7 +164,6 @@ public class RabinKarp2D {
                           "RERNE",
                           "DRNEC",
                           "XPQZD"};
-
         RabinKarp2D rabinKarp2D3 = new RabinKarp2D(pattern1);
         int[] result3 = rabinKarp2D3.search(text3);
         System.out.println("Result 3: " + result3[0] + ", " + result3[1] + " Expected: 0, 3");
@@ -197,7 +173,6 @@ public class RabinKarp2D {
                           "REREB",
                           "RENZC",
                           "NEQZD"};
-
         RabinKarp2D rabinKarp2D4 = new RabinKarp2D(pattern1);
         int[] result4 = rabinKarp2D4.search(text4);
         System.out.println("Result 4: " + result4[0] + ", " + result4[1] + " Expected: 2, 0");
@@ -207,7 +182,6 @@ public class RabinKarp2D {
                           "REREB",
                           "DRNRE",
                           "XPQNE"};
-
         RabinKarp2D rabinKarp2D5 = new RabinKarp2D(pattern1);
         int[] result5 = rabinKarp2D5.search(text5);
         System.out.println("Result 5: " + result5[0] + ", " + result5[1] + " Expected: 2, 3");
@@ -216,7 +190,6 @@ public class RabinKarp2D {
         String[] pattern2 = {"ER",
                              "RZ",
                              "PQ"};
-
         String[] text6 = {"ABCDA",
                           "REREB",
                           "DRZEC",
@@ -235,7 +208,6 @@ public class RabinKarp2D {
         // Pattern with more columns than rows
         String[] pattern3 = {"DRZEC",
                              "XPQZD"};
-
         RabinKarp2D rabinKarp2D8 = new RabinKarp2D(pattern3);
         int[] result8 = rabinKarp2D8.search(text6);
         System.out.println("Result 8: " + result8[0] + ", " + result8[1] + " Expected: 2, 0");
@@ -244,7 +216,6 @@ public class RabinKarp2D {
         // Pattern is not in the text, but a similar pattern exists in a different row order
         String[] pattern4 = {"DRZEC",
                              "REREB"};
-
         RabinKarp2D rabinKarp2D9 = new RabinKarp2D(pattern4);
         int[] result9 = rabinKarp2D9.search(text6);
         System.out.println("Result 9: " + result9[0] + ", " + result9[1] + " Expected: -1, -1");

@@ -34,7 +34,7 @@ public class SuffixArrayLinearTime {
         }
     }
 
-    private Suffix[] suffixes;
+    private final Suffix[] suffixes;
     private static final int ALPHABET_SIZE = 256;
 
     public SuffixArrayLinearTime(String text) {
@@ -248,9 +248,6 @@ public class SuffixArrayLinearTime {
     // Other methods
 
     public int index(int i) {
-        if (i < 0 || i >= suffixes.length) {
-            throw new IllegalArgumentException("Index must be between 0 and " + (suffixes.length - 1));
-        }
         return suffixes[i].index;
     }
 
@@ -259,17 +256,10 @@ public class SuffixArrayLinearTime {
     }
 
     public String select(int i) {
-        if (i < 0 || i >= suffixes.length) {
-            throw new IllegalArgumentException("Index must be between 0 and " + (suffixes.length - 1));
-        }
         return suffixes[i].toString();
     }
 
     public int longestCommonPrefix(int i) {
-        if (i < 1 || i >= suffixes.length) {
-            throw new IllegalArgumentException("Index must be between 1 and " + (suffixes.length - 1));
-        }
-
         return longestCommonPrefix(suffixes[i], suffixes[i - 1]);
     }
 
@@ -335,10 +325,6 @@ public class SuffixArrayLinearTime {
     // This method is useful when we need to check specific characters of the suffix in constant time (instead of
     // getting the entire suffix first with select() in O(N)).
     public char getSuffixCharAt(int suffixIndex, int charIndex) {
-        if (suffixIndex < 0 || suffixIndex >= suffixes.length) {
-            throw new IllegalArgumentException("Suffix index must be between 0 and " + (suffixes.length - 1));
-        }
-
         return suffixes[suffixIndex].charAt(charIndex);
     }
 
@@ -408,5 +394,4 @@ public class SuffixArrayLinearTime {
         int rank3 = suffixArrayLinearTime.rank("rene argento");
         System.out.println("Rank rene argento: " + rank3 + " Expected: 9");
     }
-
 }
