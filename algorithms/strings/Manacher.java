@@ -80,7 +80,6 @@ public class Manacher {
     }
 
     public static void main(String[] args) {
-
         String string1 = "abcreeerbbb";
         Manacher manacher1 = new Manacher(string1);
         System.out.println("Longest palindromic substring 1: " + manacher1.longestPalindromicSubstring() +
@@ -101,5 +100,4 @@ public class Manacher {
         System.out.println("Longest palindromic substring 4: " + manacher4.longestPalindromicSubstring() +
                 " Expected: baab");
     }
-
 }
