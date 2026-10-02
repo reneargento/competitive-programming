@@ -1,4 +1,4 @@
-package algorithms.strings;
+package algorithms.strings.hashing;
 
 /**
  * Created by Rene Argento on 20/09/26.

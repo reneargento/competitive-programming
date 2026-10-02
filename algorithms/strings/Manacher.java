@@ -8,8 +8,8 @@ package algorithms.strings;
 // and https://articles.leetcode.com/longest-palindromic-substring-part-ii/
 public class Manacher {
 
-    private int[] lengths; // lengths[i] = length of the longest palindromic substring of transformedString, centered at i
-    private String string; // original string
+    private final int[] lengths; // lengths[i] = length of the longest palindromic substring of transformedString, centered at i
+    private final String string; // original string
     private char[] transformedString;
 
     public Manacher(String string) {
@@ -53,7 +53,6 @@ public class Manacher {
             transformedString[index * 2 + 1] = '#';
             transformedString[index * 2 + 2] = string.charAt(index);
         }
-
         transformedString[string.length() * 2 + 1] = '#';
     }
 
@@ -67,7 +66,6 @@ public class Manacher {
                 center = index;
             }
         }
-
         return string.substring((center - 1 - maxLength) / 2, (center - 1 + maxLength) / 2);
     }
 
@@ -75,7 +73,6 @@ public class Manacher {
     public String longestPalindromicSubstring(int index) {
         int length = lengths[index + 2];
         int center = index + 2;
-
         return string.substring((center - 1 - length) / 2, (center - 1 + length) / 2);
     }
 

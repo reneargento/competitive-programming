@@ -1,4 +1,4 @@
-package algorithms.strings;
+package algorithms.strings.hashing;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -9,7 +9,6 @@ import java.util.Random;
 // Based on https://www.geeksforgeeks.org/online-algorithm-for-checking-palindrome-in-a-stream/
 // Typical case running time is N (where N is the number of characters in the pattern), but the worst-case is O(N^2)
 public class PalindromeStreamChecker {
-
     // Pattern
     private StringBuilder currentString;
 
@@ -25,10 +24,8 @@ public class PalindromeStreamChecker {
 
     PalindromeStreamChecker() {
         currentString = new StringBuilder();
-
         alphabetSize = 256;
         hash = 1;
-
         largePrimeNumber = longRandomPrime();
     }
 
@@ -39,7 +36,6 @@ public class PalindromeStreamChecker {
     }
 
     public boolean checkPalindromeOnline(char character) {
-
         currentString.append(character);
         int patternLength = currentString.length();
 
@@ -81,17 +77,14 @@ public class PalindromeStreamChecker {
         // Las Vegas version - If hashes match, compare characters.
         if (leftHalfReversedHash == rightHalfHash) {
             boolean isPalindrome = true;
-
             for (int index = 0; index < currentString.length() / 2; index++) {
                 if (currentString.charAt(index) != currentString.charAt(currentString.length() - 1 - index)) {
                     isPalindrome = false;
                     break;
                 }
             }
-
             return isPalindrome;
         }
-
         return false;
     }
 
@@ -124,5 +117,4 @@ public class PalindromeStreamChecker {
         System.out.println("Check LEVEL: " + palindromeStreamChecker3.checkPalindromeOnline('L') + " Expected: true");
         System.out.println("Check LEVEL0: " + palindromeStreamChecker3.checkPalindromeOnline('0') + " Expected: false");
     }
-
 }

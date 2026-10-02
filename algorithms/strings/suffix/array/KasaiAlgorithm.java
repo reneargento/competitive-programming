@@ -3,8 +3,7 @@ package algorithms.strings.suffix.array;
 /**
  * Created by Rene Argento on 15/09/18.
  */
-// Builds a LCP[] array from a Suffix array in O(N)
-// Based on https://www.geeksforgeeks.org/%C2%AD%C2%ADkasais-algorithm-for-construction-of-lcp-array-from-suffix-array/
+// Builds a LCP           /www.geeksforgeeks.org/%C2%AD%C2%ADkasais-algorithm-for-construction-of-lcp-array-from-suffix-array/
 public class KasaiAlgorithm {
 
     public int[] buildLCPArray(int[] suffixArray, String text) {

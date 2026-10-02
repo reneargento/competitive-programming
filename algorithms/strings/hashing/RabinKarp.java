@@ -1,4 +1,4 @@
-package algorithms.strings;
+package algorithms.strings.hashing;
 
 import java.util.ArrayList;
 import java.util.List;
